@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslatorLib", "TranslatorLib\TranslatorLib.csproj", "{D7663052-3416-460F-9FBC-8107F018AA32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslatorConsole", "TranslatorConsole\TranslatorConsole.csproj", "{EAF10494-A84D-4BB4-9672-624FF1C93B0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PianoKeyboardDemo", "PianoKeyboardDemo\PianoKeyboardDemo.csproj", "{16939739-CF95-4638-B0CF-B5F6DC42D588}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sanford.Multimedia.Midi", "Sanford.Multimedia.Midi\Sanford.Multimedia.Midi.csproj", "{4269C72A-8D3A-4737-8F89-72EAA33EA9E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighLevelProgram", "HighLevelProgram\HighLevelProgram.csproj", "{05B8EACD-5EB2-420E-9F99-7A76BE66C52C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{3BCF10E0-CA38-42FD-ACBC-DDCDC4D00437}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{1F575FE5-FD5B-41FB-BDB2-C35D76E53CA2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7663052-3416-460F-9FBC-8107F018AA32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7663052-3416-460F-9FBC-8107F018AA32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7663052-3416-460F-9FBC-8107F018AA32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7663052-3416-460F-9FBC-8107F018AA32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAF10494-A84D-4BB4-9672-624FF1C93B0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAF10494-A84D-4BB4-9672-624FF1C93B0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAF10494-A84D-4BB4-9672-624FF1C93B0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAF10494-A84D-4BB4-9672-624FF1C93B0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16939739-CF95-4638-B0CF-B5F6DC42D588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16939739-CF95-4638-B0CF-B5F6DC42D588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16939739-CF95-4638-B0CF-B5F6DC42D588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16939739-CF95-4638-B0CF-B5F6DC42D588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4269C72A-8D3A-4737-8F89-72EAA33EA9E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4269C72A-8D3A-4737-8F89-72EAA33EA9E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4269C72A-8D3A-4737-8F89-72EAA33EA9E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4269C72A-8D3A-4737-8F89-72EAA33EA9E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05B8EACD-5EB2-420E-9F99-7A76BE66C52C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05B8EACD-5EB2-420E-9F99-7A76BE66C52C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05B8EACD-5EB2-420E-9F99-7A76BE66C52C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05B8EACD-5EB2-420E-9F99-7A76BE66C52C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BCF10E0-CA38-42FD-ACBC-DDCDC4D00437}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BCF10E0-CA38-42FD-ACBC-DDCDC4D00437}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BCF10E0-CA38-42FD-ACBC-DDCDC4D00437}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BCF10E0-CA38-42FD-ACBC-DDCDC4D00437}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F575FE5-FD5B-41FB-BDB2-C35D76E53CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F575FE5-FD5B-41FB-BDB2-C35D76E53CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F575FE5-FD5B-41FB-BDB2-C35D76E53CA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F575FE5-FD5B-41FB-BDB2-C35D76E53CA2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
