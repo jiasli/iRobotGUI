@@ -1,7 +1,7 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="iRobotPrototypeWpf.OutputWindow"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="iRobotGUI.OutputWindow"
         Title="Output" Height="300" Width="513.971">
     <Grid>
         <Label Content="Your program contains following errors/warnings" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>

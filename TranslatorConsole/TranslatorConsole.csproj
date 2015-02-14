@@ -7,7 +7,7 @@
     <ProjectGuid>{EAF10494-A84D-4BB4-9672-624FF1C93B0E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TranslatorConsole</RootNamespace>
+    <RootNamespace>iRobotGUI</RootNamespace>
     <AssemblyName>TranslatorConsole</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

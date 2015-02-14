@@ -2,6 +2,7 @@
 using Sanford.Multimedia.Midi.UI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace iRobotPrototypeWpf
+namespace iRobotGUI
 {
     /// <summary>
     /// Interaction logic for Song.xaml
@@ -22,9 +23,34 @@ namespace iRobotPrototypeWpf
     public partial class SongWindow : Window
     {
         private OutputDevice outDevice;
-        public string resultIns;
+        public string songInsStr;
+        private Instruction songIns;
 
-        private StringBuilder noteSerial = new StringBuilder();
+        /// <summary>
+        /// A class to represent the musical note.
+        /// </summary>
+        private class Note
+        {
+            int Number;
+            int Duration;
+
+            public Note(int number, int duration)
+            {
+                this.Number = number;
+                this.Duration = duration;
+            }
+
+            public Note(int nubmer)
+                : this(nubmer, 32)
+            {
+               
+            }
+
+            public override string ToString()
+            {
+                return Number.ToString() + "," + Duration.ToString();
+            }
+        }
 
         public SongWindow()
         {
@@ -33,39 +59,32 @@ namespace iRobotPrototypeWpf
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Create the interop host control.
-            System.Windows.Forms.Integration.WindowsFormsHost host =
-                new System.Windows.Forms.Integration.WindowsFormsHost();
+            if (Validator.Validate(songInsStr))
+                songIns = new Instruction(songInsStr);
 
-            // Create the MaskedTextBox control.
-            PianoControl mtbDate = new PianoControl();
-
-            // Assign the MaskedTextBox control as the host control's child.
-            host.Child = mtbDate;
+            for (int i = 0; i < 15; i++)
+            {
+                songNoList.Items.Add(i.ToString());
+            }
+            songNoList.SelectedIndex = 0;
 
             outDevice = new OutputDevice(0);
-
-            // Add the interop host control to the Grid 
-            // control's collection of child controls. 
-           // this.grid1.Children.Add(host);
-           
         }
 
         private void pianoKeyboard_PianoKeyDown(object sender, PianoKeyEventArgs e)
         {
-           
-            if (noteSerial.Length != 0)
-                noteSerial.Append(",");
-
-            noteSerial.Append(e.NoteID.ToString() + ",32");
-            textBoxSong.Text = noteSerial.ToString();
+            Note note = new Note(e.NoteID);
+            // Insert a note to current position
+            if (noteList.SelectedIndex >= 0)
+                noteList.Items.Insert(noteList.SelectedIndex, note);
+            else noteList.Items.Add(note);
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
 
         }
 
         private void pianoKeyboard_PianoKeyUp(object sender, PianoKeyEventArgs e)
         {
-            
+
             outDevice.Send(new ChannelMessage(ChannelCommand.NoteOff, 0, e.NoteID, 0));
         }
 
@@ -80,15 +99,30 @@ namespace iRobotPrototypeWpf
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
         {
-            resultIns = "SONG_DEF 1," + noteSerial.ToString();
+            songInsStr = GetInsString();
             DialogResult = true;
         }
 
         private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
-            textBoxSong.Text = "";
-            
-            noteSerial.Clear();
+            noteList.Items.Clear();
+
+            // noteSerial.Clear();
+        }
+
+        /// <summary>
+        /// Get the string of SONG_DEF
+        /// </summary>
+        private string GetInsString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(Instruction.SONG_DEF + " " + songNoList.SelectedItem.ToString());
+            foreach (Note note in noteList.Items)
+            {
+                sb.Append("," + note.ToString());
+            }
+            return sb.ToString();
         }
     }
 }

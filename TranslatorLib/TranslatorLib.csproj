@@ -7,7 +7,7 @@
     <ProjectGuid>{D7663052-3416-460F-9FBC-8107F018AA32}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TranslatorLib</RootNamespace>
+    <RootNamespace>iRobotGUI</RootNamespace>
     <AssemblyName>TranslatorLib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

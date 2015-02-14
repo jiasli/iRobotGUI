@@ -1,12 +1,11 @@
 ﻿<Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
-    x:Class="iRobotPrototypeWpf.MainWindow"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    x:Class="iRobotGUI.MainWindow"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"    
+    xmlns:custom="clr-namespace:iRobotGUI"
     
-    xmlns:custom="clr-namespace:iRobotPrototypeWpf"
-    
-    Title="iRobot GUI Controller" Height="452.221" Width="875.794">
+    Title="iRobot GUI" Width="900" Height="500" >
 
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Open"
@@ -24,8 +23,18 @@
     </Window.InputBindings>
 
     <Grid Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
 
-        <Menu VerticalAlignment="Top" Grid.ColumnSpan="2">
+        <Menu Grid.Row="0" VerticalAlignment="Top" >
             <MenuItem Header="_File">
                 <MenuItem Command="ApplicationCommands.New" />
                 <MenuItem Command="ApplicationCommands.Save" />
@@ -55,15 +64,11 @@
                 <MenuItem Header="About"/>
             </MenuItem>
         </Menu>
-        <Image Source="pic/forward.png" MouseMove="MouseMove_General"  Margin="103,69,0,0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top" Tag="FORWARD"  />
-        <Image Source="pic/backward.png" MouseMove="MouseMove_General"  Margin="103,137,0,0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-        <Image Source="pic/left.png"  MouseMove="MouseMove_General"  Margin="35,105,0,0"  Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top" Tag="LEFT"  />
-        <Image Source="pic/right.png"  MouseMove="MouseMove_General" Margin="165,105,0,0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
 
 
-        <ListBox x:Name="listbox" HorizontalAlignment="Left" Margin="263,25,0,10" Width="205" DragEnter="ListBox_DragEnter" Drop="ListBox_Drop" AllowDrop="True" SelectionChanged="listbox_SelectionChanged"/>
-        <GroupBox Header="Parameters" HorizontalAlignment="Left" Margin="473,25,0,10" Width="133">
+        <ListBox x:Name="listbox" Grid.Row="1" Grid.Column="1" DragEnter="ListBox_DragEnter" Drop="ListBox_Drop" AllowDrop="True" SelectionChanged="listbox_SelectionChanged" />
+        <GroupBox Grid.Row="1" Grid.Column="2" Header="Parameters"  >
             <StackPanel x:Name="RootPanel" Margin="0,0,0,0">
 
                 <StackPanel x:Name="ForwardPanel" Margin="0,0,0,0" VerticalAlignment="Top" Visibility="Collapsed">
@@ -104,15 +109,23 @@
 
 
         </GroupBox>
-        <Label Content="Navigation" HorizontalAlignment="Left" Margin="35,52,0,0" VerticalAlignment="Top"/>
-        <Label Content="Sensor" HorizontalAlignment="Left" Margin="35,167,0,0" VerticalAlignment="Top"/>
-        <Image Source="pic/bump.jpg" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Margin="35,198,0,0" VerticalAlignment="Top" Width="75"  />
-        <Image Source="pic/cliff.jpg" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Margin="141,198,0,0" VerticalAlignment="Top" Width="75" />
-        <Label Content="LED and Sound" HorizontalAlignment="Left" Margin="35,284,0,0" VerticalAlignment="Top"/>
-        <Image Source="pic/led.jpg" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Margin="35,315,0,0" VerticalAlignment="Top" Width="75" MouseMove="MouseMove_General" Tag="LED"  />
-        <Image Source="pic/song.png" RenderOptions.BitmapScalingMode="HighQuality"  HorizontalAlignment="Left" Margin="141,315,0,0" VerticalAlignment="Top" Width="75" MouseMove="MouseMove_General" Tag="SONG_DEF" />
+        <Grid Grid.Row="1" Grid.Column="0">
 
-        <Grid Margin="623,25,10,10">
+            <Label Content="Navigation" HorizontalAlignment="Left" Margin="35,10,0,0" VerticalAlignment="Top"/>
+            <Image Source="pic/forward.png" MouseMove="MouseMove_General"  Margin="104,37,0,0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top" Tag="FORWARD"  />
+            <Image Source="pic/backward.png" MouseMove="MouseMove_General"  Margin="104,105,0,0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top"  />
+            <Image Source="pic/left.png"  MouseMove="MouseMove_General"  Margin="36,73,0,0"  Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top" Tag="LEFT"  />
+            <Image Source="pic/right.png"  MouseMove="MouseMove_General" Margin="166,73,0,0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+            <Label Content="Sensor" HorizontalAlignment="Left" Margin="41,150,0,0" VerticalAlignment="Top"/>
+            <Image Source="pic/bump.jpg" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Margin="41,181,0,0" VerticalAlignment="Top" Width="75"  />
+            <Image Source="pic/cliff.jpg" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Margin="147,181,0,0" VerticalAlignment="Top" Width="75" />
+            <Label Content="LED and Sound" HorizontalAlignment="Left" Margin="41,267,0,0" VerticalAlignment="Top"/>
+            <Image Source="pic/led.jpg" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Margin="41,298,0,0" VerticalAlignment="Top" Width="75" MouseMove="MouseMove_General" Tag="LED"  />
+            <Image Source="pic/song.png" RenderOptions.BitmapScalingMode="HighQuality"  HorizontalAlignment="Left" Margin="147,298,0,0" VerticalAlignment="Top" Width="75" MouseMove="MouseMove_General" Tag="SONG_DEF" />
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="28"/>

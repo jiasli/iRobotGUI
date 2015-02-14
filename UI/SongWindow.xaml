@@ -1,14 +1,17 @@
-﻿<Window x:Class="iRobotPrototypeWpf.SongWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:wf="clr-namespace:Sanford.Multimedia.Midi.UI;assembly=Sanford.Multimedia.Midi"
-        Title="Song" Height="326" Width="648" Loaded="Window_Loaded">
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="iRobotGUI.SongWindow"
+        Title="Song" Height="326" Width="623" Loaded="Window_Loaded">
     <Grid>
         <WindowsFormsHost Margin="0,138,0,54">
             <wf:PianoControl x:Name="pianoKeyboard" PianoKeyDown="pianoKeyboard_PianoKeyDown" LowNoteID="31" HighNoteID="127" PianoKeyUp="pianoKeyboard_PianoKeyUp" />
         </WindowsFormsHost>
-        <TextBox x:Name="textBoxSong" HorizontalAlignment="Left" Height="81" Margin="97,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="450" VerticalScrollBarVisibility="Auto"/>
-        <Button x:Name="ButtonOk" Content="OK" HorizontalAlignment="Left" Margin="188,265,0,0" VerticalAlignment="Top" Width="75" Click="ButtonOk_Click"/>
-        <Button x:Name="ButtonClear" Content="Clear" HorizontalAlignment="Left" Margin="359,265,0,0" VerticalAlignment="Top" Width="75" Click="ButtonClear_Click"/>
+        <Button x:Name="ButtonOk" Content="OK" HorizontalAlignment="Left" Margin="199,263,0,0" VerticalAlignment="Top" Width="75" Click="ButtonOk_Click" Height="20"/>
+        <Button x:Name="ButtonClear" Content="Clear" HorizontalAlignment="Left" Margin="370,263,0,0" VerticalAlignment="Top" Width="75" Click="ButtonClear_Click" Height="20"/>
+        <ListBox x:Name="noteList" HorizontalAlignment="Left" Height="114" Margin="278,10,0,0" VerticalAlignment="Top" Width="100"/>
+        <ComboBox x:Name="songNoList" HorizontalAlignment="Left" Margin="62,52,0,0" VerticalAlignment="Top" Width="120" Height="22">
+        </ComboBox>
     </Grid>
 </Window>

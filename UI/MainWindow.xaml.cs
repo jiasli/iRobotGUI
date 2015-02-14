@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 
-namespace iRobotPrototypeWpf
+namespace iRobotGUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -453,7 +453,7 @@ namespace iRobotPrototypeWpf
             {
                 if (isNewIns)
                 {
-                    result = new Instruction(dlg.resultIns);
+                    result = new Instruction(dlg.songInsStr);
                 }
             }
             return result; 

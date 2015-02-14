@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using iRobotPrototypeWpf;
+using iRobotGUI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace iRobotPrototypeWpf.Tests
+namespace iRobotGUI.Tests
 {
     [TestClass]
     public class TranslatorTests

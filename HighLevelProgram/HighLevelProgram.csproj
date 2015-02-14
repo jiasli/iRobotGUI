@@ -7,8 +7,8 @@
     <ProjectGuid>{05B8EACD-5EB2-420E-9F99-7A76BE66C52C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Program</RootNamespace>
-    <AssemblyName>Program</AssemblyName>
+    <RootNamespace>iRobotGUI</RootNamespace>
+    <AssemblyName>HLProgram</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,6 +42,7 @@
     <Compile Include="Instruction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
