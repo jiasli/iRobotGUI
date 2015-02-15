@@ -83,42 +83,6 @@ namespace iRobotGUI
             }
         }
 
-        private void ConfigCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        #endregion
-
-
-
-        #region private method
-
-        private void LoadProgram(string fileName)
-        {
-            program = new HLProgram(File.ReadAllText(fileName));
-            UpdateProgramPanel();
-        }
-
-        private void UpdateProgramPanel()
-        {
-            TextBoxCode.Text = program.ToString();
-            listbox.Items.Clear();
-            foreach (Instruction i in program.GetInstructionList())
-            {
-                listbox.Items.Add(i);
-            }
-
-        }
-
-
-        #endregion
-
-
-
-
-
-
         private void SaveCmdExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             // Configure save file dialog box
@@ -137,6 +101,96 @@ namespace iRobotGUI
                 string filename = dlg.FileName;
             }
         }
+
+
+        #endregion
+
+
+
+        #region Private Methods
+
+        private void LoadProgram(string fileName)
+        {
+            program = new HLProgram(File.ReadAllText(fileName));
+            UpdateProgramPanel();
+        }
+
+        private void UpdateProgramPanel()
+        {
+            TextBoxCode.Text = program.ToString();
+            ListboxProgram.Items.Clear();
+            foreach (Instruction i in program.GetInstructionList())
+            {
+                ListboxProgram.Items.Add(i);
+            }
+        }
+
+        private void ChangeParameterPanel(Instruction ins)
+        {
+            ForwardPanel.Visibility = Visibility.Collapsed;
+            RotatePanel.Visibility = Visibility.Collapsed;
+            LEDPanel.Visibility = Visibility.Collapsed;
+            if (ins != null)
+            {
+                string op = ins.opcode;
+
+                if (op == Instruction.FORWARD || op == Instruction.BACKWARD)
+                {
+                    ForwardPanel.Visibility = Visibility.Visible;
+                    textBoxDistance.Text = ins.parameters[0].ToString();
+                    textBoxTime.Text = ins.parameters[1].ToString();
+                }
+
+                else if (op == Instruction.LEFT || op == Instruction.RIGHT)
+                {
+                    RotatePanel.Visibility = Visibility.Visible;
+                    textBoxAngle.Text = ins.parameters[0].ToString();
+                }
+                if (op == Instruction.LED)
+                {
+                    LEDPanel.Visibility = Visibility.Visible;
+                    SliderColor.Value = ins.parameters[1];
+                    SliderIntensity.Value = ins.parameters[2];
+
+                    // Set checkbox status according to 4th and 2nd bits
+                    // A variable must be used or ins.parameters[0] will be modified due to IsChecked assignment
+                    int bitValue = ins.parameters[0];
+                    CheckBoxLedPlay.IsChecked = (bitValue & 2) > 0;
+                    CheckBoxLedAdvance.IsChecked = (bitValue & 8) > 0;
+                }
+            }
+        }
+
+        private Instruction ShowSongDialog(String insStr, bool isNewIns)
+        {
+            // Instantiate the dialog box
+            SongWindow dlg = new SongWindow();
+
+            // Configure the dialog box
+            dlg.Owner = this;
+            Instruction result = null;
+
+            dlg.songInsStr = insStr;
+
+            // Open the dialog box modally 
+            if (dlg.ShowDialog() ?? false)
+            {
+                if (isNewIns)
+                {
+                    result = new Instruction(dlg.songInsStr);
+                }
+            }
+            return result;
+        }
+
+
+        #endregion
+
+
+
+
+
+
 
 
         #region Drag and Drop
@@ -174,7 +228,7 @@ namespace iRobotGUI
                         newIns = new Instruction(Instruction.LED + " 10,128,128");
                         break;
                     case Instruction.SONG_DEF:
-                        newIns = showSongDialog(null, true);
+                        newIns = ShowSongDialog(null, true);
                         break;
                 }
                 if (newIns != null)
@@ -187,7 +241,7 @@ namespace iRobotGUI
                 }
 
                 UpdateProgramPanel();
-                listbox.SelectedItem = newIns;
+                ListboxProgram.SelectedItem = newIns;
                 ChangeParameterPanel(newIns);
             }
         }
@@ -195,60 +249,114 @@ namespace iRobotGUI
         #endregion
 
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        #region Control Callbacks
+
+        private void ListBoxProgram_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Close();
-        }
-
-
-
-        private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (listbox.SelectedItem != null)
+            if (ListboxProgram.SelectedItem != null)
             {
-                selectedInstructionIndex = listbox.SelectedIndex;
-                selectedInstruction = listbox.SelectedItem as Instruction;
+                selectedInstructionIndex = ListboxProgram.SelectedIndex;
+                selectedInstruction = ListboxProgram.SelectedItem as Instruction;
                 ChangeParameterPanel(selectedInstruction);
             }
         }
 
-        private void ChangeParameterPanel(Instruction ins)
+
+        private void ButtonSong_Click(object sender, RoutedEventArgs e)
         {
-            ForwardPanel.Visibility = Visibility.Collapsed;
-            RotatePanel.Visibility = Visibility.Collapsed;
-            LEDPanel.Visibility = Visibility.Collapsed;
-            if (ins != null)
+            ShowSongDialog(null, true);
+        }
+        private void TextBoxDistance_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateParamFromTextBox(sender as TextBox, selectedInstruction, 0);
+        }
+
+        private void TextBoxTime_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateParamFromTextBox(sender as TextBox, selectedInstruction, 1);
+        }
+
+        private void TextBoxAngle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateParamFromTextBox(sender as TextBox, selectedInstruction, 0);
+        }
+
+        /// <summary>
+        /// Update a parameter of Instruction according to the data in a TextBox
+        /// </summary>
+        /// <param name="tb"></param>
+        /// <param name="ins"></param>
+        /// <param name="index"></param>
+        private void UpdateParamFromTextBox(TextBox tb, Instruction ins, int index)
+        {
+            if (ins == null) return;
+            // Default
+            if (tb != null)
             {
-                string op = ins.opcode;
-
-                if (op == Instruction.FORWARD || op == Instruction.BACKWARD)
+                if (!string.IsNullOrEmpty(tb.Text))
                 {
-                    ForwardPanel.Visibility = Visibility.Visible;
-                    textBoxDistance.Text = ins.parameters[0].ToString();
-                    textBoxTime.Text = ins.parameters[1].ToString();
+                    ins.parameters[index] = Convert.ToInt32(tb.Text);
                 }
-
-                else if (op == Instruction.LEFT || op == Instruction.RIGHT)
-                {
-                    RotatePanel.Visibility = Visibility.Visible;
-                    textBoxAngle.Text = ins.parameters[0].ToString();
-                }
-                if (op == Instruction.LED)
-                {
-                    LEDPanel.Visibility = Visibility.Visible;
-                    SliderColor.Value = ins.parameters[1];
-                    SliderIntensity.Value = ins.parameters[2];
-
-                    // Set checkbox status according to 4th and 2nd bits
-                    // A variable must be used or ins.parameters[0] will be modified due to IsChecked assignment
-                    int bitValue = ins.parameters[0];
-                    CheckBoxLedPlay.IsChecked = (bitValue & 2) > 0;
-                    CheckBoxLedAdvance.IsChecked = (bitValue & 8) > 0;                 
-                }
+                ListboxProgram.Items.Refresh();
             }
         }
 
 
+        private void SliderColorValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            byte color = (byte)SliderColor.Value;
+
+            if (selectedInstruction != null)
+                selectedInstruction.parameters[1] = color;
+            ListboxProgram.Items.Refresh();
+
+            // 0, 255, 0 Green
+            // 255, 255, 0 Yellow
+            // 255, 0, 0 Red
+
+            Color RGBColor;
+            if (color < 128)
+                RGBColor = Color.FromRgb((byte)(color * 2), 255, 30);
+            else RGBColor = Color.FromRgb(255, (byte)(255 - (color - 128) * 2), 0);
+
+            if (rectang != null)
+            {
+                rectang.Fill = new SolidColorBrush(RGBColor);
+            }
+
+        }
+
+        private void SliderBrightChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            var r = (byte)SliderIntensity.Value;
+
+            if (selectedInstruction != null)
+                selectedInstruction.parameters[2] = r;
+            ListboxProgram.Items.Refresh();
+        }
+
+
+        private void CheckBoxLed_CheckChanged(object sender, RoutedEventArgs e)
+        {
+            int ledBitsValue = 0;
+
+            if (CheckBoxLedPlay.IsChecked.Value)
+            {
+                ledBitsValue += 2;
+            }
+
+            if (CheckBoxLedAdvance.IsChecked.Value)
+            {
+                ledBitsValue += 8;
+            }
+
+            selectedInstruction.parameters[0] = ledBitsValue;
+            ListboxProgram.Items.Refresh();
+        }
+
+
+
+        #endregion
 
         private void BuildAndLoad(object sender, RoutedEventArgs e)
         {
@@ -260,25 +368,10 @@ namespace iRobotGUI
 
 
 
-        private void buttonForward_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Debug.Write("Click");
-            MessageBox.Show("click");
-        }
-
-        private void Image_MouseMove(object sender, MouseEventArgs e)
-        {
-            Image image = sender as Image;
-            if (e.LeftButton == MouseButtonState.Pressed)
-                DragDrop.DoDragDrop(image, "Forward", DragDropEffects.Copy);
-        }
-
         private void MenuItem_ShowCCode(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(@"output.c");
         }
-
-
 
 
 
@@ -327,122 +420,14 @@ namespace iRobotGUI
             Translator.WriteSource(Translator.SourceType.Emulator, cCode);
         }
 
-        //handler for the color led slider:
-        private void sliderColorValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
         {
-            byte color = (byte)SliderColor.Value;
-
-            if (selectedInstruction != null)
-                selectedInstruction.parameters[1] = color;
-            listbox.Items.Refresh();
-
-            // 0, 255, 0 Green
-            // 255, 255, 0 Yellow
-            // 255, 0, 0 Red
-
-            Color RGBColor;
-            if (color < 128)
-                RGBColor = Color.FromRgb((byte)(color * 2), 255, 30);
-            else RGBColor = Color.FromRgb(255, (byte)(255 - (color - 128) * 2), 0);
-
-            if (rectang != null)
-            {
-                rectang.Fill = new SolidColorBrush(RGBColor);
-            }
-
-        }
-
-        private void BrightSliderChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            var r = (byte)SliderIntensity.Value;
-
-            if (selectedInstruction != null)
-                selectedInstruction.parameters[2] = r;
-            listbox.Items.Refresh();
-        }
-
-       
-        private void CheckBoxLed_CheckChanged(object sender, RoutedEventArgs e)
-        {
-            int ledBitsValue = 0;
-
-            if (CheckBoxLedPlay.IsChecked.Value)
-            {
-                ledBitsValue += 2;
-            }
-
-            if (CheckBoxLedAdvance.IsChecked.Value)
-            {
-                ledBitsValue += 8;
-            }
-
-            selectedInstruction.parameters[0] = ledBitsValue;           
-            listbox.Items.Refresh();
+            MessageBox.Show("Mission Science iRobots\nUSC CSCI-577 Team 07");
         }
 
 
-        private void ButtonSong_Click(object sender, RoutedEventArgs e)
-        {
-            showSongDialog(null, true);
-        }
 
-        private Instruction showSongDialog(String insStr, bool isNewIns)
-        {
-            // Instantiate the dialog box
-            SongWindow dlg = new SongWindow();
 
-            // Configure the dialog box
-            dlg.Owner = this;
-            Instruction result = null;
-
-            dlg.songInsStr = insStr;
-
-            // Open the dialog box modally 
-            if (dlg.ShowDialog() ?? false)
-            {
-                if (isNewIns)
-                {
-                    result = new Instruction(dlg.songInsStr);
-                }
-            }
-            return result;
-        }
-
-        private void textBoxDistance_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            updateField(sender as TextBox, selectedInstruction, 0);
-        }
-
-        private void textBoxTime_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            updateField(sender as TextBox, selectedInstruction, 1);
-        }
-
-        private void textBoxAngle_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            updateField(sender as TextBox, selectedInstruction, 0);
-        }
-
-        /// <summary>
-        /// Update a parameter of Instruction according to the data in a TextBox
-        /// </summary>
-        /// <param name="tb"></param>
-        /// <param name="ins"></param>
-        /// <param name="index"></param>
-        private void updateField(TextBox tb, Instruction ins, int index)
-        {
-            if (ins == null) return;
-            // Default
-            if (tb != null)
-            {
-                if (!string.IsNullOrEmpty(tb.Text))
-                {
-                    ins.parameters[index] = Convert.ToInt32(tb.Text);
-                }
-                listbox.Items.Refresh();
-            }
-        }
-         
 
 
 
