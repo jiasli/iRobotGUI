@@ -102,7 +102,7 @@ namespace iRobotGUI
 
         private void UpdateProgramPanel()
         {
-            textBoxCode.Text = program.ToString();
+            TextBoxCode.Text = program.ToString();
             listbox.Items.Clear();
             foreach (Instruction i in program.GetInstructionList())
             {
@@ -185,7 +185,7 @@ namespace iRobotGUI
                         program.Add(Instruction.SONG_PLAY + " 1");
                     }
                 }
-              
+
                 UpdateProgramPanel();
                 listbox.SelectedItem = newIns;
                 ChangeParameterPanel(newIns);
@@ -236,25 +236,25 @@ namespace iRobotGUI
                 if (op == Instruction.LED)
                 {
                     LEDPanel.Visibility = Visibility.Visible;
-                    ColorSlider.Value = ins.parameters[1];
-                    BrightSlider.Value = ins.parameters[2];
+                    sliderColor.Value = ins.parameters[1];
+                    sliderIntensity.Value = ins.parameters[2];
                     switch (ins.parameters[0])
                     {
                         case 0:
-                            led1.IsChecked = false;
-                            led2.IsChecked = false;
+                            CheckBoxLedPlay.IsChecked = false;
+                            CheckBoxLedAdvance.IsChecked = false;
                             break;
                         case 2:
-                            led1.IsChecked = true;
-                            led2.IsChecked = false;
+                            CheckBoxLedPlay.IsChecked = true;
+                            CheckBoxLedAdvance.IsChecked = false;
                             break;
                         case 8:
-                            led1.IsChecked = false;
-                            led2.IsChecked = true;
+                            CheckBoxLedPlay.IsChecked = false;
+                            CheckBoxLedAdvance.IsChecked = true;
                             break;
                         case 10:
-                            led1.IsChecked = true;
-                            led2.IsChecked = true;
+                            CheckBoxLedPlay.IsChecked = true;
+                            CheckBoxLedAdvance.IsChecked = true;
                             break;
                     }
                     //textBoxDistance.Text = ins._parameters[0].ToString();
@@ -334,7 +334,7 @@ namespace iRobotGUI
         }
 
         private void MenuItemTranslate_Click(object sender, RoutedEventArgs e)
-        {           
+        {
             string cCode = Translator.TranslateProgram(program);
 
             MessageBox.Show(cCode);
@@ -343,16 +343,13 @@ namespace iRobotGUI
         }
 
         //handler for the color led slider:
-        private void ColorSliderChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void sliderColorValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            byte color = (byte)ColorSlider.Value;
-            if (Color_val != null)
-            {
-                Color_val.Text = color.ToString();
-                if (selectedInstruction != null)
-                    selectedInstruction.parameters[1] = color;
-                listbox.Items.Refresh();
-            };
+            byte color = (byte)sliderColor.Value;
+
+            if (selectedInstruction != null)
+                selectedInstruction.parameters[1] = color;
+            listbox.Items.Refresh();
 
             // 0, 255, 0 Green
             // 255, 255, 0 Yellow
@@ -372,67 +369,32 @@ namespace iRobotGUI
 
         private void BrightSliderChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            var r = (byte)BrightSlider.Value;
-            if (brightness_val != null)
-            {
-                brightness_val.Text = r.ToString();
-                if (selectedInstruction != null)
-                    selectedInstruction.parameters[2] = r;
-                listbox.Items.Refresh();
-            };
+            var r = (byte)sliderIntensity.Value;
+
+            if (selectedInstruction != null)
+                selectedInstruction.parameters[2] = r;
+            listbox.Items.Refresh();
         }
 
-        //hadlers for LED checkboxes:
-        private void led_check_handler(object sender, RoutedEventArgs e)
+       
+        private void CheckBoxLed_CheckChanged(object sender, RoutedEventArgs e)
         {
-            if (selectedInstruction != null)
+            int ledBitsValue = 0;
+
+            if (CheckBoxLedPlay.IsChecked.Value)
             {
-                if (led1.IsChecked.Value && led2.IsChecked.Value)
-                {
-                    selectedInstruction.parameters[0] = 10;
-                }
-                if (led1.IsChecked.Value && !led2.IsChecked.Value)
-                {
-                    selectedInstruction.parameters[0] = 2;
-                }
-                if (!led1.IsChecked.Value && led2.IsChecked.Value)
-                {
-                    selectedInstruction.parameters[0] = 8;
-                }
-                if (!led1.IsChecked.Value && !led2.IsChecked.Value)
-                {
-                    selectedInstruction.parameters[0] = 0;
-                }
+                ledBitsValue += 2;
             }
-            listbox.Items.Refresh();
 
-        }
-
-        // led uncheck handler
-        private void led_uncheck_handler(object sender, RoutedEventArgs e)
-        {
-            if (selectedInstruction != null)
+            if (CheckBoxLedAdvance.IsChecked.Value)
             {
-                if (led1.IsChecked.Value && led2.IsChecked.Value)
-                {
-                    selectedInstruction.parameters[0] = 10;
-                }
-                if (led1.IsChecked.Value && !led2.IsChecked.Value)
-                {
-                    selectedInstruction.parameters[0] = 2;
-                }
-                if (!led1.IsChecked.Value && led2.IsChecked.Value)
-                {
-                    selectedInstruction.parameters[0] = 8;
-                }
-                if (!led1.IsChecked.Value && !led2.IsChecked.Value)
-                {
-                    selectedInstruction.parameters[0] = 0;
-                }
-            };
+                ledBitsValue += 8;
+            }
 
+            selectedInstruction.parameters[0] = ledBitsValue;           
             listbox.Items.Refresh();
         }
+
 
         private void ButtonSong_Click(object sender, RoutedEventArgs e)
         {
@@ -458,7 +420,7 @@ namespace iRobotGUI
                     result = new Instruction(dlg.songInsStr);
                 }
             }
-            return result; 
+            return result;
         }
 
         private void textBoxDistance_TextChanged(object sender, TextChangedEventArgs e)
@@ -495,6 +457,8 @@ namespace iRobotGUI
                 listbox.Items.Refresh();
             }
         }
+         
+
 
 
 

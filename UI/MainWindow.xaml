@@ -82,27 +82,29 @@
                     <Label Content="Angle (degree)"/>
                     <TextBox x:Name="textBoxAngle" Height="23" TextWrapping="Wrap" Text="90" TextChanged="textBoxAngle_TextChanged"/>
                 </StackPanel>
-                <StackPanel x:Name="LEDPanel" Margin="0,0,0,0" VerticalAlignment="Top" Visibility="Collapsed">
-                    <Label Content="Power LED Color"/>
-                    <Slider Name="ColorSlider" Grid.Column="1" Minimum="0" Maximum="255" ValueChanged="ColorSliderChanged" Value="255"/>
-                    <Canvas Name="ColorCanvas" Width="120"   Height="40">
-                        <Rectangle   Width="100"   Height="20"    Fill="Orange" Name="rectang" />
-                    </Canvas>
-                    <TextBox x:Name="Color_val" Height="23" TextWrapping="Wrap" Text="255"/>
-                    <Label Content="Power LED Brightness"/>
-                    <Slider Name="BrightSlider" Grid.Column="1" Minimum="0" Maximum="255" ValueChanged="BrightSliderChanged" Value="255"/>
-                    <TextBox x:Name="brightness_val" Height="23" TextWrapping="Wrap" Text="255"/>
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel Orientation="Vertical">
-                            <Label Content="LED1"/>
-                            <CheckBox x:Name="led1" Checked="led_check_handler" Unchecked="led_uncheck_handler"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical">
-                            <Label Content="LED2"/>
-                            <CheckBox x:Name="led2" Checked="led_check_handler" Unchecked="led_uncheck_handler"/>
-                        </StackPanel>
+                
+                
+                <StackPanel x:Name="LEDPanel" Visibility="Collapsed">
+                    <Label Grid.Row="0" Content="Power LED Color"/>
 
-                    </StackPanel>
+                    <DockPanel  Grid.Row="1" >
+                        <TextBox Text="{Binding Mode=TwoWay, ElementName=sliderColor,Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="30" DockPanel.Dock="Right"/>
+                        <Slider  Name="sliderColor" Minimum="0" Maximum="255" ValueChanged="sliderColorValueChanged" Value="255" SmallChange="10" LargeChange="20" IsSnapToTickEnabled="True"/>
+                    </DockPanel>
+                    
+                    <Rectangle   Width="100"   Height="20"    Fill="Orange" Name="rectang" />
+
+                    <Label Grid.Row="2" Content="Power LED Brightness"/>
+
+                    <DockPanel  Grid.Row="3" >
+                        <TextBox Text="{Binding Mode=TwoWay, ElementName=sliderIntensity,Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="30" DockPanel.Dock="Right"/>
+                        <Slider Name="sliderIntensity" Minimum="0" Maximum="255" ValueChanged="BrightSliderChanged" Value="255" SmallChange="10" LargeChange="20" IsSnapToTickEnabled="True"/>
+                    </DockPanel>
+
+                    <CheckBox x:Name="CheckBoxLedAdvance" Grid.Row="5" Content="Advance" Checked="CheckBoxLed_CheckChanged" Unchecked="CheckBoxLed_CheckChanged"/>
+                    <CheckBox x:Name="CheckBoxLedPlay" Grid.Row="6" Content="Play" Checked="CheckBoxLed_CheckChanged" Unchecked="CheckBoxLed_CheckChanged"/>
+
+
                 </StackPanel>
             </StackPanel>
 
@@ -135,7 +137,7 @@
             <Button Content="Load Example Code" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonLoadExampleCode_Click" Grid.Row="1" Height="20" Width="108" />
 
             <Button Content="Song" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonSong_Click" Grid.Row="1" Height="20" Margin="113,0,0,0" />
-            <TextBox x:Name="textBoxCode" TextWrapping="Wrap" Text="Source Code"  Grid.Row="2" />
+            <TextBox x:Name="TextBoxCode" TextWrapping="Wrap" Text="Source Code"  Grid.Row="2" AcceptsReturn="True"/>
 
         </Grid>
 
