@@ -73,7 +73,7 @@
 
                 <StackPanel x:Name="ForwardPanel" Margin="0,0,0,0" VerticalAlignment="Top" Visibility="Collapsed">
                     <Label Content="Distance (millimeter)"/>
-                    <TextBox x:Name="textBoxDistance" Height="23" TextWrapping="Wrap" Text="500" PreviewTextInput="number_validation" TextChanged="textBoxDistance_TextChanged"/>
+                    <TextBox x:Name="textBoxDistance" Height="23" TextWrapping="Wrap" Text="500" PreviewTextInput="number_validation" TextChanged="textBoxDistance_TextChanged" />
                     <Label Content="Time (second)"/>
                     <TextBox x:Name="textBoxTime" Height="23" TextWrapping="Wrap" Text="3" PreviewTextInput="number_validation" TextChanged="textBoxTime_TextChanged" />
                 </StackPanel>
@@ -89,7 +89,7 @@
 
                     <DockPanel  Grid.Row="1" >
                         <TextBox Text="{Binding Mode=TwoWay, ElementName=sliderColor,Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="30" DockPanel.Dock="Right"/>
-                        <Slider  Name="sliderColor" Minimum="0" Maximum="255" ValueChanged="sliderColorValueChanged" Value="255" SmallChange="10" LargeChange="20" IsSnapToTickEnabled="True"/>
+                        <Slider  Name="SliderColor" Minimum="0" Maximum="255" ValueChanged="sliderColorValueChanged" Value="255" SmallChange="10" LargeChange="20" IsSnapToTickEnabled="True"/>
                     </DockPanel>
                     
                     <Rectangle   Width="100"   Height="20"    Fill="Orange" Name="rectang" />
@@ -98,7 +98,7 @@
 
                     <DockPanel  Grid.Row="3" >
                         <TextBox Text="{Binding Mode=TwoWay, ElementName=sliderIntensity,Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="30" DockPanel.Dock="Right"/>
-                        <Slider Name="sliderIntensity" Minimum="0" Maximum="255" ValueChanged="BrightSliderChanged" Value="255" SmallChange="10" LargeChange="20" IsSnapToTickEnabled="True"/>
+                        <Slider Name="SliderIntensity" Minimum="0" Maximum="255" ValueChanged="BrightSliderChanged" Value="255" SmallChange="10" LargeChange="20" IsSnapToTickEnabled="True"/>
                     </DockPanel>
 
                     <CheckBox x:Name="CheckBoxLedAdvance" Grid.Row="5" Content="Advance" Checked="CheckBoxLed_CheckChanged" Unchecked="CheckBoxLed_CheckChanged"/>

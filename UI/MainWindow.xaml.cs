@@ -171,7 +171,7 @@ namespace iRobotGUI
                         newIns = new Instruction(Instruction.LEFT + " 90");
                         break;
                     case Instruction.LED:
-                        newIns = new Instruction(Instruction.LED + " 0,128,128");
+                        newIns = new Instruction(Instruction.LED + " 10,128,128");
                         break;
                     case Instruction.SONG_DEF:
                         newIns = showSongDialog(null, true);
@@ -236,29 +236,14 @@ namespace iRobotGUI
                 if (op == Instruction.LED)
                 {
                     LEDPanel.Visibility = Visibility.Visible;
-                    sliderColor.Value = ins.parameters[1];
-                    sliderIntensity.Value = ins.parameters[2];
-                    switch (ins.parameters[0])
-                    {
-                        case 0:
-                            CheckBoxLedPlay.IsChecked = false;
-                            CheckBoxLedAdvance.IsChecked = false;
-                            break;
-                        case 2:
-                            CheckBoxLedPlay.IsChecked = true;
-                            CheckBoxLedAdvance.IsChecked = false;
-                            break;
-                        case 8:
-                            CheckBoxLedPlay.IsChecked = false;
-                            CheckBoxLedAdvance.IsChecked = true;
-                            break;
-                        case 10:
-                            CheckBoxLedPlay.IsChecked = true;
-                            CheckBoxLedAdvance.IsChecked = true;
-                            break;
-                    }
-                    //textBoxDistance.Text = ins._parameters[0].ToString();
-                    //textBoxTime.Text = ins._parameters[1].ToString();
+                    SliderColor.Value = ins.parameters[1];
+                    SliderIntensity.Value = ins.parameters[2];
+
+                    // Set checkbox status according to 4th and 2nd bits
+                    // A variable must be used or ins.parameters[0] will be modified due to IsChecked assignment
+                    int bitValue = ins.parameters[0];
+                    CheckBoxLedPlay.IsChecked = (bitValue & 2) > 0;
+                    CheckBoxLedAdvance.IsChecked = (bitValue & 8) > 0;                 
                 }
             }
         }
@@ -345,7 +330,7 @@ namespace iRobotGUI
         //handler for the color led slider:
         private void sliderColorValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            byte color = (byte)sliderColor.Value;
+            byte color = (byte)SliderColor.Value;
 
             if (selectedInstruction != null)
                 selectedInstruction.parameters[1] = color;
@@ -369,7 +354,7 @@ namespace iRobotGUI
 
         private void BrightSliderChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            var r = (byte)sliderIntensity.Value;
+            var r = (byte)SliderIntensity.Value;
 
             if (selectedInstruction != null)
                 selectedInstruction.parameters[2] = r;
