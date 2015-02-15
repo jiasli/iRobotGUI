@@ -174,7 +174,7 @@ namespace iRobotGUI
                         newIns = new Instruction(Instruction.LED + " 0,128,128");
                         break;
                     case Instruction.SONG_DEF:
-                        newIns = showSongDialog(true);
+                        newIns = showSongDialog(null, true);
                         break;
                 }
                 if (newIns != null)
@@ -436,10 +436,10 @@ namespace iRobotGUI
 
         private void ButtonSong_Click(object sender, RoutedEventArgs e)
         {
-            showSongDialog(true);
+            showSongDialog(null, true);
         }
 
-        private Instruction showSongDialog(bool isNewIns)
+        private Instruction showSongDialog(String insStr, bool isNewIns)
         {
             // Instantiate the dialog box
             SongWindow dlg = new SongWindow();
@@ -447,6 +447,8 @@ namespace iRobotGUI
             // Configure the dialog box
             dlg.Owner = this;
             Instruction result = null;
+
+            dlg.songInsStr = insStr;
 
             // Open the dialog box modally 
             if (dlg.ShowDialog() ?? false)

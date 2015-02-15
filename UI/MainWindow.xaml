@@ -34,7 +34,7 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <Menu Grid.Row="0" VerticalAlignment="Top" >
+        <Menu Grid.Row="0" Grid.ColumnSpan ="4" VerticalAlignment="Top" >
             <MenuItem Header="_File">
                 <MenuItem Command="ApplicationCommands.New" />
                 <MenuItem Command="ApplicationCommands.Save" />

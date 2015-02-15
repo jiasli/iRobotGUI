@@ -12,7 +12,7 @@ namespace iRobotGUI
         public List<int> parameters;
         public string _string;
 
-        #region OPCODE
+        #region OpCode
         public const string FORWARD = "FORWARD";
         public const string BACKWARD = "BACKWARD";
         public const string LEFT = "LEFT";
@@ -21,6 +21,17 @@ namespace iRobotGUI
         public const string SONG_DEF = "SONG_DEF";
         public const string SONG_PLAY = "SONG_PLAY";
         #endregion
+
+        public readonly string[] OpCodeSet = new string[] 
+        { 
+            FORWARD,
+            BACKWARD, 
+            LEFT, 
+            RIGHT, 
+            LED, 
+            SONG_DEF, 
+            SONG_PLAY 
+        };
 
         public Instruction(string opcode, string[] parameters)
         {
@@ -37,9 +48,15 @@ namespace iRobotGUI
 
         private void setFields(string opcode, string[] parameters)
         {
-            // opcode
-            this.opcode = opcode;
-
+            if (OpCodeSet.Contains(opcode))
+            {
+                // opcode
+                this.opcode = opcode;
+            }
+            else
+            {
+                throw new InvalidOpcodeException();
+            }
             // parameters
             this.parameters = new List<int>();
             foreach (string para in parameters)
