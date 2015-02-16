@@ -129,7 +129,7 @@ namespace iRobotGUI
         {
             ForwardPanel.Visibility = Visibility.Collapsed;
             RotatePanel.Visibility = Visibility.Collapsed;
-            LEDPanel.Visibility = Visibility.Collapsed;
+           
             if (ins != null)
             {
                 string op = ins.opcode;
@@ -146,18 +146,17 @@ namespace iRobotGUI
                     RotatePanel.Visibility = Visibility.Visible;
                     textBoxAngle.Text = ins.parameters[0].ToString();
                 }
-                if (op == Instruction.LED)
-                {
-                    LEDPanel.Visibility = Visibility.Visible;
-                    SliderColor.Value = ins.parameters[1];
-                    SliderIntensity.Value = ins.parameters[2];
 
-                    // Set checkbox status according to 4th and 2nd bits
-                    // A variable must be used or ins.parameters[0] will be modified due to IsChecked assignment
-                    int bitValue = ins.parameters[0];
-                    CheckBoxLedPlay.IsChecked = (bitValue & 2) > 0;
-                    CheckBoxLedAdvance.IsChecked = (bitValue & 8) > 0;
+                else if(op ==Instruction.LED)
+                {
+                    ShowLedDialog(ins);
                 }
+
+                else if (op == Instruction.SONG_DEF)
+                {
+                    ShowSongDialog(ins);
+                }
+               
             }
         }
 
@@ -243,24 +242,11 @@ namespace iRobotGUI
             if (ListboxProgram.SelectedItem != null)
             {
                 selectedInstructionIndex = ListboxProgram.SelectedIndex;
-                selectedInstruction = ListboxProgram.SelectedItem as Instruction;
-
-                switch (selectedInstruction.opcode)
-                {
-                    case Instruction.SONG_DEF:
-                        ShowSongDialog(selectedInstruction);
-                        break;
-                }
-
-                ChangeParameterPanel(selectedInstruction);
+                selectedInstruction = ListboxProgram.SelectedItem as Instruction;               
             }
         }
 
-
-        private void ButtonSong_Click(object sender, RoutedEventArgs e)
-        {
-            ShowSongDialog(new Instruction("SONG_DEF 0"));
-        }
+       
         private void TextBoxDistance_TextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateParamFromTextBox(sender as TextBox, selectedInstruction, 0);
@@ -294,59 +280,6 @@ namespace iRobotGUI
                 }
                 ListboxProgram.Items.Refresh();
             }
-        }
-
-
-        private void SliderColorValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            byte color = (byte)SliderColor.Value;
-
-            if (selectedInstruction != null)
-                selectedInstruction.parameters[1] = color;
-            ListboxProgram.Items.Refresh();
-
-            // 0, 255, 0 Green
-            // 255, 255, 0 Yellow
-            // 255, 0, 0 Red
-
-            Color RGBColor;
-            if (color < 128)
-                RGBColor = Color.FromRgb((byte)(color * 2), 255, 30);
-            else RGBColor = Color.FromRgb(255, (byte)(255 - (color - 128) * 2), 0);
-
-            if (rectang != null)
-            {
-                rectang.Fill = new SolidColorBrush(RGBColor);
-            }
-
-        }
-
-        private void SliderBrightChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            var r = (byte)SliderIntensity.Value;
-
-            if (selectedInstruction != null)
-                selectedInstruction.parameters[2] = r;
-            ListboxProgram.Items.Refresh();
-        }
-
-
-        private void CheckBoxLed_CheckChanged(object sender, RoutedEventArgs e)
-        {
-            int ledBitsValue = 0;
-
-            if (CheckBoxLedPlay.IsChecked.Value)
-            {
-                ledBitsValue += 2;
-            }
-
-            if (CheckBoxLedAdvance.IsChecked.Value)
-            {
-                ledBitsValue += 8;
-            }
-
-            selectedInstruction.parameters[0] = ledBitsValue;
-            ListboxProgram.Items.Refresh();
         }
 
 
