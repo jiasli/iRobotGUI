@@ -70,7 +70,13 @@
 
 
 
-        <ListBox x:Name="ListboxProgram" Grid.Row="1" Grid.Column="1" DragEnter="ListBox_DragEnter" Drop="ListBox_Drop" AllowDrop="True" SelectionChanged="ListBoxProgram_SelectionChanged" />
+        <ListBox x:Name="ListboxProgram" Grid.Row="1" Grid.Column="1" DragEnter="ListBox_DragEnter" Drop="ListBox_Drop" AllowDrop="True" SelectionChanged="ListBoxProgram_SelectionChanged" >
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
         <GroupBox Grid.Row="1" Grid.Column="2" Header="Parameters"  >
             <StackPanel x:Name="RootPanel" Margin="0,0,0,0">
 
@@ -85,8 +91,8 @@
                     <Label Content="Angle (degree)"/>
                     <TextBox x:Name="textBoxAngle" Height="23" TextWrapping="Wrap" Text="90" TextChanged="TextBoxAngle_TextChanged"/>
                 </StackPanel>
-                
-                
+
+
                 <StackPanel x:Name="LEDPanel" Visibility="Collapsed">
                     <Label Grid.Row="0" Content="Power LED Color"/>
 
@@ -94,7 +100,7 @@
                         <TextBox Text="{Binding Mode=TwoWay, ElementName=sliderColor,Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="30" DockPanel.Dock="Right"/>
                         <Slider  Name="SliderColor" Minimum="0" Maximum="255" ValueChanged="SliderColorValueChanged" Value="255" SmallChange="10" LargeChange="20" IsSnapToTickEnabled="True"/>
                     </DockPanel>
-                    
+
                     <Rectangle   Width="100"   Height="20"    Fill="Orange" Name="rectang" />
 
                     <Label Grid.Row="2" Content="Power LED Brightness"/>

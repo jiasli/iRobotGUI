@@ -24,7 +24,7 @@ namespace iRobotGUI
     {
         private OutputDevice outDevice;
         public string songInsStr;
-        private Instruction songIns;
+        public Instruction songIns;
 
         /// <summary>
         /// A class to represent the musical note.

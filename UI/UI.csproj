@@ -75,6 +75,12 @@
     <Compile Include="ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LedWindow.xaml.cs">
+      <DependentUpon>LedWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ParameterControls\LedControl.xaml.cs">
+      <DependentUpon>LedControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OutputWindow.xaml.cs">
       <DependentUpon>OutputWindow.xaml</DependentUpon>
     </Compile>
@@ -83,6 +89,14 @@
     </Compile>
     <Compile Include="WinAvrConnector.cs" />
     <Page Include="ConfigurationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LedWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ParameterControls\LedControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -167,6 +181,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pic\SONG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\LED_panel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

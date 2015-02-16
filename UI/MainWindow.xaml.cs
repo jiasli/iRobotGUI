@@ -161,7 +161,7 @@ namespace iRobotGUI
             }
         }
 
-        private Instruction ShowSongDialog(String insStr, bool isNewIns)
+        private void ShowSongDialog(Instruction ins)
         {
             // Instantiate the dialog box
             SongWindow dlg = new SongWindow();
@@ -170,17 +170,22 @@ namespace iRobotGUI
             dlg.Owner = this;
             Instruction result = null;
 
-            dlg.songInsStr = insStr;
+            dlg.songIns = ins;
 
-            // Open the dialog box modally 
-            if (dlg.ShowDialog() ?? false)
-            {
-                if (isNewIns)
-                {
-                    result = new Instruction(dlg.songInsStr);
-                }
-            }
-            return result;
+            dlg.ShowDialog();
+        }
+
+        private void ShowLedDialog(Instruction ins)
+        {
+            // Instantiate the dialog box
+            LedWindow dlg = new LedWindow();
+
+            // Configure the dialog box
+            dlg.Owner = this;
+
+            dlg.LedInstruction = ins;
+            dlg.ShowDialog();
+
         }
 
 
@@ -228,16 +233,12 @@ namespace iRobotGUI
                         newIns = new Instruction(Instruction.LED + " 10,128,128");
                         break;
                     case Instruction.SONG_DEF:
-                        newIns = ShowSongDialog(null, true);
+                        newIns = new Instruction(Instruction.SONG_DEF + " 0");
                         break;
                 }
                 if (newIns != null)
                 {
                     program.Add(newIns);
-                    if (op == Instruction.SONG_DEF)
-                    {
-                        program.Add(Instruction.SONG_PLAY + " 1");
-                    }
                 }
 
                 UpdateProgramPanel();
@@ -257,6 +258,14 @@ namespace iRobotGUI
             {
                 selectedInstructionIndex = ListboxProgram.SelectedIndex;
                 selectedInstruction = ListboxProgram.SelectedItem as Instruction;
+
+                switch (selectedInstruction.opcode)
+                {
+                    case Instruction.SONG_DEF:
+                        ShowSongDialog(selectedInstruction);
+                        break;
+                }
+
                 ChangeParameterPanel(selectedInstruction);
             }
         }
@@ -264,7 +273,7 @@ namespace iRobotGUI
 
         private void ButtonSong_Click(object sender, RoutedEventArgs e)
         {
-            ShowSongDialog(null, true);
+            ShowSongDialog(new Instruction("SONG_DEF 0"));
         }
         private void TextBoxDistance_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -423,6 +432,25 @@ namespace iRobotGUI
         private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Mission Science iRobots\nUSC CSCI-577 Team 07");
+        }
+
+
+        private void ListBoxItem_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            switch (selectedInstruction.opcode)
+            {
+                case Instruction.FORWARD:
+
+                    break;
+                case Instruction.LEFT:
+                    break;
+                case Instruction.LED:
+                    ShowLedDialog(selectedInstruction);
+                    break;
+                case Instruction.SONG_DEF:
+                    ShowSongDialog(selectedInstruction); 
+                    break;
+            }
         }
 
 
