@@ -70,13 +70,9 @@
 
 
 
-        <ListBox x:Name="ListboxProgram" Grid.Row="1" Grid.Column="1" DragEnter="ListBox_DragEnter" Drop="ListBox_Drop" AllowDrop="True" SelectionChanged="ListBoxProgram_SelectionChanged" >
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                    <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>
+        <ListBox x:Name="ListboxProgram" Grid.Row="1" Grid.Column="1" DragEnter="ListBox_DragEnter" Drop="ListBox_Drop" AllowDrop="True" SelectionChanged="ListBoxProgram_SelectionChanged" MouseDoubleClick="ListboxProgram_MouseDoubleClick" />
+           
+        
         <GroupBox Grid.Row="1" Grid.Column="2" Header="Parameters"  >
             <StackPanel x:Name="RootPanel" Margin="0,0,0,0">
 

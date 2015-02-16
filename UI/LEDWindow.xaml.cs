@@ -19,7 +19,7 @@ namespace iRobotGUI
     /// </summary>
     public partial class LedWindow : Window
     {
-        public Instruction LedInstruction;
+        public Instruction Ins;
 
         public LedWindow()
         {
@@ -28,7 +28,7 @@ namespace iRobotGUI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LedControlInstance.SetInstruction(LedInstruction);
+            LedControlInstance.SetInstruction(Ins);
         }
     }
 }

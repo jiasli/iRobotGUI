@@ -163,38 +163,24 @@ namespace iRobotGUI
 
         private void ShowSongDialog(Instruction ins)
         {
-            // Instantiate the dialog box
             SongWindow dlg = new SongWindow();
-
-            // Configure the dialog box
             dlg.Owner = this;
-            Instruction result = null;
-
-            dlg.songIns = ins;
-
+            dlg.Ins = ins;
             dlg.ShowDialog();
         }
 
         private void ShowLedDialog(Instruction ins)
         {
-            // Instantiate the dialog box
             LedWindow dlg = new LedWindow();
-
-            // Configure the dialog box
             dlg.Owner = this;
-
-            dlg.LedInstruction = ins;
+            dlg.Ins = ins;
             dlg.ShowDialog();
+            UpdateProgramPanel();
 
         }
 
 
         #endregion
-
-
-
-
-
 
 
 
@@ -435,8 +421,9 @@ namespace iRobotGUI
         }
 
 
-        private void ListBoxItem_MouseDoubleClick(object sender, RoutedEventArgs e)
+        private void ListboxProgram_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+
             switch (selectedInstruction.opcode)
             {
                 case Instruction.FORWARD:
@@ -448,7 +435,7 @@ namespace iRobotGUI
                     ShowLedDialog(selectedInstruction);
                     break;
                 case Instruction.SONG_DEF:
-                    ShowSongDialog(selectedInstruction); 
+                    ShowSongDialog(selectedInstruction);
                     break;
             }
         }

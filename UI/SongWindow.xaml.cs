@@ -24,7 +24,7 @@ namespace iRobotGUI
     {
         private OutputDevice outDevice;
         public string songInsStr;
-        public Instruction songIns;
+        public Instruction Ins;
 
         /// <summary>
         /// A class to represent the musical note.
@@ -61,7 +61,7 @@ namespace iRobotGUI
         {
             if (!string.IsNullOrEmpty(songInsStr))
             if (Validator.Validate(songInsStr))
-                songIns = new Instruction(songInsStr);
+                Ins = new Instruction(songInsStr);
 
             for (int i = 0; i < 15; i++)
             {

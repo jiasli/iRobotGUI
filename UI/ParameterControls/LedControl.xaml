@@ -7,18 +7,18 @@
     <Grid>
         <Image HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None" Source="/UI;component/pic/LED_panel.png"/>
 
-        <Ellipse x:Name="EllipsePower" Fill="Black" HorizontalAlignment="Left" Height="20" Margin="64,81,0,0" Stroke="Black" VerticalAlignment="Top" Width="20"/>
-        <Ellipse x:Name="EllipsePlay" Fill="Black" HorizontalAlignment="Left" Height="20" Margin="236,81,0,0" Stroke="Black" VerticalAlignment="Top" Width="20"/>
-        <Ellipse x:Name="EllipseAdvance" Fill="Black" HorizontalAlignment="Left" Height="20" Margin="337,81,0,0" Stroke="Black" VerticalAlignment="Top" Width="20"/>
+        <Ellipse x:Name="EllipsePower" Fill="Black" HorizontalAlignment="Left" Height="21" Width="21" Margin="63,81,0,0" Stroke="Black" VerticalAlignment="Top" />
+        <Ellipse x:Name="EllipsePlay" Fill="Black" HorizontalAlignment="Left" Height="21" Width="21" Margin="235,81,0,0" Stroke="Black" VerticalAlignment="Top" />
+        <Ellipse x:Name="EllipseAdvance" Fill="Black" HorizontalAlignment="Left" Height="21" Width="21" Margin="336,81,0,0" Stroke="Black" VerticalAlignment="Top" />
         <CheckBox x:Name="CheckBoxPlay" Content="" HorizontalAlignment="Left" Margin="238,154,0,0" VerticalAlignment="Top" Checked="CheckBoxPlay_Checked" Unchecked="CheckBoxPlay_Unchecked"/>
         <CheckBox x:Name="CheckBoxAdvance" Content="" HorizontalAlignment="Left" Margin="339,154,0,0" VerticalAlignment="Top" Checked="CheckBoxAdvance_Checked" Unchecked="CheckBoxAdvance_Unchecked"/>
 
 
         <Label Content="Color" HorizontalAlignment="Left" Margin="32,150,0,0" VerticalAlignment="Top"/>
-        <Slider x:Name="SliderColor" HorizontalAlignment="Left" Margin="32,180,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="SliderColor" HorizontalAlignment="Left" Margin="32,180,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="SliderColor_ValueChanged"/>
 
         <Label Content="Intensity" HorizontalAlignment="Left" Margin="32,200,0,0" VerticalAlignment="Top"/>
-        <Slider x:Name="SliderIntensity" HorizontalAlignment="Left" Margin="32,230,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="Slider_ValueChanged"/>
+        <Slider x:Name="SliderIntensity" HorizontalAlignment="Left" Margin="32,230,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="SliderIntensity_ValueChanged"/>
 
 
 
