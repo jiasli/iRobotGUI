@@ -9,6 +9,7 @@ namespace iRobotGUI
 {
     public static class Translator
     {
+        [Flags]
         public enum SourceType
         {
             Microcontroller,
@@ -118,7 +119,7 @@ byteTx(#song_number);
         public static void TranlateProgramAndWrite(HLProgram program)
         {
             string cCode = Translator.TranslateProgram(program);
-            WriteSource(SourceType.Emulator, cCode);
+            GenerateCSource(SourceType.Emulator, cCode);
 
         }
 
@@ -132,10 +133,10 @@ byteTx(#song_number);
             return TranslateProgram(new HLProgram(programString));
         }
 
-        public static void WriteSource(SourceType st, string code)
+        public static void GenerateCSource(SourceType st, string code)
         {
             string template;
-            if (st == SourceType.Microcontroller)
+            if (st.HasFlag(SourceType.Microcontroller))
             {
                 template = File.ReadAllText(MicrocontrollerTemplate);
                 if (!String.IsNullOrEmpty(template))
@@ -144,7 +145,8 @@ byteTx(#song_number);
                         template.Replace("##main_program##", code));
                 }
             }
-            else
+
+            if (st.HasFlag(SourceType.Emulator))
             {
                 template = File.ReadAllText(EmulatorTemplate);
                 if (!String.IsNullOrEmpty(template))

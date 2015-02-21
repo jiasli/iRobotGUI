@@ -344,8 +344,8 @@ namespace iRobotGUI
             string cCode = Translator.TranslateProgram(program);
 
             MessageBox.Show(cCode);
-            Translator.WriteSource(Translator.SourceType.Microcontroller, cCode);
-            Translator.WriteSource(Translator.SourceType.Emulator, cCode);
+            Translator.GenerateCSource(Translator.SourceType.Microcontroller, cCode);
+            Translator.GenerateCSource(Translator.SourceType.Emulator, cCode);
         }
 
         private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
