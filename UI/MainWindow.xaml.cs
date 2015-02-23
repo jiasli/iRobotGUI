@@ -185,14 +185,7 @@ namespace iRobotGUI
 
         #region Drag and Drop
 
-        private void MouseMove_General(object sender, MouseEventArgs e)
-        {
-            Image dragSource = sender as Image;
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                DragDrop.DoDragDrop(sender as Image, dragSource.Tag, DragDropEffects.Copy);
-            }
-        }
+        
 
         private void ListBox_DragEnter(object sender, DragEventArgs e)
         {

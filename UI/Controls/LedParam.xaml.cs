@@ -19,14 +19,14 @@ namespace iRobotGUI
     /// <summary>
     /// Interaction logic for LEDControl.xaml
     /// </summary>
-    public partial class LedControl : UserControl
+    public partial class LedParam : UserControl
     {
         Color onColor = Colors.Lime;
         Color offColor = Colors.Black;
 
         Instruction ins;
 
-        public LedControl()
+        public LedParam()
         {
             InitializeComponent();
         }

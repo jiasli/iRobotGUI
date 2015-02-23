@@ -75,11 +75,14 @@
     <Compile Include="ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\InstructionPanel.xaml.cs">
+      <DependentUpon>InstructionPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LedWindow.xaml.cs">
       <DependentUpon>LedWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ParameterControls\LedControl.xaml.cs">
-      <DependentUpon>LedControl.xaml</DependentUpon>
+    <Compile Include="Controls\LedParam.xaml.cs">
+      <DependentUpon>LedParam.xaml</DependentUpon>
     </Compile>
     <Compile Include="OutputWindow.xaml.cs">
       <DependentUpon>OutputWindow.xaml</DependentUpon>
@@ -92,11 +95,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\InstructionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LedWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ParameterControls\LedControl.xaml">
+    <Page Include="Controls\LedParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

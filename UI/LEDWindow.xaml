@@ -5,7 +5,7 @@
         Title="LED Parameters" Height="320" Width="510" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
     <Grid>
 
-        <local:LedControl x:Name="LedControlInstance" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,10,-40,-10"/>
+        <local:LedParam x:Name="LedControlInstance" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,10,-40,-10"/>
 
     </Grid>
 </Window>
