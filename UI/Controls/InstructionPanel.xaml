@@ -4,21 +4,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="389" d:DesignWidth="262">
+             d:DesignHeight="325" Width="210">
+    <UserControl.Resources>
+        <Style x:Key="InstructionStyle" TargetType="Image">
+            <Setter Property="Width" Value="45" />
+            <Setter Property="Height" Value="45" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+            <EventSetter Event="MouseDown" Handler="MouseMove_General" />
+        </Style>
+
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+    </UserControl.Resources>
     <Grid Grid.Row="1" Grid.Column="0" >
 
-        <Label Content="Navigation" HorizontalAlignment="Left" Margin="35,10,0,0" VerticalAlignment="Top"/>
-        <Image Source="../pic/forward.png" MouseMove="MouseMove_General"  Margin="104,37,0,0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top" Tag="FORWARD"  />
-        <Image Source="../pic/backward.png" MouseMove="MouseMove_General"  Margin="104,105,0,0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-        <Image Source="../pic/left.png"  MouseMove="MouseMove_General"  Margin="36,73,0,0"  Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top" Tag="LEFT"  />
-        <Image Source="../pic/right.png"  MouseMove="MouseMove_General" Margin="166,73,0,0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <Label Content="Navigation"    Style="{StaticResource LabelStyle}" Margin="27,10,0,0"  />
+        <Label Content="Sensor"        Style="{StaticResource LabelStyle}" Margin="27,128,0,0" />
+        <Label Content="LED and Sound" Style="{StaticResource LabelStyle}" Margin="27,221,0,0" />
 
-        <Label Content="Sensor" HorizontalAlignment="Left" Margin="41,150,0,0" VerticalAlignment="Top"/>
-        <Image Source="../pic/bump.jpg" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Margin="41,181,0,0" VerticalAlignment="Top" Width="75"  />
-        <Image Source="../pic/cliff.jpg" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Margin="147,181,0,0" VerticalAlignment="Top" Width="75" />
-
-        <Label Content="LED and Sound" HorizontalAlignment="Left" Margin="41,267,0,0" VerticalAlignment="Top"/>
-        <Image Source="../pic/led.jpg" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" Margin="41,298,0,0" VerticalAlignment="Top" Width="75" MouseMove="MouseMove_General" Tag="LED"  />
-        <Image Source="../pic/song.png" RenderOptions.BitmapScalingMode="HighQuality"  HorizontalAlignment="Left" Margin="147,298,0,0" VerticalAlignment="Top" Width="75" MouseMove="MouseMove_General" Tag="SONG_DEF" />
+        <Image Source="pic/forward.png"  Tag="FORWARD"  Style="{StaticResource InstructionStyle}" Margin="81,36,0,0" />
+        <Image Source="pic/backward.png" Tag="BACKWARD" Style="{StaticResource InstructionStyle}" Margin="81,81,0,0" />
+        <Image Source="pic/left.png"     Tag="LEFT"     Style="{StaticResource InstructionStyle}" Margin="31,62,0,0" />
+        <Image Source="pic/right.png"    Tag="RIGHT"    Style="{StaticResource InstructionStyle}" Margin="131,62,0,0" />
+        <Image Source="pic/cliff.jpg"    Tag="CLIFF"    Style="{StaticResource InstructionStyle}" Margin="78,159,0,0" />
+        <Image Source="pic/bump.jpg"     Tag="BUMP"     Style="{StaticResource InstructionStyle}" Margin="28,159,0,0" />
+        <Image Source="pic/led.jpg"      Tag="LED"      Style="{StaticResource InstructionStyle}" Margin="28,252,0,0" />
+        <Image Source="pic/song.png"     Tag="SONG_DEF" Style="{StaticResource InstructionStyle}" Margin="78,252,0,0" />
     </Grid>
 </UserControl>
