@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Background="White" Height="270">
     <Grid>
-        <Image HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None" Source="/UI;component/pic/LED_panel.png"/>
+        <Image HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None" Source="pic/LED_panel.png"/>
 
         <Ellipse x:Name="EllipsePower" Fill="Black" HorizontalAlignment="Left" Height="21" Width="21" Margin="63,81,0,0" Stroke="Black" VerticalAlignment="Top" />
         <Ellipse x:Name="EllipsePlay" Fill="Black" HorizontalAlignment="Left" Height="21" Width="21" Margin="235,81,0,0" Stroke="Black" VerticalAlignment="Top" />

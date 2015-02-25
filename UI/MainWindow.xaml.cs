@@ -25,10 +25,8 @@ namespace iRobotGUI
         public static RoutedCommand ComPortCmd = new RoutedUICommand("Load Configuration", "comn", typeof(Window));
 
         private string fileName;
-        private HLProgram program;
 
-        private int selectedInstructionIndex;
-        private Instruction selectedInstruction;
+        private HLProgram program;
 
         public MainWindow()
         {
@@ -36,7 +34,7 @@ namespace iRobotGUI
             InitializeComponent();
             Directory.SetCurrentDirectory(@".");
             program = new HLProgram();
-
+            ProgramList1.Program = program;
         }
 
         #region Commands
@@ -111,20 +109,19 @@ namespace iRobotGUI
 
         private void LoadProgram(string fileName)
         {
-            program = new HLProgram(File.ReadAllText(fileName));
-            UpdateProgramPanel();
-        }
-
-        private void UpdateProgramPanel()
-        {
-            TextBoxCode.Text = program.ToString();
-            ListboxProgram.Items.Clear();
-            foreach (Instruction i in program.GetInstructionList())
+            try
             {
-                ListboxProgram.Items.Add(i);
+                ProgramList1.Program = program = new HLProgram(File.ReadAllText(fileName));                
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);              
+            }          
+            
         }
 
+
+        /*
         private void ChangeParameterPanel(Instruction ins)
         {
             ForwardPanel.Visibility = Visibility.Collapsed;
@@ -159,124 +156,35 @@ namespace iRobotGUI
                
             }
         }
+         */
 
-        private void ShowSongDialog(Instruction ins)
-        {
-            SongWindow dlg = new SongWindow();
-            dlg.Owner = this;
-            dlg.Ins = ins;
-            dlg.ShowDialog();
-        }
 
-        private void ShowLedDialog(Instruction ins)
-        {
-            LedWindow dlg = new LedWindow();
-            dlg.Owner = this;
-            dlg.Ins = ins;
-            dlg.ShowDialog();
-            UpdateProgramPanel();
-
-        }
 
 
         #endregion
 
 
 
-        #region Drag and Drop
-
-        
-
-        private void ListBox_DragEnter(object sender, DragEventArgs e)
-        {
-
-        }
-        private void ListBox_Drop(object sender, DragEventArgs e)
-        {
-
-            if (e.Data.GetDataPresent(DataFormats.StringFormat))
-            {
-                string op = (string)e.Data.GetData(DataFormats.StringFormat);
-
-                Instruction newIns = null;
-                switch (op)
-                {
-                    case Instruction.FORWARD:
-                        newIns = new Instruction(Instruction.FORWARD + " 500,3");
-                        break;
-                    case Instruction.LEFT:
-                        newIns = new Instruction(Instruction.LEFT + " 90");
-                        break;
-                    case Instruction.LED:
-                        newIns = new Instruction(Instruction.LED + " 10,128,128");
-                        break;
-                    case Instruction.SONG_DEF:
-                        newIns = new Instruction(Instruction.SONG_DEF + " 0");
-                        break;
-                }
-                if (newIns != null)
-                {
-                    program.Add(newIns);
-                }
-
-                UpdateProgramPanel();
-                ListboxProgram.SelectedItem = newIns;
-                ChangeParameterPanel(newIns);
-            }
-        }
-
-        #endregion
-
+              
 
         #region Control Callbacks
-
-        private void ListBoxProgram_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ListboxProgram.SelectedItem != null)
-            {
-                selectedInstructionIndex = ListboxProgram.SelectedIndex;
-                selectedInstruction = ListboxProgram.SelectedItem as Instruction;               
-            }
-        }
 
        
         private void TextBoxDistance_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateParamFromTextBox(sender as TextBox, selectedInstruction, 0);
+            //UpdateParamFromTextBox(sender as TextBox, selectedInstruction, 0);
         }
 
         private void TextBoxTime_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateParamFromTextBox(sender as TextBox, selectedInstruction, 1);
+            //UpdateParamFromTextBox(sender as TextBox, selectedInstruction, 1);
         }
 
         private void TextBoxAngle_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateParamFromTextBox(sender as TextBox, selectedInstruction, 0);
+            //UpdateParamFromTextBox(sender as TextBox, selectedInstruction, 0);
         }
-
-        /// <summary>
-        /// Update a parameter of Instruction according to the data in a TextBox
-        /// </summary>
-        /// <param name="tb"></param>
-        /// <param name="ins"></param>
-        /// <param name="index"></param>
-        private void UpdateParamFromTextBox(TextBox tb, Instruction ins, int index)
-        {
-            if (ins == null) return;
-            // Default
-            if (tb != null)
-            {
-                if (!string.IsNullOrEmpty(tb.Text))
-                {
-                    ins.parameters[index] = Convert.ToInt32(tb.Text);
-                }
-                ListboxProgram.Items.Refresh();
-            }
-        }
-
-
-
+        
         #endregion
 
         private void BuildAndLoad(object sender, RoutedEventArgs e)
@@ -298,8 +206,7 @@ namespace iRobotGUI
 
         private void ButtonLoadExampleCode_Click(object sender, RoutedEventArgs e)
         {
-            LoadProgram("navi.igp");
-
+            LoadProgram("song.igp");
         }
 
 
@@ -347,24 +254,7 @@ namespace iRobotGUI
         }
 
 
-        private void ListboxProgram_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-            switch (selectedInstruction.opcode)
-            {
-                case Instruction.FORWARD:
-
-                    break;
-                case Instruction.LEFT:
-                    break;
-                case Instruction.LED:
-                    ShowLedDialog(selectedInstruction);
-                    break;
-                case Instruction.SONG_DEF:
-                    ShowSongDialog(selectedInstruction);
-                    break;
-            }
-        }
+      
 
 
 

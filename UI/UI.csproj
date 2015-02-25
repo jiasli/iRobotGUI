@@ -78,6 +78,9 @@
     <Compile Include="Controls\InstructionPanel.xaml.cs">
       <DependentUpon>InstructionPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ProgramList.xaml.cs">
+      <DependentUpon>ProgramList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LedWindow.xaml.cs">
       <DependentUpon>LedWindow.xaml</DependentUpon>
     </Compile>
@@ -96,6 +99,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\InstructionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProgramList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
