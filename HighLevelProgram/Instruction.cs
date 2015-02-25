@@ -25,7 +25,15 @@ namespace iRobotGUI
         public const string END_IF = "END_IF";
         public const string LOOP = "LOOP";
         public const string END_LOOP = "END_LOOP";
+        #endregion
 
+        #region Operator
+        public const byte NOT_EQUAL = 0;
+        public const byte EQUAL = 1;
+        public const byte GREATER_THAN = 2;
+        public const byte GRAETER_THAN_OR_EQUAL = 3;
+        public const byte LESS_THAN = 4;
+        public const byte LESS_THAN_OR_EQUAL = 5;
         #endregion
 
         public readonly string[] OpCodeSet = new string[] 
@@ -80,30 +88,26 @@ namespace iRobotGUI
             return sb.ToString();
         }
 
-        public static string GetOperatorSymbol(string opeartorName)
+        public static string GetOperatorSymbol(byte opeartorName)
         {
             switch (opeartorName)
             {
-                case "NOT_EQUAL":
+                case NOT_EQUAL:
                     return "!=";
-                case "EQUAL":
+                case EQUAL:
                     return "==";
-                case "GREATER_THAN":
+                case GREATER_THAN:
                     return ">";
-                case "GRAETER_THAN_OR_EQUAL":
+                case GRAETER_THAN_OR_EQUAL:
                     return ">=";
-                case "LESS_THAN":
+                case LESS_THAN:
                     return "<";
-                case "LESS_THAN_OR_EQUAL":
+                case LESS_THAN_OR_EQUAL:
                     return "<=";
                 default:
                     return "";
             }
         }
 
-        public static int GetSensor(string SensorName)
-        {
-
-        }
     }
 }

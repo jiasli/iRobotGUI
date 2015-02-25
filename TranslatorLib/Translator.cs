@@ -72,7 +72,11 @@ byteTx(#song_number);
         public const string ELSE_SINPPET = "} else {";
         public const string END_IF_SINPPET = "}";
         public const string LOOP_SNIPPET = "while (#condition) {";
-        public const string END_LOOP_SNIPPET = "}";
+        public const string END_LOOP_SNIPPET = @"
+byteTx(CmdSensors);
+byteTx(0);
+}
+";
 
         public const string PLACEHOLDER_MAIN_PROGRAM = "##main_program##";
 
@@ -80,6 +84,8 @@ byteTx(#song_number);
         {
             // C program builder
             StringBuilder cBuilder = new StringBuilder();
+            string operatorSymbol;
+            string condition;
 
             switch (instruction.opcode)
             {
@@ -117,10 +123,36 @@ byteTx(#song_number);
                     break;
 
                 case Instruction.IF:
-                    int sensor = Instruction.GetSensor(instruction.parameters[0]);
-                    string compareOperator = Instruction.GetOperatorSymbol(instruction.parameters[1].ToString());
-                    string condition = sensor.ToString() + compareOperator + instruction.parameters[2].ToString();
+                    operatorSymbol = Instruction.GetOperatorSymbol((byte)(instruction.parameters[1]));
+                    condition = "sensors[" + instruction.parameters[0].ToString() + "] " 
+                        + operatorSymbol + " " 
+                        + instruction.parameters[2].ToString();
+                    cBuilder.AppendLine("byteTx(CmdSensors)");
+                    cBuilder.AppendLine("byteTx(0)");
                     cBuilder.AppendLine(IF_SNIPPET.Replace("#condition", condition));
+                    break;
+
+                case Instruction.ELSE:
+                    cBuilder.AppendLine(ELSE_SINPPET);
+                    break;
+
+                case Instruction.END_IF:
+                    cBuilder.AppendLine(END_IF_SINPPET);
+                    break;
+
+                case Instruction.LOOP:
+                    operatorSymbol = Instruction.GetOperatorSymbol((byte)(instruction.parameters[1]));
+                    condition = "sensors[" + instruction.parameters[0].ToString() + "] "
+                        + operatorSymbol + " "
+                        + instruction.parameters[2].ToString();
+                    cBuilder.AppendLine("byteTx(CmdSensors)");
+                    cBuilder.AppendLine("byteTx(0)");
+                    cBuilder.AppendLine(LOOP_SNIPPET.Replace("#condition", condition));
+                    break;
+
+                case Instruction.END_LOOP:
+                    cBuilder.AppendLine(END_LOOP_SNIPPET);
+                    break;
             }
             return cBuilder.ToString();
         }
