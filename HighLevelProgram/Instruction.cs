@@ -20,6 +20,12 @@ namespace iRobotGUI
         public const string LED = "LED";
         public const string SONG_DEF = "SONG_DEF";
         public const string SONG_PLAY = "SONG_PLAY";
+        public const string IF = "IF";
+        public const string ELSE = "ELSE";
+        public const string END_IF = "END_IF";
+        public const string LOOP = "LOOP";
+        public const string END_LOOP = "END_LOOP";
+
         #endregion
 
         public readonly string[] OpCodeSet = new string[] 
@@ -72,6 +78,32 @@ namespace iRobotGUI
             StringBuilder sb = new StringBuilder(opcode);
             sb.Append(" ").Append(string.Join(",", parameters));
             return sb.ToString();
+        }
+
+        public static string GetOperatorSymbol(string opeartorName)
+        {
+            switch (opeartorName)
+            {
+                case "NOT_EQUAL":
+                    return "!=";
+                case "EQUAL":
+                    return "==";
+                case "GREATER_THAN":
+                    return ">";
+                case "GRAETER_THAN_OR_EQUAL":
+                    return ">=";
+                case "LESS_THAN":
+                    return "<";
+                case "LESS_THAN_OR_EQUAL":
+                    return "<=";
+                default:
+                    return "";
+            }
+        }
+
+        public static int GetSensor(string SensorName)
+        {
+
         }
     }
 }

@@ -22,22 +22,36 @@ namespace iRobotGUI
         private const string EmulatorOutputSource = "em_o.cpp";
 
         public const string FORWARD_SNIPPET = @"
-distance = 0;
-drive(#velocity, RadStraight);
+byteTx(CmdDrive);
+byteTx(#velo_high);
+byteTx(#velo_low);
+byteTx(128);
+byteTx(0);
 while(distance < #distance)
 {
     delaySensors(100);
 }
-drive(0, RadStraight);	
+byteTx(CmdDrive);
+byteTx(0);
+byteTx(0);
+byteTx(128);
+byteTx(0);
 ";
         public const string LEFT_SNIPPET = @"
-angle = 0;
-drive(200, RadCCW);
+byteTx(CmdDrive);
+byteTx(0);
+byteTx(0);
+byteTx(0);
+byteTx(1);
 while(angle < #angle)
 {
     delaySensors(100);
 }
-drive(0, RadStraight);  
+byteTx(CmdDrive);
+byteTx(0);
+byteTx(0);
+byteTx(128);
+byteTx(0);
 ";
         public const string LED_SNIPPET = @"
 byteTx(CmdLeds);
@@ -54,6 +68,11 @@ byteTx(#song_duration);
 byteTx(CmdPlay);
 byteTx(#song_number);
 ";
+        public const string IF_SNIPPET = "if (#condition) {";
+        public const string ELSE_SINPPET = "} else {";
+        public const string END_IF_SINPPET = "}";
+        public const string LOOP_SNIPPET = "while (#condition) {";
+        public const string END_LOOP_SNIPPET = "}";
 
         public const string PLACEHOLDER_MAIN_PROGRAM = "##main_program##";
 
@@ -66,7 +85,8 @@ byteTx(#song_number);
             {
                 case Instruction.FORWARD:
                     cBuilder.AppendLine(FORWARD_SNIPPET
-                        .Replace("#velocity", (instruction.parameters[0] / instruction.parameters[1]).ToString())
+                        .Replace("#velo_high", (((byte)((instruction.parameters[0] / instruction.parameters[1]) >> 8)) & 0x00FF).ToString())
+                        .Replace("#velo_low", ((byte)(instruction.parameters[0] / instruction.parameters[1]) & 0x00FF).ToString())
                         .Replace("#distance", instruction.parameters[0].ToString()));
                     break;
 
@@ -90,14 +110,17 @@ byteTx(#song_number);
                     {
                         cBuilder.AppendLine("byteTx(" + instruction.parameters[i].ToString() + ");");
                     }
-
-
-                    //                            .Replace("#note_duration", ins.parameters[2].ToString()));
                     break;
 
                 case Instruction.SONG_PLAY:
                     cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.parameters[0].ToString()));
                     break;
+
+                case Instruction.IF:
+                    int sensor = Instruction.GetSensor(instruction.parameters[0]);
+                    string compareOperator = Instruction.GetOperatorSymbol(instruction.parameters[1].ToString());
+                    string condition = sensor.ToString() + compareOperator + instruction.parameters[2].ToString();
+                    cBuilder.AppendLine(IF_SNIPPET.Replace("#condition", condition));
             }
             return cBuilder.ToString();
         }
