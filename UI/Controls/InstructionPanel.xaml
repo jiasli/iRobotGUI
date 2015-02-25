@@ -9,6 +9,7 @@
         <Style x:Key="InstructionStyle" TargetType="Image">
             <Setter Property="Width" Value="45" />
             <Setter Property="Height" Value="45" />
+            <Setter Property="Stretch" Value="Fill" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
@@ -26,9 +27,9 @@
         <Label Content="Sensor"        Style="{StaticResource LabelStyle}" Margin="27,128,0,0" />
         <Label Content="LED and Sound" Style="{StaticResource LabelStyle}" Margin="27,221,0,0" />
 
-        <Image Source="pic/forward.png"  Tag="FORWARD"  Style="{StaticResource InstructionStyle}" Margin="81,36,0,0" />
-        <Image Source="pic/backward.png" Tag="BACKWARD" Style="{StaticResource InstructionStyle}" Margin="81,81,0,0" />
-        <Image Source="pic/left.png"     Tag="LEFT"     Style="{StaticResource InstructionStyle}" Margin="31,62,0,0" />
+        <Image Source="pic/forward.png"  Tag="FORWARD"  Style="{StaticResource InstructionStyle}" Margin="81,36,0,0"  />
+        <Image Source="pic/backward.png" Tag="BACKWARD" Style="{StaticResource InstructionStyle}" Margin="81,81,0,0"  />
+        <Image Source="pic/left.png"     Tag="LEFT"     Style="{StaticResource InstructionStyle}" Margin="31,62,0,0"  />
         <Image Source="pic/right.png"    Tag="RIGHT"    Style="{StaticResource InstructionStyle}" Margin="131,62,0,0" />
         <Image Source="pic/cliff.jpg"    Tag="CLIFF"    Style="{StaticResource InstructionStyle}" Margin="78,159,0,0" />
         <Image Source="pic/bump.jpg"     Tag="BUMP"     Style="{StaticResource InstructionStyle}" Margin="28,159,0,0" />
