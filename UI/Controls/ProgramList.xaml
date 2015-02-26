@@ -11,7 +11,6 @@
                  DragEnter="ListBox_DragEnter"
                  Drop="ListBox_Drop"
                  AllowDrop="True"
-                 SelectionChanged="ListboxProgram_SelectionChanged"
-                 MouseDoubleClick="ListboxProgram_MouseDoubleClick" />
+                 SelectionChanged="ListboxProgram_SelectionChanged"/>
     </Grid>
 </UserControl>

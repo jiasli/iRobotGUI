@@ -60,22 +60,40 @@ namespace iRobotGUI.Controls
             dlg.Ins = ins;
             dlg.ShowDialog();
             UpdateContent();
-
         }
 
         #endregion
 
         private void ListBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ListBox listbox = sender as ListBox;
-            Instruction instruction = GetObjectDataFromPoint(listbox, e.GetPosition(listbox)) as Instruction;
-            if (instruction != null)
+            if (e.ClickCount == 2)
             {
-                DataObject dragData = new DataObject("draghere", instruction);
-                DragDrop.DoDragDrop(listbox, dragData, DragDropEffects.Move);
+                switch (selectedInstruction.opcode)
+                {
+                    case Instruction.FORWARD:
+                        break;
+                    case Instruction.LEFT:
+                        break;
+                    case Instruction.LED:
+                        ShowLedDialog(selectedInstruction);
+                        break;
+                    case Instruction.SONG_DEF:
+                        ShowSongDialog(selectedInstruction);
+                        break;
+                }
+            }
+            else
+            {
+                ListBox listbox = sender as ListBox;
+                Instruction instruction = GetObjectDataFromPoint(listbox, e.GetPosition(listbox)) as Instruction;
+                if (instruction != null)
+                {
+                    DataObject dragData = new DataObject("draghere", instruction);
+                    DragDrop.DoDragDrop(listbox, dragData, DragDropEffects.Move);
+                }
             }
         }
-
+        
         private static object GetObjectDataFromPoint(ListBox source, Point point)
         {
             UIElement element = source.InputHitTest(point) as UIElement;
@@ -97,24 +115,6 @@ namespace iRobotGUI.Controls
             return null;
         }
 
-        private void ListboxProgram_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-            switch (selectedInstruction.opcode)
-            {
-                case Instruction.FORWARD:
-                    break;
-                case Instruction.LEFT:
-                    break;
-                case Instruction.LED:
-                    ShowLedDialog(selectedInstruction);
-                    break;
-                case Instruction.SONG_DEF:
-                    ShowSongDialog(selectedInstruction);
-                    break;
-            }
-        }
-
         private void ListBox_DragEnter(object sender, DragEventArgs e)
         {
 
@@ -128,24 +128,14 @@ namespace iRobotGUI.Controls
                 ListBox listbox = sender as ListBox;
                 Instruction data = e.Data.GetData("draghere") as Instruction;
                 Instruction target = GetObjectDataFromPoint(listbox, e.GetPosition(listbox)) as Instruction;
-
-                int removedIdx = ListboxProgram.Items.IndexOf(data);
-                int targetIdx = ListboxProgram.Items.IndexOf(target);
-                //MessageBox.Show("removedIDx" + removedIdx + "targetIdx" + targetIdx);
-
-                if (removedIdx < targetIdx)
+                if (data != null && target != null)
                 {
-                    ListboxProgram.Items.Insert(targetIdx + 1, data);
+                    int index = ListboxProgram.Items.IndexOf(target);
+                    int i = ListboxProgram.Items.IndexOf(data);
                     ListboxProgram.Items.Remove(data);
-                }
-                else
-                {
-                    int remIdx = removedIdx + 1;
-                    if (ListboxProgram.Items.Count + 1 > remIdx)
-                    {
-                        ListboxProgram.Items.Insert(targetIdx, data);
-                        ListboxProgram.Items.RemoveAt(remIdx);
-                    }
+                    ListboxProgram.Items.Insert(index, data);
+                    program.Rearrange(data, index);
+                    ListboxProgram.SelectedItem = data;
                 }
             }
             // drag from instructin panel to listbox
