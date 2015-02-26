@@ -64,8 +64,38 @@ namespace iRobotGUI.Controls
         }
 
         #endregion
-        
 
+        private void ListBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ListBox listbox = sender as ListBox;
+            Instruction instruction = GetObjectDataFromPoint(listbox, e.GetPosition(listbox)) as Instruction;
+            if (instruction != null)
+            {
+                DataObject dragData = new DataObject("draghere", instruction);
+                DragDrop.DoDragDrop(listbox, dragData, DragDropEffects.Move);
+            }
+        }
+
+        private static object GetObjectDataFromPoint(ListBox source, Point point)
+        {
+            UIElement element = source.InputHitTest(point) as UIElement;
+            if (element != null)
+            {
+                object data = DependencyProperty.UnsetValue;
+                while (data == DependencyProperty.UnsetValue)
+                {
+                    data = source.ItemContainerGenerator.ItemFromContainer(element);
+                    if (data == DependencyProperty.UnsetValue)
+                        element = VisualTreeHelper.GetParent(element) as UIElement;
+                    if (element == source)
+                        return null;
+                }
+                if (data != DependencyProperty.UnsetValue)
+                    return data;
+            }
+
+            return null;
+        }
 
         private void ListboxProgram_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -73,7 +103,6 @@ namespace iRobotGUI.Controls
             switch (selectedInstruction.opcode)
             {
                 case Instruction.FORWARD:
-
                     break;
                 case Instruction.LEFT:
                     break;
@@ -93,11 +122,36 @@ namespace iRobotGUI.Controls
 
         private void ListBox_Drop(object sender, DragEventArgs e)
         {
+            // drag inside listbox
+            if (e.Data.GetDataPresent("draghere"))
+            {
+                ListBox listbox = sender as ListBox;
+                Instruction data = e.Data.GetData("draghere") as Instruction;
+                Instruction target = GetObjectDataFromPoint(listbox, e.GetPosition(listbox)) as Instruction;
 
-            if (e.Data.GetDataPresent(DataFormats.StringFormat))
+                int removedIdx = ListboxProgram.Items.IndexOf(data);
+                int targetIdx = ListboxProgram.Items.IndexOf(target);
+                //MessageBox.Show("removedIDx" + removedIdx + "targetIdx" + targetIdx);
+
+                if (removedIdx < targetIdx)
+                {
+                    ListboxProgram.Items.Insert(targetIdx + 1, data);
+                    ListboxProgram.Items.Remove(data);
+                }
+                else
+                {
+                    int remIdx = removedIdx + 1;
+                    if (ListboxProgram.Items.Count + 1 > remIdx)
+                    {
+                        ListboxProgram.Items.Insert(targetIdx, data);
+                        ListboxProgram.Items.RemoveAt(remIdx);
+                    }
+                }
+            }
+            // drag from instructin panel to listbox
+            else
             {
                 string op = (string)e.Data.GetData(DataFormats.StringFormat);
-
                 Instruction newIns = null;
                 switch (op)
                 {
@@ -124,7 +178,7 @@ namespace iRobotGUI.Controls
             }
         }
 
-        private void ListBoxProgram_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListboxProgram_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ListboxProgram.SelectedItem != null)
             {
