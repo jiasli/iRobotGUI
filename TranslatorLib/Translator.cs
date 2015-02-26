@@ -53,6 +53,13 @@ byteTx(0);
 byteTx(128);
 byteTx(0);
 ";
+        public const string DRIVE_SNIPPET = @"
+byteTx(CmdDrive);
+byteTx(#velo_high);
+byteTx(#velo_low);
+byteTx(#angle_high);
+byteTx(#angle_low);
+";
         public const string LED_SNIPPET = @"
 byteTx(CmdLeds);
 byteTx(#bit);
@@ -99,6 +106,14 @@ byteTx(0);
                 case Instruction.LEFT:
                     cBuilder.AppendLine(
                         LEFT_SNIPPET.Replace("#angle", instruction.parameters[0].ToString()));
+                    break;
+
+                case Instruction.DRIVE:
+                    cBuilder.AppendLine(DRIVE_SNIPPET
+                        .Replace("#velo_high", ((byte)(instruction.parameters[0] >> 8) & 0x00FF).ToString())
+                        .Replace("#velo_low", ((byte)instruction.parameters[0] & 0x00FF).ToString())
+                        .Replace("#angle_high", ((byte)(instruction.parameters[1] >> 8) & 0x00FF).ToString())
+                        .Replace("#angle_low", ((byte)instruction.parameters[1] & 0x00FF).ToString()));
                     break;
 
                 case Instruction.LED:

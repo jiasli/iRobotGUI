@@ -17,6 +17,7 @@ namespace iRobotGUI
         public const string BACKWARD = "BACKWARD";
         public const string LEFT = "LEFT";
         public const string RIGHT = "RIGHT";
+        public const string DRIVE = "DRIVE";
         public const string LED = "LED";
         public const string SONG_DEF = "SONG_DEF";
         public const string SONG_PLAY = "SONG_PLAY";
