@@ -38,9 +38,12 @@ namespace iRobotGUI
         {
              var comboBox = sender as ComboBox;
 
-            // get the value of selected item
-         //   string value = comboBox.SelectedItem as string;
+            /// get the number index of selected item
             int num = comboBox.SelectedIndex;
+            if (num == 10)
+            {
+                num = -1;
+            };
             ins.parameters[0] = num;
            
         }

@@ -3,17 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Background="White" Height="270">
-    <Grid Width="354">
-        <Label Content="Play DEMO" FontSize ="28" HorizontalAlignment="Left" Margin="86,0,0,0" VerticalAlignment="Top" Height="51" Width="187"/>
-        <Label Content="Select the Demo:" FontSize="18" Margin="10,56,193,180"/>
+             mc:Ignorable="d" Background="White" Height="116.275" Width="344.257">
+    <Grid Width="354" Height="270" VerticalAlignment="Top">
+        <Label Content="Select the Demo:" FontFamily="Times New Roman" FontSize="20" Margin="10,33,193,203"/>
         <ComboBox
 	    HorizontalAlignment="Left"
-	    Margin="182,56,0,0"
+	    Margin="183,35,0,0"
 	    VerticalAlignment="Top"
 	    Width="147"
 	    Loaded="ComboBox1_Loaded"
-            x:Name="ComboBox1"
+            x:Name="ComboBox1"  FontFamily="Times New Roman" FontSize="16"
 	    SelectionChanged="ComboBox1_SelectionChanged" Height="32">
             <ComboBoxItem MouseMove="OnHover" Name="demo0">Cover</ComboBoxItem>
             <ComboBoxItem MouseMove="OnHover" Name="demo1">Cover and Dock</ComboBoxItem>
