@@ -63,6 +63,15 @@ namespace iRobotGUI.Controls
 
         }
 
+        private void ShowDemoDialog(Instruction ins)
+        {
+            DemoWindow dlg = new DemoWindow();
+            dlg.Owner = Window.GetWindow(this);
+            dlg.Ins = ins;
+            dlg.ShowDialog();
+            UpdateContent();
+        }
+
         #endregion
         
 
@@ -82,6 +91,9 @@ namespace iRobotGUI.Controls
                     break;
                 case Instruction.SONG_DEF:
                     ShowSongDialog(selectedInstruction);
+                    break;
+                case Instruction.DEMO:
+                    ShowDemoDialog(selectedInstruction);
                     break;
             }
         }
@@ -112,6 +124,9 @@ namespace iRobotGUI.Controls
                         break;
                     case Instruction.SONG_DEF:
                         newIns = new Instruction(Instruction.SONG_DEF + " 0");
+                        break;
+                    case Instruction.DEMO:
+                        newIns = new Instruction(Instruction.DEMO + " 0");
                         break;
                 }
                 if (newIns != null)

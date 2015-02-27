@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,16 +76,22 @@
     <Compile Include="ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DemoParam.xaml.cs">
+      <DependentUpon>DemoParam.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\InstructionPanel.xaml.cs">
       <DependentUpon>InstructionPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ProgramList.xaml.cs">
       <DependentUpon>ProgramList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DemoWindow.xaml.cs">
+      <DependentUpon>DemoWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LedWindow.xaml.cs">
       <DependentUpon>LedWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LedParam.xaml.cs">
+    <Compile Include="LedParam.xaml.cs">
       <DependentUpon>LedParam.xaml</DependentUpon>
     </Compile>
     <Compile Include="OutputWindow.xaml.cs">
@@ -98,6 +105,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="DemoParam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\InstructionPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -106,11 +117,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="DemoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LedWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\LedParam.xaml">
+    <Page Include="LedParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -198,6 +213,22 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Controls\pic\LED_panel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\demo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="demo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Controls\pic\demo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

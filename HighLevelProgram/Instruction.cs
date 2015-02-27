@@ -20,6 +20,7 @@ namespace iRobotGUI
         public const string LED = "LED";
         public const string SONG_DEF = "SONG_DEF";
         public const string SONG_PLAY = "SONG_PLAY";
+        public const string DEMO = "DEMO";
         #endregion
 
         public readonly string[] OpCodeSet = new string[] 
@@ -30,7 +31,8 @@ namespace iRobotGUI
             RIGHT, 
             LED, 
             SONG_DEF, 
-            SONG_PLAY 
+            SONG_PLAY,
+            DEMO
         };
 
         public Instruction(string opcode, string[] parameters)
