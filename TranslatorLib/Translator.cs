@@ -84,6 +84,9 @@ byteTx(CmdSensors);
 byteTx(0);
 }
 ";
+        public const string DELAY_SNIPPET = @"
+delay(#time);
+";
 
         public const string PLACEHOLDER_MAIN_PROGRAM = "##main_program##";
 
@@ -167,6 +170,10 @@ byteTx(0);
 
                 case Instruction.END_LOOP:
                     cBuilder.AppendLine(END_LOOP_SNIPPET);
+                    break;
+
+                case Instruction.DELAY:
+                    cBuilder.AppendLine(DELAY_SNIPPET.Replace("#time", instruction.parameters[0].ToString()));
                     break;
             }
             return cBuilder.ToString();

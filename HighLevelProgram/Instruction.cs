@@ -26,6 +26,7 @@ namespace iRobotGUI
         public const string END_IF = "END_IF";
         public const string LOOP = "LOOP";
         public const string END_LOOP = "END_LOOP";
+        public const string DELAY = "DELAY";
         #endregion
 
         #region Operator
