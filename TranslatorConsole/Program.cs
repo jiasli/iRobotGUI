@@ -16,11 +16,13 @@ namespace TranslatorConsole
             {
                 string input_program = File.ReadAllText(args[0]);
                 string output_program = Translator.TranslateProgramString(input_program);
+                Console.WriteLine(output_program);
             }
             else
             {
                 Console.WriteLine("Cannot find file {0}", args[0]);
             }
+            Console.Read();
         }
     }
 }

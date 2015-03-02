@@ -16,53 +16,58 @@ void byteTx(unsigned char byte)
 
 void iRobot_program()
 {
-//LED 0,13,128
-
-byteTx(CmdLeds);
-byteTx(0);
-byteTx(13);
-byteTx(128);
-
-
-//SONG_DEF 1,84,32,84,32,91,32,91,32,93,32,93,32,91,32,89,32,89,32,88,32,88,32,86,32,86,32,84,32
+//SONG_DEF 1,64,32,64,32,65,32,67,32,67,32,65,32,64,32,62,32,60,32,60,32,62,32,64,32,64,48,62,16,62,64
 
 byteTx(CmdSong);
 byteTx(1);
-byteTx(14);
+byteTx(15);
 
-byteTx(84);
+byteTx(64);
 byteTx(32);
-byteTx(84);
+byteTx(64);
 byteTx(32);
-byteTx(91);
+byteTx(65);
 byteTx(32);
-byteTx(91);
+byteTx(67);
 byteTx(32);
-byteTx(93);
+byteTx(67);
 byteTx(32);
-byteTx(93);
+byteTx(65);
 byteTx(32);
-byteTx(91);
+byteTx(64);
 byteTx(32);
-byteTx(89);
+byteTx(62);
 byteTx(32);
-byteTx(89);
+byteTx(60);
 byteTx(32);
-byteTx(88);
+byteTx(60);
 byteTx(32);
-byteTx(88);
+byteTx(62);
 byteTx(32);
-byteTx(86);
+byteTx(64);
 byteTx(32);
-byteTx(86);
-byteTx(32);
-byteTx(84);
-byteTx(32);
+byteTx(64);
+byteTx(48);
+byteTx(62);
+byteTx(16);
+byteTx(62);
+byteTx(64);
 
 //SONG_PLAY 1
 
 byteTx(CmdPlay);
 byteTx(1);
+
+
+//LEFT 90
+
+angle = 0;
+drive(200, RadCCW);
+while(angle < 90)
+{
+    delaySensors(100);
+}
+drive(0, RadStraight);  
 
 
 
