@@ -44,9 +44,16 @@ namespace iRobotGUI
             BACKWARD, 
             LEFT, 
             RIGHT, 
+            DRIVE,
             LED, 
             SONG_DEF, 
-            SONG_PLAY 
+            SONG_PLAY, 
+            IF, 
+            ELSE,
+            END_IF,
+            LOOP,
+            END_LOOP, 
+            DELAY
         };
 
         public Instruction(string opcode, string[] parameters)
