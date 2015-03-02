@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="iRobotGUI.Controls.DemoParam"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Background="White" Height="116.275" Width="344.257">
+    <Grid VerticalAlignment="Top">
+        <Label Content="Select the Demo:" FontFamily="Times New Roman" FontSize="20" Margin="10,33,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ComboBox
+	    HorizontalAlignment="Left"
+	    Margin="183,35,0,0"
+	    VerticalAlignment="Top"
+	    Width="147"
+	    Loaded="ComboBox1_Loaded"
+            x:Name="ComboBox1"  FontFamily="Times New Roman" FontSize="16"
+	    SelectionChanged="ComboBox1_SelectionChanged" Height="32">
+            <ComboBoxItem MouseMove="OnHover" Name="demo0">Cover</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="demo1">Cover and Dock</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="demo2">Spot Cover</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="demo3">Mouse</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="demo4">Drive Figure Eight</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="demo5">Wimp</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="demo6">Home</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="demo7">Tag</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="demo8">Pachelbel</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="demo9">Banjo</ComboBoxItem>
+            <ComboBoxItem MouseMove="OnHover" Name="demo_stop">Stop the Demo</ComboBoxItem>
+        </ComboBox>
+
+
+
+
+    </Grid>
+</UserControl>

@@ -75,11 +75,18 @@
     <Compile Include="ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DemoParam.xaml.cs">
+      <DependentUpon>DemoParam.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IInsParamControl.cs" />
     <Compile Include="Controls\InstructionPanel.xaml.cs">
       <DependentUpon>InstructionPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ProgramList.xaml.cs">
       <DependentUpon>ProgramList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DemoWindow.xaml.cs">
+      <DependentUpon>DemoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="LedWindow.xaml.cs">
       <DependentUpon>LedWindow.xaml</DependentUpon>
@@ -98,6 +105,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\DemoParam.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\InstructionPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,6 +116,10 @@
     <Page Include="Controls\ProgramList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DemoWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="LedWindow.xaml">
       <SubType>Designer</SubType>
@@ -198,6 +213,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Controls\pic\LED_panel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Controls\pic\demo.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
