@@ -15,7 +15,7 @@ namespace iRobotGUI
         {
             bool pass = true;
             string invalidIns = "LDE 12,13,13";
-             string validIns = "LED 12,13,13";
+            string validIns = "LED 12,13,13";
 
             try
             {
