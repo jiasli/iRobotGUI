@@ -7,10 +7,12 @@
              d:DesignHeight="300" d:DesignWidth="240">
     <Grid>
         <ListBox x:Name="ListboxProgram"
-                 PreviewMouseLeftButtonDown="ListBox_PreviewMouseLeftButtonDown"
-                 DragEnter="ListBox_DragEnter"
-                 Drop="ListBox_Drop"
                  AllowDrop="True"
+                 PreviewMouseLeftButtonDown ="listBox_PreviewMouseLeftButtonDown"
+                 DragEnter="listBox_DragEnter"
+                 DragLeave="listBox_DragLeave"
+                 DragOver="listBox_DragOver"
+                 Drop = "listBox_Drop"
                  SelectionChanged="ListboxProgram_SelectionChanged"/>
     </Grid>
 </UserControl>
