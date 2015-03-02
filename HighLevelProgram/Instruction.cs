@@ -64,10 +64,29 @@ namespace iRobotGUI
         public Instruction(string instructionString)
         {
             string[] insSplitted = instructionString.Split(new char[] { ' ' });
-
-            setFields(insSplitted[0], insSplitted[1].Split(new char[] { ',' }));
+            if (insSplitted.Count() == 1)
+            {
+                setFields(insSplitted[0]);
+            }
+            else
+            {
+                setFields(insSplitted[0], insSplitted[1].Split(new char[] { ',' }));
+            }
+            
         }
 
+        private void setFields(string opcode)
+        {
+            if (OpCodeSet.Contains(opcode))
+            {
+                // opcode
+                this.opcode = opcode;
+            }
+            else
+            {
+                throw new InvalidOpcodeException();
+            }
+        }
 
         private void setFields(string opcode, string[] parameters)
         {
@@ -93,7 +112,8 @@ namespace iRobotGUI
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder(opcode);
-            sb.Append(" ").Append(string.Join(",", parameters));
+            if (parameters != null)
+                sb.Append(" ").Append(string.Join(",", parameters));
             return sb.ToString();
         }
 
