@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Input;
 
 namespace iRobotGUI.Controls
 {
@@ -20,7 +20,24 @@ namespace iRobotGUI.Controls
     /// </summary>
     public partial class ProgramList : UserControl
     {
+        #region data
+
+        private ListViewDragDropManager<Instruction> dragMgr;
         private HLProgram program;
+
+        #endregion
+
+        #region constructor
+
+        public ProgramList()
+        {
+            InitializeComponent();
+            this.Loaded += ListView1_Loaded;
+        }
+
+        #endregion
+
+        #region HLProgram
 
         public HLProgram Program
         {
@@ -35,69 +52,81 @@ namespace iRobotGUI.Controls
             }
         }
 
-        private int selectedInstructionIndex;
-        private Instruction selectedInstruction;
+        #endregion
 
-        public ProgramList()
+        #region ListView1_Loaded
+
+        void ListView1_Loaded(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
-        }
-
-        #region private methods
-
-        private void ShowSongDialog(Instruction ins)
-        {
-            SongWindow dlg = new SongWindow();
-            dlg.Owner = Window.GetWindow(this);
-            dlg.Ins = ins;
-            dlg.ShowDialog();
-        }
-
-        private void ShowLedDialog(Instruction ins)
-        {
-            LedWindow dlg = new LedWindow();
-            dlg.Owner = Window.GetWindow(this);
-            dlg.Ins = ins;
-            dlg.ShowDialog();
-            UpdateContent();
-
+            this.dragMgr = new ListViewDragDropManager<Instruction>(ListviewProgram);
+            ListviewProgram.PreviewMouseLeftButtonDown += NewPreviewMouseLeftButtonDown;
+            ListviewProgram.Drop -= dragMgr.listView_Drop;
+            ListviewProgram.Drop += NewDrop;
         }
 
         #endregion
-        
 
+        #region event handler
 
-        private void ListboxProgram_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        void NewPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
-            switch (selectedInstruction.opcode)
+            if (e.ClickCount == 2)
             {
-                case Instruction.FORWARD:
-
-                    break;
-                case Instruction.LEFT:
-                    break;
-                case Instruction.LED:
-                    ShowLedDialog(selectedInstruction);
-                    break;
-                case Instruction.SONG_DEF:
-                    ShowSongDialog(selectedInstruction);
-                    break;
+                Instruction selectedIns = this.ListviewProgram.SelectedItem as Instruction;
+                switch (selectedIns.opcode)
+                {
+                    case Instruction.FORWARD:
+                        break;
+                    case Instruction.LEFT:
+                        break;
+                    case Instruction.LED:
+                        ShowLedDialog(selectedIns);
+                        break;
+                    case Instruction.SONG_DEF:
+                        ShowSongDialog(selectedIns);
+                        break;
+                }
             }
-        }
-
-        private void ListBox_DragEnter(object sender, DragEventArgs e)
-        {
 
         }
 
-        private void ListBox_Drop(object sender, DragEventArgs e)
+        void NewDrop(object sender, DragEventArgs e)
         {
+            // drag inside program list
+            if (this.dragMgr.IsDragInProgress)
+            {
+                Instruction data = e.Data.GetData(typeof(Instruction)) as Instruction;
+                if (data == null)
+                    return;
 
-            if (e.Data.GetDataPresent(DataFormats.StringFormat))
+                int oldIndex = this.ListviewProgram.Items.IndexOf(data);
+                int newIndex = this.dragMgr.IndexUnderDragCursor;
+
+                if (newIndex < 0)
+                {
+                    if (this.ListviewProgram.Items.Count == 0)
+                        newIndex = 0;
+                    else if (oldIndex < 0)
+                        newIndex = this.ListviewProgram.Items.Count;
+                    else
+                        return;
+                }
+
+                if (oldIndex == newIndex)
+                    return;
+
+                this.ListviewProgram.Items.Remove(data);
+                this.ListviewProgram.Items.Insert(newIndex, data);
+
+                e.Effects = DragDropEffects.Move;
+
+                program.Rearrange(data, newIndex);
+            }
+            // drag from instruction panel to program list
+            else
             {
                 string op = (string)e.Data.GetData(DataFormats.StringFormat);
-
                 Instruction newIns = null;
                 switch (op)
                 {
@@ -120,28 +149,45 @@ namespace iRobotGUI.Controls
                 }
 
                 UpdateContent();
-                ListboxProgram.SelectedItem = newIns;
+                ListviewProgram.SelectedItem = newIns;
             }
         }
 
-        private void ListBoxProgram_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        #endregion
+
+        #region show dialogs
+
+        private void ShowSongDialog(Instruction ins)
         {
-            if (ListboxProgram.SelectedItem != null)
-            {
-                selectedInstructionIndex = ListboxProgram.SelectedIndex;
-                selectedInstruction = ListboxProgram.SelectedItem as Instruction;
-            }
+            SongWindow dlg = new SongWindow();
+            dlg.Owner = Window.GetWindow(this);
+            dlg.Ins = ins;
+            dlg.ShowDialog();
         }
+
+        private void ShowLedDialog(Instruction ins)
+        {
+            LedWindow dlg = new LedWindow();
+            dlg.Owner = Window.GetWindow(this);
+            dlg.Ins = ins;
+            dlg.ShowDialog();
+            UpdateContent();
+        }
+
+        #endregion
+
+        #region updateContent
 
         public void UpdateContent()
         {
-            ListboxProgram.Items.Clear();
+            ListviewProgram.Items.Clear();
             foreach (Instruction i in program.GetInstructionList())
             {
-                ListboxProgram.Items.Add(i);
+                ListviewProgram.Items.Add(i);
             }
         }
 
+        #endregion
 
     }
 }

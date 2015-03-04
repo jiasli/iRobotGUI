@@ -55,5 +55,11 @@ namespace iRobotGUI
         {            
             return string.Join("\n", _program);
         }
+
+        public void Rearrange(Instruction ins, int index)
+        {
+            _program.Remove(ins);
+            _program.Insert(index, ins);
+        }
     }
 }

@@ -79,9 +79,12 @@
       <DependentUpon>DemoParam.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\IInsParamControl.cs" />
+    <Compile Include="Controls\DragAdorner.cs" />
     <Compile Include="Controls\InstructionPanel.xaml.cs">
       <DependentUpon>InstructionPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ListViewDragDropManager.cs" />
+    <Compile Include="Controls\MouseUtilities.cs" />
     <Compile Include="Controls\ProgramList.xaml.cs">
       <DependentUpon>ProgramList.xaml</DependentUpon>
     </Compile>
