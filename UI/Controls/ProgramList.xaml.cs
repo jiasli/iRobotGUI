@@ -13,7 +13,6 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Input;
 
-
 namespace iRobotGUI.Controls
 {
     /// <summary>
@@ -23,18 +22,8 @@ namespace iRobotGUI.Controls
     {
         #region data
 
+        private ListViewDragDropManager<Instruction> dragMgr;
         private HLProgram program;
-
-        private int selectedInstructionIndex;
-        private Instruction selectedInstruction;
-
-        bool canInitiateDrag;
-        bool showDragAdorner;
-        double dragAdornerOpacity = 0.7;
-        int indexToSelect;
-        Point ptMouseDown;
-        DragAdorner dragAdorner;
-        Instruction ItemUnderDragCursor;
 
         #endregion
 
@@ -43,29 +32,10 @@ namespace iRobotGUI.Controls
         public ProgramList()
         {
             InitializeComponent();
-            this.canInitiateDrag = false;
-            this.showDragAdorner = true;
-            this.indexToSelect = -1;
+            this.Loaded += ListView1_Loaded;
         }
 
         #endregion
-
-        private void ShowSongDialog(Instruction ins)
-        {
-            SongWindow dlg = new SongWindow();
-            dlg.Owner = Window.GetWindow(this);
-            dlg.Ins = ins;
-            dlg.ShowDialog();
-        }
-
-        private void ShowLedDialog(Instruction ins)
-        {
-            LedWindow dlg = new LedWindow();
-            dlg.Owner = Window.GetWindow(this);
-            dlg.Ins = ins;
-            dlg.ShowDialog();
-            UpdateContent();
-        }
 
         #region HLProgram
 
@@ -84,110 +54,61 @@ namespace iRobotGUI.Controls
 
         #endregion
 
-        #region event handling methods
+        #region ListView1_Loaded
 
-        void listBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void ListView1_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.dragMgr = new ListViewDragDropManager<Instruction>(ListviewProgram);
+            ListviewProgram.PreviewMouseLeftButtonDown += NewPreviewMouseLeftButtonDown;
+            ListviewProgram.Drop -= dragMgr.listView_Drop;
+            ListviewProgram.Drop += NewDrop;
+        }
+
+        #endregion
+
+        #region event handler
+
+        void NewPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
             if (e.ClickCount == 2)
             {
-                switch (selectedInstruction.opcode)
+                Instruction selectedIns = this.ListviewProgram.SelectedItem as Instruction;
+                switch (selectedIns.opcode)
                 {
                     case Instruction.FORWARD:
                         break;
                     case Instruction.LEFT:
                         break;
                     case Instruction.LED:
-                        ShowLedDialog(selectedInstruction);
+                        ShowLedDialog(selectedIns);
                         break;
                     case Instruction.SONG_DEF:
-                        ShowSongDialog(selectedInstruction);
+                        ShowSongDialog(selectedIns);
                         break;
                 }
             }
-            else
-            {
-                int index = this.IndexUnderDragCursor;
-                this.canInitiateDrag = index > -1;
-
-                if (this.canInitiateDrag)
-                {
-                    this.ptMouseDown = MouseUtilities.GetMousePosition(ListboxProgram);
-                    this.indexToSelect = index;
-                }
-                else
-                {
-                    this.ptMouseDown = new Point(-10000, -10000);
-                    this.indexToSelect = -1;
-                }
-                if (ListboxProgram.SelectedIndex != this.indexToSelect)
-                    ListboxProgram.SelectedIndex = this.indexToSelect;
-
-                if (ListboxProgram.SelectedItem == null)
-                    return;
-
-                ListBoxItem itemToDrag = this.GetListBoxItem(selectedInstructionIndex);
-                if (itemToDrag == null)
-                    return;
-
-                AdornerLayer adornerLayer = this.ShowDragAdornerResolved ? this.InitializeAdornerLayer(itemToDrag) : null;
-
-                this.PerformDragOperation();
-
-                this.FinishDragOperation(itemToDrag, adornerLayer);
-            }
 
         }
 
-        void listBox_DragOver(object sender, DragEventArgs e)
+        void NewDrop(object sender, DragEventArgs e)
         {
-           if (this.ShowDragAdornerResolved)
-                this.UpdateDragAdornerLocation();
-            
-            // Update the item which is known to be currently under the drag cursor.
-            int index = this.IndexUnderDragCursor;
-            this.ItemUnderDragCursor = index < 0 ? null : ListboxProgram.Items[index] as Instruction;
-        }
-
-        void listBox_DragLeave(object sender, DragEventArgs e)
-        {
-            if (!this.IsMouseOver(ListboxProgram))
+            // drag inside program list
+            if (this.dragMgr.IsDragInProgress)
             {
-                if (this.ItemUnderDragCursor != null)
-                    this.ItemUnderDragCursor = null;
-
-                if (this.dragAdorner != null)
-                    this.dragAdorner.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        void listBox_DragEnter(object sender, DragEventArgs e)
-        {
-            if (this.dragAdorner != null && this.dragAdorner.Visibility != Visibility.Visible)
-            {
-                this.UpdateDragAdornerLocation();
-                this.dragAdorner.Visibility = Visibility.Visible;
-            }
-        }
-
-        void listBox_Drop(object sender, DragEventArgs e)
-        {
-            /// drag inside program list
-            if (e.Data.GetDataPresent("draghere"))
-            {
-                Instruction data = e.Data.GetData("draghere") as Instruction;
+                Instruction data = e.Data.GetData(typeof(Instruction)) as Instruction;
                 if (data == null)
                     return;
 
-                int oldIndex = ListboxProgram.Items.IndexOf(data);
-                int newIndex = this.IndexUnderDragCursor;
+                int oldIndex = this.ListviewProgram.Items.IndexOf(data);
+                int newIndex = this.dragMgr.IndexUnderDragCursor;
 
                 if (newIndex < 0)
                 {
-                    if (ListboxProgram.Items.Count == 0)
+                    if (this.ListviewProgram.Items.Count == 0)
                         newIndex = 0;
                     else if (oldIndex < 0)
-                        newIndex = ListboxProgram.Items.Count;
+                        newIndex = this.ListviewProgram.Items.Count;
                     else
                         return;
                 }
@@ -195,14 +116,14 @@ namespace iRobotGUI.Controls
                 if (oldIndex == newIndex)
                     return;
 
-                ListboxProgram.Items.Remove(data);
-                ListboxProgram.Items.Insert(newIndex, data);
+                this.ListviewProgram.Items.Remove(data);
+                this.ListviewProgram.Items.Insert(newIndex, data);
 
                 e.Effects = DragDropEffects.Move;
 
                 program.Rearrange(data, newIndex);
             }
-            /// drag from instructin panel to program list
+            // drag from instruction panel to program list
             else
             {
                 string op = (string)e.Data.GetData(DataFormats.StringFormat);
@@ -228,121 +149,45 @@ namespace iRobotGUI.Controls
                 }
 
                 UpdateContent();
-                ListboxProgram.SelectedItem = newIns;
-            }
-        }
-
-        private void ListboxProgram_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ListboxProgram.SelectedItem != null)
-            {
-                selectedInstructionIndex = ListboxProgram.SelectedIndex;
-                selectedInstruction = ListboxProgram.SelectedItem as Instruction;
+                ListviewProgram.SelectedItem = newIns;
             }
         }
 
         #endregion
 
-        int IndexUnderDragCursor
+        #region show dialogs
+
+        private void ShowSongDialog(Instruction ins)
         {
-            get
-            {
-                int index = -1;
-                for (int i = 0; i < ListboxProgram.Items.Count; ++i)
-                {
-                    ListBoxItem item = this.GetListBoxItem(i);
-                    if (this.IsMouseOver(item))
-                    {
-                        index = i;
-                        break;
-                    }
-                }
-                return index;
-            }
+            SongWindow dlg = new SongWindow();
+            dlg.Owner = Window.GetWindow(this);
+            dlg.Ins = ins;
+            dlg.ShowDialog();
         }
 
-        ListBoxItem GetListBoxItem(int index)
+        private void ShowLedDialog(Instruction ins)
         {
-            if (ListboxProgram.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated)
-                return null;
-
-            return ListboxProgram.ItemContainerGenerator.ContainerFromIndex(index) as ListBoxItem;
+            LedWindow dlg = new LedWindow();
+            dlg.Owner = Window.GetWindow(this);
+            dlg.Ins = ins;
+            dlg.ShowDialog();
+            UpdateContent();
         }
 
-        bool IsMouseOver(Visual target)
-        {
-            Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
-            Point mousePos = MouseUtilities.GetMousePosition(target);
-            return bounds.Contains(mousePos);
-        }
+        #endregion
 
-        void PerformDragOperation()
-        {
-            Instruction selectedItem = ListboxProgram.SelectedItem as Instruction;
-            DragDropEffects allowedEffects = DragDropEffects.Move | DragDropEffects.Move | DragDropEffects.Link;
-            DataObject dragData = new DataObject("draghere", selectedItem);
-            DragDrop.DoDragDrop(ListboxProgram, dragData, allowedEffects);
-            ListboxProgram.SelectedItem = selectedItem;
-        }
-
-        void FinishDragOperation(ListBoxItem draggedItem, AdornerLayer adornerLayer)
-        {
-            if (this.ItemUnderDragCursor != null)
-                this.ItemUnderDragCursor = null;
-
-            if (adornerLayer != null)
-            {
-                adornerLayer.Remove(this.dragAdorner);
-                this.dragAdorner = null;
-            }
-        }
-
-        bool ShowDragAdornerResolved
-        {
-            get { return this.showDragAdorner && this.dragAdornerOpacity > 0.0; }
-        }
-
-        AdornerLayer InitializeAdornerLayer(ListBoxItem itemToDrag)
-        {
-            VisualBrush brush = new VisualBrush(itemToDrag);
-
-            this.dragAdorner = new DragAdorner(ListboxProgram, itemToDrag.RenderSize, brush);
-
-            // Set the drag adorner's opacity.		
-            this.dragAdorner.Opacity = this.dragAdornerOpacity;
-
-            AdornerLayer layer = AdornerLayer.GetAdornerLayer(ListboxProgram);
-            layer.Add(dragAdorner);
-
-            this.ptMouseDown = MouseUtilities.GetMousePosition(ListboxProgram);
-
-            return layer;
-        }
-
-        void UpdateDragAdornerLocation()
-        {
-            if (this.dragAdorner != null)
-            {
-                Point ptCursor = MouseUtilities.GetMousePosition(ListboxProgram);
-
-                double left = ptCursor.X - this.ptMouseDown.X;
-
-                ListBoxItem itemBeingDragged = this.GetListBoxItem(this.indexToSelect);
-                Point itemLoc = itemBeingDragged.TranslatePoint(new Point(0, 0), ListboxProgram);
-                double top = itemLoc.Y + ptCursor.Y - this.ptMouseDown.Y;
-
-                this.dragAdorner.SetOffsets(left, top);
-            }
-        }
+        #region updateContent
 
         public void UpdateContent()
         {
-            ListboxProgram.Items.Clear();
+            ListviewProgram.Items.Clear();
             foreach (Instruction i in program.GetInstructionList())
             {
-                ListboxProgram.Items.Add(i);
+                ListviewProgram.Items.Add(i);
             }
         }
-    }
 
+        #endregion
+
+    }
 }

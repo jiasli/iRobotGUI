@@ -9,7 +9,6 @@ namespace iRobotGUI.Controls
 {
     class MouseUtilities
     {
-
         [StructLayout(LayoutKind.Sequential)]
         private struct Win32Point
         {

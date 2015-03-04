@@ -6,13 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="240">
     <Grid>
-        <ListBox x:Name="ListboxProgram"
-                 AllowDrop="True"
-                 PreviewMouseLeftButtonDown ="listBox_PreviewMouseLeftButtonDown"
-                 DragEnter="listBox_DragEnter"
-                 DragLeave="listBox_DragLeave"
-                 DragOver="listBox_DragOver"
-                 Drop = "listBox_Drop"
-                 SelectionChanged="ListboxProgram_SelectionChanged"/>
+        <ListView x:Name="ListviewProgram"/>
     </Grid>
 </UserControl>

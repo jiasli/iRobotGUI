@@ -8,7 +8,6 @@ using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using System.Windows.Controls;
 
-
 namespace iRobotGUI.Controls
 {
     class DragAdorner : Adorner
