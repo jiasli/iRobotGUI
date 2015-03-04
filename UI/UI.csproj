@@ -78,20 +78,22 @@
     <Compile Include="Controls\DemoParam.xaml.cs">
       <DependentUpon>DemoParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\IInsParamControl.cs" />
+    <Compile Include="Windows\ParamWindowInvoker.cs" />
+    <Compile Include="Controls\BaseParamControl.cs" />
     <Compile Include="Controls\DragAdorner.cs" />
     <Compile Include="Controls\InstructionPanel.xaml.cs">
       <DependentUpon>InstructionPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ListViewDragDropManager.cs" />
     <Compile Include="Controls\MouseUtilities.cs" />
+    <Compile Include="Windows\BaseParamWindow.cs" />
     <Compile Include="Controls\ProgramList.xaml.cs">
       <DependentUpon>ProgramList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DemoWindow.xaml.cs">
+    <Compile Include="Windows\DemoWindow.xaml.cs">
       <DependentUpon>DemoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LedWindow.xaml.cs">
+    <Compile Include="Windows\LedWindow.xaml.cs">
       <DependentUpon>LedWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\LedParam.xaml.cs">
@@ -100,7 +102,7 @@
     <Compile Include="OutputWindow.xaml.cs">
       <DependentUpon>OutputWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SongWindow.xaml.cs">
+    <Compile Include="Windows\SongWindow.xaml.cs">
       <DependentUpon>SongWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WinAvrConnector.cs" />
@@ -120,11 +122,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DemoWindow.xaml">
+    <Page Include="Windows\DemoWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LedWindow.xaml">
+    <Page Include="Windows\LedWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,7 +150,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SongWindow.xaml">
+    <Page Include="Windows\SongWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

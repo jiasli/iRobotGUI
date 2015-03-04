@@ -17,9 +17,8 @@ namespace iRobotGUI
     /// <summary>
     /// Interaction logic for LEDWindow.xaml
     /// </summary>
-    public partial class LedWindow : Window
-    {
-        public Instruction Ins;
+    public partial class LedWindow : BaseParamWindow
+    {        
 
         public LedWindow()
         {

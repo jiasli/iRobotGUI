@@ -72,21 +72,9 @@ namespace iRobotGUI.Controls
         {
 
             if (e.ClickCount == 2)
-            {
+            {                
                 Instruction selectedIns = this.ListviewProgram.SelectedItem as Instruction;
-                switch (selectedIns.opcode)
-                {
-                    case Instruction.FORWARD:
-                        break;
-                    case Instruction.LEFT:
-                        break;
-                    case Instruction.LED:
-                        ShowLedDialog(selectedIns);
-                        break;
-                    case Instruction.SONG_DEF:
-                        ShowSongDialog(selectedIns);
-                        break;
-                }
+                DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));               
             }
 
         }
@@ -127,22 +115,8 @@ namespace iRobotGUI.Controls
             else
             {
                 string op = (string)e.Data.GetData(DataFormats.StringFormat);
-                Instruction newIns = null;
-                switch (op)
-                {
-                    case Instruction.FORWARD:
-                        newIns = new Instruction(Instruction.FORWARD + " 500,3");
-                        break;
-                    case Instruction.LEFT:
-                        newIns = new Instruction(Instruction.LEFT + " 90");
-                        break;
-                    case Instruction.LED:
-                        newIns = new Instruction(Instruction.LED + " 10,128,128");
-                        break;
-                    case Instruction.SONG_DEF:
-                        newIns = new Instruction(Instruction.SONG_DEF + " 0");
-                        break;
-                }
+                Instruction newIns = Instruction.CreatFromOpcode(op);               
+
                 if (newIns != null)
                 {
                     program.Add(newIns);
@@ -155,26 +129,7 @@ namespace iRobotGUI.Controls
 
         #endregion
 
-        #region show dialogs
 
-        private void ShowSongDialog(Instruction ins)
-        {
-            SongWindow dlg = new SongWindow();
-            dlg.Owner = Window.GetWindow(this);
-            dlg.Ins = ins;
-            dlg.ShowDialog();
-        }
-
-        private void ShowLedDialog(Instruction ins)
-        {
-            LedWindow dlg = new LedWindow();
-            dlg.Owner = Window.GetWindow(this);
-            dlg.Ins = ins;
-            dlg.ShowDialog();
-            UpdateContent();
-        }
-
-        #endregion
 
         #region updateContent
 

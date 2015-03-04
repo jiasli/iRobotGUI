@@ -17,9 +17,8 @@ namespace iRobotGUI
     /// <summary>
     /// Interaction logic for DemoWindow.xaml
     /// </summary>
-    public partial class DemoWindow : Window
+    public partial class DemoWindow : BaseParamWindow
     {
-        public Instruction Ins;
         public DemoWindow()
         {
             InitializeComponent();

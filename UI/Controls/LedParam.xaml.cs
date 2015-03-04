@@ -14,12 +14,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace iRobotGUI
+namespace iRobotGUI.Controls
 {
     /// <summary>
     /// Interaction logic for LEDControl.xaml
     /// </summary>
-    public partial class LedParam : UserControl
+    public partial class LedParam : BaseParamControl
     {
         Color onColor = Colors.Lime;
         Color offColor = Colors.Black;

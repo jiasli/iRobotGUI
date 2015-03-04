@@ -20,11 +20,10 @@ namespace iRobotGUI
     /// <summary>
     /// Interaction logic for Song.xaml
     /// </summary>
-    public partial class SongWindow : Window
+    public partial class SongWindow : BaseParamWindow
     {
         private OutputDevice outDevice;
         public string songInsStr;
-        public Instruction Ins;
 
         /// <summary>
         /// A class to represent the musical note.

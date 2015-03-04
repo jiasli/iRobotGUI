@@ -1,26 +1,27 @@
-﻿<UserControl x:Class="iRobotGUI.LedParam"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Background="White" Height="270">
-    <Grid>
-        <Image HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None" Source="pic/LED_panel.png"/>
+﻿<src:BaseParamControl x:Class="iRobotGUI.Controls.LedParam"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					  xmlns:src="clr-namespace:iRobotGUI.Controls"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 mc:Ignorable="d" Background="White" Height="270">
+	<Grid>
+		<Image HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None" Source="pic/LED_panel.png"/>
 
-        <Ellipse x:Name="EllipsePower" Fill="Black" HorizontalAlignment="Left" Height="21" Width="21" Margin="63,81,0,0" Stroke="Black" VerticalAlignment="Top" />
-        <Ellipse x:Name="EllipsePlay" Fill="Black" HorizontalAlignment="Left" Height="21" Width="21" Margin="235,81,0,0" Stroke="Black" VerticalAlignment="Top" />
-        <Ellipse x:Name="EllipseAdvance" Fill="Black" HorizontalAlignment="Left" Height="21" Width="21" Margin="336,81,0,0" Stroke="Black" VerticalAlignment="Top" />
-        <CheckBox x:Name="CheckBoxPlay" Content="" HorizontalAlignment="Left" Margin="238,154,0,0" VerticalAlignment="Top" Checked="CheckBoxPlay_Checked" Unchecked="CheckBoxPlay_Unchecked"/>
-        <CheckBox x:Name="CheckBoxAdvance" Content="" HorizontalAlignment="Left" Margin="339,154,0,0" VerticalAlignment="Top" Checked="CheckBoxAdvance_Checked" Unchecked="CheckBoxAdvance_Unchecked"/>
-
-
-        <Label Content="Color" HorizontalAlignment="Left" Margin="32,150,0,0" VerticalAlignment="Top"/>
-        <Slider x:Name="SliderColor" HorizontalAlignment="Left" Margin="32,180,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="SliderColor_ValueChanged"/>
-
-        <Label Content="Intensity" HorizontalAlignment="Left" Margin="32,200,0,0" VerticalAlignment="Top"/>
-        <Slider x:Name="SliderIntensity" HorizontalAlignment="Left" Margin="32,230,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="SliderIntensity_ValueChanged"/>
+		<Ellipse x:Name="EllipsePower" Fill="Black" HorizontalAlignment="Left" Height="21" Width="21" Margin="63,81,0,0" Stroke="Black" VerticalAlignment="Top" />
+		<Ellipse x:Name="EllipsePlay" Fill="Black" HorizontalAlignment="Left" Height="21" Width="21" Margin="235,81,0,0" Stroke="Black" VerticalAlignment="Top" />
+		<Ellipse x:Name="EllipseAdvance" Fill="Black" HorizontalAlignment="Left" Height="21" Width="21" Margin="336,81,0,0" Stroke="Black" VerticalAlignment="Top" />
+		<CheckBox x:Name="CheckBoxPlay" Content="" HorizontalAlignment="Left" Margin="238,154,0,0" VerticalAlignment="Top" Checked="CheckBoxPlay_Checked" Unchecked="CheckBoxPlay_Unchecked"/>
+		<CheckBox x:Name="CheckBoxAdvance" Content="" HorizontalAlignment="Left" Margin="339,154,0,0" VerticalAlignment="Top" Checked="CheckBoxAdvance_Checked" Unchecked="CheckBoxAdvance_Unchecked"/>
 
 
+		<Label Content="Color" HorizontalAlignment="Left" Margin="32,150,0,0" VerticalAlignment="Top"/>
+		<Slider x:Name="SliderColor" HorizontalAlignment="Left" Margin="32,180,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="SliderColor_ValueChanged"/>
 
-    </Grid>
-</UserControl>
+		<Label Content="Intensity" HorizontalAlignment="Left" Margin="32,200,0,0" VerticalAlignment="Top"/>
+		<Slider x:Name="SliderIntensity" HorizontalAlignment="Left" Margin="32,230,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="SliderIntensity_ValueChanged"/>
+
+
+
+	</Grid>
+</src:BaseParamControl>

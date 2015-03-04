@@ -58,6 +58,9 @@ namespace iRobotGUI
             DELAY,
         };
 
+        
+
+
         public Instruction(string opcode, string[] parameters)
         {
             setFields(opcode, parameters);
@@ -75,6 +78,34 @@ namespace iRobotGUI
                 setFields(insSplitted[0], insSplitted[1].Split(new char[] { ',' }));
             }
             
+        }
+
+        /// <summary>
+        /// A factory to create new Instruction object by opcode
+        /// </summary>
+        /// <returns></returns>
+        public static Instruction CreatFromOpcode(string opcode)
+        {
+            Instruction newIns = null;
+            switch (opcode)
+            {
+                case Instruction.FORWARD:
+                    newIns = new Instruction(Instruction.FORWARD + " 500,3");
+                    break;
+                case Instruction.LEFT:
+                    newIns = new Instruction(Instruction.LEFT + " 90");
+                    break;
+                case Instruction.LED:
+                    newIns = new Instruction(Instruction.LED + " 10,128,128");
+                    break;
+                case Instruction.SONG_DEF:
+                    newIns = new Instruction(Instruction.SONG_DEF + " 0");
+                    break;
+                case Instruction.DEMO:
+                    newIns = new Instruction(Instruction.DEMO + " 0");
+                    break;
+            }
+            return newIns;
         }
 
         private void setFields(string opcode)

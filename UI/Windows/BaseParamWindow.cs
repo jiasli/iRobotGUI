@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
-namespace iRobotGUI.Controls
-{
-    interface IInsParamControl
+namespace iRobotGUI
+{         
+    public class BaseParamWindow : Window
     {
-        Instruction CurrentIns
+        public Instruction Ins
         {
             get;
             set;
