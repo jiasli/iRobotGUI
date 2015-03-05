@@ -221,6 +221,10 @@
   <ItemGroup>
     <Resource Include="Controls\pic\demo.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Controls\pic\if.png" />
+    <Resource Include="Controls\pic\loop.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
