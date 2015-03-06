@@ -50,7 +50,10 @@ namespace iRobotGUI.Controls
 			set
 			{
 				program = value;
-				UpdateContent();
+				ObservableCollection<Instruction> Inss = CreateInstructionObservableCollection(program);
+				this.ListviewProgram.ItemsSource = Inss;
+
+				//UpdateContent();
 			}
 		}
 
@@ -58,12 +61,30 @@ namespace iRobotGUI.Controls
 
 		#region ListView1_Loaded
 
+
+		public static ObservableCollection<Instruction> CreateInstructionObservableCollection(HLProgram program)
+		{
+			ObservableCollection<Instruction> list = new ObservableCollection<Instruction>();
+
+			foreach(Instruction ins in program.GetInstructionList())
+			{
+				list.Add(ins);
+			}		
+
+			return list;
+		}
+
+
+
 		void ListView1_Loaded(object sender, RoutedEventArgs e)
 		{
 			this.dragMgr = new ListViewDragDropManager<Instruction>(ListviewProgram);
 			ListviewProgram.PreviewMouseLeftButtonDown += NewPreviewMouseLeftButtonDown;
 			ListviewProgram.Drop -= dragMgr.listView_Drop;
 			ListviewProgram.Drop += NewDrop;
+
+			ObservableCollection<Instruction> Inss = CreateInstructionObservableCollection(program);
+			this.ListviewProgram.ItemsSource = Inss;
 		}
 
 		#endregion
@@ -135,6 +156,9 @@ namespace iRobotGUI.Controls
 
 		#region updateContent
 
+		/// <summary>
+		///  Refresh contents in ListView according to current program.
+		/// </summary>
 		public void UpdateContent()
 		{
 			ListviewProgram.Items.Clear();

@@ -39,6 +39,18 @@ namespace iRobotGUI
 		public const byte LESS_THAN_OR_EQUAL = 5;
 		#endregion
 
+
+		// For MVVM
+		public string InsString
+		{
+			get
+			{
+				return ToString();
+			}
+		}
+
+
+
 		public readonly string[] OpCodeSet = new string[] 
 		{ 
 			FORWARD,
@@ -176,6 +188,8 @@ namespace iRobotGUI
 					return "";
 			}
 		}
+
+		
 
 	}
 }
