@@ -5,14 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Width="210" Height="450">
     <UserControl.Resources>
-        <Style x:Key="InsPicStyle" TargetType="Image">
+        <Style TargetType="Image">
             <Setter Property="Width" Value="45" />
             <Setter Property="Height" Value="45" />
             <Setter Property="Stretch" Value="Fill" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-            <Setter Property="ToolTipService.ShowDuration" Value="100000" />  
+            <Setter Property="ToolTipService.ShowDuration" Value="100000" />
             <EventSetter Event="MouseDown" Handler="MouseMove_General" />
         </Style>
 
@@ -24,21 +24,18 @@
     <Grid Grid.Row="1" Grid.Column="0">
 
         <Label Content="Navigation"    Style="{StaticResource LabelStyle}" Margin="27,10,0,0"   />
-        <Label Content="Sensor"        Style="{StaticResource LabelStyle}" Margin="27,128,0,0"  />
-        <Label Content="LED and Sound" Style="{StaticResource LabelStyle}" Margin="27,221,0,0"  />
-        <Label Content="Demo"          Style="{StaticResource LabelStyle}" Margin="152,221,0,0" />
-        <Label Content="Logic"         Style="{StaticResource LabelStyle}" Margin="27,317,0,0" />
+        <Label Content="LED and Sound" Style="{StaticResource LabelStyle}" Margin="30,140,0,0"  />
+        <Label Content="Demo"          Style="{StaticResource LabelStyle}" Margin="155,140,0,0" />
+        <Label Content="Logic"         Style="{StaticResource LabelStyle}" Margin="30,236,0,0" />
 
-        <Image Source="pic/forward.png"  Tag="FORWARD"  Style="{StaticResource InsPicStyle}" Margin="81,36,0,0"   />
-        <Image Source="pic/backward.png" Tag="BACKWARD" Style="{StaticResource InsPicStyle}" Margin="81,81,0,0"   />
-        <Image Source="pic/left.png"     Tag="LEFT"     Style="{StaticResource InsPicStyle}" Margin="31,62,0,0"   />
-        <Image Source="pic/right.png"    Tag="RIGHT"    Style="{StaticResource InsPicStyle}" Margin="131,62,0,0"  />
-        <Image Source="pic/cliff.jpg"    Tag="CLIFF"    Style="{StaticResource InsPicStyle}" Margin="78,159,0,0"  />
-        <Image Source="pic/bump.jpg"     Tag="BUMP"     Style="{StaticResource InsPicStyle}" Margin="28,159,0,0"  />
-        <Image Source="pic/led.jpg"      Tag="LED"      Style="{StaticResource InsPicStyle}" Margin="28,252,0,0"  ToolTip="LED" />
-        <Image Source="pic/song.png"     Tag="SONG_DEF" Style="{StaticResource InsPicStyle}" Margin="78,252,0,0"  ToolTip="Define a song" />
-        <Image Source="pic/demo.jpg"     Tag="DEMO"     Style="{StaticResource InsPicStyle}" Margin="152,252,0,0" ToolTip="Play a demo" />
-        <Image Source="pic/if.png"       Tag="IF"       Style="{StaticResource InsPicStyle}" Margin="28,348,0,0"  ToolTip="If"  />
-        <Image Source="pic/loop.png"     Tag="LOOP"     Style="{StaticResource InsPicStyle}" Margin="78,348,0,0"  ToolTip="Loop" />
+        <Image Source="pic/forward.png"  Tag="FORWARD"  Margin="81,36,0,0"   />
+        <Image Source="pic/backward.png" Tag="BACKWARD" Margin="81,81,0,0"   />
+        <Image Source="pic/left.png"     Tag="LEFT"     Margin="31,62,0,0"   />
+        <Image Source="pic/right.png"    Tag="RIGHT"    Margin="131,62,0,0"  />
+        <Image Source="pic/led.jpg"      Tag="LED"      Margin="31,171,0,0"  ToolTip="LED" />
+        <Image Source="pic/song.png"     Tag="SONG_DEF" Margin="81,171,0,0"  ToolTip="Define a song" />
+        <Image Source="pic/demo.jpg"     Tag="DEMO"     Margin="155,171,0,0" ToolTip="Play a demo" />
+        <Image Source="pic/if.png"       Tag="IF"       Margin="31,267,0,0"  ToolTip="If"  />
+        <Image Source="pic/loop.png"     Tag="LOOP"     Margin="81,267,0,0"  ToolTip="Loop" />
     </Grid>
 </UserControl>
