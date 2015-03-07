@@ -1,9 +1,10 @@
 ﻿<src:BaseParamWindow
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:iRobotGUI.Controls" 
-        xmlns:src="clr-namespace:iRobotGUI" x:Class="iRobotGUI.DemoWindow"
-        Title="Demo" Height="140" Width="400" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:local="clr-namespace:iRobotGUI.Controls" 
+		xmlns:src="clr-namespace:iRobotGUI"     
+        x:Class="iRobotGUI.DemoWindow"
+		Title="Demo" Height="140" Width="400" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">   
     <Grid>
         <local:DemoParam x:Name="DemoControlInstance" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0"/>
     </Grid>

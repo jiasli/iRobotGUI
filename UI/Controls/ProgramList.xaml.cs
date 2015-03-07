@@ -77,6 +77,7 @@ namespace iRobotGUI.Controls
 			{
 				Instruction selectedIns = this.ListviewProgram.SelectedItem as Instruction;
 				DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
+				UpdateContent();
 			}
 
 		}

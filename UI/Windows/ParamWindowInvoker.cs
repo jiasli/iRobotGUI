@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iRobotGUI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,7 @@ namespace iRobotGUI.Controls
 					dlg = new SongWindow();
 					break;
 				case Instruction.DEMO:
-					dlg = new DemoWindow();
+					dlg = new DemoWindow();					
 					break;
 			}          
 

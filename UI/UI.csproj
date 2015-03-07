@@ -78,6 +78,7 @@
     <Compile Include="Controls\DemoParam.xaml.cs">
       <DependentUpon>DemoParam.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\DemoViewModel.cs" />
     <Compile Include="Windows\LoopWindow.xaml.cs">
       <DependentUpon>LoopWindow.xaml</DependentUpon>
     </Compile>

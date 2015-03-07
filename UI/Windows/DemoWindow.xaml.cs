@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iRobotGUI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,14 +20,20 @@ namespace iRobotGUI
     /// </summary>
     public partial class DemoWindow : BaseParamWindow
     {
+		public override Instruction Ins
+		{
+			set
+			{
+				((DemoViewModel)DemoControlInstance.DataContext).Ins = value;
+			}
+		}
         public DemoWindow()
         {
             InitializeComponent();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            DemoControlInstance.CurrentIns = Ins;
+        {          
         }
 
     }
