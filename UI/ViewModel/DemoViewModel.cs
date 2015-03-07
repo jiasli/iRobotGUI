@@ -6,36 +6,24 @@ using System.Threading.Tasks;
 
 namespace iRobotGUI.ViewModel
 {
-	public class DemoViewModel
+	public class DemoViewModel : InsViewModelBase
 	{
-		private Instruction ins;
 
 		public DemoViewModel()
 		{
-			ins = Instruction.CreatFromOpcode(Instruction.DEMO);
+			Ins = Instruction.CreatFromOpcode(Instruction.DEMO);
 		}
-
-		public Instruction Ins
-		{
-			get
-			{
-				return ins;
-			}
-			set
-			{
-				ins = value;
-			}
-		}
+	
 
 		public int DemoNumber
 		{
 			get
 			{
-				return ins.parameters[0];
+				return Ins.parameters[0];
 			}
 			set
 			{
-				ins.parameters[0] = value;
+				Ins.parameters[0] = value;
 			}
 		}
 	}

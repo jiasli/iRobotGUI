@@ -16,95 +16,87 @@ using System.Windows.Shapes;
 
 namespace iRobotGUI.Controls
 {
-    /// <summary>
-    /// Interaction logic for LEDControl.xaml
-    /// </summary>
-    public partial class LedParam : BaseParamControl
-    {
-        Color onColor = Colors.Lime;
-        Color offColor = Colors.Black;
-
-        Instruction ins;
-
-        public LedParam()
-        {
-            InitializeComponent();
-        }
+	/// <summary>
+	/// Interaction logic for LEDControl.xaml
+	/// </summary>
+	public partial class LedParam : BaseParamControl
+	{
+		Color onColor = Colors.Lime;
+		Color offColor = Colors.Black;
+	
+		public LedParam()
+		{
+			InitializeComponent();
+		}
 
 
-        private void CheckBoxPlay_Checked(object sender, RoutedEventArgs e)
-        {
-            // Colors: https://msdn.microsoft.com/en-us/library/system.windows.media.colors(v=vs.110).aspx
-            EllipsePlay.Fill = new SolidColorBrush(onColor);
+		private void CheckBoxPlay_Checked(object sender, RoutedEventArgs e)
+		{
+			// Colors: https://msdn.microsoft.com/en-us/library/system.windows.media.colors(v=vs.110).aspx
+			EllipsePlay.Fill = new SolidColorBrush(onColor);
+		}
 
-            ins.parameters[0] |= 2;
-        }
+		private void CheckBoxPlay_Unchecked(object sender, RoutedEventArgs e)
+		{
+			EllipsePlay.Fill = new SolidColorBrush(offColor);            
+		}
 
-        private void CheckBoxPlay_Unchecked(object sender, RoutedEventArgs e)
-        {
-            EllipsePlay.Fill = new SolidColorBrush(offColor);
-            ins.parameters[0] &= ~2;
-        }
+		private void CheckBoxAdvance_Checked(object sender, RoutedEventArgs e)
+		{
+			EllipseAdvance.Fill = new SolidColorBrush(onColor);
+		}
 
-        private void CheckBoxAdvance_Checked(object sender, RoutedEventArgs e)
-        {
-            EllipseAdvance.Fill = new SolidColorBrush(onColor);
-            ins.parameters[0] |= 8;
-        }
+		private void CheckBoxAdvance_Unchecked(object sender, RoutedEventArgs e)
+		{
+			EllipseAdvance.Fill = new SolidColorBrush(offColor);
+		}
 
-        private void CheckBoxAdvance_Unchecked(object sender, RoutedEventArgs e)
-        {
-            EllipseAdvance.Fill = new SolidColorBrush(offColor);
-            ins.parameters[0] &= ~8;
-        }
+		// Separate event handler for Sliders, or error will happen at initialization - Original value will be modified with uninitialized Slider value
+		private void SliderColor_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			// To make sure that both controls have been initialized.
+			if (SliderColor != null && SliderIntensity!= null)
+			{
+				EllipsePower.Fill = new SolidColorBrush(GetLedRgbColor(SliderColor.Value, SliderIntensity.Value)); 
+			}
+		}
 
-        // Separate event handler for Sliders, or error will happen at initialization - Original value will be modified with uninitialized Slider value
-        private void SliderColor_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            EllipsePower.Fill = new SolidColorBrush(GetLedRgbColor(SliderColor.Value, SliderIntensity.Value));
-            ins.parameters[1] = (int)e.NewValue;
-        }
+		private void SliderIntensity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			if (SliderColor != null && SliderIntensity != null)
+			{
+				EllipsePower.Fill = new SolidColorBrush(GetLedRgbColor(SliderColor.Value, SliderIntensity.Value));
+			}
+		}
 
-        private void SliderIntensity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            EllipsePower.Fill = new SolidColorBrush(GetLedRgbColor(SliderColor.Value, SliderIntensity.Value));
-            ins.parameters[2] = (int)e.NewValue;
-        }
+		/// <summary>
+		/// Calculate the color of Power LED
+		/// </summary>
+		/// <param name="color"></param>
+		/// <param name="intensity"></param>
+		/// <returns></returns>
+		private Color GetLedRgbColor(double color, double intensity)
+		{
+			// 0, 255, 0 Green
+			// 255, 255, 0 Yellow
+			// 255, 0, 0 Red
+			Debug.WriteLine(color + " " + intensity);
+			double intensityRatio = intensity / 255.0;
 
-        private Color GetLedRgbColor(double color, double intensity)
-        {
-            // 0, 255, 0 Green
-            // 255, 255, 0 Yellow
-            // 255, 0, 0 Red
-            Debug.WriteLine(color + " " + intensity);
-            double intensityRatio = intensity / 255.0;
+			Color rgbColor;
+			if (color < 128)
+				rgbColor = Color.FromRgb(
+					(byte)(color * 2 * intensityRatio),
+					(byte)(255 * intensityRatio),
+					0);
+			else rgbColor = Color.FromRgb(
+				(byte)(255 * intensityRatio),
+				(byte)((255 - (color - 128) * 2) * intensityRatio),
+				0);
 
-            Color rgbColor;
-            if (color < 128)
-                rgbColor = Color.FromRgb(
-                    (byte)(color * 2 * intensityRatio),
-                    (byte)(255 * intensityRatio),
-                    0);
-            else rgbColor = Color.FromRgb(
-                (byte)(255 * intensityRatio),
-                (byte)((255 - (color - 128) * 2) * intensityRatio),
-                0);
-
-            return rgbColor;
-        }
-
-        public void SetInstruction(Instruction ledInstruction)
-        {
-            ins = ledInstruction;
-
-            SliderColor.Value = ins.parameters[1];
-            SliderIntensity.Value = ins.parameters[2];
-
-            // Set checkbox status according to 4th and 2nd bits      
-            CheckBoxPlay.IsChecked = (ins.parameters[0] & 2) > 0;
-            CheckBoxAdvance.IsChecked = (ins.parameters[0] & 8) > 0;
-        }
+			return rgbColor;
+		}
 
 
-    }
+	}
 }

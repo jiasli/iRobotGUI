@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iRobotGUI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,16 +19,16 @@ namespace iRobotGUI
     /// Interaction logic for LEDWindow.xaml
     /// </summary>
     public partial class LedWindow : BaseParamWindow
-    {        
-
+    {
         public LedWindow()
         {
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            LedControlInstance.SetInstruction(Ins);
-        }
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			LedControlInstance.DataContext = new LedViewModel(base.Ins);
+		}
+		  
     }
 }
