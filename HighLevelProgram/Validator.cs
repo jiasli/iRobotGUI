@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace iRobotGUI
 {
@@ -11,6 +13,8 @@ namespace iRobotGUI
         public static bool Validate(String insStr)
         {
             Instruction ins;
+            Stack IfStack = new Stack();
+            Stack LoopStack = new Stack();
             try
             {
                 ins = new Instruction(insStr);
@@ -25,6 +29,13 @@ namespace iRobotGUI
                 case Instruction.SONG_DEF:
                     return ValidateSongDef(ins);
 
+                case Instruction.LOOP:
+                    LoopStack.Push("LOOP");
+                    break;
+
+                case Instruction.END_LOOP:
+                    LoopStack.Pop();
+                    break;
             }
             return false;
         }
@@ -43,6 +54,11 @@ namespace iRobotGUI
             }
 
             return true;
+
+        }
+
+        public static bool ValidateIF()
+        {
 
         }
     }
