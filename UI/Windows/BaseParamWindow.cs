@@ -9,7 +9,7 @@ namespace iRobotGUI
 {         
     public class BaseParamWindow : Window
     {
-        public Instruction Ins
+        public virtual Instruction Ins
         {
             get;
             set;

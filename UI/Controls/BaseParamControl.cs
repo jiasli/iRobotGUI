@@ -9,7 +9,7 @@ namespace iRobotGUI.Controls
 {
     public class BaseParamControl : UserControl
     {
-        Instruction CurrentIns
+        public virtual Instruction Ins
         {
             get;
             set;

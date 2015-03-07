@@ -27,7 +27,7 @@ namespace iRobotGUI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LedControlInstance.SetInstruction(Ins);
+            LedControlInstance.Ins = base.Ins;
         }
     }
 }
