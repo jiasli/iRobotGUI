@@ -9,7 +9,7 @@ namespace iRobotGUI
 	public class Instruction
 	{
 		public string opcode;
-		public List<int> parameters;
+		public List<int> paramList;
 		public string _string;
 
 		#region OpCode
@@ -28,15 +28,15 @@ namespace iRobotGUI
 		public const string LOOP = "LOOP";
 		public const string END_LOOP = "END_LOOP";
 		public const string DELAY = "DELAY";
+		public const string READ_SENSOR = "READ_SENSOR";
 		#endregion
 
-		#region Operator
-		public const byte NOT_EQUAL = 0;
-		public const byte EQUAL = 1;
-		public const byte GREATER_THAN = 2;
-		public const byte GRAETER_THAN_OR_EQUAL = 3;
-		public const byte LESS_THAN = 4;
-		public const byte LESS_THAN_OR_EQUAL = 5;
+
+		#region Constants
+		public const int SRAIGHT = 0x8000;	// 32768
+		public const int TURN_IN_PLACE_CLOCKWISE = 0xFFFF;
+		public const int TURN_IN_PLACE_COUNTER_CLOCKWISE = 0x0001;
+
 		#endregion
 
 		public readonly string[] OpCodeSet = new string[] 
@@ -56,28 +56,57 @@ namespace iRobotGUI
 			LOOP,
 			END_LOOP, 
 			DELAY,
-		};
+			READ_SENSOR
+		};		
 
-		
-
-
-		public Instruction(string opcode, string[] parameters)
+		public Instruction(string insStr)
 		{
-			setFields(opcode, parameters);
-		}
+			// Remove leading indent.
+			insStr = insStr.Trim(new char[] { ' ', '\t' });
 
-		public Instruction(string instructionString)
-		{
-			string[] insSplitted = instructionString.Split(new char[] { ' ' });
-			if (insSplitted.Count() == 1)
+			string opcode;
+			string[] paramArray;
+
+			// Seperate the string using the first space ' '.
+			int spaceIndex = insStr.IndexOf(' ');
+			if (spaceIndex != -1)
 			{
-				setFields(insSplitted[0]);
+				// A space is found.
+				opcode = insStr.Substring(0, spaceIndex);
+				string param = insStr.Substring(spaceIndex + 1);
+				paramArray = param.Split(new char[] { ' ', ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 			}
 			else
 			{
-				setFields(insSplitted[0], insSplitted[1].Split(new char[] { ',' }));
+				// No space is found, only the opcode.
+				opcode = insStr;
+				paramArray = new string[0];
 			}
 			
+
+			if (OpCodeSet.Contains(opcode))
+			{
+				// opcode
+				this.opcode = opcode;
+			}
+			else
+			{
+				throw new InvalidOpcodeException(HLProgram.CurrentLine, opcode);
+			}
+
+			// parameters
+			this.paramList = new List<int>();
+
+			for (int i = 0; i < paramArray.Length; i++)
+			{
+				int paramInt;
+				if (Int32.TryParse(paramArray[i], out paramInt) == false)
+				{
+					throw new NonNumericParameterException(HLProgram.CurrentLine, insStr);
+				}
+				this.paramList.Add(Convert.ToInt32(paramInt));
+			}
+
 		}
 
 		/// <summary>
@@ -114,63 +143,37 @@ namespace iRobotGUI
 			return newIns;
 		}
 
-		private void setFields(string opcode)
-		{
-			if (OpCodeSet.Contains(opcode))
-			{
-				// opcode
-				this.opcode = opcode;
-			}
-			else
-			{
-				throw new InvalidOpcodeException();
-			}
-		}
-
-		private void setFields(string opcode, string[] parameters)
-		{
-			if (OpCodeSet.Contains(opcode))
-			{
-				// opcode
-				this.opcode = opcode;
-			}
-			else
-			{
-				throw new InvalidOpcodeException();
-			}
-			// parameters
-			this.parameters = new List<int>();
-			foreach (string para in parameters)
-			{
-				this.parameters.Add(Convert.ToInt32(para));
-			}
-
-
-		}
+		
 
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder(opcode);
-			if (parameters != null)
-				sb.Append(" ").Append(string.Join(",", parameters));
+			if (paramList != null)
+				sb.Append(" ").Append(string.Join(",", paramList));
 			return sb.ToString();
 		}
 
-		public static string GetOperatorSymbol(byte opeartorName)
+
+		/// <summary>
+		/// Get the text symbol of an operator that is used in C.
+		/// </summary>
+		/// <param name="opeartorName"></param>
+		/// <returns></returns>
+		public static string GetOperatorTextSymbol(int opeartorName)
 		{
 			switch (opeartorName)
 			{
-				case NOT_EQUAL:
+				case Operator.NOT_EQUAL:
 					return "!=";
-				case EQUAL:
+				case Operator.EQUAL:
 					return "==";
-				case GREATER_THAN:
+				case Operator.GREATER_THAN:
 					return ">";
-				case GRAETER_THAN_OR_EQUAL:
+				case Operator.GRAETER_THAN_OR_EQUAL:
 					return ">=";
-				case LESS_THAN:
+				case Operator.LESS_THAN:
 					return "<";
-				case LESS_THAN_OR_EQUAL:
+				case Operator.LESS_THAN_OR_EQUAL:
 					return "<=";
 				default:
 					return "";

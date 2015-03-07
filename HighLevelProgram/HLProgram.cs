@@ -6,60 +6,63 @@ using System.Threading.Tasks;
 
 namespace iRobotGUI
 {
-    /// <summary>
-    /// High-level program
-    /// </summary>
-    public class HLProgram
-    {
-        private List<Instruction> _program;
+	/// <summary>
+	/// High-level program
+	/// </summary>
+	public class HLProgram
+	{
+		public static int CurrentLine;
 
-        public const string driveExample =
+		private List<Instruction> _program;
+
+		public const string driveExample =
 @"FORWARD 10,3";
 
-        public const string driveExampleSerial =
+		public const string driveExampleSerial =
 @"137 0 10 127 255
 137 0 0 127 255";
 
-        public HLProgram()
-        {
-            _program = new List<Instruction>();
-        }
+		public HLProgram()
+		{
+			_program = new List<Instruction>();
+		}
 
-        public HLProgram(String programString)
-        {
-            _program = new List<Instruction>();
+		public HLProgram(String programString)
+		{
+			_program = new List<Instruction>();
 
-            string[] insList = programString.Split(new char[] { '\n','\r' },StringSplitOptions.RemoveEmptyEntries);
-            foreach (string insStr in insList)
-            {
-                _program.Add(new Instruction(insStr));
-            }
-        }
+			string[] inss = programString.Split(new char[] { '\n','\r' },StringSplitOptions.RemoveEmptyEntries);
+			for (int i = 0; i < inss.Length; i++ )
+			{
+				CurrentLine = i;
+				_program.Add(new Instruction(inss[i]));
+			}
+		}
 
-        public List<Instruction> GetInstructionList()
-        {
-            return _program;
-        }
+		public List<Instruction> GetInstructionList()
+		{
+			return _program;
+		}
 
-        public void Add(Instruction ins)
-        {
-            _program.Add(ins);
-        }
+		public void Add(Instruction ins)
+		{
+			_program.Add(ins);
+		}
 
-        public void Add(String ins)
-        {
-            _program.Add(new Instruction(ins));
-        }
+		public void Add(String ins)
+		{
+			_program.Add(new Instruction(ins));
+		}
 
-        public override string ToString()
-        {            
-            return string.Join("\n", _program);
-        }
+		public override string ToString()
+		{            
+			return string.Join("\n", _program);
+		}
 
-        public void Rearrange(Instruction ins, int index)
-        {
-            _program.Remove(ins);
-            _program.Insert(index, ins);
-        }
-    }
+		public void Rearrange(Instruction ins, int index)
+		{
+			_program.Remove(ins);
+			_program.Insert(index, ins);
+		}
+	}
 }

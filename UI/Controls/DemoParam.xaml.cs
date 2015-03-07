@@ -46,7 +46,7 @@ namespace iRobotGUI.Controls
 				{
 					num = -1;
 				};
-				base.Ins.parameters[0] = num;
+				base.Ins.paramList[0] = num;
 			}             
 		   
 		}

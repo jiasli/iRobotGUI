@@ -48,6 +48,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HighLevelProgram\HighLevelProgram.csproj">
+      <Project>{05b8eacd-5eb2-420e-9f99-7a76be66c52c}</Project>
+      <Name>HighLevelProgram</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TranslatorLib\TranslatorLib.csproj">
       <Project>{d7663052-3416-460f-9fbc-8107f018aa32}</Project>
       <Name>TranslatorLib</Name>
