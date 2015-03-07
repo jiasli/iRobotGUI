@@ -15,134 +15,139 @@ using System.Windows.Input;
 
 namespace iRobotGUI.Controls
 {
-    /// <summary>
-    /// Interaction logic for ProgramList.xaml
-    /// </summary>
-    public partial class ProgramList : UserControl
-    {
-        #region data
+	/// <summary>
+	/// Interaction logic for ProgramList.xaml
+	/// </summary>
+	public partial class ProgramList : UserControl
+	{
+		#region data
 
-        private ListViewDragDropManager<Instruction> dragMgr;
-        private HLProgram program;
+		private ListViewDragDropManager<Instruction> dragMgr;
+		private HLProgram program;
 
-        #endregion
+		#endregion
 
-        #region constructor
+		#region constructor
 
-        public ProgramList()
-        {
-            InitializeComponent();
-            this.Loaded += ListView1_Loaded;
-        }
+		public ProgramList()
+		{
+			InitializeComponent();
+			this.Loaded += ListView1_Loaded;
 
-        #endregion
+			program = new HLProgram();
+		}
 
-        #region HLProgram
+		#endregion
 
-        public HLProgram Program
-        {
-            get
-            {
-                return program;
-            }
-            set
-            {
-                program = value;
-                UpdateContent();
-            }
-        }
+		#region HLProgram
 
-        #endregion
+		public HLProgram Program
+		{
+			get
+			{
+				return program;
+			}
+			set
+			{
+				program = value;
+				UpdateContent();
+			}
+		}
 
-        #region ListView1_Loaded
+		#endregion
 
-        void ListView1_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.dragMgr = new ListViewDragDropManager<Instruction>(ListviewProgram);
-            ListviewProgram.PreviewMouseLeftButtonDown += NewPreviewMouseLeftButtonDown;
-            ListviewProgram.Drop -= dragMgr.listView_Drop;
-            ListviewProgram.Drop += NewDrop;
-        }
+		#region ListView1_Loaded
 
-        #endregion
+		void ListView1_Loaded(object sender, RoutedEventArgs e)
+		{
+			this.dragMgr = new ListViewDragDropManager<Instruction>(ListviewProgram);
+			ListviewProgram.PreviewMouseLeftButtonDown += NewPreviewMouseLeftButtonDown;
+			ListviewProgram.Drop -= dragMgr.listView_Drop;
+			ListviewProgram.Drop += NewDrop;
+		}
 
-        #region event handler
+		#endregion
 
-        void NewPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+		#region event handler
 
-            if (e.ClickCount == 2)
-            {                
-                Instruction selectedIns = this.ListviewProgram.SelectedItem as Instruction;
-                DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));               
-            }
+		void NewPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
 
-        }
+			if (e.ClickCount == 2)
+			{
+				Instruction selectedIns = this.ListviewProgram.SelectedItem as Instruction;
+				DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
+				UpdateContent();
+			}
 
-        void NewDrop(object sender, DragEventArgs e)
-        {
-            // drag inside program list
-            if (this.dragMgr.IsDragInProgress)
-            {
-                Instruction data = e.Data.GetData(typeof(Instruction)) as Instruction;
-                if (data == null)
-                    return;
+		}
 
-                int oldIndex = this.ListviewProgram.Items.IndexOf(data);
-                int newIndex = this.dragMgr.IndexUnderDragCursor;
+		void NewDrop(object sender, DragEventArgs e)
+		{
+			// drag inside program list
+			if (this.dragMgr.IsDragInProgress)
+			{
+				Instruction data = e.Data.GetData(typeof(Instruction)) as Instruction;
+				if (data == null)
+					return;
 
-                if (newIndex < 0)
-                {
-                    if (this.ListviewProgram.Items.Count == 0)
-                        newIndex = 0;
-                    else if (oldIndex < 0)
-                        newIndex = this.ListviewProgram.Items.Count;
-                    else
-                        return;
-                }
+				int oldIndex = this.ListviewProgram.Items.IndexOf(data);
+				int newIndex = this.dragMgr.IndexUnderDragCursor;
 
-                if (oldIndex == newIndex)
-                    return;
+				if (newIndex < 0)
+				{
+					if (this.ListviewProgram.Items.Count == 0)
+						newIndex = 0;
+					else if (oldIndex < 0)
+						newIndex = this.ListviewProgram.Items.Count;
+					else
+						return;
+				}
 
-                this.ListviewProgram.Items.Remove(data);
-                this.ListviewProgram.Items.Insert(newIndex, data);
+				if (oldIndex == newIndex)
+					return;
 
-                e.Effects = DragDropEffects.Move;
+				this.ListviewProgram.Items.Remove(data);
+				this.ListviewProgram.Items.Insert(newIndex, data);
 
-                program.Rearrange(data, newIndex);
-            }
-            // drag from instruction panel to program list
-            else
-            {
-                string op = (string)e.Data.GetData(DataFormats.StringFormat);
-                Instruction newIns = Instruction.CreatFromOpcode(op);               
+				e.Effects = DragDropEffects.Move;
 
-                if (newIns != null)
-                {
-                    program.Add(newIns);
-                }
+				program.Rearrange(data, newIndex);
+			}
+			// drag from instruction panel to program list
+			else
+			{
+				string op = (string)e.Data.GetData(DataFormats.StringFormat);
+				Instruction newIns = Instruction.CreatFromOpcode(op);
 
-                UpdateContent();
-                ListviewProgram.SelectedItem = newIns;
-            }
-        }
+				if (newIns != null)
+				{
+					program.Add(newIns);
+				}
 
-        #endregion
+				UpdateContent();
+				ListviewProgram.SelectedItem = newIns;
+			}
+		}
+
+		#endregion
 
 
 
-        #region updateContent
+		#region updateContent
 
-        public void UpdateContent()
-        {
-            ListviewProgram.Items.Clear();
-            foreach (Instruction i in program.GetInstructionList())
-            {
-                ListviewProgram.Items.Add(i);
-            }
-        }
+		public void UpdateContent()
+		{
+			ListviewProgram.Items.Clear();
 
-        #endregion
+			foreach (Instruction i in program.GetInstructionList())
+			{
+				ListviewProgram.Items.Add(i);
+			}
 
-    }
+		}
+
+		#endregion
+
+	}
 }

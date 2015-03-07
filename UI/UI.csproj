@@ -78,6 +78,9 @@
     <Compile Include="Controls\DemoParam.xaml.cs">
       <DependentUpon>DemoParam.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\LoopWindow.xaml.cs">
+      <DependentUpon>LoopWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ParamWindowInvoker.cs" />
     <Compile Include="Controls\BaseParamControl.cs" />
     <Compile Include="Controls\DragAdorner.cs" />
@@ -147,6 +150,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="OutputWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoopWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -220,6 +227,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Controls\pic\demo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Controls\pic\if.png" />
+    <Resource Include="Controls\pic\loop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
