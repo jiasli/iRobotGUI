@@ -61,5 +61,11 @@ namespace iRobotGUI
             _program.Remove(ins);
             _program.Insert(index, ins);
         }
-    }
+
+        public void Remove(Instruction ins)
+        {
+            _program.Remove(ins);
+        }
+
+	}
 }

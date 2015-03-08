@@ -62,6 +62,7 @@ namespace iRobotGUI.Controls
 		{
 			this.dragMgr = new ListViewDragDropManager<Instruction>(ListviewProgram);
 			ListviewProgram.PreviewMouseLeftButtonDown += NewPreviewMouseLeftButtonDown;
+            ListviewProgram.PreviewMouseRightButtonDown += listView_PreviewMouseRightButtonDown;
 			ListviewProgram.Drop -= dragMgr.listView_Drop;
 			ListviewProgram.Drop += NewDrop;
 		}
@@ -70,6 +71,9 @@ namespace iRobotGUI.Controls
 
 		#region event handler
 
+        /// <summary>
+        /// open the dialog when an item is double clicked
+        /// </summary>
 		void NewPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 
@@ -82,6 +86,22 @@ namespace iRobotGUI.Controls
 
 		}
 
+        /// <summary>
+        ///  delete item when right button is clicked
+        /// </summary>
+        void listView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Instruction selectedIns = this.ListviewProgram.SelectedItem as Instruction;
+            if (selectedIns == null)
+                return;
+
+            this.ListviewProgram.Items.Remove(selectedIns);
+            program.Remove(selectedIns);
+        }
+
+        /// <summary>
+        /// handler for drop event
+        /// </summary>
 		void NewDrop(object sender, DragEventArgs e)
 		{
 			// drag inside program list
@@ -131,8 +151,6 @@ namespace iRobotGUI.Controls
 		}
 
 		#endregion
-
-
 
 		#region updateContent
 
