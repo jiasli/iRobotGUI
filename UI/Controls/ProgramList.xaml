@@ -9,9 +9,6 @@
     <UserControl.Resources>
         <Style TargetType="{x:Type ListViewItem}">
             <Style.Triggers>
-                <Trigger Property="jas:ListViewItemDragState.IsBeingDragged" Value="True">
-                    <Setter Property="FontWeight" Value="DemiBold" />
-                </Trigger>
                 <Trigger Property="jas:ListViewItemDragState.IsUnderDragCursor" Value="True">
                     <Setter Property="Background" Value="LightGray" />
                 </Trigger>

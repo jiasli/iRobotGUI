@@ -12,6 +12,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
+
 
 namespace iRobotGUI.Controls
 {
@@ -22,7 +24,7 @@ namespace iRobotGUI.Controls
 	{
 		#region data
 
-		private ListViewDragDropManager<Instruction> dragMgr;
+		private ListViewDragDropManager<Image> dragMgr;
 		private HLProgram program;
 
 		#endregion
@@ -60,7 +62,7 @@ namespace iRobotGUI.Controls
 
 		void ListView1_Loaded(object sender, RoutedEventArgs e)
 		{
-			this.dragMgr = new ListViewDragDropManager<Instruction>(ListviewProgram);
+			this.dragMgr = new ListViewDragDropManager<Image>(ListviewProgram);
 			ListviewProgram.PreviewMouseLeftButtonDown += NewPreviewMouseLeftButtonDown;
             ListviewProgram.PreviewMouseRightButtonDown += listView_PreviewMouseRightButtonDown;
 			ListviewProgram.Drop -= dragMgr.listView_Drop;
@@ -79,9 +81,10 @@ namespace iRobotGUI.Controls
 
 			if (e.ClickCount == 2)
 			{
-				Instruction selectedIns = this.ListviewProgram.SelectedItem as Instruction;
+                int index = ListviewProgram.SelectedIndex;
+                Instruction selectedIns = program.GetInstructionList().ElementAt(index);
 				DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
-				UpdateContent();
+                UpdateContent();
 			}
 
 		}
@@ -91,12 +94,13 @@ namespace iRobotGUI.Controls
         /// </summary>
         void listView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Instruction selectedIns = this.ListviewProgram.SelectedItem as Instruction;
+            int index = ListviewProgram.SelectedIndex;
+            Instruction selectedIns = program.GetInstructionList().ElementAt(index);
             if (selectedIns == null)
                 return;
 
-            this.ListviewProgram.Items.Remove(selectedIns);
             program.Remove(selectedIns);
+            UpdateContent();
         }
 
         /// <summary>
@@ -107,32 +111,28 @@ namespace iRobotGUI.Controls
 			// drag inside program list
 			if (this.dragMgr.IsDragInProgress)
 			{
-				Instruction data = e.Data.GetData(typeof(Instruction)) as Instruction;
-				if (data == null)
+				//Instruction data = e.Data.GetData(typeof(Instruction)) as Instruction;
+                Image data = e.Data.GetData(typeof(Image)) as Image;
+                //Instruction ins = Instruction.CreatFromOpcode((string)data.Tag);
+
+                if (data == null)
 					return;
 
 				int oldIndex = this.ListviewProgram.Items.IndexOf(data);
 				int newIndex = this.dragMgr.IndexUnderDragCursor;
 
-				if (newIndex < 0)
-				{
-					if (this.ListviewProgram.Items.Count == 0)
-						newIndex = 0;
-					else if (oldIndex < 0)
-						newIndex = this.ListviewProgram.Items.Count;
-					else
-						return;
-				}
+                Instruction ins = program.GetInstructionList().ElementAt(oldIndex);
+
+                if (newIndex < 0)
+                    return;
 
 				if (oldIndex == newIndex)
 					return;
 
-				this.ListviewProgram.Items.Remove(data);
-				this.ListviewProgram.Items.Insert(newIndex, data);
+                program.Rearrange(ins, newIndex);
 
-				e.Effects = DragDropEffects.Move;
-
-				program.Rearrange(data, newIndex);
+                UpdateContent();
+                e.Effects = DragDropEffects.Move;
 			}
 			// drag from instruction panel to program list
 			else
@@ -145,27 +145,77 @@ namespace iRobotGUI.Controls
 					program.Add(newIns);
 				}
 
-				UpdateContent();
+                UpdateContent();
 				ListviewProgram.SelectedItem = newIns;
 			}
 		}
 
 		#endregion
 
-		#region updateContent
+        #region UpdateContent
 
-		public void UpdateContent()
-		{
-			ListviewProgram.Items.Clear();
+        public void UpdateContent()
+        {
+            ListviewProgram.Items.Clear();
 
-			foreach (Instruction i in program.GetInstructionList())
-			{
-				ListviewProgram.Items.Add(i);
-			}
+            foreach (Instruction i in program.GetInstructionList())
+            {
+                ListviewProgram.Items.Add(GetImageFromInstruction(i));
+            }
 
-		}
+        }
 
-		#endregion
+        #endregion
 
-	}
+        #region GetImageFromInstruction
+
+        private Image GetImageFromInstruction(Instruction ins)
+        {
+            Image im = new Image();
+            BitmapImage bi = new BitmapImage();
+            bi.BeginInit();
+            switch (ins.opcode)
+            {
+                case Instruction.FORWARD:
+                    bi.UriSource = new Uri("pic/forward.png", UriKind.Relative);
+                   // im.Tag = "FORWARD";
+                    break;
+                case Instruction.BACKWARD:
+                    bi.UriSource = new Uri("pic/backward.png", UriKind.Relative);
+                   // im.Tag = "BACKWARD";
+                    break;
+                case Instruction.LEFT:
+                    bi.UriSource = new Uri("pic/left.png", UriKind.Relative);
+                    //im.Tag = "LEFT";
+                    break;
+                case Instruction.RIGHT:
+                    bi.UriSource = new Uri("pic/right.png", UriKind.Relative);
+                    //im.Tag = "RIGHT";
+                    break;
+                case Instruction.LED:
+                    bi.UriSource = new Uri("pic/led.jpg", UriKind.Relative);
+                    break;
+                case Instruction.SONG_DEF:
+                    bi.UriSource = new Uri("pic/song.png", UriKind.Relative);
+                    break;
+                case Instruction.DEMO:
+                    bi.UriSource = new Uri("pic/demo.jpg", UriKind.Relative);
+                    break;
+                case Instruction.IF:
+                    bi.UriSource = new Uri("pic/if.png", UriKind.Relative);
+                    break;
+                case Instruction.LOOP:
+                    bi.UriSource = new Uri("pic/loop.png", UriKind.Relative);
+                    break;
+            }
+            bi.EndInit();
+            im.Stretch = Stretch.Fill;
+            im.Source = bi;
+            im.Width = 50;
+            im.Height = 50;
+            return im;
+        }
+
+        #endregion
+    }
 }
