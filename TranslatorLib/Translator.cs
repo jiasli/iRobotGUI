@@ -90,27 +90,60 @@ byteTx(0);
 
 		public const string PLACEHOLDER_MAIN_PROGRAM = "##main_program##";
 
+
+		// Remember not to include linebreak in the end.
+
+		private static string SubTransIF(Instruction ins)
+		{
+			string condition = "Condition Unassigned";
+			string operatorSymbol;
+			List<int> paramList = ins.paramList;
+			StringBuilder builder = new StringBuilder();
+
+			operatorSymbol = Operator.GetOperatorTextSymbol(paramList[1]);
+
+			// To check if the sensor is built-in or compound
+			if (Sensor.GetSensorType(paramList[0]) == Sensor.SensorType.BuiltIn)
+				condition = String.Format("sensor[{0}] {1} {2}",
+					paramList[0].ToString(),
+					operatorSymbol,
+					paramList[2].ToString());
+			else
+				condition = String.Format("{0} {1} {2}",
+					Sensor.GetCompoundSensorName(paramList[0]),
+					operatorSymbol,
+					paramList[2].ToString());
+
+			builder.Append(IF_SNIPPET.Replace("#condition", condition));
+
+			return builder.ToString();
+		}
+
+		/// <summary>
+		/// Translate one single instruction.
+		/// </summary>
+		/// <param name="instruction"></param>
+		/// <returns>The instruction string.</returns>
 		public static string TranslateInstruction(Instruction instruction)
 		{
 			// C program builder
 			StringBuilder cBuilder = new StringBuilder();
 			string operatorSymbol;
-			string condition;
+			string condition = "Condition Unassigned";
 
 			switch (instruction.opcode)
 			{
+				// Navigation
 				case Instruction.FORWARD:
 					cBuilder.AppendLine(FORWARD_SNIPPET
 						.Replace("#velo_high", (((byte)((instruction.paramList[0] / instruction.paramList[1]) >> 8)) & 0x00FF).ToString())
 						.Replace("#velo_low", ((byte)(instruction.paramList[0] / instruction.paramList[1]) & 0x00FF).ToString())
 						.Replace("#distance", instruction.paramList[0].ToString()));
 					break;
-
 				case Instruction.LEFT:
 					cBuilder.AppendLine(
 						LEFT_SNIPPET.Replace("#angle", instruction.paramList[0].ToString()));
 					break;
-
 				case Instruction.DRIVE:
 					cBuilder.AppendLine(DRIVE_SNIPPET
 						.Replace("#velo_high", ((byte)(instruction.paramList[0] >> 8) & 0x00FF).ToString())
@@ -119,6 +152,7 @@ byteTx(0);
 						.Replace("#angle_low", ((byte)instruction.paramList[1] & 0x00FF).ToString()));
 					break;
 
+				//LED
 				case Instruction.LED:
 					cBuilder.AppendLine(LED_SNIPPET
 						.Replace("#bit", instruction.paramList[0].ToString())
@@ -126,6 +160,7 @@ byteTx(0);
 						.Replace("#intensity", instruction.paramList[2].ToString()));
 					break;
 
+				// SONG
 				case Instruction.SONG_DEF:
 					cBuilder.AppendLine(SONG_DEF_SNIPPET
 						.Replace("#song_number", instruction.paramList[0].ToString())
@@ -135,48 +170,43 @@ byteTx(0);
 						cBuilder.AppendLine("byteTx(" + instruction.paramList[i].ToString() + ");");
 					}
 					break;
-
 				case Instruction.SONG_PLAY:
 					cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.paramList[0].ToString()));
 					break;
 
-				case Instruction.IF:
-					operatorSymbol = Instruction.GetOperatorTextSymbol(instruction.paramList[1]);
-					condition = "sensors[" + instruction.paramList[0].ToString() + "] " 
-						+ operatorSymbol + " " 
-						+ instruction.paramList[2].ToString();
-					cBuilder.AppendLine("byteTx(CmdSensors)");
-					cBuilder.AppendLine("byteTx(0)");
-					cBuilder.AppendLine(IF_SNIPPET.Replace("#condition", condition));
-					break;
-
-				case Instruction.ELSE:
-					cBuilder.AppendLine(ELSE_SINPPET);
-					break;
-
-				case Instruction.END_IF:
-					cBuilder.AppendLine(END_IF_SINPPET);
-					break;
-
-				case Instruction.LOOP:
-					operatorSymbol = Instruction.GetOperatorTextSymbol(instruction.paramList[1]);
-					condition = "sensors[" + instruction.paramList[0].ToString() + "] "
-						+ operatorSymbol + " "
-						+ instruction.paramList[2].ToString();	
-					cBuilder.AppendLine(LOOP_SNIPPET.Replace("#condition", condition));
-					break;
-
-				case Instruction.END_LOOP:
-					cBuilder.AppendLine(END_LOOP_SNIPPET);
-					break;
-
+				// DELAY
 				case Instruction.DELAY:
 					cBuilder.AppendLine(DELAY_SNIPPET.Replace("#time", instruction.paramList[0].ToString()));
 					break;
 
+				// SENSOR
 				case Instruction.READ_SENSOR:
 					cBuilder.AppendLine(READ_SENSOR_SNIPPET);
 					break;
+
+				// IF ELSE END_IF
+				case Instruction.IF:
+					cBuilder.AppendLine(SubTransIF(instruction));
+					break;
+				case Instruction.ELSE:
+					cBuilder.AppendLine(ELSE_SINPPET);
+					break;
+				case Instruction.END_IF:
+					cBuilder.AppendLine(END_IF_SINPPET);
+					break;
+
+				// LOOP END_LOOP
+				case Instruction.LOOP:
+					operatorSymbol = Operator.GetOperatorTextSymbol(instruction.paramList[1]);
+					condition = "sensors[" + instruction.paramList[0].ToString() + "] "
+						+ operatorSymbol + " "
+						+ instruction.paramList[2].ToString();
+					cBuilder.AppendLine(LOOP_SNIPPET.Replace("#condition", condition));
+					break;
+				case Instruction.END_LOOP:
+					cBuilder.AppendLine(END_LOOP_SNIPPET);
+					break;
+
 			}
 			return cBuilder.ToString();
 		}
@@ -197,7 +227,7 @@ byteTx(0);
 				cBuilder.AppendLine("//" + ins.ToString());
 				cBuilder.AppendLine(TranslateInstruction(ins));
 			}
-			
+
 			return cBuilder.ToString();
 		}
 
@@ -239,7 +269,7 @@ byteTx(0);
 						template.Replace("##main_program##", code));
 				}
 			}
-		   
+
 		}
 	}
 }

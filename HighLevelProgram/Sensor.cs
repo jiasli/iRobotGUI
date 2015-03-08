@@ -33,13 +33,59 @@ namespace iRobotGUI
 
 		#endregion
 
-		#region Self-defined
+		#region Compound sensor data
 		// These are calculate by C
 
 		// distance += (int)((sensors[SenDist1] << 8) | sensors[SenDist0]);
 		// angle += (int)((sensors[SenAng1] << 8) | sensors[SenAng0]);
-		public const int distance = 101;
-		public const int angle    = 102;
+		public const int CompoundSensorBase = 100;
+		public const int distance           = 101;
+		public const int angle              = 102;
 		#endregion
+
+		public enum SensorType
+		{
+			/// <summary>
+			/// Sensor data directly got from iRobot
+			/// </summary>
+			BuiltIn,
+			/// <summary>
+			/// Sensor data computed by C code
+			/// </summary>
+			Compound
+		}
+
+		/// <summary>
+		/// Get the name of a compound sensor by its No.
+		/// </summary>
+		/// <param name="compoundSensorNo"></param>
+		/// <returns></returns>
+		public static string GetCompoundSensorName(int compoundSensorNo)
+		{
+			switch (compoundSensorNo)
+			{
+				case distance:
+					return "distance";
+				case angle:
+					return "angle";
+			}
+			return "ERROR: compound sensor data No invalid. ";
+		}
+
+		/// <summary>
+		/// Get the sensor type by sensor No. The result can be built-in and compound defined in
+		/// SensorType enum.
+		/// </summary>
+		/// <param name="sensorNo"></param>
+		/// <returns></returns>
+		public static SensorType GetSensorType(int sensorNo)
+		{
+			if (sensorNo < CompoundSensorBase)
+				return SensorType.BuiltIn;
+			else 
+				return SensorType.Compound;
+		}
+
+	
 	}
 }
