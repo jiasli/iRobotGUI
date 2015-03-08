@@ -27,7 +27,7 @@ namespace TranslatorConsole
 			try
 			{
 				string input_program = File.ReadAllText(fileName);
-				Console.WriteLine(input_program + "\n>>>>>C code>>>>>\n");
+				Console.WriteLine(input_program + "\n>>>>>>>>>\n");
 				Console.WriteLine(Translator.TranslateProgramString(input_program));
 			}
 			catch (InstructionExpection e)
