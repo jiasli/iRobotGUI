@@ -94,6 +94,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HighLevelProgram\HighLevelProgram.csproj">
+      <Project>{05b8eacd-5eb2-420e-9f99-7a76be66c52c}</Project>
+      <Name>HighLevelProgram</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UI\UI.csproj">
       <Project>{3bcf10e0-ca38-42fd-acbc-ddcdc4d00437}</Project>
       <Name>UI</Name>
