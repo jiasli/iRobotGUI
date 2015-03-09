@@ -10,34 +10,6 @@ namespace iRobotGUI
 	{
 		public string opcode;
 		public List<int> paramList;
-		public string _string;
-
-		#region OpCode
-		public const string FORWARD     = "FORWARD";
-		public const string BACKWARD    = "BACKWARD";
-		public const string LEFT        = "LEFT";
-		public const string RIGHT       = "RIGHT";
-		public const string DRIVE       = "DRIVE";
-		public const string LED         = "LED";
-		public const string DEMO        = "DEMO";
-		public const string SONG_DEF    = "SONG_DEF";
-		public const string SONG_PLAY   = "SONG_PLAY";        
-		public const string IF          = "IF";
-		public const string ELSE        = "ELSE";
-		public const string END_IF      = "END_IF";
-		public const string LOOP        = "LOOP";
-		public const string END_LOOP    = "END_LOOP";
-		public const string DELAY       = "DELAY";
-		public const string READ_SENSOR = "READ_SENSOR";
-		#endregion
-
-
-		#region Constants
-		public const int SRAIGHT = 0x8000;	// 32768
-		public const int TURN_IN_PLACE_CLOCKWISE = 0xFFFF;
-		public const int TURN_IN_PLACE_COUNTER_CLOCKWISE = 0x0001;
-
-		#endregion
 
 		public readonly string[] OpCodeSet = new string[] 
 		{ 
@@ -58,6 +30,45 @@ namespace iRobotGUI
 			DELAY,
 			READ_SENSOR
 		};		
+
+		#region OpCode
+
+		// Navigation
+		public const string FORWARD     = "FORWARD";
+		public const string BACKWARD    = "BACKWARD";
+		public const string LEFT        = "LEFT";
+		public const string RIGHT       = "RIGHT";
+		public const string DRIVE       = "DRIVE";		
+
+		// LED Song
+		public const string LED         = "LED";		
+		public const string SONG_DEF    = "SONG_DEF";
+		public const string SONG_PLAY   = "SONG_PLAY";
+
+		// IF LOOP
+		public const string IF          = "IF";
+		public const string ELSE        = "ELSE";
+		public const string END_IF      = "END_IF";
+		public const string LOOP        = "LOOP";
+		public const string END_LOOP    = "END_LOOP";
+
+		// Other
+		public const string DELAY       = "DELAY";
+		public const string READ_SENSOR = "READ_SENSOR";
+		public const string DEMO        = "DEMO";
+
+		#endregion
+
+
+		#region Constants
+
+		public const int SRAIGHT = 0x8000;	// 32768
+		public const int TURN_IN_PLACE_CLOCKWISE = 0xFFFF;
+		public const int TURN_IN_PLACE_COUNTER_CLOCKWISE = 0x0001;
+
+		#endregion
+
+		
 
 		public Instruction(string insStr)
 		{
@@ -134,24 +145,22 @@ namespace iRobotGUI
 					newIns = new Instruction(Instruction.DEMO + " 0");
 					break;
 				case IF:
-					newIns = new Instruction(IF);
+					newIns = new Instruction(IF + " 0, 0, 0");
 					break;
+				case END_IF:
+					newIns = new Instruction(END_IF);
+					break;			
 				case LOOP:
-					newIns = new Instruction(LOOP);
+					newIns = new Instruction(LOOP + " 0, 0, 0");
+					break;
+				case END_LOOP:
+					newIns = new Instruction(END_LOOP);
 					break;
 			}
 			return newIns;
 		}
 
-		
 
-		public override string ToString()
-		{
-			StringBuilder sb = new StringBuilder(opcode);
-			if (paramList != null)
-				sb.Append(" ").Append(string.Join(",", paramList));
-			return sb.ToString();
-		}
 
 		/// <summary>
 		/// Decide if an instruction string is a comment line. Comment line is prefixed by "//" like C.
@@ -166,7 +175,16 @@ namespace iRobotGUI
 			else return false;
 		}
 
-		
-
+		/// <summary>
+		/// Get the program string.
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder(opcode);
+			if (paramList != null)
+				sb.Append(" ").Append(string.Join(",", paramList));
+			return sb.ToString();
+		}
 	}
 }

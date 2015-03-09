@@ -28,7 +28,24 @@ namespace iRobotGUI.Controls
 			condition = new InsCondition();
 			InitializeComponent();
 			UpdateConditionLabel();
-		}		
+		}
+
+		/// <summary>
+		/// Set the condition instruction of the panel and update the controls. This is the ony way
+		/// to pass information between ConditionPanel and its owner.
+		/// </summary>
+		public InsCondition Condition
+		{
+			set
+			{
+				condition = value;
+				UpdateConditionLabel();
+			}
+			get
+			{
+				return condition;
+			}
+		}
 
 
 		private void comboBoxSensor_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -57,13 +74,13 @@ namespace iRobotGUI.Controls
 
 		private void UpdateConditionLabel()
 		{
-			if (labelCondition!=null)
+			if (labelCondition != null)
 			{
 				labelCondition.Content = String.Format("sensor[{0}] {1} {2}",
 				condition.sensor,
 				Operator.GetOperatorTextSymbol(condition.op),
 				condition.num);
-			}		
+			}
 		}
 	}
 }
