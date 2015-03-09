@@ -13,8 +13,6 @@ namespace iRobotGUI
         public static bool Validate(String insStr)
         {
             Instruction ins;
-            Stack IfStack = new Stack();
-            Stack LoopStack = new Stack();
             try
             {
                 ins = new Instruction(insStr);
@@ -30,12 +28,19 @@ namespace iRobotGUI
                     return ValidateSongDef(ins);
 
                 case Instruction.LOOP:
-                    LoopStack.Push("LOOP");
-                    break;
+                    return CheckLoop(ins.opcode);
 
                 case Instruction.END_LOOP:
-                    LoopStack.Pop();
-                    break;
+                    return CheckLoop(ins.opcode);
+
+                case Instruction.IF:
+                    return CheckIf(ins.opcode);
+
+                case Instruction.ELSE:
+                    return CheckIf(ins.opcode);
+
+                case Instruction.END_IF:
+                    return CheckIf(ins.opcode);
             }
             return false;
         }
@@ -57,9 +62,69 @@ namespace iRobotGUI
 
         }
 
-        public static bool ValidateIF()
+        public static bool CheckIf(string opcode)
         {
+            switch(opcode)
+            {
+                case Instruction.IF:
+                    StackCheck.IfAmount++;
+                    StackCheck.IfStack.Push(Instruction.IF);
+                    break;
 
+                case Instruction.ELSE:
+                    StackCheck.ElseAmount++;
+                    if (StackCheck.IfStack.Count == 0)
+                        return false;
+                    else if (StackCheck.IfStack.Peek() == Instruction.ELSE)
+                        return false;
+                    else
+                    {
+                        StackCheck.IfStack.Pop();
+                        StackCheck.IfStack.Push(Instruction.ELSE);
+                        break;
+                    }
+
+                case Instruction.END_IF:
+                    StackCheck.EndIfAmount++;
+                    if (StackCheck.IfStack.Count == 0)
+                        return false;
+                    else if (StackCheck.IfStack.Peek() == Instruction.IF)
+                        return false;
+                    else
+                    {
+                        StackCheck.IfStack.Pop();
+                        break;
+                    }
+            }
+            if ((StackCheck.IfStack.Count == 0)
+                &&(StackCheck.IfAmount == StackCheck.ElseAmount)
+                && (StackCheck.ElseAmount == StackCheck.EndIfAmount))
+                return true;
+            else
+                return false;
+        }
+
+        public static bool CheckLoop(string opcode)
+        {
+            switch(opcode)
+            {
+                case Instruction.LOOP:
+                    StackCheck.LoopStack.Push(Instruction.LOOP);
+                    break;
+
+                case Instruction.END_LOOP:
+                    if (StackCheck.LoopStack.Count == 0)
+                        return false;
+                    else
+                    {
+                        StackCheck.LoopStack.Pop();
+                        break;
+                    }
+            }
+            if ((StackCheck.LoopStack.Count == 0) && (StackCheck.LoopAmount == StackCheck.EndLoopAmount))
+                return true;
+            else
+                return false;
         }
     }
 
