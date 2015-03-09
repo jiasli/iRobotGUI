@@ -15,58 +15,10 @@
         </Grid.ColumnDefinitions>
 
         <Controls:InstructionPanel Grid.Row="0" Grid.Column="0"/>
-        <ComboBox x:Name="ComboBoxSensor" Grid.Column="1" HorizontalAlignment="Left" Margin="5,23,0,0" VerticalAlignment="Top" Width="117" SelectedIndex="0" SelectionChanged="ComboBoxSensor_SelectionChanged">
-            <ComboBox.Resources>
-                <Style TargetType="Image">
-                    <Setter Property="Width" Value="45" />
-                    <Setter Property="Height" Value="45" />
-                    <Setter Property="Stretch" Value="Fill" />
-                    <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-                    <Setter Property="ToolTipService.ShowDuration" Value="100000" />
-                </Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                </Style>
-            </ComboBox.Resources>
-            <ComboBoxItem>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/iRobotGUI;component/Controls/pic/cliff.jpg" />
-                    <TextBlock>Cliff</TextBlock>
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/iRobotGUI;component/Controls/pic/bump.jpg" />
-                    <TextBlock>Bump</TextBlock>
-                </StackPanel>
-            </ComboBoxItem>
-        </ComboBox>
-        <ComboBox x:Name="ComboBoxOperator" Grid.Column="1" HorizontalAlignment="Left" Margin="127,34,0,0" VerticalAlignment="Top" Width="36" SelectedIndex="0" SelectionChanged="ComboBoxOperator_SelectionChanged">
-            <ComboBoxItem>
-                <TextBlock>=</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock>≠</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock>&gt;</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock>≥</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock>&lt;</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock>≤</TextBlock>
-            </ComboBoxItem>
-           
-
-        </ComboBox>
-        <TextBox x:Name="TextBoxNum" Grid.Column="1" HorizontalAlignment="Left" Margin="173,34,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="22" Width="42" TextChanged="TextBoxNum_TextChanged"/>
-
+        
+        <Controls:ConditionPanel Grid.Row="0" Grid.Column="1"></Controls:ConditionPanel>
+       
         <Controls:ProgramList x:Name="ProgramList1" Grid.Row="0" Grid.Column="1" Margin="0,112,0,0" />
-        <Label x:Name="LabelCondition" Content="Condition" Grid.Column="1" HorizontalAlignment="Left" Margin="5,81,0,0" VerticalAlignment="Top"/>
-
+      
     </Grid>
 </Window>
