@@ -5,7 +5,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="iRobotGUI.Windows.LoopWindow"
         Title="Loop" Height="471" Width="443">
     <Grid >
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -15,34 +15,10 @@
         </Grid.ColumnDefinitions>
 
         <Controls:InstructionPanel Grid.Row="0" Grid.Column="0"/>
-        <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Width="74" SelectedIndex="0">
-            <ComboBox.Resources>
-                <Style TargetType="Image">
-                    <Setter Property="Width" Value="45" />
-                    <Setter Property="Height" Value="45" />
-                    <Setter Property="Stretch" Value="Fill" />
-                    <Setter Property="HorizontalAlignment" Value="Left" />
-                    <Setter Property="VerticalAlignment" Value="Top" />
-                    <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-                    <Setter Property="ToolTipService.ShowDuration" Value="100000" />                   
-                </Style>
-            </ComboBox.Resources>           
-            <Image Source="/UI;component/Controls/pic/cliff.jpg"  />
-            <Image Source="/UI;component/Controls/pic/bump.jpg"  />
-        </ComboBox>
-        <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="89,34,0,0" VerticalAlignment="Top" Width="36" SelectedIndex="0">
-            <System:String>=</System:String>
-            <System:String>≠</System:String>
-            <System:String>&lt;</System:String>
-            <System:String>≤</System:String>
-            <System:String>&gt;</System:String>
-            <System:String>≥</System:String>
-
-        </ComboBox>
-        <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="148,34,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="22" Width="42"/>
-
-
-        <Controls:ProgramList x:Name="ProgramList1" Grid.Row="0" Grid.Column="1" Margin="0,90,0,0" />
-
+        
+        <Controls:ConditionPanel Grid.Row="0" Grid.Column="1"></Controls:ConditionPanel>
+       
+        <Controls:ProgramList x:Name="ProgramList1" Grid.Row="0" Grid.Column="1" Margin="0,112,0,0" />
+      
     </Grid>
 </Window>

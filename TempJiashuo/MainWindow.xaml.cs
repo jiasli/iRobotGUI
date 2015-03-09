@@ -31,7 +31,6 @@ namespace TempJiashuo
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-
 			LoopWindow dlg = new LoopWindow();
 			dlg.Owner = this;
 			dlg.ShowDialog();
