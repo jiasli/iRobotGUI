@@ -8,21 +8,33 @@ using iRobotGUI;
 
 namespace TranslatorConsole
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            if (File.Exists(args[0]))
-            {
-                string input_program = File.ReadAllText(args[0]);
-                string output_program = Translator.TranslateProgramString(input_program);
-                Console.WriteLine(output_program);
-            }
-            else
-            {
-                Console.WriteLine("Cannot find file {0}", args[0]);
-            }
-            Console.Read();
-        }
-    }
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			string fileName;
+			if (args.Length == 0)
+			{
+				fileName = "input.igp";
+			}
+			else
+			{
+				fileName = args[0];
+			}
+
+			Console.WriteLine("Read from: " + fileName);
+
+			try
+			{
+				string input_program = File.ReadAllText(fileName);
+				Console.WriteLine(input_program + "\n>>>>>>>>>\n");
+				Console.WriteLine(Translator.TranslateProgramString(input_program));
+			}
+			catch (InstructionExpection e)
+			{
+				Console.WriteLine(e.Line + " " + e.InsStr);
+			}
+
+		}
+	}
 }

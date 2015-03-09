@@ -7,29 +7,28 @@ using System.Threading.Tasks;
 
 namespace iRobotGUI
 {
-    public static class Translator
-    {
-        [Flags]
-        public enum SourceType
-        {
-            Microcontroller,
-            Emulator
-        };
+	public static class Translator
+	{
+		[Flags]
+		public enum SourceType
+		{
+			Microcontroller,
+			Emulator
+		};
 
-        private const string MicrocontrollerTemplate = "mc_t.c";
-        private const string MicrocontrollerOutputSource = "mc_o.c";
-        private const string EmulatorTemplate = "em_t.cpp";
-        private const string EmulatorOutputSource = "em_o.cpp";
+		private const string MicrocontrollerTemplate = "mc_t.c";
+		private const string MicrocontrollerOutputSource = "mc_o.c";
+		private const string EmulatorTemplate = "em_t.cpp";
+		private const string EmulatorOutputSource = "em_o.cpp";
 
-        public const string FORWARD_SNIPPET = @"
-byteTx(CmdDrive);
+		public const string FORWARD_SNIPPET = @"byteTx(CmdDrive);
 byteTx(#velo_high);
 byteTx(#velo_low);
 byteTx(128);
 byteTx(0);
 while(distance < #distance)
 {
-    delaySensors(100);
+	delaySensors(100);
 }
 byteTx(CmdDrive);
 byteTx(0);
@@ -37,203 +36,241 @@ byteTx(0);
 byteTx(128);
 byteTx(0);
 ";
-        public const string LEFT_SNIPPET = @"
-byteTx(CmdDrive);
+		public const string LEFT_SNIPPET = @"byteTx(CmdDrive);
 byteTx(0);
 byteTx(0);
 byteTx(0);
 byteTx(1);
 while(angle < #angle)
 {
-    delaySensors(100);
+	delaySensors(100);
 }
 byteTx(CmdDrive);
 byteTx(0);
 byteTx(0);
 byteTx(128);
-byteTx(0);
-";
-        public const string DRIVE_SNIPPET = @"
-byteTx(CmdDrive);
+byteTx(0);";
+
+		public const string DRIVE_SNIPPET = @"byteTx(CmdDrive);
 byteTx(#velo_high);
 byteTx(#velo_low);
 byteTx(#angle_high);
-byteTx(#angle_low);
-";
-        public const string LED_SNIPPET = @"
-byteTx(CmdLeds);
+byteTx(#angle_low);";
+
+		public const string LED_SNIPPET = @"byteTx(CmdLeds);
 byteTx(#bit);
 byteTx(#color);
-byteTx(#intensity);
-";
-        public const string SONG_DEF_SNIPPET = @"
-byteTx(CmdSong);
+byteTx(#intensity);";
+
+		public const string SONG_DEF_SNIPPET = @"byteTx(CmdSong);
 byteTx(#song_number);
-byteTx(#song_duration);
-";
-        public const string SONG_PLAY_SNIPPET = @"
-byteTx(CmdPlay);
-byteTx(#song_number);
-";
-        public const string IF_SNIPPET = "if (#condition) {";
-        public const string ELSE_SINPPET = "} else {";
-        public const string END_IF_SINPPET = "}";
-        public const string LOOP_SNIPPET = "while (#condition) {";
-        public const string END_LOOP_SNIPPET = @"
-byteTx(CmdSensors);
+byteTx(#song_duration);";
+
+		public const string SONG_PLAY_SNIPPET = @"byteTx(CmdPlay);
+byteTx(#song_number);";
+
+		public const string READ_SENSOR_SNIPPET = @"byteTx(CmdSensors);
 byteTx(0);
-}
-";
-        public const string DELAY_SNIPPET = @"
-delay(#time);
-";
+delaySensors(0);";
 
-        public const string PLACEHOLDER_MAIN_PROGRAM = "##main_program##";
+		public const string IF_SNIPPET = @"if (#condition)
+{";
 
-        public static string TranslateInstruction(Instruction instruction)
-        {
-            // C program builder
-            StringBuilder cBuilder = new StringBuilder();
-            string operatorSymbol;
-            string condition;
+		public const string ELSE_SINPPET = @"}
+else
+{";
+		public const string END_IF_SINPPET = @"}";
 
-            switch (instruction.opcode)
-            {
-                case Instruction.FORWARD:
-                    cBuilder.AppendLine(FORWARD_SNIPPET
-                        .Replace("#velo_high", (((byte)((instruction.parameters[0] / instruction.parameters[1]) >> 8)) & 0x00FF).ToString())
-                        .Replace("#velo_low", ((byte)(instruction.parameters[0] / instruction.parameters[1]) & 0x00FF).ToString())
-                        .Replace("#distance", instruction.parameters[0].ToString()));
-                    break;
+		public const string LOOP_SNIPPET = @"while (#condition)
+{";
+		public const string END_LOOP_SNIPPET = @"byteTx(CmdSensors);
+byteTx(0);
+}";
+		public const string DELAY_SNIPPET = @"delay(#time);";
 
-                case Instruction.LEFT:
-                    cBuilder.AppendLine(
-                        LEFT_SNIPPET.Replace("#angle", instruction.parameters[0].ToString()));
-                    break;
+		public const string PLACEHOLDER_MAIN_PROGRAM = "##main_program##";
 
-                case Instruction.DRIVE:
-                    cBuilder.AppendLine(DRIVE_SNIPPET
-                        .Replace("#velo_high", ((byte)(instruction.parameters[0] >> 8) & 0x00FF).ToString())
-                        .Replace("#velo_low", ((byte)instruction.parameters[0] & 0x00FF).ToString())
-                        .Replace("#angle_high", ((byte)(instruction.parameters[1] >> 8) & 0x00FF).ToString())
-                        .Replace("#angle_low", ((byte)instruction.parameters[1] & 0x00FF).ToString()));
-                    break;
 
-                case Instruction.LED:
-                    cBuilder.AppendLine(LED_SNIPPET
-                        .Replace("#bit", instruction.parameters[0].ToString())
-                        .Replace("#color", instruction.parameters[1].ToString())
-                        .Replace("#intensity", instruction.parameters[2].ToString()));
-                    break;
+		// Remember not to include linebreak in the end.
 
-                case Instruction.SONG_DEF:
-                    cBuilder.AppendLine(SONG_DEF_SNIPPET
-                        .Replace("#song_number", instruction.parameters[0].ToString())
-                        .Replace("#song_duration", (instruction.parameters.Count / 2).ToString()));
-                    for (int i = 1; i < instruction.parameters.Count; i++)
-                    {
-                        cBuilder.AppendLine("byteTx(" + instruction.parameters[i].ToString() + ");");
-                    }
-                    break;
+		private static string SubTransIF(Instruction ins)
+		{
+			string condition = "Condition Unassigned";
+			string operatorSymbol;
+			List<int> paramList = ins.paramList;
+			StringBuilder builder = new StringBuilder();
 
-                case Instruction.SONG_PLAY:
-                    cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.parameters[0].ToString()));
-                    break;
+			operatorSymbol = Operator.GetOperatorTextSymbol(paramList[1]);
 
-                case Instruction.IF:
-                    operatorSymbol = Instruction.GetOperatorSymbol((byte)(instruction.parameters[1]));
-                    condition = "sensors[" + instruction.parameters[0].ToString() + "] " 
-                        + operatorSymbol + " " 
-                        + instruction.parameters[2].ToString();
-                    cBuilder.AppendLine("byteTx(CmdSensors)");
-                    cBuilder.AppendLine("byteTx(0)");
-                    cBuilder.AppendLine(IF_SNIPPET.Replace("#condition", condition));
-                    break;
+			// To check if the sensor is built-in or compound
+			if (Sensor.GetSensorType(paramList[0]) == Sensor.SensorType.BuiltIn)
+				condition = String.Format("sensor[{0}] {1} {2}",
+					paramList[0].ToString(),
+					operatorSymbol,
+					paramList[2].ToString());
+			else
+				condition = String.Format("{0} {1} {2}",
+					Sensor.GetCompoundSensorName(paramList[0]),
+					operatorSymbol,
+					paramList[2].ToString());
 
-                case Instruction.ELSE:
-                    cBuilder.AppendLine(ELSE_SINPPET);
-                    break;
+			builder.Append(IF_SNIPPET.Replace("#condition", condition));
 
-                case Instruction.END_IF:
-                    cBuilder.AppendLine(END_IF_SINPPET);
-                    break;
+			return builder.ToString();
+		}
 
-                case Instruction.LOOP:
-                    operatorSymbol = Instruction.GetOperatorSymbol((byte)(instruction.parameters[1]));
-                    condition = "sensors[" + instruction.parameters[0].ToString() + "] "
-                        + operatorSymbol + " "
-                        + instruction.parameters[2].ToString();
-                    cBuilder.AppendLine("byteTx(CmdSensors)");
-                    cBuilder.AppendLine("byteTx(0)");
-                    cBuilder.AppendLine(LOOP_SNIPPET.Replace("#condition", condition));
-                    break;
+		/// <summary>
+		/// Translate one single instruction.
+		/// </summary>
+		/// <param name="instruction"></param>
+		/// <returns>The instruction string.</returns>
+		public static string TranslateInstruction(Instruction instruction)
+		{
+			// C program builder
+			StringBuilder cBuilder = new StringBuilder();
+			string operatorSymbol;
+			string condition = "Condition Unassigned";
 
-                case Instruction.END_LOOP:
-                    cBuilder.AppendLine(END_LOOP_SNIPPET);
-                    break;
+			switch (instruction.opcode)
+			{
+				// Navigation
+				case Instruction.FORWARD:
+					cBuilder.AppendLine(FORWARD_SNIPPET
+						.Replace("#velo_high", (((byte)((instruction.paramList[0] / instruction.paramList[1]) >> 8)) & 0x00FF).ToString())
+						.Replace("#velo_low", ((byte)(instruction.paramList[0] / instruction.paramList[1]) & 0x00FF).ToString())
+						.Replace("#distance", instruction.paramList[0].ToString()));
+					break;
+				case Instruction.LEFT:
+					cBuilder.AppendLine(
+						LEFT_SNIPPET.Replace("#angle", instruction.paramList[0].ToString()));
+					break;
+				case Instruction.DRIVE:
+					cBuilder.AppendLine(DRIVE_SNIPPET
+						.Replace("#velo_high", ((byte)(instruction.paramList[0] >> 8) & 0x00FF).ToString())
+						.Replace("#velo_low", ((byte)instruction.paramList[0] & 0x00FF).ToString())
+						.Replace("#angle_high", ((byte)(instruction.paramList[1] >> 8) & 0x00FF).ToString())
+						.Replace("#angle_low", ((byte)instruction.paramList[1] & 0x00FF).ToString()));
+					break;
 
-                case Instruction.DELAY:
-                    cBuilder.AppendLine(DELAY_SNIPPET.Replace("#time", instruction.parameters[0].ToString()));
-                    break;
-            }
-            return cBuilder.ToString();
-        }
+				//LED
+				case Instruction.LED:
+					cBuilder.AppendLine(LED_SNIPPET
+						.Replace("#bit", instruction.paramList[0].ToString())
+						.Replace("#color", instruction.paramList[1].ToString())
+						.Replace("#intensity", instruction.paramList[2].ToString()));
+					break;
 
-        public static string TranslateProgram(HLProgram program)
-        {
+				// SONG
+				case Instruction.SONG_DEF:
+					cBuilder.AppendLine(SONG_DEF_SNIPPET
+						.Replace("#song_number", instruction.paramList[0].ToString())
+						.Replace("#song_duration", (instruction.paramList.Count / 2).ToString()));
+					for (int i = 1; i < instruction.paramList.Count; i++)
+					{
+						cBuilder.AppendLine("byteTx(" + instruction.paramList[i].ToString() + ");");
+					}
+					break;
+				case Instruction.SONG_PLAY:
+					cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.paramList[0].ToString()));
+					break;
 
-            StringBuilder cBuilder = new StringBuilder();
+				// DELAY
+				case Instruction.DELAY:
+					cBuilder.AppendLine(DELAY_SNIPPET.Replace("#time", instruction.paramList[0].ToString()));
+					break;
 
-            foreach (Instruction ins in program.GetInstructionList())
-            {
-                cBuilder.AppendLine("//" + ins.ToString());
-                cBuilder.AppendLine(TranslateInstruction(ins));
-            }
+				// SENSOR
+				case Instruction.READ_SENSOR:
+					cBuilder.AppendLine(READ_SENSOR_SNIPPET);
+					break;
 
-            return cBuilder.ToString();
-        }
+				// IF ELSE END_IF
+				case Instruction.IF:
+					cBuilder.AppendLine(SubTransIF(instruction));
+					break;
+				case Instruction.ELSE:
+					cBuilder.AppendLine(ELSE_SINPPET);
+					break;
+				case Instruction.END_IF:
+					cBuilder.AppendLine(END_IF_SINPPET);
+					break;
 
-        public static void TranlateProgramAndWrite(HLProgram program)
-        {
-            string cCode = Translator.TranslateProgram(program);
-            GenerateCSource(SourceType.Emulator, cCode);
+				// LOOP END_LOOP
+				case Instruction.LOOP:
+					operatorSymbol = Operator.GetOperatorTextSymbol(instruction.paramList[1]);
+					condition = "sensors[" + instruction.paramList[0].ToString() + "] "
+						+ operatorSymbol + " "
+						+ instruction.paramList[2].ToString();
+					cBuilder.AppendLine(LOOP_SNIPPET.Replace("#condition", condition));
+					break;
+				case Instruction.END_LOOP:
+					cBuilder.AppendLine(END_LOOP_SNIPPET);
+					break;
 
-        }
+			}
+			return cBuilder.ToString();
+		}
 
-        public static string TranslateInstructionString(string instructionString)
-        {
-            return TranslateInstruction(new Instruction(instructionString));
-        }
+		/// <summary>
+		/// Translate high-level program
+		/// </summary>
+		/// <param name="program"></param>
+		/// <returns></returns>
+		public static string TranslateProgram(HLProgram program)
+		{
 
-        public static string TranslateProgramString(string programString)
-        {
-            return TranslateProgram(new HLProgram(programString));
-        }
+			StringBuilder cBuilder = new StringBuilder();
 
-        public static void GenerateCSource(SourceType st, string code)
-        {
-            string template;
-            if (st.HasFlag(SourceType.Microcontroller))
-            {
-                template = File.ReadAllText(MicrocontrollerTemplate);
-                if (!String.IsNullOrEmpty(template))
-                {
-                    File.WriteAllText(MicrocontrollerOutputSource,
-                        template.Replace("##main_program##", code));
-                }
-            }
+			foreach (Instruction ins in program.GetInstructionList())
+			{
+				// The instruction itself as comment
+				cBuilder.AppendLine("//" + ins.ToString());
+				cBuilder.AppendLine(TranslateInstruction(ins));
+			}
 
-            if (st.HasFlag(SourceType.Emulator))
-            {
-                template = File.ReadAllText(EmulatorTemplate);
-                if (!String.IsNullOrEmpty(template))
-                {
-                    File.WriteAllText(EmulatorOutputSource,
-                        template.Replace("##main_program##", code));
-                }
-            }
-           
-        }
-    }
+			return cBuilder.ToString();
+		}
+
+		public static string TranslateProgramString(string programString)
+		{
+			return TranslateProgram(new HLProgram(programString));
+		}
+
+		public static void TranlateProgramAndWrite(HLProgram program)
+		{
+			string cCode = Translator.TranslateProgram(program);
+			GenerateCSource(SourceType.Emulator, cCode);
+
+		}
+
+		public static string TranslateInstructionString(string instructionString)
+		{
+			return TranslateInstruction(new Instruction(instructionString));
+		}
+		public static void GenerateCSource(SourceType st, string code)
+		{
+			string template;
+			if (st.HasFlag(SourceType.Microcontroller))
+			{
+				template = File.ReadAllText(MicrocontrollerTemplate);
+				if (!String.IsNullOrEmpty(template))
+				{
+					File.WriteAllText(MicrocontrollerOutputSource,
+						template.Replace("##main_program##", code));
+				}
+			}
+
+			if (st.HasFlag(SourceType.Emulator))
+			{
+				template = File.ReadAllText(EmulatorTemplate);
+				if (!String.IsNullOrEmpty(template))
+				{
+					File.WriteAllText(EmulatorOutputSource,
+						template.Replace("##main_program##", code));
+				}
+			}
+
+		}
+	}
 }
 

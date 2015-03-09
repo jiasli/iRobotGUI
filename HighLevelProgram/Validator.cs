@@ -33,11 +33,11 @@ namespace iRobotGUI
         // Remove this function?
         public static bool ValidateSongDef(Instruction songIns)
         {
-            int songLength = songIns.parameters.Count - 1;
+            int songLength = songIns.paramList.Count - 1;
             if (songLength < 2 || songLength>32) return false;
 
-            int songNo = songIns.parameters[0];
-            if ((songIns.parameters[0] < 0 || songIns.parameters[0] >15))
+            int songNo = songIns.paramList[0];
+            if ((songIns.paramList[0] < 0 || songIns.paramList[0] >15))
             {
                 return false;
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iRobotGUI.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,8 +22,18 @@ namespace TempJiashuo
     public partial class MainWindow : Window
     {
         public MainWindow()
-        {
-            InitializeComponent();
+		{
+			InitializeComponent();
+
+			
+		
         }
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			LoopWindow dlg = new LoopWindow();
+			dlg.Owner = this;
+			dlg.ShowDialog();
+		}
     }
 }
