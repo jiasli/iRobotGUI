@@ -124,6 +124,7 @@
       <DependentUpon>SongWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WinAvrConnector.cs" />
+    <Compile Include="Util\Condition.cs" />
     <Page Include="ConfigurationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

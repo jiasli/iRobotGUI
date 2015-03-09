@@ -8,12 +8,12 @@ namespace iRobotGUI
 {
 	public static class Operator
 	{
-		public const int NOT_EQUAL = 0;
-		public const int EQUAL = 1;
-		public const int GREATER_THAN = 2;
+		public const int EQUAL                 = 0;
+		public const int NOT_EQUAL             = 1;
+		public const int GREATER_THAN          = 2;
 		public const int GRAETER_THAN_OR_EQUAL = 3;
-		public const int LESS_THAN = 4;
-		public const int LESS_THAN_OR_EQUAL = 5;
+		public const int LESS_THAN             = 4;
+		public const int LESS_THAN_OR_EQUAL    = 5;
 
 		/// <summary>
 		/// Get the text symbol of an operator that is used in C.
@@ -24,10 +24,10 @@ namespace iRobotGUI
 		{
 			switch (opeartorName)
 			{
-				case Operator.NOT_EQUAL:
-					return "!=";
 				case Operator.EQUAL:
 					return "==";
+				case Operator.NOT_EQUAL:
+					return "!=";
 				case Operator.GREATER_THAN:
 					return ">";
 				case Operator.GRAETER_THAN_OR_EQUAL:
