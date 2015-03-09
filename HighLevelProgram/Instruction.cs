@@ -13,21 +13,21 @@ namespace iRobotGUI
 		public string _string;
 
 		#region OpCode
-		public const string FORWARD = "FORWARD";
-		public const string BACKWARD = "BACKWARD";
-		public const string LEFT = "LEFT";
-		public const string RIGHT = "RIGHT";
-		public const string DRIVE = "DRIVE";
-		public const string LED = "LED";
-		public const string DEMO = "DEMO";
-		public const string SONG_DEF = "SONG_DEF";
-		public const string SONG_PLAY = "SONG_PLAY";        
-		public const string IF = "IF";
-		public const string ELSE = "ELSE";
-		public const string END_IF = "END_IF";
-		public const string LOOP = "LOOP";
-		public const string END_LOOP = "END_LOOP";
-		public const string DELAY = "DELAY";
+		public const string FORWARD     = "FORWARD";
+		public const string BACKWARD    = "BACKWARD";
+		public const string LEFT        = "LEFT";
+		public const string RIGHT       = "RIGHT";
+		public const string DRIVE       = "DRIVE";
+		public const string LED         = "LED";
+		public const string DEMO        = "DEMO";
+		public const string SONG_DEF    = "SONG_DEF";
+		public const string SONG_PLAY   = "SONG_PLAY";        
+		public const string IF          = "IF";
+		public const string ELSE        = "ELSE";
+		public const string END_IF      = "END_IF";
+		public const string LOOP        = "LOOP";
+		public const string END_LOOP    = "END_LOOP";
+		public const string DELAY       = "DELAY";
 		public const string READ_SENSOR = "READ_SENSOR";
 		#endregion
 
@@ -153,6 +153,18 @@ namespace iRobotGUI
 			return sb.ToString();
 		}
 
+		/// <summary>
+		/// Decide if an instruction string is a comment line. Comment line is prefixed by "//" like C.
+		/// </summary>
+		/// <param name="insStr"></param>
+		/// <returns>True if it is.</returns>
+		public static bool IsCommentLine(string insStr)
+		{
+			insStr = insStr.Trim();
+
+			if (insStr[0] == '/') return true;
+			else return false;
+		}
 
 		
 

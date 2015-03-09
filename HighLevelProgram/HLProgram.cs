@@ -15,11 +15,9 @@ namespace iRobotGUI
 
 		private List<Instruction> _program;
 
-		public const string driveExample =
-@"FORWARD 10,3";
+		public const string driveExample =@"FORWARD 10,3";
 
-		public const string driveExampleSerial =
-@"137 0 10 127 255
+		public const string driveExampleSerial =@"137 0 10 127 255
 137 0 0 127 255";
 
 		public HLProgram()
@@ -31,11 +29,14 @@ namespace iRobotGUI
 		{
 			_program = new List<Instruction>();
 
-			string[] inss = programString.Split(new char[] { '\n','\r' },StringSplitOptions.RemoveEmptyEntries);
-			for (int i = 0; i < inss.Length; i++ )
+			string[] insStrArray = programString.Split(new char[] { '\n','\r' }, StringSplitOptions.RemoveEmptyEntries);
+			for (int i = 0; i < insStrArray.Length; i++ )
 			{
 				CurrentLine = i;
-				_program.Add(new Instruction(inss[i]));
+
+				// Ignore comment line
+				if (!Instruction.IsCommentLine(insStrArray[i]))
+					_program.Add(new Instruction(insStrArray[i]));
 			}
 		}
 

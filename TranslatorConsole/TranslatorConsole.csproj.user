@@ -2,6 +2,6 @@
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartWorkingDirectory>..\..\..\cprogram</StartWorkingDirectory>
-    <StartArguments>forward_and_detect_distance.igp</StartArguments>
+    <StartArguments>forward_until_bump.igp</StartArguments>
   </PropertyGroup>
 </Project>
