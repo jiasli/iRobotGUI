@@ -201,7 +201,7 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 AVRDUDE_PROGRAMMER = stk500v1
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
-AVRDUDE_PORT = COM3    # programmer connected to serial device
+AVRDUDE_PORT = COM1    # programmer connected to serial device
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
@@ -245,7 +245,7 @@ DEBUG_BACKEND = avarice
 GDBINIT_FILE = __avr_gdbinit
 
 # When using avarice settings for the JTAG
-JTAG_DEV = /dev/COM3
+JTAG_DEV = /dev/COM1
 
 # Debugging port used to communicate between GDB / avarice / simulavr.
 DEBUG_PORT = 4242

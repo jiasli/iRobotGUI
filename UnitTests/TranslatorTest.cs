@@ -13,20 +13,50 @@ namespace iRobotGUI.Tests
     public class TranslatorTest
     {
         [TestMethod()]
+        [TestProperty("Data:Opcode","{FORWARD, INFORNTOF}")]
+        //New code: Trying to create light weight data driven unit test
+        public void SetupTranslateInstructionTest()
+        {
+            try
+            {
+                string op = testContextInstance.DataRow["Opcode"].ToString();
+                Console.WriteLine("op = {0}",op);
+                Instruction a = new Instruction(op);
+                TranslateInstructionTest(a);
+            }
+            catch(NullReferenceException)
+            {
+                Console.WriteLine("null reference exception");
+            }            
+        }
+        private TestContext testContextInstance;
+        public TestContext TestContext
+        {
+            get { return testContextInstance; }
+            set { testContextInstance = value; }
+        }
+        //End of new code
         public void TranslateInstructionTest(Instruction instruction)
         {
             string validOpCodeSrting = "FORWARD";
             string invalidOpCodeString = "INFORNTOF";
             bool pass = true;
 
-            if (instruction.opcode == validOpCodeSrting)
-                pass = true;
-            else
+            try
+            {
+                if (instruction.opcode.Equals(validOpCodeSrting))
+                    pass = true;
+                else
+                    pass = false;
+                if (instruction.opcode.Equals(invalidOpCodeString))
+                    pass = false;
+                else
+                    pass = true;
+            }
+            catch (NullReferenceException)
+            {
                 pass = false;
-            if (instruction.opcode == invalidOpCodeString)
-                pass = false;
-            else
-                pass = true;
+            }
             Assert.IsTrue(pass);
         }
        
