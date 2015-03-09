@@ -16,17 +16,18 @@ namespace iRobotGUI
 			Emulator
 		};
 
-		private const string MicrocontrollerTemplate = "mc_t.c";
+		private const string MicrocontrollerTemplate     = "mc_t.c";
 		private const string MicrocontrollerOutputSource = "mc_o.c";
-		private const string EmulatorTemplate = "em_t.cpp";
-		private const string EmulatorOutputSource = "em_o.cpp";
+		private const string EmulatorTemplate            = "em_t.cpp";
+		private const string EmulatorOutputSource        = "em_o.cpp";
 
-		public const string FORWARD_SNIPPET = @"byteTx(CmdDrive);
+		public const string FORWARD_BACKWARD_SNIPPET = @"distance = 0;
+byteTx(CmdDrive);
 byteTx(#velo_high);
 byteTx(#velo_low);
 byteTx(128);
 byteTx(0);
-while(distance < #distance)
+while(distance #operator #distance)
 {
 	delaySensors(100);
 }
@@ -36,12 +37,13 @@ byteTx(0);
 byteTx(128);
 byteTx(0);
 ";
-		public const string LEFT_SNIPPET = @"byteTx(CmdDrive);
+		public const string LEFT_RIGHT_SNIPPET = @"angle = 0;
+byteTx(CmdDrive);
 byteTx(0);
 byteTx(0);
 byteTx(0);
 byteTx(1);
-while(angle < #angle)
+while(angle #operator #angle)
 {
 	delaySensors(100);
 }
@@ -69,9 +71,7 @@ byteTx(#song_duration);";
 		public const string SONG_PLAY_SNIPPET = @"byteTx(CmdPlay);
 byteTx(#song_number);";
 
-		public const string READ_SENSOR_SNIPPET = @"byteTx(CmdSensors);
-byteTx(0);
-delaySensors(0);";
+		public const string READ_SENSOR_SNIPPET = @"delaySensors(0);";
 
 		public const string IF_SNIPPET = @"if (#condition)
 {";
@@ -83,9 +83,7 @@ else
 
 		public const string LOOP_SNIPPET = @"while (#condition)
 {";
-		public const string END_LOOP_SNIPPET = @"byteTx(CmdSensors);
-byteTx(0);
-}";
+		public const string END_LOOP_SNIPPET = @"}";
 		public const string DELAY_SNIPPET = @"delay(#time);";
 
 		public const string PLACEHOLDER_MAIN_PROGRAM = "##main_program##";
@@ -93,7 +91,68 @@ byteTx(0);
 
 		// Remember not to include linebreak in the end.
 
-		private static string SubTransIF(Instruction ins)
+		private static string SubTransDrive(Instruction ins)
+		{
+			StringBuilder driveBuilder = new StringBuilder();
+			driveBuilder.Append(DRIVE_SNIPPET
+						.Replace("#velo_high", ((byte)(ins.paramList[0] >> 8) & 0x00FF).ToString())
+						.Replace("#velo_low", ((byte)ins.paramList[0] & 0x00FF).ToString())
+						.Replace("#angle_high", ((byte)(ins.paramList[1] >> 8) & 0x00FF).ToString())
+						.Replace("#angle_low", ((byte)ins.paramList[1] & 0x00FF).ToString()));
+			return driveBuilder.ToString();
+		}
+
+		private static string SubTransForwardBackward(Instruction ins)
+		{
+			StringBuilder builder = new StringBuilder();
+			string command;
+
+			builder.Append(FORWARD_BACKWARD_SNIPPET
+				.Replace("#velo_high", (((byte)((ins.paramList[0] / ins.paramList[1]) >> 8)) & 0x00FF).ToString())
+				.Replace("#velo_low", ((byte)(ins.paramList[0] / ins.paramList[1]) & 0x00FF).ToString())
+				.Replace("#distance", ins.paramList[0].ToString()));
+			command = builder.ToString();
+			switch(ins.opcode)
+			{
+				case Instruction.FORWARD:
+					command = command.Replace("#operator", "<");
+					break;
+
+				case Instruction.BACKWARD:
+					command = command.Replace("#operator", ">");
+					break;
+			}
+			return command;
+		}
+
+		private static string SubTransLeftRight(Instruction ins)
+		{
+			StringBuilder builder = new StringBuilder();
+			String command;
+
+			builder.Append(LEFT_RIGHT_SNIPPET.Replace("#angle", ins.paramList[0].ToString()));
+			command = builder.ToString();
+			switch (ins.opcode)
+			{
+				case Instruction.LEFT:
+					command = command.Replace("#operator", "<");
+					break;
+
+				case Instruction.RIGHT:
+					command = command.Replace("#operator", ">");
+					break;
+
+			}
+			return command;
+		}
+
+		private static string SubTransCondition(string para0, string opSymbol, string para2)
+		{
+			string condition = String.Format("sensor[{0}] {1} {2}", para0, opSymbol, para2);
+			return condition;
+		}
+
+		private static string SubTransIfLoop(Instruction ins)
 		{
 			string condition = "Condition Unassigned";
 			string operatorSymbol;
@@ -104,17 +163,14 @@ byteTx(0);
 
 			// To check if the sensor is built-in or compound
 			if (Sensor.GetSensorType(paramList[0]) == Sensor.SensorType.BuiltIn)
-				condition = String.Format("sensor[{0}] {1} {2}",
-					paramList[0].ToString(),
-					operatorSymbol,
-					paramList[2].ToString());
+				condition = SubTransCondition(paramList[0].ToString(), operatorSymbol, paramList[2].ToString());
 			else
-				condition = String.Format("{0} {1} {2}",
-					Sensor.GetCompoundSensorName(paramList[0]),
-					operatorSymbol,
-					paramList[2].ToString());
+				condition = SubTransCondition(Sensor.GetCompoundSensorName(paramList[0]), operatorSymbol, paramList[2].ToString());
 
-			builder.Append(IF_SNIPPET.Replace("#condition", condition));
+            if (ins.opcode == Instruction.IF)
+			    builder.Append(IF_SNIPPET.Replace("#condition", condition));
+            else 
+                builder.Append(LOOP_SNIPPET.Replace("#condition", condition));
 
 			return builder.ToString();
 		}
@@ -135,21 +191,19 @@ byteTx(0);
 			{
 				// Navigation
 				case Instruction.FORWARD:
-					cBuilder.AppendLine(FORWARD_SNIPPET
-						.Replace("#velo_high", (((byte)((instruction.paramList[0] / instruction.paramList[1]) >> 8)) & 0x00FF).ToString())
-						.Replace("#velo_low", ((byte)(instruction.paramList[0] / instruction.paramList[1]) & 0x00FF).ToString())
-						.Replace("#distance", instruction.paramList[0].ToString()));
+					cBuilder.AppendLine(SubTransForwardBackward(instruction));
+					break;
+				case Instruction.BACKWARD:
+					cBuilder.AppendLine(SubTransForwardBackward(instruction));
 					break;
 				case Instruction.LEFT:
-					cBuilder.AppendLine(
-						LEFT_SNIPPET.Replace("#angle", instruction.paramList[0].ToString()));
+					cBuilder.AppendLine(SubTransLeftRight(instruction));
+					break;
+				case Instruction.RIGHT:
+					cBuilder.AppendLine(SubTransLeftRight(instruction));
 					break;
 				case Instruction.DRIVE:
-					cBuilder.AppendLine(DRIVE_SNIPPET
-						.Replace("#velo_high", ((byte)(instruction.paramList[0] >> 8) & 0x00FF).ToString())
-						.Replace("#velo_low", ((byte)instruction.paramList[0] & 0x00FF).ToString())
-						.Replace("#angle_high", ((byte)(instruction.paramList[1] >> 8) & 0x00FF).ToString())
-						.Replace("#angle_low", ((byte)instruction.paramList[1] & 0x00FF).ToString()));
+					cBuilder.AppendLine(SubTransDrive(instruction));
 					break;
 
 				//LED
@@ -186,7 +240,7 @@ byteTx(0);
 
 				// IF ELSE END_IF
 				case Instruction.IF:
-					cBuilder.AppendLine(SubTransIF(instruction));
+					cBuilder.AppendLine(SubTransIfLoop(instruction));
 					break;
 				case Instruction.ELSE:
 					cBuilder.AppendLine(ELSE_SINPPET);
@@ -197,11 +251,7 @@ byteTx(0);
 
 				// LOOP END_LOOP
 				case Instruction.LOOP:
-					operatorSymbol = Operator.GetOperatorTextSymbol(instruction.paramList[1]);
-					condition = "sensors[" + instruction.paramList[0].ToString() + "] "
-						+ operatorSymbol + " "
-						+ instruction.paramList[2].ToString();
-					cBuilder.AppendLine(LOOP_SNIPPET.Replace("#condition", condition));
+                    cBuilder.AppendLine(SubTransIfLoop(instruction));                    
 					break;
 				case Instruction.END_LOOP:
 					cBuilder.AppendLine(END_LOOP_SNIPPET);
