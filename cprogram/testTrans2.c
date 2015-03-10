@@ -111,30 +111,13 @@ byteTx(128);
 byteTx(0);
 
 
-//LEFT 90
-angle = 0;
-byteTx(CmdDrive);
-byteTx(0);
-byteTx(0);
-byteTx(0);
-byteTx(1);
-while(angle < 90)
-{
-	delaySensors(100);
-}
-byteTx(CmdDrive);
-byteTx(0);
-byteTx(0);
-byteTx(128);
-byteTx(0);
-
 //RIGHT -90
 angle = 0;
 byteTx(CmdDrive);
 byteTx(0);
-byteTx(0);
-byteTx(0);
-byteTx(1);
+byteTx(128);
+byteTx(255);
+byteTx(255);
 while(angle > -90)
 {
 	delaySensors(100);

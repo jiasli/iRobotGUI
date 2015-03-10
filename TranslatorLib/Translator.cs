@@ -40,9 +40,9 @@ byteTx(0);
 		public const string LEFT_RIGHT_SNIPPET = @"angle = 0;
 byteTx(CmdDrive);
 byteTx(0);
-byteTx(0);
-byteTx(0);
-byteTx(1);
+byteTx(128);
+byteTx(#direction_high);
+byteTx(#direction_low);
 while(angle #operator #angle)
 {
 	delaySensors(100);
@@ -135,11 +135,16 @@ else
 			switch (ins.opcode)
 			{
 				case Instruction.LEFT:
-					command = command.Replace("#operator", "<");
+					command = command.Replace("#direction_high", "0")
+						.Replace("#direction_low", "1")
+						.Replace("#operator", "<");
 					break;
 
 				case Instruction.RIGHT:
-					command = command.Replace("#operator", ">");
+					command = command.Replace("#direction_high", "255")
+						.Replace("#direction_low", "255")
+						.Replace("#operator", ">");
+
 					break;
 
 			}
@@ -148,7 +153,7 @@ else
 
 		private static string SubTransCondition(string para0, string opSymbol, string para2)
 		{
-			string condition = String.Format("sensor[{0}] {1} {2}", para0, opSymbol, para2);
+			string condition = String.Format("sensors[{0}] {1} {2}", para0, opSymbol, para2);
 			return condition;
 		}
 
@@ -167,10 +172,10 @@ else
 			else
 				condition = SubTransCondition(Sensor.GetCompoundSensorName(paramList[0]), operatorSymbol, paramList[2].ToString());
 
-            if (ins.opcode == Instruction.IF)
-			    builder.Append(IF_SNIPPET.Replace("#condition", condition));
-            else 
-                builder.Append(LOOP_SNIPPET.Replace("#condition", condition));
+			if (ins.opcode == Instruction.IF)
+				builder.Append(IF_SNIPPET.Replace("#condition", condition));
+			else 
+				builder.Append(LOOP_SNIPPET.Replace("#condition", condition));
 
 			return builder.ToString();
 		}
@@ -251,7 +256,7 @@ else
 
 				// LOOP END_LOOP
 				case Instruction.LOOP:
-                    cBuilder.AppendLine(SubTransIfLoop(instruction));                    
+					cBuilder.AppendLine(SubTransIfLoop(instruction));                    
 					break;
 				case Instruction.END_LOOP:
 					cBuilder.AppendLine(END_LOOP_SNIPPET);
