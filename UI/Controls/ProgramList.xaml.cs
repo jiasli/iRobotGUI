@@ -94,7 +94,7 @@ namespace iRobotGUI.Controls
 		/// </summary>
 		void listView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			int index = ListviewProgram.SelectedIndex;
+			int index = this.dragMgr.IndexUnderDragCursor;
 			Instruction selectedIns = program.GetInstructionList().ElementAt(index);
 			if (selectedIns == null)
 				return;
@@ -108,6 +108,8 @@ namespace iRobotGUI.Controls
 		/// </summary>
 		void NewDrop(object sender, DragEventArgs e)
 		{
+			int newIndex = this.dragMgr.IndexUnderDragCursor;
+
 			// drag inside program list
 			if (this.dragMgr.IsDragInProgress)
 			{
@@ -119,7 +121,6 @@ namespace iRobotGUI.Controls
 					return;
 
 				int oldIndex = this.ListviewProgram.Items.IndexOf(data);
-				int newIndex = this.dragMgr.IndexUnderDragCursor;
 
 				Instruction ins = program.GetInstructionList().ElementAt(oldIndex);
 
@@ -137,12 +138,15 @@ namespace iRobotGUI.Controls
 			// drag from instruction panel to program list
 			else
 			{
+				if (newIndex < 0)
+					newIndex = program.Count;
+
 				string op = (string)e.Data.GetData(DataFormats.StringFormat);
 				Instruction newIns = Instruction.CreatFromOpcode(op);
 
 				if (newIns != null)
 				{
-					program.Add(newIns);
+					program.Insert(newIndex, newIns);
 				}
 
 				UpdateContent();
