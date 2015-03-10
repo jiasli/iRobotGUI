@@ -113,10 +113,24 @@ namespace iRobotGUI
 			program.Insert(index, ins);
 		}
 
-public void Remove(Instruction ins)
+        /// <summary>
+        /// Remove a instruction
+        /// </summary>
+        /// <param name="ins"></param>
+        public void Remove(Instruction ins)
 		{
 			program.Remove(ins);
 		}
+
+        /// <summary>
+        /// Insert specified Instruction to index position
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="ins"></param>
+        public void Insert(int index, Instruction ins)
+        {
+            program.Insert(index, ins);
+        }
 
 		/// <summary>
 		/// Get the sub-program specified by a range.
