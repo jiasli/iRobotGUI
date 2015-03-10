@@ -8,12 +8,9 @@
     Title="iRobot GUI" Width="900" Height="500" >
 
     <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Open"
-                        Executed="OpenCmdExecuted"/>
-        <CommandBinding Command="ApplicationCommands.Save" 
-                        Executed="SaveCmdExecuted"/>
-        <CommandBinding Command="{x:Static custom:MainWindow.ComPortCmd}"
-                    Executed="ConfigCmdExecuted"/>
+        <CommandBinding Command="ApplicationCommands.Open" Executed="OpenCmdExecuted"/>
+        <CommandBinding Command="ApplicationCommands.Save" Executed="SaveCmdExecuted"/>
+        <CommandBinding Command="{x:Static custom:MainWindow.ComPortCmd}" Executed="ConfigCmdExecuted"/>
     </Window.CommandBindings>
 
     <Window.InputBindings>
@@ -72,21 +69,7 @@
 
         <Controls:ProgramList x:Name="ProgramList1" Grid.Row="1" Grid.Column="1" />          
         
-        <GroupBox Grid.Row="1" Grid.Column="2" Header="Parameters"  >
-            <StackPanel x:Name="RootPanel" Margin="0,0,0,0">
-
-                <StackPanel x:Name="ForwardPanel" Margin="0,0,0,0" VerticalAlignment="Top" Visibility="Collapsed">
-                    <Label Content="Distance (millimeter)"/>
-                    <TextBox x:Name="textBoxDistance" Height="23" TextWrapping="Wrap" Text="500" PreviewTextInput="number_validation" TextChanged="TextBoxDistance_TextChanged" />
-                    <Label Content="Time (second)"/>
-                    <TextBox x:Name="textBoxTime" Height="23" TextWrapping="Wrap" Text="3" PreviewTextInput="number_validation" TextChanged="TextBoxTime_TextChanged" />
-                </StackPanel>
-
-                <StackPanel x:Name="RotatePanel" Margin="0,0,0,0" VerticalAlignment="Top" Visibility="Collapsed">
-                    <Label Content="Angle (degree)"/>
-                    <TextBox x:Name="textBoxAngle" Height="23" TextWrapping="Wrap" Text="90" TextChanged="TextBoxAngle_TextChanged"/>
-                </StackPanel>    
-            </StackPanel>
+        <GroupBox Grid.Row="1" Grid.Column="2" Header="Parameters"  >     
 
 
 
