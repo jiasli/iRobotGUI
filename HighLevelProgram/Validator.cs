@@ -10,10 +10,90 @@ namespace iRobotGUI
 {
 	public class Validator
 	{
+		/// <summary>
+		/// The number of line under validation. Starts from -1.
+		/// </summary>
+		static int currentLine = -1;
+
 		static private Stack<string> ifStack = new Stack<string>();
 		static private Stack<string> loopStack = new Stack<string>();
 
-		public static bool Validate(String insStr)
+		public static bool CheckIf(string opcode)
+		{
+			string IF = Instruction.IF;
+			string ELSE = Instruction.ELSE;
+			string END_IF = Instruction.END_IF;
+
+
+			if (ifStack.Count == 0)
+			{
+				// Empty stack		
+		
+				if (opcode == IF)
+				{
+					// Only IF is accepted
+					ifStack.Push(opcode);
+					return true;
+				}
+				else
+				{
+					// Do not accept ELSE and END_IF
+					throw new IfUnmatchedException(currentLine, opcode);
+				}
+			}
+			else
+			{
+				// Non-empty stack
+
+				string top = ifStack.Peek();
+
+				if (opcode == IF)
+				{
+					// Accept all IF
+					ifStack.Push(opcode);
+					return true;
+				}
+				else if (opcode == ELSE)
+				{
+					// Only IF on top of stack can accept ELSE
+					if (top == IF) { ifStack.Pop(); ifStack.Push(opcode); }
+					throw new IfUnmatchedException(currentLine, opcode);
+
+				}
+				else if (opcode == END_IF)
+				{
+					// Only ELSE on top of stack can accept END_IF
+					if (top == ELSE) { ifStack.Pop(); }
+					throw new IfUnmatchedException(currentLine, opcode);
+				}
+			}
+			return true;
+
+		}
+
+		public static bool CheckLoop(string opcode)
+		{
+			if (opcode == Instruction.LOOP)
+			{
+				// Accept any LOOP.
+				loopStack.Push(Instruction.LOOP);
+				return true;
+			}
+			else if (opcode == Instruction.END_LOOP)
+			{
+				// Only accept END_LOOP when the stack is non-empty.
+				if (loopStack.Count == 0)
+					throw new LoopUnmatchedException(currentLine, opcode);
+				else
+				{
+					loopStack.Pop();
+					return true;
+				}
+			}
+			return true;
+		}
+
+		public static bool ValidateInstruction(String insStr)
 		{
 			Instruction ins;
 			try
@@ -25,11 +105,12 @@ namespace iRobotGUI
 				throw ex;
 			}
 
-			return Validate(ins);			
+			return ValidateInstruction(ins);
 		}
 
-		public static bool Validate(Instruction ins)
+		public static bool ValidateInstruction(Instruction ins)
 		{
+			currentLine++;
 			switch (ins.opcode)
 			{
 				case Instruction.SONG_DEF:
@@ -42,23 +123,30 @@ namespace iRobotGUI
 					return CheckLoop(ins.opcode);
 
 				case Instruction.IF:
-					return CheckIf(ins.opcode);
-
 				case Instruction.ELSE:
-					return CheckIf(ins.opcode);
-
 				case Instruction.END_IF:
 					return CheckIf(ins.opcode);
 			}
-			return false;
+			return true;
 		}
 
-		public static bool Validate(HLProgram program)
+		public static bool ValidateProgram(string programString)
+		{
+			return ValidateProgram(new HLProgram(programString));
+		}
+
+		public static bool ValidateProgram(HLProgram program)
 		{
 			foreach (Instruction ins in program)
 			{
-				if (Validate(ins) == false) return false;
+				if (ValidateInstruction(ins) == false) return false;
 			}
+
+			// Not all IF ELSE END_IF get matched.
+			if (ifStack.Count != 0) throw new IfUnmatchedException(currentLine, "End of file.");
+			
+			// Not all LOOP END_LOOP get matched.
+			if (loopStack.Count != 0) throw new LoopUnmatchedException(currentLine, "End of file.");
 			return true;
 		}
 
@@ -67,66 +155,16 @@ namespace iRobotGUI
 		public static bool ValidateSongDef(Instruction songIns)
 		{
 			int songLength = songIns.paramList.Count - 1;
-			if (songLength < 2 || songLength>32) return false;
+			if (songLength < 2 || songLength > 32) return false;
 
 			int songNo = songIns.paramList[0];
-			if ((songIns.paramList[0] < 0 || songIns.paramList[0] >15))
+			if ((songIns.paramList[0] < 0 || songIns.paramList[0] > 15))
 			{
 				return false;
 			}
 
 			return true;
 
-		}
-
-		public static bool CheckIf(string opcode)
-		{
-			string IF = Instruction.IF;
-			string ELSE = Instruction.ELSE;
-			string END_IF = Instruction.END_IF;
-
-			string top = ifStack.Peek();
-
-			if (opcode == IF)
-			{
-				ifStack.Push(opcode);
-			}
-			else if (opcode == ELSE)
-			{
-				if (top == IF) { ifStack.Pop(); ifStack.Push(opcode); }
-				else return false;
-			
-			}
-			else if (opcode == END_IF)
-			{
-				if (top == ELSE) { ifStack.Pop(); }
-				else return false;
-			}
-			return true;		
-	
-		}
-
-		public static bool CheckLoop(string opcode)
-		{
-			switch(opcode)
-			{
-				case Instruction.LOOP:
-					StackCheck.LoopStack.Push(Instruction.LOOP);
-					break;
-
-				case Instruction.END_LOOP:
-					if (StackCheck.LoopStack.Count == 0)
-						return false;
-					else
-					{
-						StackCheck.LoopStack.Pop();
-						break;
-					}
-			}
-			if ((StackCheck.LoopStack.Count == 0) && (StackCheck.LoopAmount == StackCheck.EndLoopAmount))
-				return true;
-			else
-				return false;
 		}
 	}
 

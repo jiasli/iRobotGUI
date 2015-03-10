@@ -47,7 +47,6 @@
     <Compile Include="Operator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sensor.cs" />
-    <Compile Include="StackCheck.cs" />
     <Compile Include="Validator.cs" />
   </ItemGroup>
   <ItemGroup>

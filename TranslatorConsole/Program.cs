@@ -35,7 +35,7 @@ namespace TranslatorConsole
 				c_program = c_program.Replace("##main_program##", output_program);
                 File.WriteAllText("testTrans2.c", c_program);
 			}
-			catch (InstructionExpection e)
+			catch (InstructionException e)
 			{
 				Console.WriteLine(e.Line + " " + e.InsStr);
 			}

@@ -59,7 +59,7 @@ namespace iRobotGUI
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(songInsStr))
-            if (Validator.Validate(songInsStr))
+            if (Validator.ValidateInstruction(songInsStr))
                 Ins = new Instruction(songInsStr);
 
             for (int i = 0; i < 15; i++)
