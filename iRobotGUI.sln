@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestChen", "TempChen\TestCh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestYun", "TestYun\TestYun.csproj", "{BA59B7C4-50E7-4EB5-8885-19AE88276E03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestYunConsole", "TestYunConsole\TestYunConsole.csproj", "{4E69C6E1-2420-4A24-97C1-A83AFE334E5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{BA59B7C4-50E7-4EB5-8885-19AE88276E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA59B7C4-50E7-4EB5-8885-19AE88276E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA59B7C4-50E7-4EB5-8885-19AE88276E03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E69C6E1-2420-4A24-97C1-A83AFE334E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E69C6E1-2420-4A24-97C1-A83AFE334E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E69C6E1-2420-4A24-97C1-A83AFE334E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E69C6E1-2420-4A24-97C1-A83AFE334E5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
