@@ -27,14 +27,19 @@ namespace TranslatorConsole
 			try
 			{
 				string input_program = File.ReadAllText(fileName);
-				Console.WriteLine(input_program + "\n>>>>>C code>>>>>\n");
-				Console.WriteLine(Translator.TranslateProgramString(input_program));
+				string output_program;
+				Console.WriteLine(input_program + "\n>>>>>>>>>\n");
+				output_program = Translator.TranslateProgramString(input_program);
+				Console.WriteLine(output_program);
+				string c_program = File.ReadAllText("mc_t.c");
+				c_program = c_program.Replace("##main_program##", output_program);
+                File.WriteAllText("testTrans2.c", c_program);
 			}
 			catch (InstructionExpection e)
 			{
 				Console.WriteLine(e.Line + " " + e.InsStr);
 			}
-
+			Console.Read();
 		}
 	}
 }

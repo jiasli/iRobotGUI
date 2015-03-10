@@ -38,6 +38,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -67,6 +69,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -89,6 +92,9 @@
     <Compile Include="Configuation.cs" />
     <Compile Include="ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ConditionPanel.xaml.cs">
+      <DependentUpon>ConditionPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\DemoParam.xaml.cs">
       <DependentUpon>DemoParam.xaml</DependentUpon>
@@ -124,7 +130,12 @@
       <DependentUpon>SongWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WinAvrConnector.cs" />
+    <Compile Include="Util\Condition.cs" />
     <Page Include="ConfigurationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ConditionPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,6 +207,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagramUI.cd" />
+    <None Include="Controls\Controls.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -206,19 +218,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\backward.png" />
-    <Resource Include="Controls\pic\forward.png" />
-    <Resource Include="Controls\pic\left.png" />
-    <Resource Include="Controls\pic\right.png" />
+    <Resource Include="pic\backward.png" />
+    <Resource Include="pic\forward.png" />
+    <Resource Include="pic\left.png" />
+    <Resource Include="pic\right.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\led.jpg" />
+    <Resource Include="pic\led.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\bump.jpg" />
+    <Resource Include="pic\bump.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\cliff.jpg" />
+    <Resource Include="pic\cliff.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HighLevelProgram\HighLevelProgram.csproj">
@@ -235,17 +247,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\SONG.png" />
+    <Resource Include="pic\SONG.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\LED_panel.png" />
+    <Resource Include="pic\LED_panel.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\demo.jpg" />
+    <Resource Include="pic\demo.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\if.png" />
-    <Resource Include="Controls\pic\loop.png" />
+    <Resource Include="pic\if.png" />
+    <Resource Include="pic\loop.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
