@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iRobotGUI.WinAvr;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,8 +20,8 @@ namespace iRobotGUI
     /// </summary>
     public partial class ConfigurationWindow : Window
     {
-        private Configuation _config;
-        public Configuation Config
+        private WinAvrConfiguation _config;
+        public WinAvrConfiguation Config
         {
             set
             {
@@ -29,13 +30,13 @@ namespace iRobotGUI
 
                 switch (value.firmwareVersion)
                 {
-                    case Configuation.STK500:
+                    case WinAvrConfiguation.STK500:
                         radio0.IsChecked = true;
                         break;
-                    case Configuation.STK500V1:
+                    case WinAvrConfiguation.STK500V1:
                         radio1.IsChecked = true;
                         break;
-                    case Configuation.STK500V2:
+                    case WinAvrConfiguation.STK500V2:
                         radio2.IsChecked = true;
                         break;
                 }
