@@ -173,41 +173,42 @@ namespace iRobotGUI.Controls
 
 		private Image GetImageFromInstruction(Instruction ins)
 		{
+			string picPath = "/iRobotGUI;component/pic/";
 			Image im = new Image();
 			BitmapImage bi = new BitmapImage();
 			bi.BeginInit();
 			switch (ins.opcode)
 			{
 				case Instruction.FORWARD:
-					bi.UriSource = new Uri("/iRobotGUI;component/pic/forward.png", UriKind.Relative);
+					bi.UriSource = new Uri(picPath + "forward.png", UriKind.Relative);
 				   // im.Tag = "FORWARD";
 					break;
 				case Instruction.BACKWARD:
-					bi.UriSource = new Uri("/iRobotGUI;component/pic/backward.png", UriKind.Relative);
+					bi.UriSource = new Uri(picPath + "backward.png", UriKind.Relative);
 				   // im.Tag = "BACKWARD";
 					break;
 				case Instruction.LEFT:
-					bi.UriSource = new Uri("/iRobotGUI;component/pic/left.png", UriKind.Relative);
+					bi.UriSource = new Uri(picPath + "left.png", UriKind.Relative);
 					//im.Tag = "LEFT";
 					break;
 				case Instruction.RIGHT:
-					bi.UriSource = new Uri("/iRobotGUI;component/pic/right.png", UriKind.Relative);
+					bi.UriSource = new Uri(picPath + "right.png", UriKind.Relative);
 					//im.Tag = "RIGHT";
 					break;
 				case Instruction.LED:
-					bi.UriSource = new Uri("/iRobotGUI;component/pic/led.jpg", UriKind.Relative);
+					bi.UriSource = new Uri(picPath + "led.jpg", UriKind.Relative);
 					break;
 				case Instruction.SONG_DEF:
-					bi.UriSource = new Uri("/iRobotGUI;component/pic/song.png", UriKind.Relative);
+					bi.UriSource = new Uri(picPath + "song.png", UriKind.Relative);
 					break;
 				case Instruction.DEMO:
-					bi.UriSource = new Uri("/iRobotGUI;component/pic/demo.jpg", UriKind.Relative);
+					bi.UriSource = new Uri(picPath + "demo.jpg", UriKind.Relative);
 					break;
 				case Instruction.IF:
-					bi.UriSource = new Uri("/iRobotGUI;component/pic/if.png", UriKind.Relative);
+					bi.UriSource = new Uri(picPath + "if.png", UriKind.Relative);
 					break;
 				case Instruction.LOOP:
-					bi.UriSource = new Uri("/iRobotGUI;component/pic/loop.png", UriKind.Relative);
+					bi.UriSource = new Uri(picPath + "loop.png", UriKind.Relative);
 					break;
 				default:
 					bi.UriSource = null;
