@@ -218,19 +218,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\backward.png" />
-    <Resource Include="Controls\pic\forward.png" />
-    <Resource Include="Controls\pic\left.png" />
-    <Resource Include="Controls\pic\right.png" />
+    <Resource Include="pic\backward.png" />
+    <Resource Include="pic\forward.png" />
+    <Resource Include="pic\left.png" />
+    <Resource Include="pic\right.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\led.jpg" />
+    <Resource Include="pic\led.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\bump.jpg" />
+    <Resource Include="pic\bump.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\cliff.jpg" />
+    <Resource Include="pic\cliff.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HighLevelProgram\HighLevelProgram.csproj">
@@ -247,17 +247,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\SONG.png" />
+    <Resource Include="pic\SONG.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\LED_panel.png" />
+    <Resource Include="pic\LED_panel.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\demo.jpg" />
+    <Resource Include="pic\demo.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Controls\pic\if.png" />
-    <Resource Include="Controls\pic\loop.png" />
+    <Resource Include="pic\if.png" />
+    <Resource Include="pic\loop.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

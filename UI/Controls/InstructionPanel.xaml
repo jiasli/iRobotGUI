@@ -28,14 +28,14 @@
         <Label Content="Demo"          Style="{StaticResource LabelStyle}" Margin="155,140,0,0" />
         <Label Content="Logic"         Style="{StaticResource LabelStyle}" Margin="30,236,0,0" />
 
-        <Image Source="pic/forward.png"  Tag="FORWARD"  Margin="81,36,0,0"   />
-        <Image Source="pic/backward.png" Tag="BACKWARD" Margin="81,81,0,0"   />
-        <Image Source="pic/left.png"     Tag="LEFT"     Margin="31,62,0,0"   />
-        <Image Source="pic/right.png"    Tag="RIGHT"    Margin="131,62,0,0"  />
-        <Image Source="pic/led.jpg"      Tag="LED"      Margin="31,171,0,0"  ToolTip="LED" />
-        <Image Source="pic/song.png"     Tag="SONG_DEF" Margin="81,171,0,0"  ToolTip="Define a song" />
-        <Image Source="pic/demo.jpg"     Tag="DEMO"     Margin="155,171,0,0" ToolTip="Play a demo" />
-        <Image Source="pic/if.png"       Tag="IF"       Margin="31,267,0,0"  ToolTip="If"  />
-        <Image Source="pic/loop.png"     Tag="LOOP"     Margin="81,267,0,0"  ToolTip="Loop" />
+        <Image Source="/iRobotGUI;component/pic/forward.png"  Tag="FORWARD"  Margin="81,36,0,0"   />
+        <Image Source="/iRobotGUI;component/pic/backward.png" Tag="BACKWARD" Margin="81,81,0,0"   />
+        <Image Source="/iRobotGUI;component/pic/left.png"     Tag="LEFT"     Margin="31,62,0,0"   />
+        <Image Source="/iRobotGUI;component/pic/right.png"    Tag="RIGHT"    Margin="131,62,0,0"  />
+        <Image Source="/iRobotGUI;component/pic/led.jpg"      Tag="LED"      Margin="31,171,0,0"  ToolTip="LED" />
+        <Image Source="/iRobotGUI;component/pic/song.png"     Tag="SONG_DEF" Margin="81,171,0,0"  ToolTip="Define a song" />
+        <Image Source="/iRobotGUI;component/pic/demo.jpg"     Tag="DEMO"     Margin="155,171,0,0" ToolTip="Play a demo" />
+        <Image Source="/iRobotGUI;component/pic/if.png"       Tag="IF"       Margin="31,267,0,0"  ToolTip="If"  />
+        <Image Source="/iRobotGUI;component/pic/loop.png"     Tag="LOOP"     Margin="81,267,0,0"  ToolTip="Loop" />
     </Grid>
 </UserControl>

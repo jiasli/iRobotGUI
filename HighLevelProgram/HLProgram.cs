@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace iRobotGUI
 {
+
 	/// <summary>
 	/// High-level program
 	/// </summary>
@@ -100,10 +101,21 @@ namespace iRobotGUI
 		{
 			return program;
 		}
+
+		/// <summary>
+		/// Move specified Instruction to index position.
+		/// </summary>
+		/// <param name="ins"></param>
+		/// <param name="index"></param>
 		public void Rearrange(Instruction ins, int index)
 		{
 			program.Remove(ins);
 			program.Insert(index, ins);
+		}
+
+public void Remove(Instruction ins)
+		{
+			program.Remove(ins);
 		}
 
 		/// <summary>

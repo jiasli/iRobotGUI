@@ -21,13 +21,13 @@
             </ComboBox.Resources>
             <ComboBoxItem>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="/iRobotGUI;component/Controls/pic/cliff.jpg" />
+                    <Image Source="/iRobotGUI;component/pic/cliff.jpg" />
                     <TextBlock>Cliff</TextBlock>
                 </StackPanel>
             </ComboBoxItem>
             <ComboBoxItem>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="/iRobotGUI;component/Controls/pic/bump.jpg" />
+                    <Image Source="/iRobotGUI;component/pic/bump.jpg" />
                     <TextBlock>Bump</TextBlock>
                 </StackPanel>
             </ComboBoxItem>
