@@ -1,6 +1,6 @@
 FORWARD 200,3
 BACKWARD -100,3
-LEFT 90
+// LEFT 90
 RIGHT -90
 // READ_SENSOR
 // IF 101, 2, 1
@@ -8,11 +8,12 @@ RIGHT -90
 // ELSE 
 // 	DRIVE 50, 32768
 // END_IF
-// READ_SENSOR
+//READ_SENSOR
 // // Bump = 0, NOT_EQUAL = 1
-// LOOP 101, 1, 1
-// 	// Read the sensor again
-// 	READ_SENSOR
-// 	DELAY 100
-// END_LOOP
-// DRIVE 0, 32768
+//LOOP 102, 4, 180
+//LEFT 90
+// Read the sensor again
+//READ_SENSOR
+//DELAY 100
+//END_LOOP
+//DRIVE 0, 32768
