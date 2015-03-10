@@ -94,7 +94,7 @@ namespace iRobotGUI.Controls
 		/// </summary>
 		void listView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			int index = ListviewProgram.SelectedIndex;
+            int index = this.dragMgr.IndexUnderDragCursor;
 			Instruction selectedIns = program.GetInstructionList().ElementAt(index);
 			if (selectedIns == null)
 				return;
