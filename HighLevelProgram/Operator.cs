@@ -18,11 +18,11 @@ namespace iRobotGUI
 		/// <summary>
 		/// Get the text symbol of an operator that is used in C.
 		/// </summary>
-		/// <param name="opeartorName"></param>
+		/// <param name="opeartorNo"></param>
 		/// <returns></returns>
-		public static string GetOperatorTextSymbol(int opeartorName)
+		public static string GetOperatorTextSymbol(int opeartorNo)
 		{
-			switch (opeartorName)
+			switch (opeartorNo)
 			{
 				case Operator.EQUAL:
 					return "==";

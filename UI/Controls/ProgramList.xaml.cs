@@ -12,6 +12,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
+
 
 namespace iRobotGUI.Controls
 {
@@ -22,7 +24,7 @@ namespace iRobotGUI.Controls
 	{
 		#region data
 
-		private ListViewDragDropManager<Instruction> dragMgr;
+		private ListViewDragDropManager<Image> dragMgr;
 		private HLProgram program;
 
 		#endregion
@@ -60,8 +62,9 @@ namespace iRobotGUI.Controls
 
 		void ListView1_Loaded(object sender, RoutedEventArgs e)
 		{
-			this.dragMgr = new ListViewDragDropManager<Instruction>(ListviewProgram);
+			this.dragMgr = new ListViewDragDropManager<Image>(ListviewProgram);
 			ListviewProgram.PreviewMouseLeftButtonDown += NewPreviewMouseLeftButtonDown;
+			ListviewProgram.PreviewMouseRightButtonDown += listView_PreviewMouseRightButtonDown;
 			ListviewProgram.Drop -= dragMgr.listView_Drop;
 			ListviewProgram.Drop += NewDrop;
 		}
@@ -70,49 +73,66 @@ namespace iRobotGUI.Controls
 
 		#region event handler
 
+		/// <summary>
+		/// open the dialog when an item is double clicked
+		/// </summary>
 		void NewPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 
 			if (e.ClickCount == 2)
 			{
-				Instruction selectedIns = this.ListviewProgram.SelectedItem as Instruction;
+				int index = ListviewProgram.SelectedIndex;
+				Instruction selectedIns = program.GetInstructionList().ElementAt(index);
 				DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
 				UpdateContent();
 			}
 
 		}
 
+		/// <summary>
+		///  delete item when right button is clicked
+		/// </summary>
+		void listView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			int index = ListviewProgram.SelectedIndex;
+			Instruction selectedIns = program.GetInstructionList().ElementAt(index);
+			if (selectedIns == null)
+				return;
+
+			program.Remove(selectedIns);
+			UpdateContent();
+		}
+
+		/// <summary>
+		/// handler for drop event
+		/// </summary>
 		void NewDrop(object sender, DragEventArgs e)
 		{
 			// drag inside program list
 			if (this.dragMgr.IsDragInProgress)
 			{
-				Instruction data = e.Data.GetData(typeof(Instruction)) as Instruction;
+				//Instruction data = e.Data.GetData(typeof(Instruction)) as Instruction;
+				Image data = e.Data.GetData(typeof(Image)) as Image;
+				//Instruction ins = Instruction.CreatFromOpcode((string)data.Tag);
+
 				if (data == null)
 					return;
 
 				int oldIndex = this.ListviewProgram.Items.IndexOf(data);
 				int newIndex = this.dragMgr.IndexUnderDragCursor;
 
+				Instruction ins = program.GetInstructionList().ElementAt(oldIndex);
+
 				if (newIndex < 0)
-				{
-					if (this.ListviewProgram.Items.Count == 0)
-						newIndex = 0;
-					else if (oldIndex < 0)
-						newIndex = this.ListviewProgram.Items.Count;
-					else
-						return;
-				}
+					return;
 
 				if (oldIndex == newIndex)
 					return;
 
-				this.ListviewProgram.Items.Remove(data);
-				this.ListviewProgram.Items.Insert(newIndex, data);
+				program.Rearrange(ins, newIndex);
 
+				UpdateContent();
 				e.Effects = DragDropEffects.Move;
-
-				program.Rearrange(data, newIndex);
 			}
 			// drag from instruction panel to program list
 			else
@@ -132,9 +152,7 @@ namespace iRobotGUI.Controls
 
 		#endregion
 
-
-
-		#region updateContent
+		#region UpdateContent
 
 		public void UpdateContent()
 		{
@@ -142,12 +160,69 @@ namespace iRobotGUI.Controls
 
 			foreach (Instruction i in program.GetInstructionList())
 			{
-				ListviewProgram.Items.Add(i);
+				Image im = GetImageFromInstruction(i);
+				if (im != null)
+					ListviewProgram.Items.Add(GetImageFromInstruction(i));
 			}
 
 		}
 
 		#endregion
 
+		#region GetImageFromInstruction
+
+		private Image GetImageFromInstruction(Instruction ins)
+		{
+			string picPath = "/iRobotGUI;component/pic/";
+			Image im = new Image();
+			BitmapImage bi = new BitmapImage();
+			bi.BeginInit();
+			switch (ins.opcode)
+			{
+				case Instruction.FORWARD:
+					bi.UriSource = new Uri(picPath + "forward.png", UriKind.Relative);
+				   // im.Tag = "FORWARD";
+					break;
+				case Instruction.BACKWARD:
+					bi.UriSource = new Uri(picPath + "backward.png", UriKind.Relative);
+				   // im.Tag = "BACKWARD";
+					break;
+				case Instruction.LEFT:
+					bi.UriSource = new Uri(picPath + "left.png", UriKind.Relative);
+					//im.Tag = "LEFT";
+					break;
+				case Instruction.RIGHT:
+					bi.UriSource = new Uri(picPath + "right.png", UriKind.Relative);
+					//im.Tag = "RIGHT";
+					break;
+				case Instruction.LED:
+					bi.UriSource = new Uri(picPath + "led.jpg", UriKind.Relative);
+					break;
+				case Instruction.SONG_DEF:
+					bi.UriSource = new Uri(picPath + "song.png", UriKind.Relative);
+					break;
+				case Instruction.DEMO:
+					bi.UriSource = new Uri(picPath + "demo.jpg", UriKind.Relative);
+					break;
+				case Instruction.IF:
+					bi.UriSource = new Uri(picPath + "if.png", UriKind.Relative);
+					break;
+				case Instruction.LOOP:
+					bi.UriSource = new Uri(picPath + "loop.png", UriKind.Relative);
+					break;
+				default:
+					bi.UriSource = null;
+					break;
+			}
+			if (bi.UriSource == null) return null;
+			bi.EndInit();
+			im.Stretch = Stretch.Fill;
+			im.Source = bi;
+			im.Width = 50;
+			im.Height = 50;
+			return im;
+		}
+
+		#endregion
 	}
 }

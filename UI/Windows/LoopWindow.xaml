@@ -16,9 +16,11 @@
 
         <Controls:InstructionPanel Grid.Row="0" Grid.Column="0"/>
         
-        <Controls:ConditionPanel Grid.Row="0" Grid.Column="1"></Controls:ConditionPanel>
-       
-        <Controls:ProgramList x:Name="ProgramList1" Grid.Row="0" Grid.Column="1" Margin="0,112,0,0" />
-      
+        <Controls:ConditionPanel x:Name="conditionPanel" Grid.Row="0" Grid.Column="1" />
+
+        <Label Content="Loop Body" Grid.Column="1" HorizontalAlignment="Left" Margin="0,86,0,0" VerticalAlignment="Top"/>
+        <Controls:ProgramList x:Name="programListLoopBody" Grid.Row="0" Grid.Column="1" Margin="0,112,0,0" />
+        
+
     </Grid>
 </Window>
