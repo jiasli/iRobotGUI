@@ -84,6 +84,28 @@ namespace iRobotGUI
 			this.program.Add(ins);
 		}
 
+        public int FindEndIf(int start)
+        {
+            int ifCount = 0;
+            int ins = start;
+
+            while (ins < program.Count)
+            {
+                if (program[ins].opcode == Instruction.IF)
+                    ifCount++;
+
+                if (program[ins].opcode == Instruction.END_IF)
+                    ifCount--;
+
+                if (ifCount == 0)
+                    return ins;
+
+                ins++;
+            }
+
+             return -1;
+        }
+
 		/// <summary>
 		/// HLProgram can be used as
 		/// foreach (Instruction ins in hlProgram)
