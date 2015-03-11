@@ -31,7 +31,7 @@ namespace iRobotGUI
 				CurrentLine = i;
 
 				// Ignore comment line
-				if (!Instruction.IsCommentLine(insStrArray[i]))
+				if (Instruction.IsInstructionLine(insStrArray[i]))
 					program.Add(new Instruction(insStrArray[i]));
 			}
 		}
@@ -82,6 +82,58 @@ namespace iRobotGUI
 		public void Add(Instruction ins)
 		{
 			this.program.Add(ins);
+		}
+
+		/// <summary>
+		/// Find the corresponding ELSE location given the index of an IF instruction.
+		/// </summary>
+		/// <param name="ifIndex"></param>
+		/// <returns></returns>
+		public int FindElse(int ifIndex)
+		{
+			int ifCount = 0;
+			int currentIns = ifIndex;
+
+			while (currentIns < program.Count)
+			{
+				if (program[currentIns].opcode == Instruction.IF)
+					ifCount++;
+				else if (program[currentIns].opcode == Instruction.ELSE)
+					ifCount--;
+
+				if (ifCount == 0) 
+					return currentIns;
+
+				currentIns++;
+			}
+			return -1;
+		}
+
+		/// <summary>
+		/// Find the corresponding END_IF location given the index of an IF instruction.
+		/// </summary>
+		/// <param name="ifIndex"></param>
+		/// <returns></returns>
+		public int FindEndIf(int ifIndex)
+		{
+			int ifCount = 0;
+			int currentIns = ifIndex;
+
+			while (currentIns < program.Count)
+			{
+				if (program[currentIns].opcode == Instruction.IF)
+					ifCount++;
+
+				if (program[currentIns].opcode == Instruction.END_IF)
+					ifCount--;
+
+				if (ifCount == 0)
+					return currentIns;
+
+				currentIns++;
+			}
+
+			 return -1;
 		}
 
 		/// <summary>

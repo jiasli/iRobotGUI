@@ -73,7 +73,7 @@ namespace iRobotGUI
 		public Instruction(string insStr)
 		{
 			// Remove leading indent.
-			insStr = insStr.Trim(new char[] { ' ', '\t' });
+			insStr = insStr.Trim(new char[] { ' ', '\t' });			
 
 			string opcode;
 			string[] paramArray;
@@ -121,7 +121,7 @@ namespace iRobotGUI
 		}
 
 		/// <summary>
-		/// A factory to create new Instruction object by opcode
+		/// A factory to create new Instruction object by opcode with default parameters.
 		/// </summary>
 		/// <returns></returns>
 		public static Instruction CreatFromOpcode(string opcode)
@@ -147,6 +147,9 @@ namespace iRobotGUI
 				case IF:
 					newIns = new Instruction(IF + " 0, 0, 0");
 					break;
+				case ELSE:
+					newIns = new Instruction(ELSE);
+					break;
 				case END_IF:
 					newIns = new Instruction(END_IF);
 					break;			
@@ -163,16 +166,22 @@ namespace iRobotGUI
 
 
 		/// <summary>
-		/// Decide if an instruction string is a comment line. Comment line is prefixed by "//" like C.
+		/// Decide if an instruction string is a valid instruction.
+		/// Comment line is prefixed by "//" like C.
+		/// Empty line contains only '\t' and ' '.
 		/// </summary>
 		/// <param name="insStr"></param>
 		/// <returns>True if it is.</returns>
-		public static bool IsCommentLine(string insStr)
+		public static bool IsInstructionLine(string insStr)
 		{
 			insStr = insStr.Trim();
 
-			if (insStr[0] == '/') return true;
-			else return false;
+			// Empty line
+			if (insStr.Length == 0) return false;
+
+			// Command line
+			if (insStr[0] == '/') return false;
+			else return true;
 		}
 
 		/// <summary>
