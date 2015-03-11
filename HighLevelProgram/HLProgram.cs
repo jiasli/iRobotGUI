@@ -84,27 +84,57 @@ namespace iRobotGUI
 			this.program.Add(ins);
 		}
 
-        public int FindEndIf(int start)
-        {
-            int ifCount = 0;
-            int ins = start;
+		/// <summary>
+		/// Find the corresponding ELSE location given the index of an IF instruction.
+		/// </summary>
+		/// <param name="ifIndex"></param>
+		/// <returns></returns>
+		public int FindElse(int ifIndex)
+		{
+			int ifCount = 0;
+			int currentIns = ifIndex;
 
-            while (ins < program.Count)
-            {
-                if (program[ins].opcode == Instruction.IF)
-                    ifCount++;
+			while (currentIns < program.Count)
+			{
+				if (program[currentIns].opcode == Instruction.IF)
+					ifCount++;
+				else if (program[currentIns].opcode == Instruction.ELSE)
+					ifCount--;
 
-                if (program[ins].opcode == Instruction.END_IF)
-                    ifCount--;
+				if (ifCount == 0) 
+					return currentIns;
 
-                if (ifCount == 0)
-                    return ins;
+				currentIns++;
+			}
+			return -1;
+		}
 
-                ins++;
-            }
+		/// <summary>
+		/// Find the corresponding END_IF location given the index of an IF instruction.
+		/// </summary>
+		/// <param name="ifIndex"></param>
+		/// <returns></returns>
+		public int FindEndIf(int ifIndex)
+		{
+			int ifCount = 0;
+			int currentIns = ifIndex;
 
-             return -1;
-        }
+			while (currentIns < program.Count)
+			{
+				if (program[currentIns].opcode == Instruction.IF)
+					ifCount++;
+
+				if (program[currentIns].opcode == Instruction.END_IF)
+					ifCount--;
+
+				if (ifCount == 0)
+					return currentIns;
+
+				currentIns++;
+			}
+
+			 return -1;
+		}
 
 		/// <summary>
 		/// HLProgram can be used as
@@ -174,27 +204,6 @@ namespace iRobotGUI
 		public override string ToString()
 		{            
 			return string.Join("\n", program);
-		}
-
-		public int FindElse(int ifIndex)
-		{
-			int ifCount = 0;
-			int currentIns = ifIndex;
-
-			while (currentIns < program.Count)
-			{
-				if (program[currentIns].opcode == Instruction.IF)
-				{
-					ifCount++;
-				}
-				else if (program[currentIns].opcode == Instruction.ELSE)
-				{
-					ifCount--;
-				}
-				if (ifCount == 0) return currentIns;
-				currentIns++;
-			}		
-			return -1;
 		}
 	}
 }
