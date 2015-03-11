@@ -38,6 +38,7 @@
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Data" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -72,6 +73,9 @@
       <Project>{d7663052-3416-460f-9fbc-8107f018aa32}</Project>
       <Name>TranslatorLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

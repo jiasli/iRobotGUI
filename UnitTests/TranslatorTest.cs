@@ -13,20 +13,57 @@ namespace iRobotGUI.Tests
     public class TranslatorTest
     {
         [TestMethod()]
+        [TestProperty("Opcode", "FORWARD")]
+        //New code: Trying to create light weight data driven unit test
+        public void SetupTranslateInstructionTest()
+        {
+            try
+            {      
+                string op = TestContext.Properties["Opcode"] as string;
+                Console.WriteLine("op = {0}",op);
+                Instruction a = new Instruction(op);
+                TranslateInstructionTest(a);
+            }
+            catch(NullReferenceException)
+            {
+                Console.WriteLine("null reference exception");
+            }            
+        }
+        public TestContext TestContext
+        {
+            get;
+            set;
+        }
+        //End of new code
         public void TranslateInstructionTest(Instruction instruction)
         {
             string validOpCodeSrting = "FORWARD";
             string invalidOpCodeString = "INFORNTOF";
             bool pass = true;
 
-            if (instruction.opcode == validOpCodeSrting)
-                pass = true;
-            else
+            try
+            {
+                if (instruction.opcode.Equals(validOpCodeSrting))
+                {
+                    pass = true;
+                    Console.WriteLine(validOpCodeSrting+": Valid");
+                }
+                else
+                if (instruction.opcode.Equals(invalidOpCodeString))
+                {
+                    pass = false;
+                    Console.WriteLine(invalidOpCodeString+": Invalid");
+                }
+                else
+                {
+                    pass = true;
+                    Console.WriteLine(invalidOpCodeString+": Valid");
+                }
+            }
+            catch (NullReferenceException)
+            {
                 pass = false;
-            if (instruction.opcode == invalidOpCodeString)
-                pass = false;
-            else
-                pass = true;
+            }
             Assert.IsTrue(pass);
         }
        
