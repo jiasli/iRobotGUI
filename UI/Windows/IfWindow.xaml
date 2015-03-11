@@ -16,7 +16,8 @@
 
         <Controls:ConditionPanel x:Name="conditionPanel" Grid.Row="0" Grid.Column="1" />
 
-        <Label Content="Loop Body" Grid.Column="1" HorizontalAlignment="Left" Margin="0,86,0,0" VerticalAlignment="Top"/>
+        <Label Content="True" Grid.Column="1" HorizontalAlignment="Left" Margin="0,85,0,0" VerticalAlignment="Top"/>
+        <Label Content="False" Grid.Column="1" HorizontalAlignment="Left" Margin="205,85,0,0" VerticalAlignment="Top"/>
         <Controls:ProgramList x:Name="programListIfBody" Grid.Row="0" Grid.Column="1" Margin="0,112,0,0" HorizontalAlignment="Left" Width="200" />
         <Controls:ProgramList x:Name="programListElseBody" Grid.Row="0" Grid.Column="1" Margin="205,112,0,0" HorizontalAlignment="Left" Width="200" />
 

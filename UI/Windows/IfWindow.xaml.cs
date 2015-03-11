@@ -33,8 +33,13 @@ namespace iRobotGUI.Windows
 				InsCondition condition = new InsCondition(subProgram[0]);
 				conditionPanel.Condition = condition;
 
-				// 2. Set loop body
-				programListIfBody.Program = subProgram.SubProgram(1, subProgram.Count - 2);
+				// 2. Set if body
+				int elsePosition = subProgram.FindElse(0);
+				programListIfBody.Program = subProgram.SubProgram(1, elsePosition - 1);
+
+				// 3. Set else body
+				int endIfPosition = subProgram.FindEndIf(0);
+				programListElseBody.Program = subProgram.SubProgram(elsePosition + 1, endIfPosition);
 			}
 			get
 			{
@@ -46,13 +51,19 @@ namespace iRobotGUI.Windows
 				conditionIns.paramList[0] = condition.sensor;
 				conditionIns.paramList[1] = condition.op;
 				conditionIns.paramList[2] = condition.num;
-				result.Add(conditionIns);
+				result.Add(conditionIns);				
 
-				// 2. Add loop body
+				// 2. Add if body
 				result.Add(programListIfBody.Program);
 
-				// 3. Add END_LOOP
-				result.Add(Instruction.CreatFromOpcode(Instruction.END_LOOP));
+				// 3. Add ELSE
+				result.Add(Instruction.CreatFromOpcode(Instruction.ELSE));
+
+				// 2. Add if body
+				result.Add(programListElseBody.Program);
+
+				// 3. Add END_IF
+				result.Add(Instruction.CreatFromOpcode(Instruction.END_IF));
 
 				return result;
 			}

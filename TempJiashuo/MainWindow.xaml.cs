@@ -30,6 +30,22 @@ namespace TempJiashuo
 	DELAY 100
 END_LOOP";
 
+		static string ifTestString =
+@"IF 0,0,0
+	IF 0,0,0
+		IF 0,0,0
+		ELSE
+		END_IF
+	ELSE
+	END_IF	
+	IF 0,0,0
+	ELSE
+	END_IF
+ELSE
+	FORWARD 100,100
+END_IF
+";
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -44,7 +60,7 @@ END_LOOP";
 			{
 				HLProgram pro = new HLProgram(File.ReadAllText("find_if_endif.igp"));
 				int elseIndex = pro.FindElse(0);
-				MessageBox.Show(elseIndex.ToString());
+				//MessageBox.Show(elseIndex.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -67,7 +83,7 @@ END_LOOP";
 		{
 			IfWindow lw = new IfWindow();
 			//lw.Owner = this;
-			//lw.SubProgram = new HLProgram(loopTestString);
+			lw.SubProgram = new HLProgram(ifTestString);
 			lw.ShowDialog();
 
 			MessageBox.Show(lw.SubProgram.ToString());

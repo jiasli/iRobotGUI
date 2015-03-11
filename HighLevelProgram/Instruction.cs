@@ -121,7 +121,7 @@ namespace iRobotGUI
 		}
 
 		/// <summary>
-		/// A factory to create new Instruction object by opcode
+		/// A factory to create new Instruction object by opcode with default parameters.
 		/// </summary>
 		/// <returns></returns>
 		public static Instruction CreatFromOpcode(string opcode)
@@ -146,6 +146,9 @@ namespace iRobotGUI
 					break;
 				case IF:
 					newIns = new Instruction(IF + " 0, 0, 0");
+					break;
+				case ELSE:
+					newIns = new Instruction(ELSE);
 					break;
 				case END_IF:
 					newIns = new Instruction(END_IF);
