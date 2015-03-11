@@ -99,6 +99,9 @@
     <Compile Include="Controls\DemoParam.xaml.cs">
       <DependentUpon>DemoParam.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\IfWindow.xaml.cs">
+      <DependentUpon>IfWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\LoopWindow.xaml.cs">
       <DependentUpon>LoopWindow.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,10 @@
     <Page Include="Windows\DemoWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\IfWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\LedWindow.xaml">
       <SubType>Designer</SubType>
