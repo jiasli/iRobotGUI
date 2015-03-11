@@ -14,6 +14,7 @@ namespace iRobotGUI
 		/// The number of line under validation. Starts from -1.
 		/// </summary>
 		static int currentLine = -1;
+        static int paraLen = 0;
 
 		static private Stack<string> ifStack = new Stack<string>();
 		static private Stack<string> loopStack = new Stack<string>();
@@ -111,6 +112,12 @@ namespace iRobotGUI
 		public static bool ValidateInstruction(Instruction ins)
 		{
 			currentLine++;
+            if (DictionaryDef.paraLength.TryGetValue(ins.opcode, out paraLen))
+            {
+                if (ins.paramList.Count != paraLen)
+                    throw new ParameterLengthException(currentLine, ins.opcode);
+            }
+
 			switch (ins.opcode)
 			{
 				case Instruction.SONG_DEF:

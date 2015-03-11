@@ -51,4 +51,13 @@ namespace iRobotGUI
 
 		}
 	}
+
+    public class ParameterLengthException : InstructionException
+    {
+        public ParameterLengthException(int line, string ins)
+            : base(line, ins)
+        {
+
+        }
+    }
 }
