@@ -1,4 +1,5 @@
-﻿// Copyright (C) Josh Smith - January 2007
+﻿// Reference http://www.codeproject.com/script/Articles/ViewDownloads.aspx?aid=17266
+// Copyright (C) Josh Smith - January 2007
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
