@@ -12,6 +12,7 @@ namespace iRobotGUI
 		public string InsStr;
 
 		public InstructionException(int line, string ins)
+			: base("line " + line + " :" + ins)
 		{
 			this.Line = line;
 			this.InsStr = ins;
@@ -52,12 +53,12 @@ namespace iRobotGUI
 		}
 	}
 
-    public class ParameterLengthException : InstructionException
-    {
-        public ParameterLengthException(int line, string ins)
-            : base(line, ins)
-        {
+	public class ParameterLengthException : InstructionException
+	{
+		public ParameterLengthException(int line, string ins)
+			: base(line, ins)
+		{
 
-        }
-    }
+		}
+	}
 }

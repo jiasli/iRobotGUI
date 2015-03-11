@@ -31,7 +31,7 @@ namespace iRobotGUI
 				CurrentLine = i;
 
 				// Ignore comment line
-				if (!Instruction.IsCommentLine(insStrArray[i]))
+				if (Instruction.IsInstructionLine(insStrArray[i]))
 					program.Add(new Instruction(insStrArray[i]));
 			}
 		}
@@ -152,6 +152,27 @@ namespace iRobotGUI
 		public override string ToString()
 		{            
 			return string.Join("\n", program);
+		}
+
+		public int FindElse(int ifIndex)
+		{
+			int ifCount = 0;
+			int currentIns = ifIndex;
+
+			while (currentIns < program.Count)
+			{
+				if (program[currentIns].opcode == Instruction.IF)
+				{
+					ifCount++;
+				}
+				else if (program[currentIns].opcode == Instruction.ELSE)
+				{
+					ifCount--;
+				}
+				if (ifCount == 0) return currentIns;
+				currentIns++;
+			}		
+			return -1;
 		}
 	}
 }

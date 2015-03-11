@@ -1,10 +1,9 @@
-﻿<Window xmlns:Controls="clr-namespace:iRobotGUI.Controls" 
+﻿<Window x:Class="iRobotGUI.Windows.IfWindow"
+        xmlns:Controls="clr-namespace:iRobotGUI.Controls"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="iRobotGUI.Windows.LoopWindow"
-        Title="Loop" Height="471" Width="443">
-    <Grid >
-
+        Title="IfWindow" Height="478" Width="638">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -14,12 +13,13 @@
         </Grid.ColumnDefinitions>
 
         <Controls:InstructionPanel Grid.Row="0" Grid.Column="0"/>
-        
+
         <Controls:ConditionPanel x:Name="conditionPanel" Grid.Row="0" Grid.Column="1" />
 
         <Label Content="Loop Body" Grid.Column="1" HorizontalAlignment="Left" Margin="0,86,0,0" VerticalAlignment="Top"/>
-        <Controls:ProgramList x:Name="programListLoopBody" Grid.Row="0" Grid.Column="1" Margin="0,112,0,0" />
-        
+        <Controls:ProgramList x:Name="programListIfBody" Grid.Row="0" Grid.Column="1" Margin="0,112,0,0" HorizontalAlignment="Left" Width="200" />
+        <Controls:ProgramList x:Name="programListElseBody" Grid.Row="0" Grid.Column="1" Margin="205,112,0,0" HorizontalAlignment="Left" Width="200" />
+
 
     </Grid>
 </Window>

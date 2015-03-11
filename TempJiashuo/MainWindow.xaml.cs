@@ -2,6 +2,7 @@
 using iRobotGUI.Windows;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,13 +40,37 @@ END_LOOP";
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			try
+			{
+				HLProgram pro = new HLProgram(File.ReadAllText("find_if_endif.igp"));
+				int elseIndex = pro.FindElse(0);
+				MessageBox.Show(elseIndex.ToString());
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.ToString());
+			}
+			openIfWindow();
+		}
+
+		private void openLoopWindow()
+		{
 			LoopWindow lw = new LoopWindow();
 			//lw.Owner = this;
 			lw.SubProgram = new HLProgram(loopTestString);
 			lw.ShowDialog();
 
 			MessageBox.Show(lw.SubProgram.ToString());
+		}
 
+		private void openIfWindow()
+		{
+			IfWindow lw = new IfWindow();
+			//lw.Owner = this;
+			//lw.SubProgram = new HLProgram(loopTestString);
+			lw.ShowDialog();
+
+			MessageBox.Show(lw.SubProgram.ToString());
 		}
 	}
 }
