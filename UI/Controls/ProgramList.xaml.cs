@@ -27,10 +27,13 @@ namespace iRobotGUI.Controls
 		private ListViewDragDropManager<Image> dragMgr;
 		private HLProgram program;
 
-		#endregion
+		#endregion // data
 
 		#region constructor
 
+        /// <summary>
+        /// Initializes a new Instance of ProgramList
+        /// </summary>
 		public ProgramList()
 		{
 			InitializeComponent();
@@ -39,10 +42,13 @@ namespace iRobotGUI.Controls
 			program = new HLProgram();
 		}
 
-		#endregion
+		#endregion // constructor
 
 		#region HLProgram
 
+        /// <summary>
+        /// Gets/sets the program so that the program can be updated when some function is dropped
+        /// </summary>
 		public HLProgram Program
 		{
 			get
@@ -56,27 +62,32 @@ namespace iRobotGUI.Controls
 			}
 		}
 
-		#endregion
+        #endregion // HLProgram
 
-		#region ListView1_Loaded
+        #region ListView1_Loaded
 
+        /// <summary>
+        /// Load event handler
+        /// </summary>
 		void ListView1_Loaded(object sender, RoutedEventArgs e)
 		{
 			this.dragMgr = new ListViewDragDropManager<Image>(ListviewProgram);
-			ListviewProgram.PreviewMouseLeftButtonDown += NewPreviewMouseLeftButtonDown;
+            ListviewProgram.PreviewMouseLeftButtonDown += NewlistView_PreviewMouseLeftButtonDown;
 			ListviewProgram.PreviewMouseRightButtonDown += listView_PreviewMouseRightButtonDown;
 			ListviewProgram.Drop -= dragMgr.listView_Drop;
-			ListviewProgram.Drop += NewDrop;
+            ListviewProgram.Drop += NewlistView_Drop;
 		}
 
-		#endregion
+        #endregion // ListView1_Loaded
 
-		#region event handler
+        #region event handler
 
-		/// <summary>
-		/// open the dialog when an item is double clicked
+        #region NewlistView_PreviewMouseLeftButtonDown
+
+        /// <summary>
+		/// Open the dialog when an item is double clicked
 		/// </summary>
-		void NewPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		void NewlistView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 
 			if (e.ClickCount == 2)
@@ -89,12 +100,16 @@ namespace iRobotGUI.Controls
 
 		}
 
-		/// <summary>
+        #endregion // NewlistView_PreviewMouseLeftButtonDown
+
+        #region listView_PreviewMouseRightButtonDown
+
+        /// <summary>
 		///  delete item when right button is clicked
 		/// </summary>
 		void listView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			int index = ListviewProgram.SelectedIndex;
+			int index = this.dragMgr.IndexUnderDragCursor;
 			Instruction selectedIns = program.GetInstructionList().ElementAt(index);
 			if (selectedIns == null)
 				return;
@@ -103,11 +118,17 @@ namespace iRobotGUI.Controls
 			UpdateContent();
 		}
 
-		/// <summary>
+        #endregion // listView_PreviewMouseRightButtonDown
+
+        #region NewlistView_Drop
+
+        /// <summary>
 		/// handler for drop event
 		/// </summary>
-		void NewDrop(object sender, DragEventArgs e)
+		void NewlistView_Drop(object sender, DragEventArgs e)
 		{
+			int newIndex = this.dragMgr.IndexUnderDragCursor;
+
 			// drag inside program list
 			if (this.dragMgr.IsDragInProgress)
 			{
@@ -119,7 +140,6 @@ namespace iRobotGUI.Controls
 					return;
 
 				int oldIndex = this.ListviewProgram.Items.IndexOf(data);
-				int newIndex = this.dragMgr.IndexUnderDragCursor;
 
 				Instruction ins = program.GetInstructionList().ElementAt(oldIndex);
 
@@ -137,12 +157,15 @@ namespace iRobotGUI.Controls
 			// drag from instruction panel to program list
 			else
 			{
+				if (newIndex < 0)
+					newIndex = program.Count;
+
 				string op = (string)e.Data.GetData(DataFormats.StringFormat);
 				Instruction newIns = Instruction.CreatFromOpcode(op);
 
 				if (newIns != null)
 				{
-					program.Add(newIns);
+					program.Insert(newIndex, newIns);
 				}
 
 				UpdateContent();
@@ -150,11 +173,16 @@ namespace iRobotGUI.Controls
 			}
 		}
 
-		#endregion
+        #endregion // NewlistView_Drop
 
-		#region UpdateContent
+        #endregion // event handler
 
-		public void UpdateContent()
+        #region UpdateContent
+
+        /// <summary>
+        /// Update content in ProgramList accordint to the contents in program
+        /// </summary>
+        public void UpdateContent()
 		{
 			ListviewProgram.Items.Clear();
 
@@ -171,6 +199,10 @@ namespace iRobotGUI.Controls
 
 		#region GetImageFromInstruction
 
+        /// <summary>
+        /// Get the corresponding image from a specific instruction
+        /// </summary>
+        /// <param name="ins"> The Instruction </param>
 		private Image GetImageFromInstruction(Instruction ins)
 		{
 			string picPath = "/iRobotGUI;component/pic/";

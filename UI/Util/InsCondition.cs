@@ -2,12 +2,20 @@
 namespace iRobotGUI.Util
 {
 	/// <summary>
-	/// A structure for IF and LOOP
+	/// A class for IF and LOOP
 	/// </summary>
 	public class InsCondition
 	{
 		public int sensor = 0;
+
+		/// <summary>
+		/// = != ...
+		/// </summary>
 		public int op = 0;
+
+		/// <summary>
+		/// The number being compared.
+		/// </summary> 
 		public int num = 0;
 
 		public InsCondition()

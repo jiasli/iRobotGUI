@@ -49,7 +49,7 @@ namespace iRobotGUI
 
 
 		/// <summary>
-		/// Gets or sets the Instruction at the specified index.
+		/// Gets or sets the Instruction at the specified index. Can be used as program[2].
 		/// </summary>
 		/// <param name="index">The zero-based index of the Instruction to get or set.</param>
 		/// <returns></returns>
@@ -103,6 +103,16 @@ namespace iRobotGUI
 		}
 
 		/// <summary>
+		/// Insert specified Instruction to index position
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="ins"></param>
+		public void Insert(int index, Instruction ins)
+		{
+			program.Insert(index, ins);
+		}
+
+		/// <summary>
 		/// Move specified Instruction to index position.
 		/// </summary>
 		/// <param name="ins"></param>
@@ -113,7 +123,11 @@ namespace iRobotGUI
 			program.Insert(index, ins);
 		}
 
-public void Remove(Instruction ins)
+		/// <summary>
+		/// Remove a instruction
+		/// </summary>
+		/// <param name="ins"></param>
+		public void Remove(Instruction ins)
 		{
 			program.Remove(ins);
 		}
