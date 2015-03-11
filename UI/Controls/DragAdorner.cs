@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Reference http://www.codeproject.com/script/Articles/ViewDownloads.aspx?aid=17266
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Documents;
