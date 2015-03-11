@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace iRobotGUI
 {
-    /// <summary>
-    /// The class translate high level instructions to C language.
-    /// Trace to WC_3299
-    /// </summary>
+	/// <summary>
+	/// The class translate high level instructions to C language.
+	/// Trace to WC_3299
+    /// WC_3299: The system shall generate instructions for iRobot in C 
+    /// which is then later compiled for deployment on the microcontroller 
+    /// using the APIs of iRobot.
+	/// </summary>
 	public static class Translator
 	{
 		[Flags]
@@ -25,7 +28,7 @@ namespace iRobotGUI
 		private const string EmulatorTemplate            = "em_t.cpp";
 		private const string EmulatorOutputSource        = "em_o.cpp";
 
-        //Define C snippet
+		//Define C snippet
 		public const string FORWARD_BACKWARD_SNIPPET = @"distance = 0;
 byteTx(CmdDrive);
 byteTx(#velo_high);
@@ -97,15 +100,15 @@ else
 		// Remember not to include linebreak in the end.
 
 
-        /// <summary>
-        /// The function translate DRIVE instruction
-        /// </summary>
-        /// <param name="ins">
-        /// DRIVE instruction input
-        /// </param>
-        /// <returns>
-        /// DRIVE instruction in C language
-        /// </returns>
+		/// <summary>
+		/// The function translate DRIVE instruction
+		/// </summary>
+		/// <param name="ins">
+		/// DRIVE instruction input
+		/// </param>
+		/// <returns>
+		/// DRIVE instruction in C language
+		/// </returns>
 		private static string SubTransDrive(Instruction ins)
 		{
 			StringBuilder driveBuilder = new StringBuilder();
@@ -117,15 +120,15 @@ else
 			return driveBuilder.ToString();
 		}
 
-        /// <summary>
-        /// The function translate FORWARD and BACKWARD instruction
-        /// </summary>
-        /// <param name="ins">
-        /// FORWARD or BACKWARD instruction input
-        /// </param>
-        /// <returns>
-        /// FORWARD or BACKWARD instruction in C language
-        /// </returns>
+		/// <summary>
+		/// The function translate FORWARD and BACKWARD instruction
+		/// </summary>
+		/// <param name="ins">
+		/// FORWARD or BACKWARD instruction input
+		/// </param>
+		/// <returns>
+		/// FORWARD or BACKWARD instruction in C language
+		/// </returns>
 		private static string SubTransForwardBackward(Instruction ins)
 		{
 			StringBuilder builder = new StringBuilder();
@@ -149,15 +152,15 @@ else
 			return command;
 		}
 
-        /// <summary>
-        /// The function translate LEFT and RIGHT instruction
-        /// </summary>
-        /// <param name="ins">
-        /// LEFT or RIGHT instruction input
-        /// </param>
-        /// <returns>
-        /// LEFT or RIGHT instruction in C language
-        /// </returns>
+		/// <summary>
+		/// The function translate LEFT and RIGHT instruction
+		/// </summary>
+		/// <param name="ins">
+		/// LEFT or RIGHT instruction input
+		/// </param>
+		/// <returns>
+		/// LEFT or RIGHT instruction in C language
+		/// </returns>
 		private static string SubTransLeftRight(Instruction ins)
 		{
 			StringBuilder builder = new StringBuilder();
@@ -184,36 +187,36 @@ else
 			return command;
 		}
 
-        /// <summary>
-        /// The function translate the condition part in IF and LOOP instruction
-        /// </summary>
-        /// <param name="para0">
-        /// Sensor index in condition
-        /// </param>
-        /// <param name="opSymbol">
-        /// operator in condition
-        /// </param>
-        /// <param name="para2">
-        /// Sensor value in condition
-        /// </param>
-        /// <returns>
-        /// condition in C language
-        /// </returns>
+		/// <summary>
+		/// The function translate the condition part in IF and LOOP instruction
+		/// </summary>
+		/// <param name="para0">
+		/// Sensor index in condition
+		/// </param>
+		/// <param name="opSymbol">
+		/// operator in condition
+		/// </param>
+		/// <param name="para2">
+		/// Sensor value in condition
+		/// </param>
+		/// <returns>
+		/// condition in C language
+		/// </returns>
 		private static string SubTransCondition(string para0, string opSymbol, string para2)
 		{
 			string condition = String.Format("sensors[{0}] {1} {2}", para0, opSymbol, para2);
 			return condition;
 		}
 
-        /// <summary>
-        /// The function translate IF and LOOP instruction
-        /// </summary>
-        /// <param name="ins">
-        /// IF or LOOP instruction input
-        /// </param>
-        /// <returns>
-        /// IF or LOOP instruction in C language
-        /// </returns>
+		/// <summary>
+		/// The function translate IF and LOOP instruction
+		/// </summary>
+		/// <param name="ins">
+		/// IF or LOOP instruction input
+		/// </param>
+		/// <returns>
+		/// IF or LOOP instruction in C language
+		/// </returns>
 		private static string SubTransIfLoop(Instruction ins)
 		{
 			string condition = "Condition Unassigned";
@@ -252,7 +255,8 @@ else
 			switch (instruction.opcode)
 			{
 				// Navigation
-                // Trace to WC_3303
+				// Trace to WC_3303
+                // As an ESS, I can drag and drop the built-in functions of the iRobot to control its behavior/movement. 
 				case Instruction.FORWARD:
 					cBuilder.AppendLine(SubTransForwardBackward(instruction));
 					break;
@@ -270,7 +274,8 @@ else
 					break;
 
 				// LED
-                // Trace to WC_3291
+				// Trace to WC_3291
+                // As an ESS, I can use the sounds & light module so that I can turn the LEDs on and off. 
 				case Instruction.LED:
 					cBuilder.AppendLine(LED_SNIPPET
 						.Replace("#bit", instruction.paramList[0].ToString())
@@ -279,7 +284,8 @@ else
 					break;
 
 				// SONG
-                // Trace to WC_3290
+				// Trace to WC_3290
+                // As an ESS, I can drag & drop the musical notes from the sounds & light module so that I can create a song. 
 				case Instruction.SONG_DEF:
 					cBuilder.AppendLine(SONG_DEF_SNIPPET
 						.Replace("#song_number", instruction.paramList[0].ToString())
@@ -294,7 +300,8 @@ else
 					break;
 
 				// DELAY
-                // Trace to WC_3296
+				// Trace to WC_3296
+                // As an ESS, I can drag and drop a wait condition in which I can further drag and drop the instructions/loop constructs.
 				case Instruction.DELAY:
 					cBuilder.AppendLine(DELAY_SNIPPET.Replace("#time", instruction.paramList[0].ToString()));
 					break;
@@ -305,7 +312,9 @@ else
 					break;
 
 				// IF ELSE END_IF
-                // Trace to WC_3295
+				// Trace to WC_3295
+                // As an ESS, I can drag and drop if-then-else and for/while construct in which I can further drag 
+                // and drop the instructions/loop constructs. 
 				case Instruction.IF:
 					cBuilder.AppendLine(SubTransIfLoop(instruction));
 					break;
@@ -317,7 +326,9 @@ else
 					break;
 
 				// LOOP END_LOOP
-                // Trace to WC_3295
+				// Trace to WC_3295
+                // As an ESS, I can drag and drop if-then-else and for/while construct in which I can further drag 
+                // and drop the instructions/loop constructs. 
 				case Instruction.LOOP:
 					cBuilder.AppendLine(SubTransIfLoop(instruction));                    
 					break;
@@ -333,11 +344,11 @@ else
 		/// Translate high-level program
 		/// </summary>
 		/// <param name="program">
-        /// High level igp program input
-        /// </param>
+		/// High level igp program input
+		/// </param>
 		/// <returns>
-        /// C code of igp program
-        /// </returns>
+		/// C code of igp program
+		/// </returns>
 		public static string TranslateProgram(HLProgram program)
 		{
 
@@ -353,26 +364,26 @@ else
 			return cBuilder.ToString();
 		}
 
-        /// <summary>
-        /// Translate high-level program string
-        /// </summary>
-        /// <param name="programString">
-        /// High level igp program string input
-        /// </param>
-        /// <returns>
-        /// C code of igp program
-        /// </returns>
+		/// <summary>
+		/// Translate high-level program string
+		/// </summary>
+		/// <param name="programString">
+		/// High level igp program string input
+		/// </param>
+		/// <returns>
+		/// C code of igp program
+		/// </returns>
 		public static string TranslateProgramString(string programString)
 		{
 			return TranslateProgram(new HLProgram(programString));
 		}
 
-        /// <summary>
-        /// This function translate high level igp program Emulator program
-        /// </summary>
-        /// <param name="program">
-        /// High level igp program input
-        /// </param>
+		/// <summary>
+		/// This function translate high level igp program Emulator program
+		/// </summary>
+		/// <param name="program">
+		/// High level igp program input
+		/// </param>
 		public static void TranlateProgramAndWrite(HLProgram program)
 		{
 			string cCode = Translator.TranslateProgram(program);
@@ -380,29 +391,29 @@ else
 
 		}
 
-        /// <summary>
-        /// The function translate a high level instruction string to C code
-        /// </summary>
-        /// <param name="instructionString">
-        /// Instruction string input
-        /// </param>
-        /// <returns>
-        /// Corresponding C code of instruction string
-        /// </returns>
+		/// <summary>
+		/// The function translate a high level instruction string to C code
+		/// </summary>
+		/// <param name="instructionString">
+		/// Instruction string input
+		/// </param>
+		/// <returns>
+		/// Corresponding C code of instruction string
+		/// </returns>
 		public static string TranslateInstructionString(string instructionString)
 		{
 			return TranslateInstruction(new Instruction(instructionString));
 		}
 
-        /// <summary>
-        /// The function put generated C code instruction into C file can be compiled
-        /// </summary>
-        /// <param name="st">
-        /// Decide it is a Microcontroller program or an Emulator program
-        /// </param>
-        /// <param name="code">
-        /// Generated C code instruction
-        /// </param>
+		/// <summary>
+		/// The function put generated C code instruction into C file can be compiled
+		/// </summary>
+		/// <param name="st">
+		/// Decide it is a Microcontroller program or an Emulator program
+		/// </param>
+		/// <param name="code">
+		/// Generated C code instruction
+		/// </param>
 		public static void GenerateCSource(SourceType st, string code)
 		{
 			string template;
