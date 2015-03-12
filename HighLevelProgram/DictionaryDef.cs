@@ -30,7 +30,7 @@ namespace iRobotGUI
             { Instruction.READ_SENSOR, 0 },
         };
 
-        class Boundary
+        public class Boundary
         {
             int upperBoundary;
             int lowerBoundary;
