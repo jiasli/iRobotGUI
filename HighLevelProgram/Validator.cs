@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace iRobotGUI
 {
-    /// <summary>
-    /// The class is used to detect invalid function or program
-    /// Trace to WC_3297
-    /// </summary>
+	/// <summary>
+	/// The class is used to detect invalid function or program
+	/// Trace to WC_3297
+	/// </summary>
 	public class Validator
 	{
 		/// <summary>
@@ -122,11 +122,11 @@ namespace iRobotGUI
 		/// The function transfer a test instruction string to Instruction and validate it
 		/// </summary>
 		/// <param name="insStr">
-        /// insStr is the input of test string
-        /// </param>
+		/// insStr is the input of test string
+		/// </param>
 		/// <returns>
-        /// True for a valid instuction or test, throw exception otherwise
-        /// </returns>
+		/// True for a valid instuction or test, throw exception otherwise
+		/// </returns>
 		public static bool ValidateInstruction(String insStr)
 		{
 			Instruction ins;
@@ -142,20 +142,20 @@ namespace iRobotGUI
 			return ValidateInstruction(ins);
 		}
 
-        /// <summary>
-        /// The function validate an instruction
-        /// </summary>
-        /// <param name="ins">
-        /// Instruction under validate
-        /// </param>
-        /// <returns>
-        /// True for a valid instuction or test, throw exception otherwise
-        /// </returns>
+		/// <summary>
+		/// The function validate an instruction
+		/// </summary>
+		/// <param name="ins">
+		/// Instruction under validate
+		/// </param>
+		/// <returns>
+		/// True for a valid instuction or test, throw exception otherwise
+		/// </returns>
 		public static bool ValidateInstruction(Instruction ins)
 		{
 			currentLine++;
 
-            //Check Parameter Count
+			//Check Parameter Count
 			if (DictionaryDef.paraLength.TryGetValue(ins.opcode, out paraLen))
 			{
 				if (ins.paramList.Count != paraLen)
@@ -164,18 +164,18 @@ namespace iRobotGUI
 
 			switch (ins.opcode)
 			{
-                //Validate effectiveness and length of parameter of SONG_DEF
+				//Validate effectiveness and length of parameter of SONG_DEF
 				case Instruction.SONG_DEF:
 					return ValidateSongDef(ins);
 
-                //check matching situation of instruction LOOP & END_LOOP
+				//check matching situation of instruction LOOP & END_LOOP
 				case Instruction.LOOP:
 					return CheckLoop(ins.opcode);
 
 				case Instruction.END_LOOP:
 					return CheckLoop(ins.opcode);
 
-                //check matching situation of instruction IF ELSE & END_IF
+				//check matching situation of instruction IF ELSE & END_IF
 				case Instruction.IF:
 				case Instruction.ELSE:
 				case Instruction.END_IF:
@@ -184,29 +184,29 @@ namespace iRobotGUI
 			return true;
 		}
 
-        /// <summary>
-        /// The function transfer a test program string to Instruction and validate it
-        /// </summary>
-        /// <param name="programString">
-        /// programString is the input of test program string
-        /// </param>
-        /// <returns>
-        /// True for a valid program, throw exception otherwise
-        /// </returns>
+		/// <summary>
+		/// The function transfer a test program string to Instruction and validate it
+		/// </summary>
+		/// <param name="programString">
+		/// programString is the input of test program string
+		/// </param>
+		/// <returns>
+		/// True for a valid program, throw exception otherwise
+		/// </returns>
 		public static bool ValidateProgram(string programString)
 		{
 			return ValidateProgram(new HLProgram(programString));
 		}
 
-        /// <summary>
-        /// The function validate a program
-        /// </summary>
-        /// <param name="program">
-        /// program is the input of test program
-        /// </param>
-        /// <returns>
-        /// True for a valid program, throw exception otherwise
-        /// </returns>
+		/// <summary>
+		/// The function validate a program
+		/// </summary>
+		/// <param name="program">
+		/// program is the input of test program
+		/// </param>
+		/// <returns>
+		/// True for a valid program, throw exception otherwise
+		/// </returns>
 		public static bool ValidateProgram(HLProgram program)
 		{
 			foreach (Instruction ins in program)
@@ -222,15 +222,15 @@ namespace iRobotGUI
 			return true;
 		}
 
-        /// <summary>
-        /// Validate effectiveness and length of parameter of SONG_DEF
-        /// </summary>
-        /// <param name="songIns">
-        /// SONG_DEF instruction under validation
-        /// </param>
-        /// <returns>
-        /// True for a valid program, false otherwise
-        /// </returns>
+		/// <summary>
+		/// Validate effectiveness and length of parameter of SONG_DEF
+		/// </summary>
+		/// <param name="songIns">
+		/// SONG_DEF instruction under validation
+		/// </param>
+		/// <returns>
+		/// True for a valid program, false otherwise
+		/// </returns>
 		public static bool ValidateSongDef(Instruction songIns)
 		{
 			int songLength = songIns.paramList.Count - 1;

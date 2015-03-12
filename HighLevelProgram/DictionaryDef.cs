@@ -8,6 +8,8 @@ namespace iRobotGUI
 {
     public class DictionaryDef
     {
+        static int paraIndex = -1;
+
         //Create a dictionary for checking length of paramter array
         public static Dictionary<string, int> paraLength = new Dictionary<string, int>()
         {
@@ -27,6 +29,31 @@ namespace iRobotGUI
             { Instruction.DELAY, 1 },
             { Instruction.READ_SENSOR, 0 },
         };
-    
+
+        class Boundary
+        {
+            int upperBoundary;
+            int lowerBoundary;
+
+            public Boundary(int lowerInput, int upperInput)
+            {
+                upperBoundary = upperInput;
+                lowerBoundary = lowerInput;
+            }
+        }
+
+        public static Dictionary<int, Boundary> driveRange = new Dictionary<int, Boundary>()
+        {
+            { paraIndex++, new Boundary(-500, 500) },
+            { paraIndex++, new Boundary(-2000, 2000) },
+        };
+
+        public static Dictionary<string, Dictionary<int, Boundary>> paraRange = new Dictionary<string, Dictionary<int, Boundary>>();
+
+
+        private static void SetDefault()
+        {
+            paraIndex = -1;
+        }
     }
 }
