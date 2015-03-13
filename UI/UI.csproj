@@ -89,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Util\ProgramViewModel.cs" />
     <Compile Include="WinAvr\WinAvrConfiguation.cs" />
     <Compile Include="Windows\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
