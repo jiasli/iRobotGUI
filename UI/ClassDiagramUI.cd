@@ -28,24 +28,24 @@
       <FileName>Windows\SongWindow.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="iRobotGUI.Controls.DialogInvoker" Collapsed="true">
+  <Class Name="iRobotGUI.Util.DialogInvoker" Collapsed="true">
     <Position X="3.5" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Windows\ParamWindowInvoker.cs</FileName>
+      <FileName>Util\DialogInvoker.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="iRobotGUI.Controls.BaseParamControl" Collapsed="true">
     <Position X="3.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Controls\BaseParamControl.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="iRobotGUI.Controls.DemoParam" Collapsed="true">
     <Position X="1.25" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAABKAAAAAAAAAQ=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCAAAAAAAAAQ=</HashCode>
       <FileName>Controls\DemoParam.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -59,21 +59,21 @@
   <Class Name="iRobotGUI.Controls.LedParam" Collapsed="true">
     <Position X="3.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAQAIAAAAAAAAAAAAABAAEAAEAAAAAAAAQAAACCIABA=</HashCode>
+      <HashCode>gAQAAAAAAAAAAACAAABAAEAAEAAAAAAAAQAAAACICjA=</HashCode>
       <FileName>Controls\LedParam.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="iRobotGUI.Controls.ProgramList" Collapsed="true">
     <Position X="11" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAQAAAAAAAIAAAAAAAAAAAAQAAAAAAABAAgAAAAk=</HashCode>
+      <HashCode>AAAAARAAAAAAAIAAAAAAAAAIEAAAAAAAAABgAAAAAAk=</HashCode>
       <FileName>Controls\ProgramList.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="iRobotGUI.MainWindow" Collapsed="true">
     <Position X="9.25" Y="1" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>EAgAAAAAAABAAgIEAAQJAACAACQQEACAQEAAAAAAABE=</HashCode>
+      <HashCode>EAgAAAAAAABAAAAEAAQJAAAAACQQEACAQEAAAAAAABE=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
