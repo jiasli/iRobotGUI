@@ -1,0 +1,14 @@
+﻿<src:BaseParamControl x:Class="iRobotGUI.Controls.BackwardParam"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:src="clr-namespace:iRobotGUI.Controls"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="200" Width="300" Background="White">
+    <Grid>
+        <Label Content="BACKWARD" FontSize="18" HorizontalAlignment="Center" Margin="89,0,88,0" VerticalAlignment="Top" Width="115"/>
+        <Label Content="Distance" HorizontalAlignment="Left" Margin="29,34,0,0" VerticalAlignment="Top"/>
+        <Slider x:Name="SliderDistance" HorizontalAlignment="Left" Margin="29,64,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="SliderDistance_ValueChanged"/>
+        <Label Content="Velocity" HorizontalAlignment="Left" Margin="29,96,0,0" VerticalAlignment="Top"/>
+        <Slider x:Name="SliderVelocity" HorizontalAlignment="Left" Margin="29,126,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="SliderVelocity_ValueChanged"/>
+
+    </Grid>
+</src:BaseParamControl>
