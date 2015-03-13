@@ -78,6 +78,15 @@ namespace iRobotGUI.Tests
         }
 
         [TestMethod()]
+        public void TranslateProgramStringTest()
+        {
+            string ProgramString = "FORWARD 50,5\nLED 10,125,125";
+            string Actual_program = Translator.TranslateProgram(new HLProgram(ProgramString));
+            Console.WriteLine(Actual_program);
+            Assert.IsNotNull(Actual_program);
+        }
+
+        [TestMethod()]
         public void TranslateInstructionStringTest()
         {
             string instructionString = "LED 10,125,125";
@@ -120,15 +129,6 @@ namespace iRobotGUI.Tests
             string Actual_Ins = Translator.TranslateInstruction(new Instruction(ledInstruction));
             Console.WriteLine(Actual_Ins);
             Assert.IsNotNull(Actual_Ins);
-        }
-
-        [TestMethod()]
-        public void TranslateProgramStringTest()
-        {
-            string ProgramString = "FORWARD 50,5\nLED 10,125,125";
-            string Actual_program = Translator.TranslateProgram(new HLProgram(ProgramString));
-            Console.WriteLine(Actual_program);
-            Assert.IsNotNull(Actual_program);
         }
 
         [TestMethod()]
