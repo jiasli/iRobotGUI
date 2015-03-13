@@ -32,7 +32,7 @@
     <Position X="3.5" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Util\ParamWindowInvoker.cs</FileName>
+      <FileName>Util\DialogInvoker.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="iRobotGUI.Controls.BaseParamControl" Collapsed="true">
