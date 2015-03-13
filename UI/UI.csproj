@@ -89,8 +89,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Configuation.cs" />
-    <Compile Include="ConfigurationWindow.xaml.cs">
+    <Compile Include="WinAvr\WinAvrConfiguation.cs" />
+    <Compile Include="Windows\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ConditionPanel.xaml.cs">
@@ -123,15 +123,15 @@
     <Compile Include="Controls\LedParam.xaml.cs">
       <DependentUpon>LedParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OutputWindow.xaml.cs">
+    <Compile Include="Windows\OutputWindow.xaml.cs">
       <DependentUpon>OutputWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SongWindow.xaml.cs">
       <DependentUpon>SongWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WinAvrConnector.cs" />
-    <Compile Include="Util\Condition.cs" />
-    <Page Include="ConfigurationWindow.xaml">
+    <Compile Include="WinAvr\WinAvrConnector.cs" />
+    <Compile Include="Util\InsCondition.cs" />
+    <Page Include="Windows\ConfigurationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,7 +175,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="OutputWindow.xaml">
+    <Page Include="Windows\OutputWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
