@@ -112,8 +112,8 @@ namespace iRobotGUI
 		/// <summary>
 		/// Find the corresponding END_IF location given the index of an IF instruction.
 		/// </summary>
-		/// <param name="ifIndex"></param>
-		/// <returns></returns>
+		/// <param name="ifIndex"> the line number of IF </param>
+		/// <returns> the line number of END_IF </returns>
 		public int FindEndIf(int ifIndex)
 		{
 			int ifCount = 0;
@@ -135,6 +135,33 @@ namespace iRobotGUI
 
 			 return -1;
 		}
+
+        /// <summary>
+        /// Find the corresponding END_LOOP location given the index of an LOOP instruction.
+        /// </summary>
+        /// <param name="loopIndex"> the line number of LOOP </param>
+        /// <returns> the line numer of END_LOOP</returns>
+        public int FindEndLoop(int loopIndex)
+        {
+            int loopCount = 0;
+            int currentIns = loopIndex;
+
+            while (currentIns < program.Count)
+            {
+                if (program[currentIns].opcode == Instruction.LOOP)
+                    loopCount++;
+
+                if (program[currentIns].opcode == Instruction.END_LOOP)
+                    loopCount--;
+
+                if (loopCount == 0)
+                    return currentIns;
+
+                currentIns++;
+            }
+
+            return -1;
+        }
 
 		/// <summary>
 		/// HLProgram can be used as
