@@ -102,6 +102,7 @@
     <Compile Include="Controls\RightParam.xaml.cs">
       <DependentUpon>RightParam.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util\ProgramViewModel.cs" />
     <Compile Include="WinAvr\WinAvrConfiguation.cs" />
     <Compile Include="Windows\BackwardWindow.xaml.cs">
       <DependentUpon>BackwardWindow.xaml</DependentUpon>
