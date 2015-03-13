@@ -15,7 +15,7 @@ namespace iRobotGUI.Tests
         [TestMethod()]
         [TestProperty("Opcode", "FORWARD")]
         //New code: Trying to create light weight data driven unit test
-        public void SetupTranslateInstructionTest()
+        public void TranslateInstructionTestHelper()
         {
             try
             {      
@@ -66,18 +66,16 @@ namespace iRobotGUI.Tests
             }
             Assert.IsTrue(pass);
         }
-       
 
         [TestMethod()]
         public void TranslateProgramTest()
         {
-            string navProgram = "FORWARD 10,3    LED 10,125,125";
+            string navProgram = "FORWARD 10,3\nLED 10,125,125";
             string Actual_program = Translator.TranslateProgram(new HLProgram(navProgram));
             Console.WriteLine(Actual_program);
             Assert.IsNotNull(Actual_program);
            
         }
-
 
         [TestMethod()]
         public void TranslateInstructionStringTest()
@@ -89,14 +87,49 @@ namespace iRobotGUI.Tests
         }
 
         [TestMethod()]
-        public void TranslateProgramStringTest()
+        public void TranslateDrive()
         {
-            string ProgramString = "FORWARD 10,3    LED 10,125,125";
-            string Actual_program = Translator.TranslateProgram(new HLProgram(ProgramString));
+            string driveInstruction = "DRIVE 10,20";
+            string Actual_Ins = Translator.TranslateInstruction(new Instruction(driveInstruction));
+            Console.WriteLine(Actual_Ins);
+            Assert.IsNotNull(Actual_Ins);
+        }
+
+        [TestMethod()]
+        public void TranslateForwardBackward()
+        {
+            string ProgramInstruction = "FORWARD 50,5\nBACKWARD 10,3";
+            string Actual_program = Translator.TranslateProgram(new HLProgram(ProgramInstruction));
             Console.WriteLine(Actual_program);
             Assert.IsNotNull(Actual_program);
         }
 
+        [TestMethod()]
+        public void TranslateLeftRight()
+        {
+            string ProgramInstruction = "LEFT 50,5\nRIGHT 10,3";
+            string Actual_Program = Translator.TranslateProgram(new HLProgram(ProgramInstruction));
+            Console.WriteLine(Actual_Program);
+            Assert.IsNotNull(Actual_Program);
+        }
+
+        [TestMethod()]
+        public void TranslateLED()
+        {
+            string ledInstruction = "LED 10,125,125";
+            string Actual_Ins = Translator.TranslateInstruction(new Instruction(ledInstruction));
+            Console.WriteLine(Actual_Ins);
+            Assert.IsNotNull(Actual_Ins);
+        }
+
+        [TestMethod()]
+        public void TranslateProgramStringTest()
+        {
+            string ProgramString = "FORWARD 50,5\nLED 10,125,125";
+            string Actual_program = Translator.TranslateProgram(new HLProgram(ProgramString));
+            Console.WriteLine(Actual_program);
+            Assert.IsNotNull(Actual_program);
+        }
 
         [TestMethod()]
         public void GenerateCSourceTest(Translator.SourceType st, string code)
