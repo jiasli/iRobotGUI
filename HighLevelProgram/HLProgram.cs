@@ -123,6 +123,7 @@ namespace iRobotGUI
 			program.Insert(index, ins);
 		}
 
+
 		/// <summary>
 		/// Remove a instruction
 		/// </summary>
