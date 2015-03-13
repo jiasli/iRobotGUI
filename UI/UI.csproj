@@ -105,7 +105,7 @@
     <Compile Include="Windows\LoopWindow.xaml.cs">
       <DependentUpon>LoopWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Util\ParamWindowInvoker.cs" />
+    <Compile Include="Util\DialogInvoker.cs" />
     <Compile Include="Controls\BaseParamControl.cs" />
     <Compile Include="Controls\DragAdorner.cs" />
     <Compile Include="Controls\InstructionPanel.xaml.cs">

@@ -1,5 +1,4 @@
 ﻿using iRobotGUI;
-using iRobotGUI.Windows;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,11 +50,24 @@ END_IF
 			InitializeComponent();
 
 			
+			
 		
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			try
+			{
+				openSongWindow();
+			}
+			catch (Exception ex)
+			{
+
+				Console.WriteLine(ex.ToString());
+			}
+			
+
+			/*
 			try
 			{
 				HLProgram pro = new HLProgram(File.ReadAllText("find_if_endif.igp"));
@@ -67,6 +79,7 @@ END_IF
 				MessageBox.Show(ex.ToString());
 			}
 			openIfWindow();
+			*/
 		}
 
 		private void openLoopWindow()
@@ -77,6 +90,15 @@ END_IF
 			lw.ShowDialog();
 
 			MessageBox.Show(lw.SubProgram.ToString());
+		}
+
+		private void openSongWindow()
+		{
+			SongWindow lw = new SongWindow();
+			//lw.Owner = this;
+			lw.Ins = new Instruction("SONG_DEF 3,60,32,62,32,64,32");
+			lw.ShowDialog();
+			
 		}
 
 		private void openIfWindow()
