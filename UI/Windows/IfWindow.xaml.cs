@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace iRobotGUI.Windows
+namespace iRobotGUI
 {
 	/// <summary>
 	/// Interaction logic for IfWindow.xaml

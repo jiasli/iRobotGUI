@@ -89,8 +89,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Util\DialogInvoker.cs" />
+    <Compile Include="Controls\BackwardParam.xaml.cs">
+      <DependentUpon>BackwardParam.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ForwardParam.xaml.cs">
+      <DependentUpon>ForwardParam.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LeftParam.xaml.cs">
+      <DependentUpon>LeftParam.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RightParam.xaml.cs">
+      <DependentUpon>RightParam.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util\ProgramViewModel.cs" />
     <Compile Include="WinAvr\WinAvrConfiguation.cs" />
+    <Compile Include="Windows\BackwardWindow.xaml.cs">
+      <DependentUpon>BackwardWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
@@ -100,13 +116,18 @@
     <Compile Include="Controls\DemoParam.xaml.cs">
       <DependentUpon>DemoParam.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ForwardWindow.xaml.cs">
+      <DependentUpon>ForwardWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\IfWindow.xaml.cs">
       <DependentUpon>IfWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LeftWindow.xaml.cs">
+      <DependentUpon>LeftWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\LoopWindow.xaml.cs">
       <DependentUpon>LoopWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\ParamWindowInvoker.cs" />
     <Compile Include="Controls\BaseParamControl.cs" />
     <Compile Include="Controls\DragAdorner.cs" />
     <Compile Include="Controls\InstructionPanel.xaml.cs">
@@ -130,11 +151,34 @@
     <Compile Include="Windows\OutputWindow.xaml.cs">
       <DependentUpon>OutputWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\RightWindow.xaml.cs">
+      <DependentUpon>RightWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SongWindow.xaml.cs">
       <DependentUpon>SongWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WinAvr\WinAvrConnector.cs" />
     <Compile Include="Util\InsCondition.cs" />
+    <Page Include="Controls\BackwardParam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ForwardParam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LeftParam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\RightParam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\BackwardWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\ConfigurationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -158,6 +202,10 @@
     <Page Include="Windows\DemoWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\ForwardWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\IfWindow.xaml">
       <SubType>Designer</SubType>
@@ -183,11 +231,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\LeftWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\OutputWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\LoopWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\RightWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

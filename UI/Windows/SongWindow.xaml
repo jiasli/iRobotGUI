@@ -4,15 +4,28 @@
         xmlns:src ="clr-namespace:iRobotGUI"
         xmlns:wf="clr-namespace:Sanford.Multimedia.Midi.UI;assembly=Sanford.Multimedia.Midi"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="iRobotGUI.SongWindow"
-        Title="Song" Height="498" Width="691" Loaded="Window_Loaded" WindowStartupLocation="CenterOwner">
+        Title="Song" Height="520" Width="700" Loaded="Window_Loaded" WindowStartupLocation="CenterOwner">
     <Grid>
-    
-        <Button x:Name="ButtonOk" Content="OK" HorizontalAlignment="Left" Margin="269,412,0,0" VerticalAlignment="Top" Width="75" Click="ButtonOk_Click" Height="20"/>
-        <Button x:Name="ButtonClear" Content="Clear" HorizontalAlignment="Left" Margin="440,412,0,0" VerticalAlignment="Top" Width="75" Click="ButtonClear_Click" Height="20" Grid.ColumnSpan="2"/>
-        <ListBox x:Name="noteList" HorizontalAlignment="Left" Height="223" Margin="54,49,0,0" VerticalAlignment="Top" Width="201"/>
-        <ComboBox x:Name="songNoList" HorizontalAlignment="Left" Margin="54,10,0,0" VerticalAlignment="Top" Width="201" Height="22">
-        </ComboBox>
-        <ScrollViewer Height="100" Margin="0,292,0,0" VerticalAlignment="Top" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" Grid.ColumnSpan="2" >
+        <ComboBox x:Name="comboBoxSongNo" HorizontalAlignment="Left" Margin="185,12,0,0" VerticalAlignment="Top" Width="201" Height="22" />
+
+        <ListView x:Name="listViewNotes" HorizontalAlignment="Left" Height="222" Margin="185,50,0,0" VerticalAlignment="Top" Width="201" SelectionChanged="listViewNotes_SelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding Number}" Width="30" />
+                        <Label Content="{Binding Duration}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+       
+        <Button x:Name="buttonNew" Content="New" HorizontalAlignment="Left" Margin="144,75,0,0" VerticalAlignment="Top" Width="36" Height="36" Click="buttonNew_Click"/>
+        <Button x:Name="buttonMoveUp" Content="▴" HorizontalAlignment="Left" Margin="144,118,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22" Click="buttonMoveUp_Click"/>
+        <Button x:Name="buttonMoveDown" Content="▾" HorizontalAlignment="Left" Margin="144,158,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22" Click="buttonMoveDown_Click"/>
+        <Button x:Name="buttonDelete" Content="⨯" HorizontalAlignment="Left" Margin="144,198,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="20" Click="buttonDelete_Click"/>
+        <Slider x:Name="sliderDuration" HorizontalAlignment="Left" Margin="417,132,0,0" VerticalAlignment="Top" Width="169" Maximum="255" TickFrequency="16" ValueChanged="sliderDuration_ValueChanged" TickPlacement="TopLeft" SmallChange="16" IsSnapToTickEnabled="True" LargeChange="16"/>
+
+        <ScrollViewer Height="179" Margin="0,292,0,10" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" >
             <WindowsFormsHost Width="1200" >
                 <wf:PianoControl x:Name="pianoKeyboard" PianoKeyDown="pianoKeyboard_PianoKeyDown" LowNoteID="31" HighNoteID="127" PianoKeyUp="pianoKeyboard_PianoKeyUp" />
             </WindowsFormsHost>
