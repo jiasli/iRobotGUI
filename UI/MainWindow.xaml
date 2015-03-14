@@ -33,34 +33,31 @@
             <MenuItem Header="_File">
                 <MenuItem Command="ApplicationCommands.New" />
                 <MenuItem Command="ApplicationCommands.Save" />
+                <MenuItem Command="ApplicationCommands.SaveAs" />
                 <MenuItem Command="ApplicationCommands.Open" />
                 <Separator/>
                 <MenuItem Command="ApplicationCommands.Close"/>
 
             </MenuItem>
             <MenuItem Header="Edit">
-                <MenuItem Header="Cut" Command="Cut"/>
-                <MenuItem Header="Copy"  />
-                <MenuItem Header="Paste" />
+                <MenuItem Command="Cut" />
+                <MenuItem Command="Copy"  />
+                <MenuItem Command="Paste" />                
             </MenuItem>
             <MenuItem Header="Build">
-                <MenuItem Header="Translate to C" Click="MenuItemTranslate_Click"/>
-                <MenuItem Header="Build" Click="MenuItemBuild_Click"/>
-                <MenuItem Header="Clean" Click="MenuItemClean_Click" />
-
+                <MenuItem Header="Translate to C Code" Click="MenuItemTranslate_Click"/>
                 <MenuItem Header="Show C Code" Click="MenuItem_ShowCCode"/>
-                <MenuItem Header="Load" Click="MenuItemLoad_Click"/>
-                <MenuItem Header="Build and Load" Click="BuildAndLoad"/>
+                <Separator />
+                <MenuItem Header="WinAVR Build" Click="MenuItemBuild_Click"/>
+                <MenuItem Header="WinAVR Clean" Click="MenuItemClean_Click" />
+                <MenuItem Header="WinAVR Load" Click="MenuItemLoad_Click"/>
+                <Separator />
+                <MenuItem Header="Translate Build and Load" Click="BuildAndLoad"/>
                 <Separator/>
                 <MenuItem Command="{x:Static custom:MainWindow.ComPortCmd}" InputGestureText="Ctrl+Shift+C"/>
-
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="About"  InputGestureText="F1" Click="MenuItemAbout_Click">
-                    <MenuItem.InputBindings>
-                        <KeyBinding Key="H" Modifiers="control"/>
-                    </MenuItem.InputBindings>
-                </MenuItem>
+                <MenuItem Header="About"  InputGestureText="F1" Click="MenuItemAbout_Click" />              
             </MenuItem>
         </Menu>
 
