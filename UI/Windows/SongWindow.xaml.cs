@@ -105,11 +105,29 @@ namespace iRobotGUI
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// Set and get the instruction.
+		/// </summary>
 		public override iRobotGUI.Instruction Ins
 		{
 			get
 			{
-				return base.Ins;
+				// 1. Create a default ins
+				Instruction result = Instruction.CreatFromOpcode(Instruction.SONG_DEF);
+				
+				// 2. Clear the parameters.
+				result.paramList.Clear();
+
+				// 3. Song No
+				result.paramList.Add(comboBoxSongNo.SelectedIndex);
+				
+				// 4. Notes
+				foreach(Note note in noteList)
+				{
+					result.paramList.Add(note.Number);
+					result.paramList.Add(note.Duration);
+				}
+				return result;
 			}
 			set
 			{
@@ -231,6 +249,11 @@ namespace iRobotGUI
 		private void listViewNotes_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			sliderDuration.Value = (listViewNotes.SelectedItem as Note).Duration;
+		}
+
+		private void comboBoxSongNo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Ins.paramList[0] = comboBoxSongNo.SelectedIndex;
 		}
 	}
 }
