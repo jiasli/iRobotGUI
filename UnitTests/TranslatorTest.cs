@@ -108,6 +108,14 @@ DRIVE 0,32768";
         }
 
         [TestMethod()]
+        [ExpectedException(typeof(iRobotGUI.InvalidOpcodeException))]
+        public void TranslateInvalidInstruction()
+        {
+            string invalidIns = "FROWARD 300,2";
+            TranslatePrintInstrString(invalidIns);
+        }
+
+        [TestMethod()]
         public void TranslateProgram()
         {
             string ProgramInstruction = "FORWARD 50,5\nBACKWARD 10,3\nLEFT 80\nRIGHT 80";
