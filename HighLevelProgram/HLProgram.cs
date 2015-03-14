@@ -31,7 +31,7 @@ namespace iRobotGUI
 				CurrentLine = i;
 
 				// Ignore comment line
-				if (!Instruction.IsCommentLine(insStrArray[i]))
+				if (Instruction.IsInstructionLine(insStrArray[i]))
 					program.Add(new Instruction(insStrArray[i]));
 			}
 		}
@@ -83,6 +83,85 @@ namespace iRobotGUI
 		{
 			this.program.Add(ins);
 		}
+
+		/// <summary>
+		/// Find the corresponding ELSE location given the index of an IF instruction.
+		/// </summary>
+		/// <param name="ifIndex"></param>
+		/// <returns></returns>
+		public int FindElse(int ifIndex)
+		{
+			int ifCount = 0;
+			int currentIns = ifIndex;
+
+			while (currentIns < program.Count)
+			{
+				if (program[currentIns].opcode == Instruction.IF)
+					ifCount++;
+				else if (program[currentIns].opcode == Instruction.ELSE)
+					ifCount--;
+
+				if (ifCount == 0) 
+					return currentIns;
+
+				currentIns++;
+			}
+			return -1;
+		}
+
+		/// <summary>
+		/// Find the corresponding END_IF location given the index of an IF instruction.
+		/// </summary>
+		/// <param name="ifIndex"> the line number of IF </param>
+		/// <returns> the line number of END_IF </returns>
+		public int FindEndIf(int ifIndex)
+		{
+			int ifCount = 0;
+			int currentIns = ifIndex;
+
+			while (currentIns < program.Count)
+			{
+				if (program[currentIns].opcode == Instruction.IF)
+					ifCount++;
+
+				if (program[currentIns].opcode == Instruction.END_IF)
+					ifCount--;
+
+				if (ifCount == 0)
+					return currentIns;
+
+				currentIns++;
+			}
+
+			 return -1;
+		}
+
+        /// <summary>
+        /// Find the corresponding END_LOOP location given the index of an LOOP instruction.
+        /// </summary>
+        /// <param name="loopIndex"> the line number of LOOP </param>
+        /// <returns> the line numer of END_LOOP</returns>
+        public int FindEndLoop(int loopIndex)
+        {
+            int loopCount = 0;
+            int currentIns = loopIndex;
+
+            while (currentIns < program.Count)
+            {
+                if (program[currentIns].opcode == Instruction.LOOP)
+                    loopCount++;
+
+                if (program[currentIns].opcode == Instruction.END_LOOP)
+                    loopCount--;
+
+                if (loopCount == 0)
+                    return currentIns;
+
+                currentIns++;
+            }
+
+            return -1;
+        }
 
 		/// <summary>
 		/// HLProgram can be used as

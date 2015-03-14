@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iRobotGUI.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,21 +12,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using iRobotGUI.Util;
 
 namespace iRobotGUI
 {
-
 	/// <summary>
-	/// Interaction logic for LoopWindow.xaml
+	/// Interaction logic for IfWindow.xaml
 	/// </summary>
-	public partial class LoopWindow : Window
+	public partial class IfWindow : Window
 	{
-		public LoopWindow()
-		{
-			InitializeComponent();
-		}
-
 		/// <summary>
 		/// Set the high-level program to be presented, including LOOP and END_LOOP.
 		/// </summary>
@@ -39,8 +33,13 @@ namespace iRobotGUI
 				InsCondition condition = new InsCondition(subProgram[0]);
 				conditionPanel.Condition = condition;
 
-				// 2. Set loop body
-				programListLoopBody.Program = subProgram.SubProgram(1, subProgram.Count - 2);
+				// 2. Set if body
+				int elsePosition = subProgram.FindElse(0);
+				programListIfBody.Program = subProgram.SubProgram(1, elsePosition - 1);
+
+				// 3. Set else body
+				int endIfPosition = subProgram.FindEndIf(0);
+				programListElseBody.Program = subProgram.SubProgram(elsePosition + 1, endIfPosition);
 			}
 			get
 			{
@@ -52,19 +51,27 @@ namespace iRobotGUI
 				conditionIns.paramList[0] = condition.sensor;
 				conditionIns.paramList[1] = condition.op;
 				conditionIns.paramList[2] = condition.num;
-				result.Add(conditionIns);
+				result.Add(conditionIns);				
 
-				// 2. Add loop body
-				result.Add(programListLoopBody.Program);
+				// 2. Add if body
+				result.Add(programListIfBody.Program);
 
-				// 3. Add END_LOOP
-				result.Add(Instruction.CreatFromOpcode(Instruction.END_LOOP));
+				// 3. Add ELSE
+				result.Add(Instruction.CreatFromOpcode(Instruction.ELSE));
+
+				// 2. Add if body
+				result.Add(programListElseBody.Program);
+
+				// 3. Add END_IF
+				result.Add(Instruction.CreatFromOpcode(Instruction.END_IF));
 
 				return result;
 			}
 		}
 
-
-
+		public IfWindow()
+		{
+			InitializeComponent();
+		}
 	}
 }

@@ -12,6 +12,7 @@ namespace iRobotGUI
 		public string InsStr;
 
 		public InstructionException(int line, string ins)
+			: base("line " + line + " :" + ins)
 		{
 			this.Line = line;
 			this.InsStr = ins;

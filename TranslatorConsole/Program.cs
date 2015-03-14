@@ -8,6 +8,9 @@ using iRobotGUI;
 
 namespace TranslatorConsole
 {
+	/// <summary>
+	/// Used to test TranslatorLib
+	/// </summary>
 	class Program
 	{
 		static void Main(string[] args)
