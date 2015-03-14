@@ -132,13 +132,13 @@ namespace iRobotGUI
 				case FORWARD:
 					newIns = new Instruction(Instruction.FORWARD + " 500,3");
 					break;
-                case BACKWARD:
-                    newIns = new Instruction(BACKWARD +" 500,3");
-                    break;
-                case RIGHT:
-                    newIns = new Instruction(RIGHT + " 90");
-                    break;
-                case Instruction.LEFT:
+				case BACKWARD:
+					newIns = new Instruction(BACKWARD +" 500,3");
+					break;
+				case RIGHT:
+					newIns = new Instruction(RIGHT + " 90");
+					break;
+				case Instruction.LEFT:
 					newIns = new Instruction(Instruction.LEFT + " 90");
 					break;
 				case Instruction.LED:
