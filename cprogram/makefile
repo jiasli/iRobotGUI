@@ -56,7 +56,7 @@ FORMAT = ihex
 
 
 # Target file name (without extension).
-TARGET = mc_o
+TARGET = testTrans2
 
 
 # List C source files here. (C dependencies are automatically generated.)

@@ -5,16 +5,14 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 mc:Ignorable="d" Background="White" Height="116.275" Width="344.257">
-	<Grid VerticalAlignment="Top">
-		<Label Content="Select the Demo:" FontFamily="Times New Roman" FontSize="20" Margin="10,33,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+	<Grid >
+		<Label Content="Select the Demo:" Margin="48,39,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 		<ComboBox
 		HorizontalAlignment="Left"
-		Margin="183,35,0,0"
 		VerticalAlignment="Top"
-		Width="147"
 		Loaded="ComboBox1_Loaded"
-			x:Name="ComboBox1"  FontFamily="Times New Roman" FontSize="16"
-		SelectionChanged="ComboBox1_SelectionChanged" Height="32">
+			x:Name="ComboBox1"  
+		SelectionChanged="ComboBox1_SelectionChanged" Margin="168,41,0,0" Width="133" SelectedIndex="0">
 			<ComboBoxItem MouseMove="OnHover" Name="demo0">Cover</ComboBoxItem>
 			<ComboBoxItem MouseMove="OnHover" Name="demo1">Cover and Dock</ComboBoxItem>
 			<ComboBoxItem MouseMove="OnHover" Name="demo2">Spot Cover</ComboBoxItem>

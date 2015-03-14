@@ -6,8 +6,59 @@ using System.Threading.Tasks;
 
 namespace iRobotGUI
 {
-    public class InvalidOpcodeException : Exception
-    {
-        
-    }
+	public class InstructionException : Exception
+	{
+		public int Line;
+		public string InsStr;
+
+		public InstructionException(int line, string ins)
+			: base("line " + line + " :" + ins)
+		{
+			this.Line = line;
+			this.InsStr = ins;
+		}
+	}
+
+	public class IfUnmatchedException : InstructionException
+	{
+		public IfUnmatchedException(int line, string ins)
+			: base(line, ins)
+		{
+		}
+	}
+
+	public class LoopUnmatchedException : InstructionException
+	{
+		public LoopUnmatchedException(int line, string ins)
+			: base(line, ins)
+		{
+		}
+	}
+
+	public class InvalidOpcodeException : InstructionException
+	{
+		public InvalidOpcodeException(int line, string ins)
+			: base(line, ins)
+		{
+
+		}
+	}
+
+	public class NonNumericParameterException : InstructionException
+	{
+		public NonNumericParameterException(int line, string ins)
+			: base(line, ins)
+		{
+
+		}
+	}
+
+	public class ParameterLengthException : InstructionException
+	{
+		public ParameterLengthException(int line, string ins)
+			: base(line, ins)
+		{
+
+		}
+	}
 }

@@ -26,7 +26,7 @@ namespace iRobotGUI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            DemoControlInstance.CurrentIns = Ins;
+            DemoControlInstance.Ins = Ins;
         }
 
     }

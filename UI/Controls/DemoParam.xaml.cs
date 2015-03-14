@@ -23,8 +23,6 @@ namespace iRobotGUI.Controls
 	public partial class DemoParam : BaseParamControl
 	{
 
-		public Instruction _ins;
-
 		public DemoParam()
 		{
 			InitializeComponent();
@@ -48,7 +46,7 @@ namespace iRobotGUI.Controls
 				{
 					num = -1;
 				};
-				CurrentIns.parameters[0] = num;
+				base.Ins.paramList[0] = num;
 			}             
 		   
 		}
@@ -66,20 +64,7 @@ namespace iRobotGUI.Controls
 		private void OnHover(object sender, RoutedEventArgs e)
 		{
 		}
-
-		public Instruction CurrentIns
-		{
-			get
-			{
-				return _ins;
-			}
-			set
-			{
-				_ins = value;
-
-				ComboBox1.SelectedIndex = CurrentIns.parameters[0]; /// ComboBox1.FindName(value);
-			}
-		}
+		
 
 		private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
