@@ -5,7 +5,7 @@
     xmlns:System="clr-namespace:System;assembly=mscorlib"    
     xmlns:custom="clr-namespace:iRobotGUI"
     
-    Title="iRobot GUI" Width="900" Height="500" >
+    Title="iRobot GUI" Width="750" Height="500" >
 
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Open" Executed="OpenCmdExecuted"/>
@@ -26,8 +26,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
 
         <Menu Grid.Row="0" Grid.ColumnSpan ="4" VerticalAlignment="Top" >
@@ -67,23 +66,16 @@
 
         <Controls:InstructionPanel Grid.Row="1" Grid.Column="0"/>
 
-        <Controls:ProgramList x:Name="ProgramList1" Grid.Row="1" Grid.Column="1" />          
-        
-        <GroupBox Grid.Row="1" Grid.Column="2" Header="Parameters"  >     
+        <Controls:ProgramList x:Name="ProgramList1" Grid.Row="1" Grid.Column="1" />
 
-
-
-        </GroupBox>
-        
-
-        <Grid Grid.Row="1" Grid.Column="3">
+        <Grid Grid.Row="1" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="28"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Label Content="Debugging info" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="93"/>
-            <Button Content="Load Example Code" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonLoadExampleCode_Click" Grid.Row="1" Height="20" Width="108" />
+            <Button Content="Load Example Code" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonLoadExampleCode_Click" Grid.Row="1"/>
             <TextBox x:Name="TextBoxCode" TextWrapping="Wrap" Text="Source Code"  Grid.Row="2" AcceptsReturn="True"/>
 
         </Grid>

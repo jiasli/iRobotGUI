@@ -150,6 +150,9 @@ namespace iRobotGUI
 				case Instruction.DEMO:
 					newIns = new Instruction(Instruction.DEMO + " 0");
 					break;
+				case DELAY:
+					newIns = new Instruction(DELAY + " 1");
+					break;
 				case IF:
 					newIns = new Instruction(IF + " 0, 0, 0");
 					break;
