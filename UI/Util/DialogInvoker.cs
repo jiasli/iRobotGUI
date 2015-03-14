@@ -27,6 +27,9 @@ namespace iRobotGUI.Util
 				case Instruction.FORWARD:
 					dlg = new ForwardWindow();
 					break;
+				case Instruction.BACKWARD:
+					dlg = new BackwardWindow();
+					break;
 				case Instruction.LEFT:
 					dlg = new LeftWindow();
 					break;
@@ -42,9 +45,6 @@ namespace iRobotGUI.Util
 				case Instruction.DEMO:
 					dlg = new DemoWindow();
 					break;
-				case Instruction.BACKWARD:
-					dlg = new BackwardWindow();
-					break;
 			}
 
 			if (dlg != null)
@@ -52,7 +52,9 @@ namespace iRobotGUI.Util
 				dlg.Owner = owner;
 				dlg.Ins = ins;
 				dlg.ShowDialog();
-				return ins;
+
+				// Alway read from the Window. There is no guarantee that the original Instruction is modified.
+				return dlg.Ins;
 			}
 			else
 			{
