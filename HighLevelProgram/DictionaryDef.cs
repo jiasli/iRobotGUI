@@ -9,6 +9,7 @@ namespace iRobotGUI
 {
     public class DictionaryDef
     {
+        // define fixed value of some instruction parameter range
         static ArrayList ledBitValue = new ArrayList()
         {
             0, 2, 4, 8
@@ -50,6 +51,7 @@ namespace iRobotGUI
 
             }
 
+            // constructor for initializing calss boundary
             public Boundary(int lowerInput, int upperInput)
             {
                 upperBoundary = upperInput;
@@ -69,6 +71,7 @@ namespace iRobotGUI
             }
         }
 
+        // subdictionary used to store range of each parameter in one instruction
         public static Dictionary<int, Boundary> driveRange = new Dictionary<int, Boundary>()
         {
             { 0, new Boundary(-500, 500) },
@@ -100,6 +103,7 @@ namespace iRobotGUI
             { 1, new Boundary(0, 5) },
         };
 
+        // dictionary for each instruction
         public static Dictionary<string, Dictionary<int, Boundary>> paraRange = new Dictionary<string, Dictionary<int, Boundary>>()
         {
             { Instruction.DRIVE, driveRange },

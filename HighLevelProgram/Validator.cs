@@ -135,22 +135,19 @@ namespace iRobotGUI
 			return ValidateInstruction(ins);
 		}
 
-		/// <summary>
-		/// The function validate an instruction
-		/// </summary>
-		/// <param name="ins">Instruction under validate</param>
-		/// <returns>True for a valid instuction or test, throw exception otherwise</returns>
-		public static bool ValidateInstruction(Instruction ins)
+		public static bool ValidateParaLength(Instruction ins, int currentLine)
 		{
-			currentLine++;
-
 			//Check Parameter Count
 			if (DictionaryDef.paraLength.TryGetValue(ins.opcode, out paraLen))
 			{
 				if (ins.paramList.Count != paraLen)
 					throw new ParameterLengthException(currentLine, ins.opcode);
 			}
+			return true;
+		}
 
+		public static bool ValidateParaRange(Instruction ins, int currentLine)
+		{
 			// Check Parameter Range
 			if (DictionaryDef.paraRange.TryGetValue(ins.opcode, out paraRan))
 			{
@@ -188,7 +185,7 @@ namespace iRobotGUI
 						currentBoundary = paraRan.ElementAt(i).Value;
 						if (currentBoundary.fixArguValue.Count == 0)
 						{
-							if ((ins.paramList[i] >= currentBoundary.lowerBoundary) 
+							if ((ins.paramList[i] >= currentBoundary.lowerBoundary)
 								&& (ins.paramList[i] <= currentBoundary.upperBoundary))
 								continue;
 							else
@@ -204,6 +201,22 @@ namespace iRobotGUI
 					}
 				}
 			}
+			return true;
+		}
+
+		/// <summary>
+		/// The function validate an instruction
+		/// </summary>
+		/// <param name="ins">Instruction under validate</param>
+		/// <returns>True for a valid instuction or test, throw exception otherwise</returns>
+		public static bool ValidateInstruction(Instruction ins)
+		{
+			bool validationFlag;
+			currentLine++;
+
+			validationFlag = ValidateParaLength(ins, currentLine);
+
+			validationFlag = ValidateParaRange(ins, currentLine);
 
 			switch (ins.opcode)
 			{
