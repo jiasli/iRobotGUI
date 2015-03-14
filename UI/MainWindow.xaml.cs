@@ -31,6 +31,8 @@ namespace iRobotGUI
 
 		public MainWindow()
 		{
+			// Init Cmd
+			ComPortCmd.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift, "Ctrl+Shift+C"));
 
 			InitializeComponent();
 			Directory.SetCurrentDirectory(@".");
@@ -68,6 +70,18 @@ namespace iRobotGUI
 		}
 
 		/// <summary>
+		/// Create a new HLProgram and pass it to ProgramList
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="e"></param>
+		void NewCmdExecuted(object target, ExecutedRoutedEventArgs e)
+		{
+			fileName = null;
+			program = new HLProgram();
+			ProgramList1.Program = program;
+		}
+
+		/// <summary>
 		/// Show a open dialog to let user choose the igp file to be loaded
 		/// </summary>
 		/// <param name="target"></param>
@@ -88,24 +102,25 @@ namespace iRobotGUI
 			{
 				// Open document 
 				fileName = dlg.FileName;
-				LoadProgram(fileName);
+				OpenProgram(fileName);
 			}
 		}
 
 
 		/// <summary>
-		/// Save the program to an igp file.
+		/// Save the program as an igp file.
 		/// Traceability: WC_3305, As an ESS, I can create, save and load program files.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SaveCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		private void SaveAsCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
 			// Configure save file dialog box
 			Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-			dlg.FileName = "Instruction"; // Default file name
+			dlg.InitialDirectory = Directory.GetCurrentDirectory();
+			dlg.FileName = fileName; // Default file name
 			dlg.DefaultExt = ".ins"; // Default file extension
-			dlg.Filter = "Text documents (.ins)|*.ins"; // Filter files by extension 
+			dlg.Filter = "Text documents|*.ins"; // Filter files by extension 
 
 			// Show save file dialog box
 			Nullable<bool> result = dlg.ShowDialog();
@@ -115,6 +130,26 @@ namespace iRobotGUI
 			{
 				// Save document 
 				string filename = dlg.FileName;
+				SaveProgram(filename);
+			}
+		}
+
+		/// <summary>
+		/// Save the program to an igp file.
+		/// Traceability: WC_3305, As an ESS, I can create, save and load program files.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SaveCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			if (String.IsNullOrEmpty(fileName))
+			{
+				// No file is currently opened.
+				SaveAsCmdExecuted(sender, e);
+			}
+			else
+			{
+				SaveProgram(fileName);
 			}
 		}
 		#endregion
@@ -139,20 +174,40 @@ namespace iRobotGUI
 		/// Load program from file.
 		/// </summary>
 		/// <param name="filePath"></param>
-		private void LoadProgram(string filePath)
+		private void OpenProgram(string filePath)
 		{
 			try
 			{
-				ProgramList1.Program = program = new HLProgram(File.ReadAllText(filePath));                
+				string proStr = File.ReadAllText(filePath);
+				program = new HLProgram(proStr);
+				ProgramList1.Program = program;
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);              
-			}      			
+				MessageBox.Show(ex.Message);
+			}
+		}
+
+		/// <summary>
+		/// Save program from file.
+		/// </summary>
+		/// <param name="filePath"></param>
+		private void SaveProgram(string filePath)
+		{
+			try
+			{
+				string proStr = ProgramList1.Program.ToString();
+				program = ProgramList1.Program;
+				File.WriteAllText(filePath, proStr);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 		#endregion
 
-			  
+
 
 		#region Control Callbacks
 
@@ -163,15 +218,15 @@ namespace iRobotGUI
 		/// <param name="e"></param>
 		private void ButtonLoadExampleCode_Click(object sender, RoutedEventArgs e)
 		{
-			LoadProgram("song.igp");
-		}	
+			OpenProgram("song.igp");
+		}
 
 		#endregion
 
 
 
 
-	
+
 
 		#region Menu callbacks
 

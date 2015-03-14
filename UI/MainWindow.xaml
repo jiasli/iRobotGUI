@@ -8,15 +8,12 @@
     Title="iRobot GUI" Width="750" Height="500" >
 
     <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.New" Executed="NewCmdExecuted"/>
         <CommandBinding Command="ApplicationCommands.Open" Executed="OpenCmdExecuted"/>
         <CommandBinding Command="ApplicationCommands.Save" Executed="SaveCmdExecuted"/>
         <CommandBinding Command="{x:Static custom:MainWindow.ComPortCmd}" Executed="ConfigCmdExecuted"/>
     </Window.CommandBindings>
 
-    <Window.InputBindings>
-        <KeyBinding Gesture="Ctrl+Shift+C" Command="{x:Static custom:MainWindow.ComPortCmd}"></KeyBinding>
-
-    </Window.InputBindings>
 
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
@@ -37,9 +34,8 @@
                 <MenuItem Command="ApplicationCommands.Open" />
                 <Separator/>
                 <MenuItem Command="ApplicationCommands.Close"/>
-
             </MenuItem>
-            <MenuItem Header="Edit">
+            <MenuItem Header="_Edit">
                 <MenuItem Command="Cut" />
                 <MenuItem Command="Copy"  />
                 <MenuItem Command="Paste" />                
@@ -54,7 +50,7 @@
                 <Separator />
                 <MenuItem Header="Translate Build and Load" Click="BuildAndLoad"/>
                 <Separator/>
-                <MenuItem Command="{x:Static custom:MainWindow.ComPortCmd}" InputGestureText="Ctrl+Shift+C"/>
+                <MenuItem Command="{x:Static custom:MainWindow.ComPortCmd}" />
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="About"  InputGestureText="F1" Click="MenuItemAbout_Click" />              
