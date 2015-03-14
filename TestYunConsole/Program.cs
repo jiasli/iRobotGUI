@@ -19,15 +19,22 @@ END_IF
 ELSE";
 
 			string proLoop = @"LOOP 0,0,0 
-LOOP 0,0
+LOOP 0,6,0
 	DELAY 1000
 END_LOOP
 ";
 			string proLength = @"END_LOOP";
 
+			string proRange = @"SONG_DEF 11,41,222,69,222,80,222,49,252
+LOOP 0,0,0 
+LOOP 0,6,0
+	DELAY 1000
+END_LOOP
+";
+
 			try
 			{
-				Validator.ValidateProgram(proLoop);
+				Validator.ValidateProgram(proRange);
 				Console.WriteLine("Ture");
 			}
 			catch (IfUnmatchedException ex)
@@ -40,14 +47,19 @@ END_LOOP
 			}
 			catch (ParameterLengthException ex)
 			{
-				Console.WriteLine("Parameter Length Unmathed at {0}: {1}", ex.Line, ex.InsStr);
+				Console.WriteLine("Parameter Length Unmatched at {0}: {1}", ex.Line, ex.InsStr);
 			}
+			catch (ParameterRangeException ex)
+			{
+				Console.WriteLine("Parameter Range Unmatched at {0}: {1}", ex.Line, ex.InsStr);
+			}
+
 /*
-			if (Validator.ValidateInstruction(proLength))
+			if (Validator.ValidateInstruction(proRange))
 				Console.WriteLine("True");
 			else
 				Console.WriteLine("False");
- */ 
+*/
 			Console.Read();
 
 		}

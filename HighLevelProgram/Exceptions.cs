@@ -52,9 +52,18 @@ namespace iRobotGUI
 		}
 	}
 
-    public class ParameterLengthException : InstructionException
+	public class ParameterLengthException : InstructionException
+	{
+		public ParameterLengthException(int line, string ins)
+			: base(line, ins)
+		{
+
+		}
+	}
+
+    public class ParameterRangeException : InstructionException
     {
-        public ParameterLengthException(int line, string ins)
+        public ParameterRangeException(int line, string ins)
             : base(line, ins)
         {
 
