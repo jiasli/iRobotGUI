@@ -79,6 +79,35 @@ namespace iRobotGUI.Tests
         }
 
         [TestMethod()]
+        public void TranslateSong()
+        {
+            string songInstruction = "SONG_DEF 1,52,32,33,32\nSONG_PLAY 1";
+            TranslatePrintProgString(songInstruction);
+        }
+
+        [TestMethod()]
+        public void TranslateIfProgram()
+        {
+            string ifProgram = @"IF 2,0,1
+DELAY 200
+ELSE
+FORWARD 300,2
+END_IF";
+            TranslatePrintProgString(ifProgram);
+        }
+
+        [TestMethod()]
+        public void TranslateLoopProgram()
+        {
+            string loopProgram = @"LOOP 0,1,1
+DRIVE 300,32768
+DELAY 300
+END_LOOP
+DRIVE 0,32768";
+            TranslatePrintProgString(loopProgram);
+        }
+
+        [TestMethod()]
         public void TranslateProgram()
         {
             string ProgramInstruction = "FORWARD 50,5\nBACKWARD 10,3\nLEFT 80\nRIGHT 80";
