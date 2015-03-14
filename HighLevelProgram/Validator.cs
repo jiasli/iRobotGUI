@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace iRobotGUI
 {
-    /// <summary>
-    /// The class is used to detect invalid function or program
-    /// Trace to WC_3297
-    /// </summary>
+	/// <summary>
+	/// The class is used to detect invalid function or program
+	/// Trace to WC_3297
+	/// </summary>
 	public class Validator
 	{
 		/// <summary>
@@ -22,6 +22,10 @@ namespace iRobotGUI
 		/// The default parameter length of current instruction under validation 
 		/// </summary>
 		static int paraLen = 0;
+		/// <summary>
+		/// The corresponding possible parameter range of current instruction under validation
+		/// </summary>
+		static Dictionary<int, DictionaryDef.Boundary> paraRan = new Dictionary<int, DictionaryDef.Boundary>();
 
 		static private Stack<string> ifStack = new Stack<string>();
 		static private Stack<string> loopStack = new Stack<string>();
@@ -32,10 +36,8 @@ namespace iRobotGUI
 		/// <param name="opcode">
 		/// Opcode of current instruction under validation, should be one of IF, ELSE or END_IF
 		/// </param>
-		/// <returns>
-		/// Return true when they are matched, throw IfUnmatchedException otherwise
-		/// </returns>
-		public static bool CheckIf(string opcode)
+		/// <returns>Return true when they are matched, throw IfUnmatchedException otherwise</returns>
+		public static bool ValidateIf(string opcode)
 		{
 			string IF = Instruction.IF;
 			string ELSE = Instruction.ELSE;
@@ -60,7 +62,6 @@ namespace iRobotGUI
 			else
 			{
 				// Non-empty stack
-
 				string top = ifStack.Peek();
 
 				if (opcode == IF)
@@ -90,13 +91,9 @@ namespace iRobotGUI
 		/// <summary>
 		/// The function check matching situation of instruction LOOP & END_LOOP
 		/// </summary>
-		/// <param name="opcode">
-		/// Opcode of current instruction under validation, should be either LOOP or END_LOOP
-		/// </param>
-		/// <returns>
-		/// Return true when they are matched, throw LoopUnmatchedException otherwise
-		/// </returns>
-		public static bool CheckLoop(string opcode)
+		/// <param name="opcode">Opcode of current instruction under validation, should be either LOOP or END_LOOP</param>
+		/// <returns>Return true when they are matched, throw LoopUnmatchedException otherwise</returns>
+		public static bool ValidateLoop(string opcode)
 		{
 			if (opcode == Instruction.LOOP)
 			{
@@ -121,12 +118,8 @@ namespace iRobotGUI
 		/// <summary>
 		/// The function transfer a test instruction string to Instruction and validate it
 		/// </summary>
-		/// <param name="insStr">
-        /// insStr is the input of test string
-        /// </param>
-		/// <returns>
-        /// True for a valid instuction or test, throw exception otherwise
-        /// </returns>
+		/// <param name="insStr">insStr is the input of test string</param>
+		/// <returns>True for a valid instuction or test, throw exception otherwise</returns>
 		public static bool ValidateInstruction(String insStr)
 		{
 			Instruction ins;
@@ -142,71 +135,126 @@ namespace iRobotGUI
 			return ValidateInstruction(ins);
 		}
 
-        /// <summary>
-        /// The function validate an instruction
-        /// </summary>
-        /// <param name="ins">
-        /// Instruction under validate
-        /// </param>
-        /// <returns>
-        /// True for a valid instuction or test, throw exception otherwise
-        /// </returns>
-		public static bool ValidateInstruction(Instruction ins)
+		public static bool ValidateParaLength(Instruction ins, int currentLine)
 		{
-			currentLine++;
-
-            //Check Parameter Count
+			//Check Parameter Count
 			if (DictionaryDef.paraLength.TryGetValue(ins.opcode, out paraLen))
 			{
 				if (ins.paramList.Count != paraLen)
 					throw new ParameterLengthException(currentLine, ins.opcode);
 			}
+			return true;
+		}
 
-			switch (ins.opcode)
+		public static bool ValidateParaRange(Instruction ins, int currentLine)
+		{
+			// Check Parameter Range
+			if (DictionaryDef.paraRange.TryGetValue(ins.opcode, out paraRan))
 			{
-                //Validate effectiveness and length of parameter of SONG_DEF
-				case Instruction.SONG_DEF:
-					return ValidateSongDef(ins);
+				DictionaryDef.Boundary currentBoundary = new DictionaryDef.Boundary();
 
-                //check matching situation of instruction LOOP & END_LOOP
-				case Instruction.LOOP:
-					return CheckLoop(ins.opcode);
-
-				case Instruction.END_LOOP:
-					return CheckLoop(ins.opcode);
-
-                //check matching situation of instruction IF ELSE & END_IF
-				case Instruction.IF:
-				case Instruction.ELSE:
-				case Instruction.END_IF:
-					return CheckIf(ins.opcode);
+				if (ins.opcode == Instruction.SONG_DEF)
+				{
+					int i = 0;
+					currentBoundary = paraRan.ElementAt(i).Value;
+					if ((ins.paramList[i] >= currentBoundary.lowerBoundary)
+						&& (ins.paramList[i] <= currentBoundary.upperBoundary))
+						i++;
+					else
+						throw new ParameterRangeException(currentLine, ins.opcode);
+					while (i < ins.paramList.Count)
+					{
+						if (i % 2 == 0)
+							currentBoundary = paraRan.ElementAt(2).Value;
+						else
+							currentBoundary = paraRan.ElementAt(i % 2).Value;
+						if ((ins.paramList[i] >= currentBoundary.lowerBoundary)
+							&& (ins.paramList[i] <= currentBoundary.upperBoundary))
+						{
+							i++;
+							continue;
+						}
+						else
+							throw new ParameterRangeException(currentLine, ins.opcode);
+					}
+				}
+				else
+				{
+					for (int i = 0; i < paraRan.Count; i++)
+					{
+						currentBoundary = paraRan.ElementAt(i).Value;
+						if (currentBoundary.fixArguValue.Count == 0)
+						{
+							if ((ins.paramList[i] >= currentBoundary.lowerBoundary)
+								&& (ins.paramList[i] <= currentBoundary.upperBoundary))
+								continue;
+							else
+								throw new ParameterRangeException(currentLine, ins.opcode);
+						}
+						else
+						{
+							if (currentBoundary.fixArguValue.Contains(ins.paramList[i]))
+								continue;
+							else
+								throw new ParameterRangeException(currentLine, ins.opcode);
+						}
+					}
+				}
 			}
 			return true;
 		}
 
-        /// <summary>
-        /// The function transfer a test program string to Instruction and validate it
-        /// </summary>
-        /// <param name="programString">
-        /// programString is the input of test program string
-        /// </param>
-        /// <returns>
-        /// True for a valid program, throw exception otherwise
-        /// </returns>
+		/// <summary>
+		/// The function validate an instruction
+		/// </summary>
+		/// <param name="ins">Instruction under validate</param>
+		/// <returns>True for a valid instuction or test, throw exception otherwise</returns>
+		public static bool ValidateInstruction(Instruction ins)
+		{
+			bool validationFlag;
+			currentLine++;
+
+			validationFlag = ValidateParaLength(ins, currentLine);
+
+			validationFlag = ValidateParaRange(ins, currentLine);
+
+			switch (ins.opcode)
+			{
+				//Validate effectiveness and length of parameter of SONG_DEF
+				case Instruction.SONG_DEF:
+					return ValidateSongDef(ins);
+
+				//check matching situation of instruction LOOP & END_LOOP
+				case Instruction.LOOP:
+					return ValidateLoop(ins.opcode);
+
+				case Instruction.END_LOOP:
+					return ValidateLoop(ins.opcode);
+
+				//check matching situation of instruction IF ELSE & END_IF
+				case Instruction.IF:
+				case Instruction.ELSE:
+				case Instruction.END_IF:
+					return ValidateIf(ins.opcode);
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// The function transfer a test program string to Instruction and validate it
+		/// </summary>
+		/// <param name="programString">programString is the input of test program string</param>
+		/// <returns>True for a valid program, throw exception otherwise</returns>
 		public static bool ValidateProgram(string programString)
 		{
 			return ValidateProgram(new HLProgram(programString));
 		}
 
-        /// <summary>
-        /// The function validate a program
-        /// </summary>
-        /// <param name="program">
-        /// program is the input of test program
-        /// </param>
-        /// <returns>
-        /// True for a valid program, throw exception otherwise
-        /// </returns>
+		/// <summary>
+		/// The function validate a program
+		/// </summary>
+		/// <param name="program">program is the input of test program</param>
+		/// <returns>True for a valid program, throw exception otherwise</returns>
 		public static bool ValidateProgram(HLProgram program)
 		{
 			foreach (Instruction ins in program)
@@ -222,15 +270,11 @@ namespace iRobotGUI
 			return true;
 		}
 
-        /// <summary>
-        /// Validate effectiveness and length of parameter of SONG_DEF
-        /// </summary>
-        /// <param name="songIns">
-        /// SONG_DEF instruction under validation
-        /// </param>
-        /// <returns>
-        /// True for a valid program, false otherwise
-        /// </returns>
+		/// <summary>
+		/// Validate effectiveness and length of parameter of SONG_DEF
+		/// </summary>
+		/// <param name="songIns">SONG_DEF instruction under validation</param>
+		/// <returns>True for a valid program, false otherwise</returns>
 		public static bool ValidateSongDef(Instruction songIns)
 		{
 			int songLength = songIns.paramList.Count - 1;

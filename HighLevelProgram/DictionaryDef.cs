@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,16 @@ namespace iRobotGUI
 {
     public class DictionaryDef
     {
+        // define fixed value of some instruction parameter range
+        static ArrayList ledBitValue = new ArrayList()
+        {
+            0, 2, 4, 8
+        };
+        static ArrayList ifLoopSensorValue = new ArrayList()
+        {
+            101, 102
+        };
+
         //Create a dictionary for checking length of paramter array
         public static Dictionary<string, int> paraLength = new Dictionary<string, int>()
         {
@@ -27,6 +38,80 @@ namespace iRobotGUI
             { Instruction.DELAY, 1 },
             { Instruction.READ_SENSOR, 0 },
         };
-    
+
+        public class Boundary
+        {
+            int flag = 0;
+            public int upperBoundary;
+            public int lowerBoundary;
+            public ArrayList fixArguValue = new ArrayList();
+
+            public Boundary()
+            {
+
+            }
+
+            // constructor for initializing calss boundary
+            public Boundary(int lowerInput, int upperInput)
+            {
+                upperBoundary = upperInput;
+                lowerBoundary = lowerInput;
+            }
+
+            public Boundary(ArrayList arguValue)
+            {
+                fixArguValue = arguValue;
+            }
+
+            public Boundary(int lowerInput, int upperInput, ArrayList arguValue)
+            {
+                fixArguValue = arguValue;
+                for (int i = 0; i <= (upperInput - lowerInput); i++)
+                    fixArguValue.Add(i);
+            }
+        }
+
+        // subdictionary used to store range of each parameter in one instruction
+        public static Dictionary<int, Boundary> driveRange = new Dictionary<int, Boundary>()
+        {
+            { 0, new Boundary(-500, 500) },
+            { 1, new Boundary(-2000, 2000) },
+        };
+
+        public static Dictionary<int, Boundary> ledRange = new Dictionary<int, Boundary>()
+        {
+            { 0, new Boundary(ledBitValue) },
+            { 1, new Boundary(0, 255) },
+            { 2, new Boundary(0, 255) },
+        };
+
+        public static Dictionary<int, Boundary> songDefRange = new Dictionary<int, Boundary>()
+        {
+            { 0, new Boundary(0, 15) },
+            { 1, new Boundary(31, 127) },
+            { 2, new Boundary(0, 255) },
+        };
+
+        public static Dictionary<int, Boundary> songPlayRange = new Dictionary<int, Boundary>()
+        {
+            { 0, new Boundary(0, 15) },
+        };
+
+        public static Dictionary<int, Boundary> ifLoopRange = new Dictionary<int, Boundary>()
+        {
+            { 0, new Boundary(0, 25, ifLoopSensorValue) },
+            { 1, new Boundary(0, 5) },
+        };
+
+        // dictionary for each instruction
+        public static Dictionary<string, Dictionary<int, Boundary>> paraRange = new Dictionary<string, Dictionary<int, Boundary>>()
+        {
+            { Instruction.DRIVE, driveRange },
+            { Instruction.LED, ledRange },
+            { Instruction.SONG_DEF, songDefRange },
+            { Instruction.SONG_PLAY, songPlayRange },
+            { Instruction.IF, ifLoopRange },
+            { Instruction.LOOP, ifLoopRange },
+        };
     }
 }
