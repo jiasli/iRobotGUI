@@ -40,6 +40,7 @@ namespace iRobotGUI
 			Assert.IsTrue(pass);
 		}
 
+
 		/// <summary>
 		/// To test if the wrong parameter count can be detected.
 		/// </summary>
@@ -161,5 +162,39 @@ END_LOOP";
 
 
 		}
+        /// <summary>
+		/// To test if the wrong parameter count can be detected.
+		/// </summary>
+		[TestMethod]
+        public void TestValidateSongDef()
+        {
+            bool pass = true;
+           Instruction ValidSongIns = new Instruction ("SONG_DEF 1,52,32,33,32\nSONG_PLAY 1");
+           Instruction InValidSongIns = new Instruction("SONG_DEF 1\nSONG_PLAY 1");
+           try
+           {
+               pass= Validator.ValidateSongDef (InValidSongIns);
+               pass = false;
+           }
+           catch (IfUnmatchedException ex)
+           {
+               Console.WriteLine(InValidSongIns + ex.ToString() + ": Invalid");
+           }
+
+           try
+           {
+               pass= Validator.ValidateSongDef(ValidSongIns);
+               Console.WriteLine(ValidSongIns + ": valid");
+           }
+           catch (Exception ex)
+           {
+               Console.WriteLine(InValidSongIns + ex.ToString() + ": Invalid");
+               pass = false;
+           }
+
+           Assert.IsTrue(pass);
+        }
+
+
 	}
 }
