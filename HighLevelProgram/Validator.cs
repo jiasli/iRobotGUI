@@ -44,7 +44,7 @@ namespace iRobotGUI
 		/// The function check matching situation of instruction IF, ELSE & END_IF
 		/// </summary>
 		/// <param name="opcode">Opcode of current instruction under validation, should be one of IF, ELSE or END_IF</param>
-		/// <returns>True when the starting if is matched, false if the match has not been finished.</returns>
+		/// <returns>True if the starting IF is matched, false if the match has not been finished.</returns>
 		/// <exception cref="IfUnmatchedException">Thorwn when if unmatched.</exception>
 		private static bool IfPushStack(string opcode)
 		{
@@ -82,8 +82,8 @@ namespace iRobotGUI
 				{
 					// Only IF on top of stack can accept ELSE
 					if (top == IF)
-					{ 
-						ifStack.Pop(); 
+					{
+						ifStack.Pop();
 						ifStack.Push(opcode);
 						return false;
 					}
@@ -93,7 +93,7 @@ namespace iRobotGUI
 				else if (opcode == END_IF)
 				{
 					// Only ELSE on top of stack can accept END_IF
-					if (top == ELSE) 
+					if (top == ELSE)
 					{
 						ifStack.Pop();
 
@@ -103,15 +103,17 @@ namespace iRobotGUI
 					else throw new IfUnmatchedException(currentLine, opcode);
 				}
 			}
+
+			// Will never reach this.
 			return false;
 		}
 
 		/// <summary>
-		/// The function check matching situation of instruction LOOP & END_LOOP
+		/// Checks matching situation of instruction LOOP & END_LOOP
 		/// </summary>
 		/// <param name="opcode">Opcode of current instruction under validation, should be either LOOP or END_LOOP</param>
-		/// <returns>Return true when they are matched, throw LoopUnmatchedException otherwise</returns>
-		/// /// <exception cref="LoopUnmatchedException">Thorwn when if unmatched.</exception>
+		/// <returns>True if the stating LOOP is matched, false if the match has not been finished.</returns>
+		/// <exception cref="LoopUnmatchedException">Thorwn when if unmatched.</exception>
 		private static bool LoopPushStack(string opcode)
 		{
 			if (opcode == Instruction.LOOP)
@@ -123,15 +125,18 @@ namespace iRobotGUI
 			else if (opcode == Instruction.END_LOOP)
 			{
 				// Only accept END_LOOP when the stack is non-empty.
-				if (loopStack.Count == 0)
-					throw new LoopUnmatchedException(currentLine, opcode);
-				else
+				if (loopStack.Count != 0)
 				{
 					loopStack.Pop();
-					return false;
+					if (loopStack.Count == 0)
+						return true;
 				}
+				else
+					throw new LoopUnmatchedException(currentLine, opcode);
 			}
-			return true;
+
+			// Will never reach this.
+			return false;
 		}
 
 		/// <summary>
@@ -150,22 +155,41 @@ namespace iRobotGUI
 				string opcode = program[insIndex].opcode;
 				if (opcode == Instruction.IF | opcode == Instruction.ELSE | opcode == Instruction.END_IF)
 				{
-					// The matching ELSE and END_IF are found.
+					// Return if the matching END_IF are found.
 					if (IfPushStack(program[insIndex].opcode)) return;
 				}
 				insIndex++;
+				// Not all IF ELSE END_IF get matched.
+				if (insIndex == program.Count)
+					throw new IfUnmatchedException(currentLine, "IF: End of file.");
 			}
 
-			// Not all IF ELSE END_IF get matched.
-			if (ifStack.Count != 0) throw new IfUnmatchedException(currentLine, "End of file.");
+
 		}
 
-		private static void ValidateLoopBlock(int currentLine)
+		private static void ValidateLoopBlock(int firstLoopIndex)
 		{
-			throw new NotImplementedException();
+			int insIndex = firstLoopIndex;
+			loopStack.Clear();
+
+			// Scan through the program until starting IF is matched.
+			while (true)
+			{
+				string opcode = program[insIndex].opcode;
+				if (opcode == Instruction.LOOP | opcode == Instruction.END_LOOP)
+				{
+					// Return if the matching END_LOOP
+					if (LoopPushStack(program[insIndex].opcode)) return;
+				}
+				insIndex++;
+
+				// Not all IF ELSE END_IF get matched.
+				if (insIndex == program.Count)
+					throw new IfUnmatchedException(currentLine, "LOOP: End of file.");
+			}
 		}
 		#endregion
-		
+
 
 		/// <summary>
 		/// The function validate an instruction
@@ -272,8 +296,7 @@ namespace iRobotGUI
 		/// Validate a program.
 		/// </summary>
 		/// <param name="program">program is the input of test program</param>
-		/// <returns>True for a valid program, throw exception otherwise</returns>
-		public static bool ValidateProgram(HLProgram program)
+		public static void ValidateProgram(HLProgram program)
 		{
 			currentLine = 0;
 			Validator.program = program;
@@ -281,11 +304,8 @@ namespace iRobotGUI
 			foreach (Instruction ins in program)
 			{
 				ValidateInstruction(ins);
-			}			
-			
-			// Not all LOOP END_LOOP get matched.
-			if (loopStack.Count != 0) throw new LoopUnmatchedException(currentLine, "End of file.");
-			return true;
+				currentLine++;
+			}		
 		}
 
 		/// <summary>

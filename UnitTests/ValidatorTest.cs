@@ -123,5 +123,43 @@ END_IF";
 			
 			
 		}
+
+		/// <summary>
+		/// To test if the wrong parameter count can be detected.
+		/// </summary>
+		[TestMethod]
+		public void TestLoopMatchValidation()
+		{
+			string validBlock = @"LOOP 0,0,0
+LOOP 0,0,0
+END_LOOP
+END_LOOP";
+
+			string inValidBlock = @"LOOP 0,0,0
+LOOP 0,0,0
+END_LOOP";
+
+			try
+			{
+				Validator.ValidateProgram(new HLProgram(validBlock));
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				Assert.Fail();
+			}
+
+			try
+			{
+				Validator.ValidateProgram(new HLProgram(inValidBlock));
+				Assert.Fail();
+			}
+			catch (IfUnmatchedException ex)
+			{
+				Console.WriteLine(ex.ToString());
+			}
+
+
+		}
 	}
 }
