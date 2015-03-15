@@ -60,7 +60,7 @@ namespace iRobotGUI
 
 			foreach (string insStr in validInstrucitons)
 			{
-				Assert.IsTrue(Validator.ValidateInstruction(new Instruction(insStr)));
+				Validator.ValidateInstruction(new Instruction(insStr));
 			}
 
 			foreach (string insStr in invalidInstructions)
@@ -70,16 +70,58 @@ namespace iRobotGUI
 					Instruction ins = new Instruction(insStr);
 
 					// This line should throw a ParameterLengthException
-					bool result = Validator.ValidateInstruction(ins);
+					Validator.ValidateInstruction(ins);
 
 					// Assert false if ParameterLengthException is not thrown
 					Assert.Fail();
 				}
-				catch (ParameterLengthException paramEx)
+				catch (ParameterCountInvalidException paramEx)
 				{
 
 				}
 			}
+		}
+
+		/// <summary>
+		/// To test if the wrong parameter count can be detected.
+		/// </summary>
+		[TestMethod]
+		public void TestIfMatchValidation()
+		{
+			string validIfBlock = @"IF 0,0,0
+ELSE
+	IF 0,0,0
+	ELSE
+	END_IF
+END_IF";
+
+			string inValidIfBlock = @"IF 0,0,0
+ELSE
+	IF 0,0,0
+	END_IF
+END_IF";
+
+			try
+			{
+				Validator.ValidateProgram(new HLProgram(validIfBlock));
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				Assert.Fail();
+			}
+
+			try
+			{
+				Validator.ValidateProgram(new HLProgram(inValidIfBlock));
+				Assert.Fail();
+			}
+			catch (IfUnmatchedException ex)
+			{
+				Console.WriteLine(ex.ToString());
+			}
+			
+			
 		}
 	}
 }

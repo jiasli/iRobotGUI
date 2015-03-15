@@ -240,8 +240,11 @@ namespace iRobotGUI
 			}
 
 			if (!string.IsNullOrEmpty(songInsStr))
-				if (Validator.ValidateInstruction(songInsStr))
-					Ins = new Instruction(songInsStr);
+			{
+				Ins = new Instruction(songInsStr);
+			}
+		
+					
 
 			outDevice = new OutputDevice(0);
 		}

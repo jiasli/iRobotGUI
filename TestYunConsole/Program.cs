@@ -34,7 +34,7 @@ END_LOOP
 
 			try
 			{
-				Validator.ValidateProgram(proRange);
+				Validator.ValidateProgram(new HLProgram(proRange));
 				Console.WriteLine("Ture");
 			}
 			catch (IfUnmatchedException ex)
@@ -45,11 +45,11 @@ END_LOOP
 			{
 				Console.WriteLine("Loop unmatched at {0}: {1}", ex.Line, ex.InsStr);
 			}
-			catch (ParameterLengthException ex)
+			catch (ParameterCountInvalidException ex)
 			{
 				Console.WriteLine("Parameter Length Unmatched at {0}: {1}", ex.Line, ex.InsStr);
 			}
-			catch (ParameterRangeException ex)
+			catch (ParameterRangeInvalidException ex)
 			{
 				Console.WriteLine("Parameter Range Unmatched at {0}: {1}", ex.Line, ex.InsStr);
 			}
