@@ -96,7 +96,6 @@ namespace iRobotGUI
 	/// </summary>
 	public partial class SongWindow : BaseParamWindow
 	{
-		public string songInsStr;
 		private ObservableCollection<Note> noteList;
 		private OutputDevice outDevice;
 
@@ -218,7 +217,6 @@ namespace iRobotGUI
 
 		private void pianoKeyboard_PianoKeyUp(object sender, PianoKeyEventArgs e)
 		{
-
 			outDevice.Send(new ChannelMessage(ChannelCommand.NoteOff, 0, e.NoteID, 0));
 		}
 
@@ -237,14 +235,7 @@ namespace iRobotGUI
 				ComboBoxItem item = new ComboBoxItem();
 				item.Content = i.ToString();
 				comboBoxSongNo.Items.Add(item);
-			}
-
-			if (!string.IsNullOrEmpty(songInsStr))
-			{
-				Ins = new Instruction(songInsStr);
-			}
-		
-					
+			}	
 
 			outDevice = new OutputDevice(0);
 		}
