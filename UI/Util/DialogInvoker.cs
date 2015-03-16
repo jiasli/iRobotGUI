@@ -75,7 +75,7 @@ namespace iRobotGUI.Util
 				dlg.Owner = owner;
 				dlg.SubProgram = program;
 				dlg.ShowDialog();
-				return program;
+                return dlg.SubProgram;
 			}
 			else if (program[0].opcode == Instruction.LOOP)
 			{
@@ -83,7 +83,7 @@ namespace iRobotGUI.Util
 				dlg.Owner = owner;
 				dlg.SubProgram = program;
 				dlg.ShowDialog();
-				return program;
+                return dlg.SubProgram;
 			}
 			return null;
 		}

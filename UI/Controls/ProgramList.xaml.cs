@@ -56,33 +56,45 @@ namespace iRobotGUI.Controls
         {
             get
             {
-                return program;
+                //sort the program according to PVM
+
+                HLProgram sortedProgram = new HLProgram();
+
+                for (int i = 0; i < pvm.Count; i++)
+                {
+                    int prgIndex = pvm[i];
+                    int endIfLoop = -1;
+                    HLProgram subprogram = new HLProgram();
+
+                    if (program[prgIndex].opcode == Instruction.IF)
+                        endIfLoop = program.FindEndIf(prgIndex);
+                    else if (program[prgIndex].opcode == Instruction.LOOP)
+                        endIfLoop = program.FindEndLoop(prgIndex);
+
+                    if (endIfLoop > 0)
+                    {
+                        subprogram = program.SubProgram(prgIndex, endIfLoop);
+                    }
+                    else
+                    {
+                        subprogram.Add(program[prgIndex]);
+                    }
+
+                    sortedProgram.Add(subprogram);
+
+                }
+
+                return sortedProgram;
             }
             set
             {
                 program = value;
+                pvm = new ProgramViewModel(program);
                 UpdateContent();
             }
         }
 
         #endregion // HLProgram
-
-        #region ProgramViewModel
-
-        public ProgramViewModel ProgramViewModel
-        {
-            get
-            {
-                return pvm;
-            }
-            set
-            {
-                pvm = value;
-                UpdateContent();
-            }
-        }
-
-        #endregion
 
         #region ListView1_Loaded
 
@@ -109,12 +121,52 @@ namespace iRobotGUI.Controls
         /// </summary>
         void NewlistView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
             if (e.ClickCount == 2)
             {
                 int index = ListviewProgram.SelectedIndex;
                 Instruction selectedIns = program.GetInstructionList().ElementAt(pvm[index]);
-                DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
+                int prgIndex = pvm[index];
+
+                if (program[prgIndex].opcode == Instruction.IF || program[prgIndex].opcode == Instruction.LOOP)
+                {
+                    HLProgram subprogram = new HLProgram();
+                    int endIfLoop;
+
+                    if (program[prgIndex].opcode == Instruction.IF)
+                        endIfLoop = program.FindEndIf(prgIndex);
+                    else
+                        endIfLoop = program.FindEndLoop(prgIndex);
+
+                    // load subprogram from program
+                    if (endIfLoop > 0)
+                    {
+                        subprogram = program.SubProgram(prgIndex, endIfLoop);
+                        program.Remove(prgIndex, endIfLoop - prgIndex + 1);
+                    }
+                    else
+                    {
+                        subprogram.Add(selectedIns);
+                        program.Remove(selectedIns);
+                    }
+                    int subnumber = subprogram.Count;
+
+                    // invoke the dialog
+                    subprogram = DialogInvoker.ShowDialog(subprogram, Window.GetWindow(this));
+
+                    // update program and pvm
+                    program.Insert(prgIndex, subprogram);
+                    int diff = subprogram.Count - subnumber;
+                    for (int i = 0; i < pvm.Count; i++)
+                    {
+                        if (pvm[i] > prgIndex + subnumber - 1)
+                            pvm[i] += diff;
+                    }
+                }
+                else
+                {
+                    DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
+                }
+
                 UpdateContent();
             }
 
@@ -138,25 +190,24 @@ namespace iRobotGUI.Controls
             {
                 int endIf = program.FindEndIf(startIndex);
                 if (endIf > 0)
-                    endIndex = endIf + 1;
+                    endIndex = endIf;
             }
             else if (program[startIndex].opcode == Instruction.LOOP)
             {
                 int endLoop = program.FindEndLoop(startIndex);
                 if (endLoop > 0)
-                    endIndex = endLoop + 1;
+                    endIndex = endLoop;
             }
 
+            program.Remove(startIndex, endIndex - startIndex + 1);
             pvm.Remove(pvm[index]);
 
-            for (int i = startIndex; i < endIndex; i++)
+            for (int i = 0; i < pvm.Count; i++)
             {
-                Instruction selectedIns = program.GetInstructionList().ElementAt(i);
-                if (selectedIns == null)
-                    return;
-                program.Remove(selectedIns);
+                if (pvm[i] > endIndex)
+                    pvm[i] -= endIndex - startIndex + 1;
             }
-            
+
             UpdateContent();
         }
 
@@ -257,19 +308,15 @@ namespace iRobotGUI.Controls
             {
                 case Instruction.FORWARD:
                     bi.UriSource = new Uri(picPath + "forward.png", UriKind.Relative);
-                    // im.Tag = "FORWARD";
                     break;
                 case Instruction.BACKWARD:
                     bi.UriSource = new Uri(picPath + "backward.png", UriKind.Relative);
-                    // im.Tag = "BACKWARD";
                     break;
                 case Instruction.LEFT:
                     bi.UriSource = new Uri(picPath + "left.png", UriKind.Relative);
-                    //im.Tag = "LEFT";
                     break;
                 case Instruction.RIGHT:
                     bi.UriSource = new Uri(picPath + "right.png", UriKind.Relative);
-                    //im.Tag = "RIGHT";
                     break;
                 case Instruction.LED:
                     bi.UriSource = new Uri(picPath + "led.jpg", UriKind.Relative);
