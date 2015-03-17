@@ -10,19 +10,63 @@ namespace iRobotGUI.Tests
     [TestClass()]
     public class InstructionTests
     {
-        
+       
+
         [TestMethod()]
-        public void InstructionTest(string opcode, string[] parameters)
+        public void CreatFromOpcodeTest()
         {
-           // (opcode, parameters);
-            Assert.Fail();
+            string ValidOpcodeStr = "BACKWARD";
+            string InvalidOpcodeStr = "BACK";
+            try
+            {
+                var ins = new Instruction(InvalidOpcodeStr);
+                ins = Instruction.CreatFromOpcode(InvalidOpcodeStr);
+                Assert.Fail("In Valid instruction string",ins);
+            }
+            catch (InvalidOpcodeException)
+            {
+                Console.WriteLine(InvalidOpcodeStr + ": Invalid");
+            }
+
+            try
+            {
+                var ins = new Instruction(ValidOpcodeStr);
+                ins = Instruction.CreatFromOpcode(ValidOpcodeStr);
+                Console.WriteLine(ValidOpcodeStr + ": valid");
+            }
+            catch (InvalidOpcodeException)
+            {
+                Assert.Fail("In Valid instruction string");
+            }
+
         }
 
         [TestMethod()]
-        public void InstructionTest1(string instructionString)
+        public void IsInstructionLineTest()
         {
+            bool pass = true;
+            string ValidOpcodeStr = "BACKWARD";
+            string InvalidOpcodeStr = "BACK";
+            try
+            {
+                pass = Instruction.IsInstructionLine(InvalidOpcodeStr);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine(InvalidOpcodeStr + ": Invalid");
+            }
 
-            Assert.Fail();
+            try
+            {
+                pass = Instruction.IsInstructionLine(ValidOpcodeStr);
+                Console.WriteLine(ValidOpcodeStr + ": valid");
+            }
+            catch (InvalidOpcodeException)
+            {
+                pass = false;
+            }
+
+            Assert.IsTrue(pass);
         }
 
     }
