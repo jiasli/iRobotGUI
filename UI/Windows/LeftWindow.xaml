@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:iRobotGUI.Controls" 
         xmlns:src="clr-namespace:iRobotGUI" x:Class="iRobotGUI.LeftWindow"
-        Title="Move Backward" Height="200" Width="300" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
+        Title="Turn Left" Height="200" Width="300" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
     <Grid>
-        <local:LeftParam x:Name="LeftControlInstance" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0"/>
+        <local:LeftParam x:Name="LeftControlInstance" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
     </Grid>
 </src:BaseParamWindow>
