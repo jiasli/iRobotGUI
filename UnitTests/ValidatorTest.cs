@@ -47,7 +47,7 @@ namespace iRobotGUI
 		[TestMethod]
 		public void TestParamCount()
 		{
-			string[] validInstrucitons = new string[]
+			string[] validInstrucsitons = new string[]
 			{
 				"FORWARD 300,200",
 				"DELAY 100"
@@ -59,7 +59,7 @@ namespace iRobotGUI
 				"DELAY 100,0"
 			};
 
-			foreach (string insStr in validInstrucitons)
+            foreach (string insStr in validInstrucsitons)
 			{
 				Validator.ValidateInstruction(new Instruction(insStr));
 			}
@@ -78,7 +78,7 @@ namespace iRobotGUI
 				}
 				catch (ParameterCountInvalidException paramEx)
 				{
-
+                    Console.WriteLine(paramEx.ToString());
 				}
 			}
 		}
