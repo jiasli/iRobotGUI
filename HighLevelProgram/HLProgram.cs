@@ -25,8 +25,8 @@ namespace iRobotGUI
 		{
 			program = new List<Instruction>();
 
-			string[] insStrArray = programString.Split(new char[] { '\n','\r' }, StringSplitOptions.RemoveEmptyEntries);
-			for (int i = 0; i < insStrArray.Length; i++ )
+			string[] insStrArray = programString.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+			for (int i = 0; i < insStrArray.Length; i++)
 			{
 				CurrentLine = i;
 
@@ -101,7 +101,7 @@ namespace iRobotGUI
 				else if (program[currentIns].opcode == Instruction.ELSE)
 					ifCount--;
 
-				if (ifCount == 0) 
+				if (ifCount == 0)
 					return currentIns;
 
 				currentIns++;
@@ -133,35 +133,35 @@ namespace iRobotGUI
 				currentIns++;
 			}
 
-			 return -1;
+			return -1;
 		}
 
-        /// <summary>
-        /// Find the corresponding END_LOOP location given the index of an LOOP instruction.
-        /// </summary>
-        /// <param name="loopIndex"> the line number of LOOP </param>
-        /// <returns> the line numer of END_LOOP</returns>
-        public int FindEndLoop(int loopIndex)
-        {
-            int loopCount = 0;
-            int currentIns = loopIndex;
+		/// <summary>
+		/// Find the corresponding END_LOOP location given the index of an LOOP instruction.
+		/// </summary>
+		/// <param name="loopIndex"> the line number of LOOP </param>
+		/// <returns> the line numer of END_LOOP</returns>
+		public int FindEndLoop(int loopIndex)
+		{
+			int loopCount = 0;
+			int currentIns = loopIndex;
 
-            while (currentIns < program.Count)
-            {
-                if (program[currentIns].opcode == Instruction.LOOP)
-                    loopCount++;
+			while (currentIns < program.Count)
+			{
+				if (program[currentIns].opcode == Instruction.LOOP)
+					loopCount++;
 
-                if (program[currentIns].opcode == Instruction.END_LOOP)
-                    loopCount--;
+				if (program[currentIns].opcode == Instruction.END_LOOP)
+					loopCount--;
 
-                if (loopCount == 0)
-                    return currentIns;
+				if (loopCount == 0)
+					return currentIns;
 
-                currentIns++;
-            }
+				currentIns++;
+			}
 
-            return -1;
-        }
+			return -1;
+		}
 
 		/// <summary>
 		/// HLProgram can be used as
@@ -191,26 +191,29 @@ namespace iRobotGUI
 			program.Insert(index, ins);
 		}
 
-		/// <summary>
-		/// Move specified Instruction to index position.
-		/// </summary>
-		/// <param name="ins"></param>
-		/// <param name="index"></param>
-		public void Rearrange(Instruction ins, int index)
+		public void Insert(int index, HLProgram subProgram)
 		{
-			program.Remove(ins);
-			program.Insert(index, ins);
+			program.InsertRange(index, subProgram.program);
 		}
-
 
 		/// <summary>
 		/// Remove a instruction
 		/// </summary>
-		/// <param name="ins"></param>
+		/// <param name="ins">the instruction to be removed</param>
 		public void Remove(Instruction ins)
 		{
 			program.Remove(ins);
 		}
+
+		/// <summary>
+		/// Remove a set of instructions
+		/// </summary>
+		/// <param name="subProgram"></param>
+		public void Remove(int index, int count)
+		{
+			program.RemoveRange(index, count);
+		}
+
 
 		/// <summary>
 		/// Get the sub-program specified by a range.
@@ -230,7 +233,7 @@ namespace iRobotGUI
 		}
 
 		public override string ToString()
-		{            
+		{
 			return string.Join("\n", program);
 		}
 	}

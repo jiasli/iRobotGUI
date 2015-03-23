@@ -9,6 +9,8 @@ namespace iRobotGUI.Util
 	public class ProgramViewModel : List<int>
 	{
 
+		#region constructor
+
 		public ProgramViewModel(HLProgram program)
 		{
 			for (int i = 0; i < program.Count; i++)
@@ -29,6 +31,8 @@ namespace iRobotGUI.Util
 				}
 			}
 		}
+
+		#endregion
 
 	}
 }

@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using iRobotGUI.Controls;
 
 namespace iRobotGUI
 {
@@ -21,7 +22,7 @@ namespace iRobotGUI
 	public partial class IfWindow : Window
 	{
 		/// <summary>
-		/// Set the high-level program to be presented, including LOOP and END_LOOP.
+		/// Set the high-level program to be presented, including IF and END_IF.
 		/// </summary>
 		public HLProgram SubProgram
 		{
@@ -39,14 +40,14 @@ namespace iRobotGUI
 
 				// 3. Set else body
 				int endIfPosition = subProgram.FindEndIf(0);
-				programListElseBody.Program = subProgram.SubProgram(elsePosition + 1, endIfPosition);
+				programListElseBody.Program = subProgram.SubProgram(elsePosition + 1, endIfPosition - 1);
 			}
 			get
 			{
 				HLProgram result = new HLProgram();
 
 				// 1. Read back condition
-				Instruction conditionIns = Instruction.CreatFromOpcode(Instruction.LOOP);
+				Instruction conditionIns = Instruction.CreatFromOpcode(Instruction.IF);
 				InsCondition condition = conditionPanel.Condition;
 				conditionIns.paramList[0] = condition.sensor;
 				conditionIns.paramList[1] = condition.op;
