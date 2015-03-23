@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using iRobotGUI.WinAvr;
+using System.Diagnostics;
 
 namespace iRobotGUI
 {
@@ -24,6 +25,7 @@ namespace iRobotGUI
 	public partial class MainWindow : Window
 	{
 		public static RoutedCommand ComPortCmd = new RoutedUICommand("Load Configuration", "comn", typeof(Window));
+		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window));
 
 		private string fileName;
 
@@ -35,9 +37,12 @@ namespace iRobotGUI
 			ComPortCmd.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift, "Ctrl+Shift+C"));
 
 			InitializeComponent();
+
+			// Set the current folder to cprogram
 			Directory.SetCurrentDirectory(@".");
+
 			program = new HLProgram();
-			ProgramList1.Program = program;
+			programList1.Program = program;
 		}
 
 		#region Commands
@@ -78,7 +83,7 @@ namespace iRobotGUI
 		{
 			fileName = null;
 			program = new HLProgram();
-			ProgramList1.Program = program;
+			programList1.Program = program;
 		}
 
 		/// <summary>
@@ -173,14 +178,14 @@ namespace iRobotGUI
 		/// <summary>
 		/// Load program from file.
 		/// </summary>
-		/// <param name="filePath"></param>
+		/// <param name="filePath">Path of file.</param>
 		private void OpenProgram(string filePath)
 		{
 			try
 			{
 				string proStr = File.ReadAllText(filePath);
 				program = new HLProgram(proStr);
-				ProgramList1.Program = program;
+				programList1.Program = program;
 			}
 			catch (Exception ex)
 			{
@@ -196,8 +201,8 @@ namespace iRobotGUI
 		{
 			try
 			{
-				string proStr = ProgramList1.Program.ToString();
-				program = ProgramList1.Program;
+				string proStr = programList1.Program.ToString();
+				program = programList1.Program;
 				File.WriteAllText(filePath, proStr);
 			}
 			catch (Exception ex)
@@ -205,35 +210,53 @@ namespace iRobotGUI
 				MessageBox.Show(ex.Message);
 			}
 		}
+
+		private void OpenSrcCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (!String.IsNullOrEmpty(fileName))
+			{
+				e.CanExecute = true;
+			}
+			else
+			{
+				e.CanExecute = false;
+			}
+		}
+
+		private void OpenSrcCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			Process.Start(fileName);
+		}
 		#endregion
 
 
 
 		#region Control Callbacks
 
+		private void buttonRefreshSource_Click(object sender, RoutedEventArgs e)
+		{
+			HLProgram program = programList1.Program;
+			textBoxSrc.Text = program.ToString();
+		}
+
 		/// <summary>
 		/// Load specified igp file [Debug use only] 
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void ButtonLoadExampleCode_Click(object sender, RoutedEventArgs e)
+		private void buttonLoadExampleCode_Click(object sender, RoutedEventArgs e)
 		{
-			OpenProgram("song.igp");
+			OpenProgram("song.igp");	
 		}
-
 		#endregion
 
 
-
-
-
-
 		#region Menu callbacks
-
 		private void MenuItem_ShowCCode(object sender, RoutedEventArgs e)
 		{
 			System.Diagnostics.Process.Start(@"output.c");
 		}
+
 		private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBox.Show("Mission Science iRobots\nUSC CSCI-577 Team 07");
@@ -249,7 +272,6 @@ namespace iRobotGUI
 			WinAvrConnector.Make();
 		}
 
-
 		private void MenuItemClean_Click(object sender, RoutedEventArgs e)
 		{
 			File.Delete("C_result.c");
@@ -259,6 +281,13 @@ namespace iRobotGUI
 		private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
 		{
 			WinAvrConnector.Load();
+		}
+
+		private void MenuItemShowSrcFolder_Click(object sender, RoutedEventArgs e)
+		{
+			// Open current folder in explorer.exe
+			// http://stackoverflow.com/questions/1132422/open-a-folder-using-process-start
+			Process.Start("explorer.exe", ".");
 		}
 
 		private void MenuItemTranslate_Click(object sender, RoutedEventArgs e)
@@ -271,7 +300,6 @@ namespace iRobotGUI
 		}
 
 		#endregion
-
 		// textbox input form validation function
 		private void number_validation(object sender, TextCompositionEventArgs e)
 		{
