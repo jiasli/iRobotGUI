@@ -286,16 +286,22 @@
     <Resource Include="pic\forward.png" />
     <Resource Include="pic\left.png" />
     <Resource Include="pic\right.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\led.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\bump.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\cliff.jpg" />
+	<Resource Include="pic\SONG.png" />
+    <Resource Include="pic\LED_panel.png" />
+    <Resource Include="pic\demo.jpg" />
+    <Resource Include="pic\if.png" />
+    <Resource Include="pic\loop.png" />
+	<Resource Include="pic\delay.png" />
+	<Resource Include="pic\irobot.png" />
+    <Resource Include="pic\irobot2.jpg" />
+    <Resource Include="pic\create2.jpg" />
+	<Resource Include="pic\create3.png" />
+	<Resource Include="pic\sandclock.png" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\HighLevelProgram\HighLevelProgram.csproj">
       <Project>{05b8eacd-5eb2-420e-9f99-7a76be66c52c}</Project>
@@ -310,19 +316,7 @@
       <Name>TranslatorLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\SONG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\LED_panel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\demo.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\if.png" />
-    <Resource Include="pic\loop.png" />
-  </ItemGroup>
+  
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
@@ -340,9 +334,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\delay.png" />
-  </ItemGroup>
+
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
