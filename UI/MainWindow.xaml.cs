@@ -43,6 +43,8 @@ namespace iRobotGUI
 
 			program = new HLProgram();
 			programList1.Program = program;
+
+			textBlockStatus.Text = "new file";
 		}
 
 		#region Commands
@@ -108,6 +110,7 @@ namespace iRobotGUI
 				// Open document 
 				fileName = dlg.FileName;
 				OpenProgram(fileName);
+				textBlockStatus.Text = fileName;
 			}
 		}
 
@@ -124,8 +127,8 @@ namespace iRobotGUI
 			Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
 			dlg.InitialDirectory = Directory.GetCurrentDirectory();
 			dlg.FileName = fileName; // Default file name
-			dlg.DefaultExt = ".ins"; // Default file extension
-			dlg.Filter = "Text documents|*.ins"; // Filter files by extension 
+			dlg.DefaultExt = ".igp"; // Default file extension
+			dlg.Filter = "Text documents|*.igp"; // Filter files by extension 
 
 			// Show save file dialog box
 			Nullable<bool> result = dlg.ShowDialog();
@@ -149,7 +152,7 @@ namespace iRobotGUI
 		{
 			if (String.IsNullOrEmpty(fileName))
 			{
-				// No file is currently opened.
+				// If no file is currently opened, call SaveAs.
 				SaveAsCmdExecuted(sender, e);
 			}
 			else
