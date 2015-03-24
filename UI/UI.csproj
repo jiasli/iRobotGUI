@@ -51,7 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>pic\iRobot.ico</ApplicationIcon>
+    <ApplicationIcon>pic\create.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Sanford.Collections, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -336,7 +336,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\iRobot.ico" />
+    <Resource Include="pic\create.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
