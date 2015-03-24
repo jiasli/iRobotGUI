@@ -18,334 +18,341 @@ using iRobotGUI.Util;
 
 namespace iRobotGUI.Controls
 {
-    /// <summary>
-    /// Interaction logic for ProgramList.xaml
-    /// </summary>
-    public partial class ProgramList : UserControl
-    {
-        #region data
+	/// <summary>
+	/// Interaction logic for ProgramList.xaml
+	/// </summary>
+	public partial class ProgramList : UserControl
+	{
+		#region data
 
-        private ListViewDragDropManager<Image> dragMgr;
-        private HLProgram program;
-        private ProgramViewModel pvm;
+		private ListViewDragDropManager<Image> dragMgr;
+		private HLProgram program;
+		private ProgramViewModel pvm;
 
-        #endregion // data
+		#endregion // data
 
-        #region constructor
+		#region constructor
 
-        /// <summary>
-        /// Initializes a new Instance of ProgramList
-        /// </summary>
-        public ProgramList()
-        {
-            InitializeComponent();
-            this.Loaded += ListView1_Loaded;
+		/// <summary>
+		/// Initializes a new Instance of ProgramList
+		/// </summary>
+		public ProgramList()
+		{
+			InitializeComponent();
+			this.Loaded += ListView1_Loaded;
 
-            program = new HLProgram();
-            pvm = new ProgramViewModel(program);
-        }
+			program = new HLProgram();
+			pvm = new ProgramViewModel(program);
+		}
 
-        #endregion // constructor
+		#endregion // constructor
 
-        #region HLProgram
+		#region HLProgram
 
-        /// <summary>
-        /// Gets/sets the program so that the program can be updated when some function is dropped
-        /// </summary>
-        public HLProgram Program
-        {
-            get
-            {
-                //sort the program according to PVM
+		/// <summary>
+		/// Gets/sets the program so that the program can be updated when some function is dropped
+		/// </summary>
+		public HLProgram Program
+		{
+			get
+			{
+				//sort the program according to PVM
 
-                HLProgram sortedProgram = new HLProgram();
+				HLProgram sortedProgram = new HLProgram();
 
-                for (int i = 0; i < pvm.Count; i++)
-                {
-                    int prgIndex = pvm[i];
-                    int endIfLoop = -1;
-                    HLProgram subprogram = new HLProgram();
+				for (int i = 0; i < pvm.Count; i++)
+				{
+					int prgIndex = pvm[i];
+					int endIfLoop = -1;
+					HLProgram subprogram = new HLProgram();
 
-                    if (program[prgIndex].opcode == Instruction.IF)
-                        endIfLoop = program.FindEndIf(prgIndex);
-                    else if (program[prgIndex].opcode == Instruction.LOOP)
-                        endIfLoop = program.FindEndLoop(prgIndex);
+					if (program[prgIndex].opcode == Instruction.IF)
+						endIfLoop = program.FindEndIf(prgIndex);
+					else if (program[prgIndex].opcode == Instruction.LOOP)
+						endIfLoop = program.FindEndLoop(prgIndex);
 
-                    if (endIfLoop > 0)
-                    {
-                        subprogram = program.SubProgram(prgIndex, endIfLoop);
-                    }
-                    else
-                    {
-                        subprogram.Add(program[prgIndex]);
-                    }
+					if (endIfLoop > 0)
+					{
+						subprogram = program.SubProgram(prgIndex, endIfLoop);
+					}
+					else
+					{
+						subprogram.Add(program[prgIndex]);
+					}
 
-                    sortedProgram.Add(subprogram);
+					sortedProgram.Add(subprogram);
 
-                }
+				}
 
-                return sortedProgram;
-            }
-            set
-            {
-                program = value;
-                pvm = new ProgramViewModel(program);
-                UpdateContent();
-            }
-        }
+				return sortedProgram;
+			}
+			set
+			{
+				program = value;
+				pvm = new ProgramViewModel(program);
+				UpdateContent();
+			}
+		}
 
-        #endregion // HLProgram
+		#endregion // HLProgram
 
-        #region ListView1_Loaded
+		#region ListView1_Loaded
 
-        /// <summary>
-        /// Load event handler
-        /// </summary>
-        void ListView1_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.dragMgr = new ListViewDragDropManager<Image>(ListviewProgram);
-            ListviewProgram.PreviewMouseLeftButtonDown += NewlistView_PreviewMouseLeftButtonDown;
-            ListviewProgram.PreviewMouseRightButtonDown += listView_PreviewMouseRightButtonDown;
-            ListviewProgram.Drop -= dragMgr.listView_Drop;
-            ListviewProgram.Drop += NewlistView_Drop;
-        }
+		/// <summary>
+		/// Load event handler
+		/// </summary>
+		void ListView1_Loaded(object sender, RoutedEventArgs e)
+		{
+			this.dragMgr = new ListViewDragDropManager<Image>(ListviewProgram);
+			ListviewProgram.PreviewMouseLeftButtonDown += NewlistView_PreviewMouseLeftButtonDown;
+			ListviewProgram.PreviewMouseRightButtonDown += listView_PreviewMouseRightButtonDown;
+			ListviewProgram.Drop -= dragMgr.listView_Drop;
+			ListviewProgram.Drop += NewlistView_Drop;
+		}
 
-        #endregion // ListView1_Loaded
+		#endregion // ListView1_Loaded
 
-        #region event handler
+		#region event handler
 
-        #region NewlistView_PreviewMouseLeftButtonDown
+		#region NewlistView_PreviewMouseLeftButtonDown
 
-        /// <summary>
-        /// Open the dialog when an item is double clicked
-        /// </summary>
-        void NewlistView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ClickCount == 2)
-            {
-                int index = ListviewProgram.SelectedIndex;
-                Instruction selectedIns = program.GetInstructionList().ElementAt(pvm[index]);
-                int prgIndex = pvm[index];
+		/// <summary>
+		/// Open the dialog when an item is double clicked
+		/// </summary>
+		void NewlistView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.ClickCount == 2)
+			{
+				// The index of item in PVM
+				int index = ListviewProgram.SelectedIndex;
 
-                if (program[prgIndex].opcode == Instruction.IF || program[prgIndex].opcode == Instruction.LOOP)
-                {
-                    HLProgram subprogram = new HLProgram();
-                    int endIfLoop;
+				// The index of Instruction in HLProgram
+				int prgIndex = pvm[index];
 
-                    if (program[prgIndex].opcode == Instruction.IF)
-                        endIfLoop = program.FindEndIf(prgIndex);
-                    else
-                        endIfLoop = program.FindEndLoop(prgIndex);
+				// The Ins under modification
+				Instruction selectedIns = program[prgIndex];
 
-                    // load subprogram from program
-                    if (endIfLoop > 0)
-                    {
-                        subprogram = program.SubProgram(prgIndex, endIfLoop);
-                        program.Remove(prgIndex, endIfLoop - prgIndex + 1);
-                    }
-                    else
-                    {
-                        subprogram.Add(selectedIns);
-                        program.Remove(selectedIns);
-                    }
-                    int subnumber = subprogram.Count;
+				if (program[prgIndex].opcode == Instruction.IF || program[prgIndex].opcode == Instruction.LOOP)
+				{
+					HLProgram subprogram = new HLProgram();
+					int endIfLoop;
 
-                    // invoke the dialog
-                    subprogram = DialogInvoker.ShowDialog(subprogram, Window.GetWindow(this));
+					if (program[prgIndex].opcode == Instruction.IF)
+						endIfLoop = program.FindEndIf(prgIndex);
+					else
+						endIfLoop = program.FindEndLoop(prgIndex);
 
-                    // update program and pvm
-                    program.Insert(prgIndex, subprogram);
-                    int diff = subprogram.Count - subnumber;
-                    for (int i = 0; i < pvm.Count; i++)
-                    {
-                        if (pvm[i] > prgIndex + subnumber - 1)
-                            pvm[i] += diff;
-                    }
-                }
-                else
-                {
-                    DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
-                }
+					// load subprogram from program
+					if (endIfLoop > 0)
+					{
+						subprogram = program.SubProgram(prgIndex, endIfLoop);
+						program.Remove(prgIndex, endIfLoop - prgIndex + 1);
+					}
+					else
+					{
+						subprogram.Add(selectedIns);
+						program.Remove(selectedIns);
+					}
+					int subnumber = subprogram.Count;
 
-                UpdateContent();
-            }
+					// invoke the dialog
+					subprogram = DialogInvoker.ShowDialog(subprogram, Window.GetWindow(this));
 
-        }
+					// update program and pvm
+					program.Insert(prgIndex, subprogram);
+					int diff = subprogram.Count - subnumber;
+					for (int i = 0; i < pvm.Count; i++)
+					{
+						if (pvm[i] > prgIndex + subnumber - 1)
+							pvm[i] += diff;
+					}
+				}
+				else
+				{
+					// Single Ins, show the dialog and update with the result.
+					Instruction result = DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
+					program[prgIndex] = result;
+				}
 
-        #endregion // NewlistView_PreviewMouseLeftButtonDown
+				UpdateContent();
+			}
 
-        #region listView_PreviewMouseRightButtonDown
+		}
 
-        /// <summary>
-        ///  delete item when right button is clicked
-        /// </summary>
-        void listView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            int index = this.dragMgr.IndexUnderDragCursor;
+		#endregion // NewlistView_PreviewMouseLeftButtonDown
 
-            int startIndex = pvm[index];
-            int endIndex = startIndex;
+		#region listView_PreviewMouseRightButtonDown
 
-            if (program[startIndex].opcode == Instruction.IF)
-            {
-                int endIf = program.FindEndIf(startIndex);
-                if (endIf > 0)
-                    endIndex = endIf;
-            }
-            else if (program[startIndex].opcode == Instruction.LOOP)
-            {
-                int endLoop = program.FindEndLoop(startIndex);
-                if (endLoop > 0)
-                    endIndex = endLoop;
-            }
+		/// <summary>
+		///  delete item when right button is clicked
+		/// </summary>
+		void listView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			int index = this.dragMgr.IndexUnderDragCursor;
 
-            program.Remove(startIndex, endIndex - startIndex + 1);
-            pvm.Remove(pvm[index]);
+			int startIndex = pvm[index];
+			int endIndex = startIndex;
 
-            for (int i = 0; i < pvm.Count; i++)
-            {
-                if (pvm[i] > endIndex)
-                    pvm[i] -= endIndex - startIndex + 1;
-            }
+			if (program[startIndex].opcode == Instruction.IF)
+			{
+				int endIf = program.FindEndIf(startIndex);
+				if (endIf > 0)
+					endIndex = endIf;
+			}
+			else if (program[startIndex].opcode == Instruction.LOOP)
+			{
+				int endLoop = program.FindEndLoop(startIndex);
+				if (endLoop > 0)
+					endIndex = endLoop;
+			}
 
-            UpdateContent();
-        }
+			program.Remove(startIndex, endIndex - startIndex + 1);
+			pvm.Remove(pvm[index]);
 
-        #endregion // listView_PreviewMouseRightButtonDown
+			for (int i = 0; i < pvm.Count; i++)
+			{
+				if (pvm[i] > endIndex)
+					pvm[i] -= endIndex - startIndex + 1;
+			}
 
-        #region NewlistView_Drop
+			UpdateContent();
+		}
 
-        /// <summary>
-        /// handler for drop event
-        /// </summary>
-        void NewlistView_Drop(object sender, DragEventArgs e)
-        {
-            int newIndex = this.dragMgr.IndexUnderDragCursor;
+		#endregion // listView_PreviewMouseRightButtonDown
 
-            // drag inside program list
-            if (this.dragMgr.IsDragInProgress)
-            {
-                Image data = e.Data.GetData(typeof(Image)) as Image;
+		#region NewlistView_Drop
 
-                if (data == null)
-                    return;
+		/// <summary>
+		/// handler for drop event
+		/// </summary>
+		void NewlistView_Drop(object sender, DragEventArgs e)
+		{
+			int newIndex = this.dragMgr.IndexUnderDragCursor;
 
-                int oldIndex = this.ListviewProgram.Items.IndexOf(data);
+			// drag inside program list
+			if (this.dragMgr.IsDragInProgress)
+			{
+				Image data = e.Data.GetData(typeof(Image)) as Image;
 
-                Instruction ins = program.GetInstructionList().ElementAt(pvm[oldIndex]);
+				if (data == null)
+					return;
 
-                if (newIndex < 0)
-                    return;
+				int oldIndex = this.ListviewProgram.Items.IndexOf(data);
 
-                if (oldIndex == newIndex)
-                    return;
+				Instruction ins = program.GetInstructionList().ElementAt(pvm[oldIndex]);
 
-                int item = pvm[oldIndex];
-                pvm.Remove(item);
-                pvm.Insert(newIndex, item);
+				if (newIndex < 0)
+					return;
 
-                UpdateContent();
-                e.Effects = DragDropEffects.Move;
-            }
-            // drag from instruction panel to program list
-            else
-            {
-                if (newIndex < 0)
-                    newIndex = pvm.Count;
+				if (oldIndex == newIndex)
+					return;
 
-                string op = (string)e.Data.GetData(DataFormats.StringFormat);
-                Instruction newIns = Instruction.CreatFromOpcode(op);
+				int item = pvm[oldIndex];
+				pvm.Remove(item);
+				pvm.Insert(newIndex, item);
 
-                if (newIns != null)
-                {
-                    pvm.Insert(newIndex, program.Count);
-                    program.Add(newIns);
-                }
+				UpdateContent();
+				e.Effects = DragDropEffects.Move;
+			}
+			// drag from instruction panel to program list
+			else
+			{
+				if (newIndex < 0)
+					newIndex = pvm.Count;
 
-                UpdateContent();
-                ListviewProgram.SelectedItem = newIns;
-            }
-        }
+				string op = (string)e.Data.GetData(DataFormats.StringFormat);
+				Instruction newIns = Instruction.CreatFromOpcode(op);
 
-        #endregion // NewlistView_Drop
+				if (newIns != null)
+				{
+					pvm.Insert(newIndex, program.Count);
+					program.Add(newIns);
+				}
 
-        #endregion // event handler
+				UpdateContent();
+				ListviewProgram.SelectedItem = newIns;
+			}
+		}
 
-        #region UpdateContent
+		#endregion // NewlistView_Drop
 
-        /// <summary>
-        /// Update content in ProgramList accordint to the contents in program
-        /// </summary>
-        public void UpdateContent()
-        {
-            ListviewProgram.Items.Clear();
+		#endregion // event handler
 
-            for (int i = 0; i < pvm.Count; i++)
-            {
-                Instruction ins = program[pvm[i]];
-                Image im = GetImageFromInstruction(ins);
-                if (im != null)
-                    ListviewProgram.Items.Add(GetImageFromInstruction(ins));
-            }
+		#region UpdateContent
 
-        }
+		/// <summary>
+		/// Update content in ProgramList accordint to pvm
+		/// </summary>
+		public void UpdateContent()
+		{
+			ListviewProgram.Items.Clear();
 
-        #endregion
+			for (int i = 0; i < pvm.Count; i++)
+			{
+				Instruction ins = program[pvm[i]];
+				Image im = GetImageFromInstruction(ins);
+				if (im != null)
+					ListviewProgram.Items.Add(GetImageFromInstruction(ins));
+			}
 
-        #region GetImageFromInstruction
+		}
 
-        /// <summary>
-        /// Get the corresponding image from a specific instruction
-        /// </summary>
-        /// <param name="ins"> The Instruction </param>
-        private Image GetImageFromInstruction(Instruction ins)
-        {
-            string picPath = "/iRobotGUI;component/pic/";
-            Image im = new Image();
-            BitmapImage bi = new BitmapImage();
-            bi.BeginInit();
-            switch (ins.opcode)
-            {
-                case Instruction.FORWARD:
-                    bi.UriSource = new Uri(picPath + "forward.png", UriKind.Relative);
-                    break;
-                case Instruction.BACKWARD:
-                    bi.UriSource = new Uri(picPath + "backward.png", UriKind.Relative);
-                    break;
-                case Instruction.LEFT:
-                    bi.UriSource = new Uri(picPath + "left.png", UriKind.Relative);
-                    break;
-                case Instruction.RIGHT:
-                    bi.UriSource = new Uri(picPath + "right.png", UriKind.Relative);
-                    break;
-                case Instruction.LED:
-                    bi.UriSource = new Uri(picPath + "led.jpg", UriKind.Relative);
-                    break;
-                case Instruction.SONG_DEF:
-                    bi.UriSource = new Uri(picPath + "song.png", UriKind.Relative);
-                    break;
-                case Instruction.DEMO:
-                    bi.UriSource = new Uri(picPath + "demo.jpg", UriKind.Relative);
-                    break;
-                case Instruction.IF:
-                    bi.UriSource = new Uri(picPath + "if.png", UriKind.Relative);
-                    break;
-                case Instruction.LOOP:
-                    bi.UriSource = new Uri(picPath + "loop.png", UriKind.Relative);
-                    break;
-                default:
-                    bi.UriSource = null;
-                    break;
-            }
-            if (bi.UriSource == null) return null;
-            bi.EndInit();
-            im.Stretch = Stretch.Fill;
-            im.Source = bi;
-            im.Width = 50;
-            im.Height = 50;
-            return im;
-        }
+		#endregion
 
-        #endregion
-    }
+		#region GetImageFromInstruction
+
+		/// <summary>
+		/// Get the corresponding image from a specific instruction
+		/// </summary>
+		/// <param name="ins"> The Instruction </param>
+		private Image GetImageFromInstruction(Instruction ins)
+		{
+			string picPath = "/iRobotGUI;component/pic/";
+			Image im = new Image();
+			BitmapImage bi = new BitmapImage();
+			bi.BeginInit();
+			switch (ins.opcode)
+			{
+				case Instruction.FORWARD:
+					bi.UriSource = new Uri(picPath + "forward.png", UriKind.Relative);
+					break;
+				case Instruction.BACKWARD:
+					bi.UriSource = new Uri(picPath + "backward.png", UriKind.Relative);
+					break;
+				case Instruction.LEFT:
+					bi.UriSource = new Uri(picPath + "left.png", UriKind.Relative);
+					break;
+				case Instruction.RIGHT:
+					bi.UriSource = new Uri(picPath + "right.png", UriKind.Relative);
+					break;
+				case Instruction.LED:
+					bi.UriSource = new Uri(picPath + "led.jpg", UriKind.Relative);
+					break;
+				case Instruction.SONG_DEF:
+					bi.UriSource = new Uri(picPath + "song.png", UriKind.Relative);
+					break;
+				case Instruction.DEMO:
+					bi.UriSource = new Uri(picPath + "demo.jpg", UriKind.Relative);
+					break;
+				case Instruction.IF:
+					bi.UriSource = new Uri(picPath + "if.png", UriKind.Relative);
+					break;
+				case Instruction.LOOP:
+					bi.UriSource = new Uri(picPath + "loop.png", UriKind.Relative);
+					break;
+				default:
+					bi.UriSource = null;
+					break;
+			}
+			if (bi.UriSource == null) return null;
+			bi.EndInit();
+			im.Stretch = Stretch.Fill;
+			im.Source = bi;
+			im.Width = 50;
+			im.Height = 50;
+			return im;
+		}
+
+		#endregion
+	}
 }
