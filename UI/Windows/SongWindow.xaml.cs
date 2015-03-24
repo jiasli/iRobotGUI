@@ -130,18 +130,18 @@ namespace iRobotGUI
 			}
 			set
 			{
-
-				base.Ins = value;
+				Instruction ins = value;
+				base.Ins = ins;
 
 				// 1. Set song No.
-				comboBoxSongNo.SelectedIndex = Ins.paramList[0];
+				comboBoxSongNo.SelectedIndex = ins.paramList[0];
 
 				// 2. Display the song
 				noteList = new ObservableCollection<Note>();
 				int i = 1;
-				while (i < Ins.paramList.Count)
+				while (i < ins.paramList.Count)
 				{
-					noteList.Add(new Note(Ins.paramList[i], Ins.paramList[i + 1]));
+					noteList.Add(new Note(ins.paramList[i], ins.paramList[i + 1]));
 					i += 2;
 				}
 				listViewNotes.ItemsSource = noteList;
@@ -156,6 +156,11 @@ namespace iRobotGUI
 				outDevice.Dispose();
 			}
 			base.OnClosed(e);
+		}
+
+		private void buttonClear_Click(object sender, RoutedEventArgs e)
+		{
+			noteList.Clear();
 		}
 
 		private void buttonDelete_Click(object sender, RoutedEventArgs e)
@@ -187,7 +192,12 @@ namespace iRobotGUI
 		private void buttonNew_Click(object sender, RoutedEventArgs e)
 		{
 			noteList.Clear();
-		}		
+		}
+
+		private void comboBoxSongNo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Ins.paramList[0] = comboBoxSongNo.SelectedIndex;
+		}
 
 		/// <summary>
 		/// Get the string of SONG_DEF
@@ -204,13 +214,29 @@ namespace iRobotGUI
 			return sb.ToString();
 		}
 
+		private void listViewNotes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Note n = listViewNotes.SelectedItem as Note;
+			if (n != null)
+			{
+				sliderDuration.Value = n.Duration;				
+			}
+		}
+
 		private void pianoKeyboard_PianoKeyDown(object sender, PianoKeyEventArgs e)
 		{
 			Note note = new Note(e.NoteID);
+
 			// Insert a note to current position
 			if (listViewNotes.SelectedIndex >= 0)
 				noteList.Insert(listViewNotes.SelectedIndex, note);
-			else noteList.Add(note);
+			else
+			{
+				noteList.Add(note);				
+			}
+			listViewNotes.UpdateLayout();
+			listViewNotes.ScrollIntoView(listViewNotes.SelectedItem);
+
 			outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
 
 		}
@@ -238,16 +264,6 @@ namespace iRobotGUI
 			}	
 
 			outDevice = new OutputDevice(0);
-		}
-
-		private void listViewNotes_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			sliderDuration.Value = (listViewNotes.SelectedItem as Note).Duration;
-		}
-
-		private void comboBoxSongNo_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			Ins.paramList[0] = comboBoxSongNo.SelectedIndex;
 		}
 	}
 }

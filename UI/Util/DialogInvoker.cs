@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,6 +55,8 @@ namespace iRobotGUI.Util
 				dlg.ShowDialog();
 
 				// Alway read from the Window. There is no guarantee that the original Instruction is modified.
+				Instruction result = dlg.Ins;
+				Debug.WriteLine(result);
 				return dlg.Ins;
 			}
 			else
