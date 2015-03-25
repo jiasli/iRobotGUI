@@ -16,10 +16,10 @@
 
 
 		<Label Content="Color" HorizontalAlignment="Left" Margin="32,150,0,0" VerticalAlignment="Top"/>
-		<Slider x:Name="SliderColor" HorizontalAlignment="Left" Margin="32,180,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="SliderColor_ValueChanged"/>
+		<Slider x:Name="SliderColor" HorizontalAlignment="Left" Margin="32,180,0,0" VerticalAlignment="Top" Width="132" Maximum="255" SmallChange="1" LargeChange="20" ValueChanged="SliderColor_ValueChanged" IsSnapToTickEnabled="True"/>
 
 		<Label Content="Intensity" HorizontalAlignment="Left" Margin="32,200,0,0" VerticalAlignment="Top"/>
-		<Slider x:Name="SliderIntensity" HorizontalAlignment="Left" Margin="32,230,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="SliderIntensity_ValueChanged"/>
+		<Slider x:Name="SliderIntensity" HorizontalAlignment="Left" Margin="32,230,0,0" VerticalAlignment="Top" Width="132" Maximum="255" SmallChange="1" LargeChange="20" ValueChanged="SliderIntensity_ValueChanged" IsSnapToTickEnabled="True" />
 
 
 

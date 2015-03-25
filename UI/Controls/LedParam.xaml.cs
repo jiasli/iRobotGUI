@@ -96,7 +96,6 @@ namespace iRobotGUI.Controls
 			// 0, 255, 0 Green
 			// 255, 255, 0 Yellow
 			// 255, 0, 0 Red
-			Debug.WriteLine(color + " " + intensity);
 			double intensityRatio = intensity / 255.0;
 
 			Color rgbColor;
@@ -125,6 +124,8 @@ namespace iRobotGUI.Controls
 		{
 			// clear index-th bit.
 			n = n & ~(1 << index);
+
+			// set index-th bit.
 			n = n | ((value ? 1 : 0) << index);
 			return n;
 		}

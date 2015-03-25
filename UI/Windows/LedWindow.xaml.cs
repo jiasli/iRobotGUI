@@ -14,20 +14,26 @@ using System.Windows.Shapes;
 
 namespace iRobotGUI
 {
-    /// <summary>
-    /// Interaction logic for LEDWindow.xaml
-    /// </summary>
-    public partial class LedWindow : BaseParamWindow
-    {        
+	/// <summary>
+	/// Interaction logic for LEDWindow.xaml
+	/// </summary>
+	public partial class LedWindow : BaseParamWindow
+	{
+		public LedWindow()
+		{
+			InitializeComponent();
+		}
 
-        public LedWindow()
-        {
-            InitializeComponent();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            LedControlInstance.Ins = base.Ins;
-        }
-    }
+		public override Instruction Ins
+		{
+			get
+			{
+				return ledControlInstance.Ins;
+			}
+			set
+			{
+				ledControlInstance.Ins = value;
+			}
+		}
+	}
 }

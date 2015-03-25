@@ -12,18 +12,19 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="{Binding Number}" Width="30" />
+                        <Label Content="{Binding Number}" />
                         <Label Content="{Binding Duration}" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-       
-        <Button x:Name="buttonNew" Content="New" HorizontalAlignment="Left" Margin="144,75,0,0" VerticalAlignment="Top" Width="36" Height="36" Click="buttonNew_Click"/>
-        <Button x:Name="buttonMoveUp" Content="▴" HorizontalAlignment="Left" Margin="144,118,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22" Click="buttonMoveUp_Click"/>
-        <Button x:Name="buttonMoveDown" Content="▾" HorizontalAlignment="Left" Margin="144,158,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22" Click="buttonMoveDown_Click"/>
-        <Button x:Name="buttonDelete" Content="⨯" HorizontalAlignment="Left" Margin="144,198,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="20" Click="buttonDelete_Click"/>
-        <Slider x:Name="sliderDuration" HorizontalAlignment="Left" Margin="417,132,0,0" VerticalAlignment="Top" Width="169" Maximum="255" TickFrequency="16" ValueChanged="sliderDuration_ValueChanged" TickPlacement="TopLeft" SmallChange="16" IsSnapToTickEnabled="True" LargeChange="16"/>
+
+        <Button x:Name="buttonNew" Content="New" HorizontalAlignment="Left" Margin="144,76,0,0" VerticalAlignment="Top" Width="36" Height="36" Click="buttonNew_Click"/>
+        <Button x:Name="buttonMoveUp" Content="▴" HorizontalAlignment="Left" Margin="144,119,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22" Click="buttonMoveUp_Click"/>
+        <Button x:Name="buttonMoveDown" Content="▾" HorizontalAlignment="Left" Margin="144,159,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22" Click="buttonMoveDown_Click"/>
+        <Button x:Name="buttonDelete" Content="⨯" HorizontalAlignment="Left" Margin="144,199,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="20" Click="buttonDelete_Click"/>
+        <Slider x:Name="sliderDuration" HorizontalAlignment="Left" Margin="420,90,0,0" VerticalAlignment="Top" Width="169" Maximum="255" TickFrequency="16" ValueChanged="sliderDuration_ValueChanged" TickPlacement="TopLeft" SmallChange="16" IsSnapToTickEnabled="True" LargeChange="16"/>
+        <Button x:Name="buttonClear" Content="Clear" HorizontalAlignment="Left" Margin="420,159,0,0" VerticalAlignment="Top" Click="buttonClear_Click" Width="87"/>
 
         <ScrollViewer Height="179" Margin="0,292,0,10" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" >
             <WindowsFormsHost Width="1200" >
