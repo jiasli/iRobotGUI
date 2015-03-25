@@ -3,10 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:iRobotGUI.Controls"
         xmlns:src ="clr-namespace:iRobotGUI"  x:Class="iRobotGUI.LedWindow"
-        Title="LED Parameters" Height="320" Width="510" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
+        Title="LED Parameters" Height="320" Width="510" WindowStartupLocation="CenterOwner">
     <Grid>
-
-        <local:LedParam x:Name="LedControlInstance" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,10,-40,-10"/>
-
+        <local:LedParam x:Name="ledControlInstance" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,10,-40,-10"/>
     </Grid>
 </src:BaseParamWindow>

@@ -12,6 +12,8 @@
 *.o
 *.sym
 .dep/
+*_o.c
+*_o.cpp
 
 
 # User-specific files

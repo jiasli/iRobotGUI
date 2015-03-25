@@ -1,0 +1,16 @@
+﻿<Window x:Class="iRobotGUI.SettingsWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:p="clr-namespace:iRobotGUI.Properties" 
+		
+		Title="SettingsWindow" Height="300" Width="468">
+	<Grid Margin="40,0">
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+
+		<CheckBox Content="Show C file after translation" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="1"
+				  IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=OpenCCode, Mode=TwoWay}" />
+
+	</Grid>
+</Window>

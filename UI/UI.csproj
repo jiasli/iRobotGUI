@@ -28,6 +28,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,6 +41,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,6 +51,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>pic\create.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Sanford.Collections, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -154,6 +160,9 @@
     <Compile Include="Windows\RightWindow.xaml.cs">
       <DependentUpon>RightWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SongWindow.xaml.cs">
       <DependentUpon>SongWindow.xaml</DependentUpon>
     </Compile>
@@ -247,6 +256,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\SongWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -279,22 +292,29 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pic\backward.png" />
     <Resource Include="pic\forward.png" />
     <Resource Include="pic\left.png" />
     <Resource Include="pic\right.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\led.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\bump.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\cliff.jpg" />
+    <Resource Include="pic\SONG.png" />
+    <Resource Include="pic\LED_panel.png" />
+    <Resource Include="pic\demo.jpg" />
+    <Resource Include="pic\if.png" />
+    <Resource Include="pic\loop.png" />
+    <Resource Include="pic\delay.png" />
+    <Resource Include="pic\irobot.png" />
+    <Resource Include="pic\irobot2.jpg" />
+    <Resource Include="pic\create2.jpg" />
+    <Resource Include="pic\create3.png" />
+    <Resource Include="pic\sandclock.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HighLevelProgram\HighLevelProgram.csproj">
@@ -309,19 +329,6 @@
       <Project>{d7663052-3416-460f-9fbc-8107f018aa32}</Project>
       <Name>TranslatorLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\SONG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\LED_panel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\demo.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\if.png" />
-    <Resource Include="pic\loop.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -339,6 +346,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\create.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -23,19 +23,21 @@
     </UserControl.Resources>
     <Grid Grid.Row="1" Grid.Column="0">
 
-        <Label Content="Navigation"    Style="{StaticResource LabelStyle}" Margin="27,10,0,0"   />
+        <Label Content="Navigation"    Style="{StaticResource LabelStyle}" Margin="30,10,0,0"   />
         <Label Content="LED and Sound" Style="{StaticResource LabelStyle}" Margin="30,140,0,0"  />
-        <Label Content="Demo"          Style="{StaticResource LabelStyle}" Margin="155,140,0,0" />
+        <Label Content="Other"         Style="{StaticResource LabelStyle}" Margin="30,317,0,0" />
         <Label Content="Logic"         Style="{StaticResource LabelStyle}" Margin="30,236,0,0" />
 
-        <Image Source="/iRobotGUI;component/pic/forward.png"  Tag="FORWARD"  Margin="81,36,0,0"   />
-        <Image Source="/iRobotGUI;component/pic/backward.png" Tag="BACKWARD" Margin="81,81,0,0"   />
-        <Image Source="/iRobotGUI;component/pic/left.png"     Tag="LEFT"     Margin="31,62,0,0"   />
-        <Image Source="/iRobotGUI;component/pic/right.png"    Tag="RIGHT"    Margin="131,62,0,0"  />
-        <Image Source="/iRobotGUI;component/pic/led.jpg"      Tag="LED"      Margin="31,171,0,0"  ToolTip="LED" />
+        <Image Source="/iRobotGUI;component/pic/forward.png"  Tag="FORWARD"  Margin="81,36,0,0"   ToolTip="Move forward" />
+        <Image Source="/iRobotGUI;component/pic/backward.png" Tag="BACKWARD" Margin="81,81,0,0"   ToolTip="Move backward" />
+        <Image Source="/iRobotGUI;component/pic/left.png"     Tag="LEFT"     Margin="31,62,0,0"   ToolTip="Rotate left" />
+        <Image Source="/iRobotGUI;component/pic/right.png"    Tag="RIGHT"    Margin="131,62,0,0"  ToolTip="Rotate right" />
+        <Image Source="/iRobotGUI;component/pic/led.jpg"      Tag="LED"      Margin="31,171,0,0"  ToolTip="Turn on/off the LED" />
         <Image Source="/iRobotGUI;component/pic/song.png"     Tag="SONG_DEF" Margin="81,171,0,0"  ToolTip="Define a song" />
-        <Image Source="/iRobotGUI;component/pic/demo.jpg"     Tag="DEMO"     Margin="155,171,0,0" ToolTip="Play a demo" />
-        <Image Source="/iRobotGUI;component/pic/if.png"       Tag="IF"       Margin="31,267,0,0"  ToolTip="If"  />
+        <Image Source="/iRobotGUI;component/pic/if.png"       Tag="IF"       Margin="31,267,0,0"  ToolTip="If" />
         <Image Source="/iRobotGUI;component/pic/loop.png"     Tag="LOOP"     Margin="81,267,0,0"  ToolTip="Loop" />
+        <Image Source="/iRobotGUI;component/pic/demo.jpg"     Tag="DEMO"     Margin="34,348,0,0"  ToolTip="Play a demo" />
+        <Image Source="/iRobotGUI;component/pic/delay.png"    Tag="DELAY"    Margin="81,348,0,0"  ToolTip="Delay" />
+
     </Grid>
 </UserControl>
