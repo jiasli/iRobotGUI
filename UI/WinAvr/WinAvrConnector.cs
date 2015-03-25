@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
 
 namespace iRobotGUI.WinAvr
 {
 	public class WinAvrConnector
 	{
-		public static WinAvrConfiguation config= new WinAvrConfiguation();
+		public static WinAvrConfiguation config = new WinAvrConfiguation();
 
 		/// <summary>
 		/// Tweak makefile so that WinAVR can work properly.
@@ -28,19 +29,20 @@ namespace iRobotGUI.WinAvr
 		public static void Make()
 		{
 			CustomizeMakefile();
-			string d = Directory.GetCurrentDirectory();
-			System.Diagnostics.Process.Start("make", "all");
+			Process winAvrProcess = Process.Start("make.exe", "all");
+			winAvrProcess.WaitForExit();
 		}
 
 		/// <summary>
 		/// Call "make program" to load to Microcontroller.
 		/// </summary>
 		public static void Load()
-		{         
+		{
 			//string d = Directory.GetCurrentDirectory();
 
 			CustomizeMakefile();
-			System.Diagnostics.Process.Start("make","program");
+			Process winAvrProcess = System.Diagnostics.Process.Start("make.exe", "program");
+			winAvrProcess.WaitForExit();
 		}
 
 		/// <summary>
@@ -48,7 +50,8 @@ namespace iRobotGUI.WinAvr
 		/// </summary>
 		public static void Clean()
 		{
-			System.Diagnostics.Process.Start("make", "clean");
+			Process winAvrProcess = System.Diagnostics.Process.Start("make.exe", "clean");
+			winAvrProcess.WaitForExit();
 		}
 	}
 }

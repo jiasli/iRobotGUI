@@ -37,15 +37,18 @@
 			</MenuItem>
 			<MenuItem Header="Build">
 				<MenuItem Header="Translate to C Code" Click="MenuItemTranslate_Click"/>
-				<MenuItem Header="Show C Code" Click="MenuItem_ShowCCode"/>
+				<MenuItem Header="Show C Code" Click="MenuItemShowCCode_Click"/>
 				<Separator />
-				<MenuItem Header="WinAVR Build" Click="MenuItemBuild_Click"/>
-				<MenuItem Header="WinAVR Clean" Click="MenuItemClean_Click" />
-				<MenuItem Header="WinAVR Load" Click="MenuItemLoad_Click"/>
+				<MenuItem Header="WinAVR">
+					<MenuItem Header="Build" Click="MenuItemBuild_Click"/>
+					<MenuItem Header="Clean" Click="MenuItemClean_Click" />
+					<MenuItem Header="Load" Click="MenuItemLoad_Click"/>
+				</MenuItem>				
 				<Separator />
-				<MenuItem Header="Translate Build and Load" Click="BuildAndLoad"/>
+				<MenuItem Header="Load to Microcontroller" Click="MenuItemTranslateBuildLoad_Click"/>
 				<Separator/>
 				<MenuItem Command="{x:Static custom:MainWindow.ComPortCmd}" />
+				<MenuItem Header="Settings" Click="MenuItemSettings_Click"  />
 			</MenuItem>
 			<MenuItem Header="Help">
 				<MenuItem Header="About"  InputGestureText="F1" Click="MenuItemAbout_Click" />

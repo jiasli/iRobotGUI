@@ -10,9 +10,9 @@ namespace iRobotGUI
 	/// <summary>
 	/// The class translate high level instructions to C language.
 	/// Trace to WC_3299
-    /// WC_3299: The system shall generate instructions for iRobot in C 
-    /// which is then later compiled for deployment on the microcontroller 
-    /// using the APIs of iRobot.
+	/// WC_3299: The system shall generate instructions for iRobot in C 
+	/// which is then later compiled for deployment on the microcontroller 
+	/// using the APIs of iRobot.
 	/// </summary>
 	public static class Translator
 	{
@@ -23,10 +23,10 @@ namespace iRobotGUI
 			Emulator
 		};
 
-		private const string MicrocontrollerTemplate     = "mc_t.c";
-		private const string MicrocontrollerOutputSource = "mc_o.c";
-		private const string EmulatorTemplate            = "em_t.cpp";
-		private const string EmulatorOutputSource        = "em_o.cpp";
+		private const string MicrocontrollerTemplate   = "mc_t.c";
+		private const string MicrocontrollerOutputFile = "mc_o.c";
+		private const string EmulatorTemplate          = "em_t.cpp";
+		private const string EmulatorOutputFile        = "em_o.cpp";
 
 		//Define C snippet
 		public const string FORWARD_BACKWARD_SNIPPET = @"distance = 0;
@@ -256,7 +256,7 @@ else
 			{
 				// Navigation
 				// Trace to WC_3303
-                // As an ESS, I can drag and drop the built-in functions of the iRobot to control its behavior/movement. 
+				// As an ESS, I can drag and drop the built-in functions of the iRobot to control its behavior/movement. 
 				case Instruction.FORWARD:
 					cBuilder.AppendLine(SubTransForwardBackward(instruction));
 					break;
@@ -275,7 +275,7 @@ else
 
 				// LED
 				// Trace to WC_3291
-                // As an ESS, I can use the sounds & light module so that I can turn the LEDs on and off. 
+				// As an ESS, I can use the sounds & light module so that I can turn the LEDs on and off. 
 				case Instruction.LED:
 					cBuilder.AppendLine(LED_SNIPPET
 						.Replace("#bit", instruction.paramList[0].ToString())
@@ -285,7 +285,7 @@ else
 
 				// SONG
 				// Trace to WC_3290
-                // As an ESS, I can drag & drop the musical notes from the sounds & light module so that I can create a song. 
+				// As an ESS, I can drag & drop the musical notes from the sounds & light module so that I can create a song. 
 				case Instruction.SONG_DEF:
 					cBuilder.AppendLine(SONG_DEF_SNIPPET
 						.Replace("#song_number", instruction.paramList[0].ToString())
@@ -301,7 +301,7 @@ else
 
 				// DELAY
 				// Trace to WC_3296
-                // As an ESS, I can drag and drop a wait condition in which I can further drag and drop the instructions/loop constructs.
+				// As an ESS, I can drag and drop a wait condition in which I can further drag and drop the instructions/loop constructs.
 				case Instruction.DELAY:
 					cBuilder.AppendLine(DELAY_SNIPPET.Replace("#time", instruction.paramList[0].ToString()));
 					break;
@@ -313,8 +313,8 @@ else
 
 				// IF ELSE END_IF
 				// Trace to WC_3295
-                // As an ESS, I can drag and drop if-then-else and for/while construct in which I can further drag 
-                // and drop the instructions/loop constructs. 
+				// As an ESS, I can drag and drop if-then-else and for/while construct in which I can further drag 
+				// and drop the instructions/loop constructs. 
 				case Instruction.IF:
 					cBuilder.AppendLine(SubTransIfLoop(instruction));
 					break;
@@ -327,8 +327,8 @@ else
 
 				// LOOP END_LOOP
 				// Trace to WC_3295
-                // As an ESS, I can drag and drop if-then-else and for/while construct in which I can further drag 
-                // and drop the instructions/loop constructs. 
+				// As an ESS, I can drag and drop if-then-else and for/while construct in which I can further drag 
+				// and drop the instructions/loop constructs. 
 				case Instruction.LOOP:
 					cBuilder.AppendLine(SubTransIfLoop(instruction));                    
 					break;
@@ -422,7 +422,7 @@ else
 				template = File.ReadAllText(MicrocontrollerTemplate);
 				if (!String.IsNullOrEmpty(template))
 				{
-					File.WriteAllText(MicrocontrollerOutputSource,
+					File.WriteAllText(MicrocontrollerOutputFile,
 						template.Replace("##main_program##", code));
 				}
 			}
@@ -432,7 +432,7 @@ else
 				template = File.ReadAllText(EmulatorTemplate);
 				if (!String.IsNullOrEmpty(template))
 				{
-					File.WriteAllText(EmulatorOutputSource,
+					File.WriteAllText(EmulatorOutputFile,
 						template.Replace("##main_program##", code));
 				}
 			}

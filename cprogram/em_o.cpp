@@ -16,59 +16,26 @@ void byteTx(unsigned char byte)
 
 void iRobot_program()
 {
-//SONG_DEF 1,64,32,64,32,65,32,67,32,67,32,65,32,64,32,62,32,60,32,60,32,62,32,64,32,64,48,62,16,62,64
-
+//SONG_DEF 0,52,32,52,32,53,32,55,32,55,32,53,32,52,32,50,32
 byteTx(CmdSong);
-byteTx(1);
-byteTx(15);
-
-byteTx(64);
+byteTx(0);
+byteTx(8);
+byteTx(52);
 byteTx(32);
-byteTx(64);
+byteTx(52);
 byteTx(32);
-byteTx(65);
+byteTx(53);
 byteTx(32);
-byteTx(67);
+byteTx(55);
 byteTx(32);
-byteTx(67);
+byteTx(55);
 byteTx(32);
-byteTx(65);
+byteTx(53);
 byteTx(32);
-byteTx(64);
+byteTx(52);
 byteTx(32);
-byteTx(62);
+byteTx(50);
 byteTx(32);
-byteTx(60);
-byteTx(32);
-byteTx(60);
-byteTx(32);
-byteTx(62);
-byteTx(32);
-byteTx(64);
-byteTx(32);
-byteTx(64);
-byteTx(48);
-byteTx(62);
-byteTx(16);
-byteTx(62);
-byteTx(64);
-
-//SONG_PLAY 1
-
-byteTx(CmdPlay);
-byteTx(1);
-
-
-//LEFT 90
-
-angle = 0;
-drive(200, RadCCW);
-while(angle < 90)
-{
-    delaySensors(100);
-}
-drive(0, RadStraight);  
-
 
 
 }
