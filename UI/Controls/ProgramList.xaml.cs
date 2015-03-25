@@ -105,7 +105,7 @@ namespace iRobotGUI.Controls
 		{
 			this.dragMgr = new ListViewDragDropManager<Image>(ListviewProgram);
 			ListviewProgram.PreviewMouseLeftButtonDown += NewlistView_PreviewMouseLeftButtonDown;
-			ListviewProgram.PreviewMouseRightButtonDown += listView_PreviewMouseRightButtonDown;
+            ListviewProgram.PreviewKeyDown += listView_PreviewKeyDownEvent;
 			ListviewProgram.Drop -= dragMgr.listView_Drop;
 			ListviewProgram.Drop += NewlistView_Drop;
 		}
@@ -125,6 +125,8 @@ namespace iRobotGUI.Controls
 			{
 				// The index of item in PVM
 				int index = ListviewProgram.SelectedIndex;
+                if (index < 0)
+                    return;
 
 				// The index of Instruction in HLProgram
 				int prgIndex = pvm[index];
@@ -186,36 +188,40 @@ namespace iRobotGUI.Controls
 		/// <summary>
 		///  delete item when right button is clicked
 		/// </summary>
-		void listView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        void listView_PreviewKeyDownEvent(object sender, KeyEventArgs e)
 		{
-			int index = this.dragMgr.IndexUnderDragCursor;
+            if (e.Key == Key.Delete)
+            {
+                //int index = this.dragMgr.IndexUnderDragCursor;
+                int index = ListviewProgram.SelectedIndex;
 
-			int startIndex = pvm[index];
-			int endIndex = startIndex;
+                int startIndex = pvm[index];
+                int endIndex = startIndex;
 
-			if (program[startIndex].opcode == Instruction.IF)
-			{
-				int endIf = program.FindEndIf(startIndex);
-				if (endIf > 0)
-					endIndex = endIf;
-			}
-			else if (program[startIndex].opcode == Instruction.LOOP)
-			{
-				int endLoop = program.FindEndLoop(startIndex);
-				if (endLoop > 0)
-					endIndex = endLoop;
-			}
+                if (program[startIndex].opcode == Instruction.IF)
+                {
+                    int endIf = program.FindEndIf(startIndex);
+                    if (endIf > 0)
+                        endIndex = endIf;
+                }
+                else if (program[startIndex].opcode == Instruction.LOOP)
+                {
+                    int endLoop = program.FindEndLoop(startIndex);
+                    if (endLoop > 0)
+                        endIndex = endLoop;
+                }
 
-			program.Remove(startIndex, endIndex - startIndex + 1);
-			pvm.Remove(pvm[index]);
+                program.Remove(startIndex, endIndex - startIndex + 1);
+                pvm.Remove(pvm[index]);
 
-			for (int i = 0; i < pvm.Count; i++)
-			{
-				if (pvm[i] > endIndex)
-					pvm[i] -= endIndex - startIndex + 1;
-			}
+                for (int i = 0; i < pvm.Count; i++)
+                {
+                    if (pvm[i] > endIndex)
+                        pvm[i] -= endIndex - startIndex + 1;
+                }
 
-			UpdateContent();
+                UpdateContent();
+            }
 		}
 
 		#endregion // listView_PreviewMouseRightButtonDown
@@ -267,6 +273,15 @@ namespace iRobotGUI.Controls
 				{
 					pvm.Insert(newIndex, program.Count);
 					program.Add(newIns);
+                    if (op == "IF")
+                    {
+                        program.Add(Instruction.CreatFromOpcode("ELSE"));
+                        program.Add(Instruction.CreatFromOpcode("END_IF"));
+                    }
+                    else if (op == "LOOP")
+                    {
+                        program.Add(Instruction.CreatFromOpcode("END_LOOP"));
+                    }
 				}
 
 				UpdateContent();
