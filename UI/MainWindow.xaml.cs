@@ -24,7 +24,6 @@ namespace iRobotGUI
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public static RoutedCommand ComPortCmd = new RoutedUICommand("WinAVR Configuration", "comn", typeof(Window));
 		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window));
 
 		private string cFile = "mc_o.c";
@@ -33,9 +32,6 @@ namespace iRobotGUI
 
 		public MainWindow()
 		{
-			// Init Cmd
-			ComPortCmd.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift, "Ctrl+Shift+C"));
-
 			InitializeComponent();
 
 			// Set the current folder to cprogram
