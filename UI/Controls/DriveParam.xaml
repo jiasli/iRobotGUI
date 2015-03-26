@@ -6,18 +6,88 @@
              xmlns:src="clr-namespace:iRobotGUI.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <Label Content="Rotation"/>
-        <TextBox x:Name="textbx1" Margin="22,228,28,27" />
+	<src:BaseParamControl.Resources>
+		<Style x:Key="SliderThumbSandClock" TargetType="{x:Type Thumb}">
+			<Setter Property="SnapsToDevicePixels" Value="true" />
+			<Setter Property="OverridesDefaultStyle" Value="true" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Thumb}">
+						<Ellipse Height="35" Width="35">
+							<Ellipse.RenderTransform>
+								<RotateTransform CenterX="17" CenterY="17" Angle="90"/>
+							</Ellipse.RenderTransform>
+							<Ellipse.Fill>
+								<ImageBrush ImageSource="/iRobotGUI;component/pic/sandclock.png"/>
+							</Ellipse.Fill>
+						</Ellipse>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style TargetType="{x:Type Slider}" x:Key="SandSliderStyle">
+			<Setter Property="OverridesDefaultStyle" Value="true"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Slider}">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="auto" />
+								<RowDefinition Height="auto" x:Name="row" />
+								<RowDefinition Height="auto" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="auto" />
+								<ColumnDefinition Width="*" x:Name="column" />
+								<ColumnDefinition Width="auto" />
+							</Grid.ColumnDefinitions>
+							<Border x:Name="PART_Border"
+								BorderBrush="{DynamicResource BorderLightColor}" BorderThickness="1"
+								Padding="2"
+								Grid.Row="1" Grid.Column="1"
+								Width="{TemplateBinding Width}"
+								Height="{TemplateBinding Height}"
+								Background="LightBlue"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center" />
+							<Track x:Name="PART_Track"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center"
+								Grid.Row="1" Grid.Column="1"
+								Width="{TemplateBinding Width}"
+								Height="{TemplateBinding Height}">
+								<Track.Thumb>
+									<Thumb Style="{StaticResource SliderThumbSandClock}" />
+								</Track.Thumb>
+							</Track>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</src:BaseParamControl.Resources>
+	<Grid>
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="169" Maximum="255" LargeChange="20" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="150,105,-19,0">
+			<Slider.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform Angle="-90.178"/>
+					<TranslateTransform X="10.131" Y="10.52"/>
+				</TransformGroup>
+			</Slider.RenderTransform>
+		</Slider>
+
+		<TextBox x:Name="textbx1" Margin="32,195,164,85" />
 
 
-        <Grid x:Name="RotateGrid">
-            <Ellipse Width="150" Height="150" Margin="64,27,66,115">
-                <Ellipse.Fill>
-                    <ImageBrush ImageSource="/pic/drive.jpg"/>
-                </Ellipse.Fill>
+		<Grid x:Name="RotateGrid">
+			<Ellipse Width="150" Height="150" Margin="10,32,140,118">
+				<Ellipse.Fill>
+					<ImageBrush ImageSource="/pic/drive.jpg"/>
+				</Ellipse.Fill>
 
-            </Ellipse>
-        </Grid>
-    </Grid>
+			</Ellipse>
+		</Grid>
+	</Grid>
 </src:BaseParamControl>

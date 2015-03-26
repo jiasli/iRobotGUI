@@ -101,6 +101,10 @@ namespace iRobotGUI.Controls
             RotateGrid.RenderTransform = rotateTransform1;
             Ins.paramList[0] = (int)e.NewValue;
         }
+		private void SliderVelocity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+
+		}
         
     }
         
