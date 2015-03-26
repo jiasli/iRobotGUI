@@ -75,7 +75,7 @@ int main (void)
   byteTx(CmdSafe);
 
 
-//FORWARD 200,3
+//MOVE 200,3
 distance = 0;
 byteTx(CmdDrive);
 byteTx(0);
@@ -93,7 +93,7 @@ byteTx(128);
 byteTx(0);
 
 
-//BACKWARD -100,3
+//MOVE -100,3
 distance = 0;
 byteTx(CmdDrive);
 byteTx(255);
@@ -111,7 +111,24 @@ byteTx(128);
 byteTx(0);
 
 
-//RIGHT -90
+//ROTATE 90
+angle = 0;
+byteTx(CmdDrive);
+byteTx(0);
+byteTx(128);
+byteTx(0);
+byteTx(1);
+while(angle < 90)
+{
+	delaySensors(100);
+}
+byteTx(CmdDrive);
+byteTx(0);
+byteTx(0);
+byteTx(128);
+byteTx(0);
+
+//ROTATE -90
 angle = 0;
 byteTx(CmdDrive);
 byteTx(0);

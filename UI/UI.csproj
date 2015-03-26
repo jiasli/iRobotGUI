@@ -111,6 +111,7 @@
     <Compile Include="Controls\RotateParam.xaml.cs">
       <DependentUpon>RotateParam.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util\InstructionPicture.cs" />
     <Compile Include="Util\ProgramViewModel.cs" />
     <Compile Include="WinAvr\WinAvrConfiguation.cs" />
     <Compile Include="Windows\BackwardWindow.xaml.cs">
