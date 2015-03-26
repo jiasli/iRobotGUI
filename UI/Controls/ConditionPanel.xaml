@@ -53,7 +53,7 @@
             </ComboBoxItem>
 
         </ComboBox>
-        <TextBox x:Name="textBoxNum"  HorizontalAlignment="Left" Margin="173,24,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="22" Width="42" TextChanged="textBoxNum_TextChanged"/>
+        <TextBox x:Name="textBoxNum"  HorizontalAlignment="Left" Margin="173,24,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="22" Width="42" TextChanged="textBoxNum_TextChanged" PreviewTextInput="textBoxNum_PreviewTextInput"/>
         <Label x:Name="labelCondition" Content="Condition" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top"/>
 
     </Grid>
