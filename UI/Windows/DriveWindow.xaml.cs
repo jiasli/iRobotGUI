@@ -15,17 +15,17 @@ using System.Windows.Shapes;
 namespace iRobotGUI
 {
     /// <summary>
-    /// Interaction logic for RightWindow.xaml
+    /// Interaction logic for ForwardWindow.xaml
     /// </summary>
-    public partial class RightWindow : BaseParamWindow
+    public partial class DriveWindow : BaseParamWindow
     {
-        public RightWindow()
+        public DriveWindow()
         {
             InitializeComponent();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            RightControlInstance.Ins = Ins;
+            DriveControlInstance.Ins = Ins;
         }
     }
 }

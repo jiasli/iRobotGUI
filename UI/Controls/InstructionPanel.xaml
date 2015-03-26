@@ -28,10 +28,10 @@
         <Label Content="Other"         Style="{StaticResource LabelStyle}" Margin="30,317,0,0" />
         <Label Content="Logic"         Style="{StaticResource LabelStyle}" Margin="30,236,0,0" />
 
-        <Image Source="/iRobotGUI;component/pic/forward.png"  Tag="FORWARD"  Margin="81,36,0,0"   ToolTip="Move forward" />
+        <Image Source="/iRobotGUI;component/pic/move.png"  Tag="MOVE"  Margin="81,36,0,0"   ToolTip="Move forward" />
         <Image Source="/iRobotGUI;component/pic/backward.png" Tag="BACKWARD" Margin="81,81,0,0"   ToolTip="Move backward" />
-        <Image Source="/iRobotGUI;component/pic/left.png"     Tag="LEFT"     Margin="31,62,0,0"   ToolTip="Rotate left" />
-        <Image Source="/iRobotGUI;component/pic/right.png"    Tag="RIGHT"    Margin="131,62,0,0"  ToolTip="Rotate right" />
+        <Image Source="/iRobotGUI;component/pic/rotation.png" Tag="ROTATE"     Margin="31,62,0,0"   ToolTip="Rotate left" />
+        <Image Source="/iRobotGUI;component/pic/drive.jpg"    Tag="DRIVE"    Margin="131,62,0,0"  ToolTip="Rotate right" />
         <Image Source="/iRobotGUI;component/pic/led.jpg"      Tag="LED"      Margin="31,171,0,0"  ToolTip="Turn on/off the LED" />
         <Image Source="/iRobotGUI;component/pic/song.png"     Tag="SONG_DEF" Margin="81,171,0,0"  ToolTip="Define a song" />
         <Image Source="/iRobotGUI;component/pic/if.png"       Tag="IF"       Margin="31,267,0,0"  ToolTip="If" />

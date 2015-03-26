@@ -1,4 +1,4 @@
-﻿<src:BaseParamControl x:Class="iRobotGUI.Controls.ForwardParam"
+﻿<src:BaseParamControl x:Class="iRobotGUI.Controls.MoveParam"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:src="clr-namespace:iRobotGUI.Controls"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,6 +12,9 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="Thumb">
                             <Ellipse Height="35" Width="35">
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform CenterX="17" CenterY="17" Angle="90"/>
+                                </Ellipse.RenderTransform>
                                 <Ellipse.Fill>
                                     <ImageBrush ImageSource="/pic/sandclock.png"></ImageBrush>
                                 </Ellipse.Fill>
@@ -67,8 +70,11 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="Thumb">
                             <Ellipse Height="40" Width="40">
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform CenterX="20" CenterY="20" Angle="-90"/>
+                                </Ellipse.RenderTransform>
                                 <Ellipse.Fill>
-                                    <ImageBrush ImageSource="/pic/create3.png"></ImageBrush>
+                                    <ImageBrush ImageSource="/pic/create2.jpg"></ImageBrush>
                                 </Ellipse.Fill>
                             </Ellipse>
                         </ControlTemplate>
@@ -115,24 +121,32 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-        </ResourceDictionary>       
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Label Content="FORWARD" FontSize="18" HorizontalAlignment="Center" Margin="89,0,88,0" VerticalAlignment="Top" Width="115"/>
-        <Label Content="Duration" HorizontalAlignment="Left" Margin="29,21,0,0" VerticalAlignment="Top"/>
-        <Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDistance" HorizontalAlignment="Left" Margin="29,47,0,0" VerticalAlignment="Top" Width="230" Maximum="255" LargeChange="20" ValueChanged="SliderDistance_ValueChanged"/>
-        <Label Content="Velocity" HorizontalAlignment="Left" Margin="29,87,0,0" VerticalAlignment="Top"/>
-        <!--<Slider x:Name="SliderVelocity" HorizontalAlignment="Left" Margin="29,126,0,0" VerticalAlignment="Top" Width="132" Maximum="255" LargeChange="20" ValueChanged="SliderVelocity_ValueChanged"/>-->
-        <Slider x:Name="SliderVelocity" Style="{StaticResource AppSliderStyle}" Margin="29,119,32,43" RenderTransformOrigin="0.5,0.5" ValueChanged="SliderVelocity_ValueChanged">
+        <Label Content="MOVE" FontSize="18" HorizontalAlignment="Center" Margin="120,0,65,0" VerticalAlignment="Top" Width="115"/>
+        <Label Content="Duration" HorizontalAlignment="Left" Margin="211,82,0,0" VerticalAlignment="Top"/>
+        <Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="109,91,0,0" VerticalAlignment="Top" Width="151" Maximum="255" LargeChange="20" ValueChanged="SliderDistance_ValueChanged" RenderTransformOrigin="0.5,0.5">
             <Slider.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
-                    <RotateTransform Angle="179.684"/>
+                    <RotateTransform Angle="-90.178"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </Slider.RenderTransform>
         </Slider>
+        <Label Content="Distance" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.019,1.385"/>
+        <Slider x:Name="SliderDistance" Style="{StaticResource AppSliderStyle}" Maximum="500" Minimum="-500" Margin="-8,73,162,79" RenderTransformOrigin="0.54,0.186" ValueChanged="SliderDistance_ValueChanged">
+            <Slider.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-89.962"/>
+                    <TranslateTransform X="9.174" Y="21.062"/>
+                </TransformGroup>
+            </Slider.RenderTransform>
+        </Slider>
     </Grid>
-    
+
 </src:BaseParamControl>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,17 +10,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace iRobotGUI.Controls
 {
     /// <summary>
-    /// Interaction logic for RightParam.xaml
+    /// Interaction logic for RotateParam.xaml
     /// </summary>
-    public partial class RightParam : BaseParamControl
+    public partial class DriveParam : BaseParamControl
     {
-        private double Angle;
+         private double Angle;
         private enum Quadrants : int { nw = 2, ne = 1, sw = 4, se = 3 }
+        public DriveParam()
+        {
+            InitializeComponent();
+            this.MouseLeftButtonDown += new MouseButtonEventHandler(OnMouseLeftButtonDown);
+            this.MouseUp += new MouseButtonEventHandler(OnMouseUp);
+            this.MouseMove += new MouseEventHandler(OnMouseMove);
+        }
         private double GetAngle(Point touchPoint, Size circleSize)
         {
             var _X = touchPoint.X - (circleSize.Width / 2d);
@@ -53,22 +60,13 @@ namespace iRobotGUI.Controls
                 this.Angle = Ins.paramList[0];
                 ///rotate the control image specified number of degrees:
                 RotateTransform rotateTransform1 = new RotateTransform(this.Angle);
-                rotateTransform1.CenterX = 75;
-                rotateTransform1.CenterY = 75;
+                rotateTransform1.CenterX = (this.ActualWidth)/2;
+                rotateTransform1.CenterY = (this.ActualHeight)/2;
                 RotateGrid.RenderTransform = rotateTransform1;
 
             }
         }
-        public RightParam()
-        {
-            InitializeComponent();
-            ///this.DataContext = this;
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(OnMouseLeftButtonDown);
-            this.MouseUp += new MouseButtonEventHandler(OnMouseUp);
-            this.MouseMove += new MouseEventHandler(OnMouseMove);
-            
-
-        }
+    
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Mouse.Capture(this);
@@ -95,8 +93,16 @@ namespace iRobotGUI.Controls
                RotateGrid.RenderTransform = rotateTransform1;
             }
         }
-
-       
+        private void txtbox1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
+            rotateTransform1.CenterX = 75;
+            rotateTransform1.CenterY = 75;
+            RotateGrid.RenderTransform = rotateTransform1;
+            Ins.paramList[0] = (int)e.NewValue;
+        }
         
     }
+        
+    
 }
