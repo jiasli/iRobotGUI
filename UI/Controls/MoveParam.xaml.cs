@@ -17,7 +17,7 @@ namespace iRobotGUI.Controls
     /// <summary>
     /// Interaction logic for ForwardParam.xaml
     /// </summary>
-    public partial class ForwardParam : BaseParamControl
+    public partial class MoveParam : BaseParamControl
     {
         public override Instruction Ins
         {
@@ -28,24 +28,38 @@ namespace iRobotGUI.Controls
             set
             {
                 base.Ins = value;
-
-                SliderDistance.Value = Ins.paramList[0];
-                SliderVelocity.Value = Ins.paramList[1];
+                if (Ins.opcode == "BACKWARD")
+                {
+                    SliderDistance.Value = -Ins.paramList[0];
+                }
+                else
+                {
+                    SliderDistance.Value = Ins.paramList[0];
+                }
+                SliderDuration.Value = Ins.paramList[1];
             }
         }
-        public ForwardParam()
+        public MoveParam()
         {
             InitializeComponent();
         }
 
-        private void SliderVelocity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void SliderDuration_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Ins.paramList[1] = (int)e.NewValue;
         }
 
         private void SliderDistance_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Ins.paramList[0] = (int)e.NewValue;
+            int slide_val = (int)e.NewValue;
+            if (slide_val < 0)
+            {
+                Ins.opcode = "BACKWARD";
+            } else
+            {
+                Ins.opcode = "FORWARD";
+            }
+            Ins.paramList[0] = Math.Abs(slide_val);
         }
 
     }

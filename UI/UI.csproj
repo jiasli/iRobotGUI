@@ -95,18 +95,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\DriveParam.xaml.cs">
+      <DependentUpon>DriveParam.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util\DialogInvoker.cs" />
     <Compile Include="Controls\BackwardParam.xaml.cs">
       <DependentUpon>BackwardParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ForwardParam.xaml.cs">
-      <DependentUpon>ForwardParam.xaml</DependentUpon>
+    <Compile Include="Controls\MoveParam.xaml.cs">
+      <DependentUpon>MoveParam.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\LeftParam.xaml.cs">
       <DependentUpon>LeftParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\RightParam.xaml.cs">
-      <DependentUpon>RightParam.xaml</DependentUpon>
+    <Compile Include="Controls\RotateParam.xaml.cs">
+      <DependentUpon>RotateParam.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\InstructionPicture.cs" />
     <Compile Include="Util\ProgramViewModel.cs" />
@@ -123,8 +126,11 @@
     <Compile Include="Controls\DemoParam.xaml.cs">
       <DependentUpon>DemoParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\ForwardWindow.xaml.cs">
-      <DependentUpon>ForwardWindow.xaml</DependentUpon>
+    <Compile Include="Windows\DriveWindow.xaml.cs">
+      <DependentUpon>DriveWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MoveWindow.xaml.cs">
+      <DependentUpon>MoveWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\IfWindow.xaml.cs">
       <DependentUpon>IfWindow.xaml</DependentUpon>
@@ -158,8 +164,8 @@
     <Compile Include="Windows\OutputWindow.xaml.cs">
       <DependentUpon>OutputWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\RightWindow.xaml.cs">
-      <DependentUpon>RightWindow.xaml</DependentUpon>
+    <Compile Include="Windows\RotateWindow.xaml.cs">
+      <DependentUpon>RotateWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
@@ -173,7 +179,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ForwardParam.xaml">
+    <Page Include="Controls\MoveParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,7 +187,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\RightParam.xaml">
+    <Page Include="Controls\RotateParam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DriveParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -213,7 +223,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\ForwardWindow.xaml">
+    <Page Include="Windows\DriveWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MoveWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -253,7 +267,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\RightWindow.xaml">
+    <Page Include="Windows\RotateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -350,6 +364,30 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pic\create.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\drive.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\rotation.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\move.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\rotate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\drive.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

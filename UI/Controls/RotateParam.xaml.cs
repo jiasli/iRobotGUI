@@ -18,7 +18,7 @@ namespace iRobotGUI.Controls
     /// <summary>
     /// Interaction logic for RightParam.xaml
     /// </summary>
-    public partial class RightParam : BaseParamControl
+    public partial class RotateParam : BaseParamControl
     {
         private double Angle;
         private enum Quadrants : int { nw = 2, ne = 1, sw = 4, se = 3 }
@@ -49,8 +49,14 @@ namespace iRobotGUI.Controls
             set
             {
                 base.Ins = value;
-
-                this.Angle = Ins.paramList[0];
+                if (Ins.opcode == "RIGHT")
+                {
+                    this.Angle = Ins.paramList[0];
+                }
+                else
+                {
+                    this.Angle = -Ins.paramList[0];
+                }
                 ///rotate the control image specified number of degrees:
                 RotateTransform rotateTransform1 = new RotateTransform(this.Angle);
                 rotateTransform1.CenterX = 75;
@@ -59,7 +65,7 @@ namespace iRobotGUI.Controls
 
             }
         }
-        public RightParam()
+        public RotateParam()
         {
             InitializeComponent();
             ///this.DataContext = this;
@@ -87,11 +93,17 @@ namespace iRobotGUI.Controls
                 Point currentLocation = Mouse.GetPosition(this);
                 /// Calculate an angle
                this.Angle = GetAngle(currentLocation, this.RenderSize);
-           
-               Ins.paramList[0] =  (int)this.Angle;
+               if (this.Angle < 0)
+               {
+                   Ins.opcode = "LEFT";
+               } else
+               {
+                   Ins.opcode = "RIGHT";
+               }
+               Ins.paramList[0] =  Math.Abs((int)this.Angle);
                RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
-               rotateTransform1.CenterX = 75;
-               rotateTransform1.CenterY = 75;
+               rotateTransform1.CenterX = (this.ActualWidth)/2;
+               rotateTransform1.CenterY = (this.ActualHeight)/2;
                RotateGrid.RenderTransform = rotateTransform1;
             }
         }
