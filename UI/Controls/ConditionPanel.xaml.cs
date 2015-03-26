@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,7 +40,9 @@ namespace iRobotGUI.Controls
 			set
 			{
 				condition = value;
-				UpdateConditionLabel();
+				comboBoxSensor.SelectedIndex = condition.sensor;
+				comboBoxOperator.SelectedIndex = condition.op;
+				textBoxNum.Text = condition.num.ToString();
 			}
 			get
 			{
@@ -62,25 +65,31 @@ namespace iRobotGUI.Controls
 
 		private void textBoxNum_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			if (!Int32.TryParse(textBoxNum.Text, out condition.num))
-			{
-				MessageBox.Show("Only numbers are permitted.");
-			}
-			else
-			{
-				UpdateConditionLabel();
-			}
+			condition.num = Convert.ToInt32(textBoxNum.Text);
+			UpdateConditionLabel();
 		}
 
 		private void UpdateConditionLabel()
 		{
+			// label may not be initialized.
 			if (labelCondition != null)
 			{
 				labelCondition.Content = String.Format("sensor[{0}] {1} {2}",
-				condition.sensor,
-				Operator.GetOperatorTextSymbol(condition.op),
-				condition.num);
+					condition.sensor,
+					Operator.GetOperatorTextSymbol(condition.op),
+					condition.num);
 			}
+		}
+
+		private void textBoxNum_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		{
+			e.Handled = !IsTextAllowed(e.Text);
+		}
+
+		private static bool IsTextAllowed(string text)
+		{
+			Regex regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+			return !regex.IsMatch(text);
 		}
 	}
 }
