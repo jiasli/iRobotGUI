@@ -1,42 +1,41 @@
 ﻿<UserControl x:Class="iRobotGUI.Controls.InstructionPanel"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Width="210" Height="450">
-    <UserControl.Resources>
-        <Style TargetType="Image">
-            <Setter Property="Width" Value="45" />
-            <Setter Property="Height" Value="45" />
-            <Setter Property="Stretch" Value="Fill" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="VerticalAlignment" Value="Top" />
-            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-            <Setter Property="ToolTipService.ShowDuration" Value="100000" />
-            <EventSetter Event="MouseDown" Handler="MouseMove_General" />
-        </Style>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 mc:Ignorable="d" Width="233" Height="450">
+	<UserControl.Resources>
+		<Style TargetType="Image">
+			<Setter Property="Width" Value="45" />
+			<Setter Property="Height" Value="45" />
+			<Setter Property="Stretch" Value="Fill" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+			<Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+			<Setter Property="ToolTipService.ShowDuration" Value="100000" />
+			<EventSetter Event="MouseDown" Handler="MouseMove_General" />
+		</Style>
 
-        <Style x:Key="LabelStyle" TargetType="Label">
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="VerticalAlignment" Value="Top" />
-        </Style>
-    </UserControl.Resources>
-    <Grid Grid.Row="1" Grid.Column="0">
+		<Style x:Key="LabelStyle" TargetType="Label">
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+		</Style>
+	</UserControl.Resources>
+	<Grid Grid.Row="1" Grid.Column="0">
 
-        <Label Content="Navigation"    Style="{StaticResource LabelStyle}" Margin="30,10,0,0"   />
-        <Label Content="LED and Sound" Style="{StaticResource LabelStyle}" Margin="30,140,0,0"  />
-        <Label Content="Other"         Style="{StaticResource LabelStyle}" Margin="30,317,0,0" />
-        <Label Content="Logic"         Style="{StaticResource LabelStyle}" Margin="30,236,0,0" />
+		<Label Content="Navigation"    Style="{StaticResource LabelStyle}" Margin="30,10,0,0"   />
+		<Label Content="LED and Sound" Style="{StaticResource LabelStyle}" Margin="30,107,0,0"  />
+		<Label Content="Other"         Style="{StaticResource LabelStyle}" Margin="30,284,0,0" />
+		<Label Content="Logic"         Style="{StaticResource LabelStyle}" Margin="30,203,0,0" />
 
-        <Image Source="/iRobotGUI;component/pic/move.png"  Tag="MOVE"  Margin="81,62,0,0"   ToolTip="Move forward" />
-		<Image Source="/iRobotGUI;component/pic/rotation.png" Tag="ROTATE"     Margin="31,62,0,0"   ToolTip="Rotate left" />
-        <Image Source="/iRobotGUI;component/pic/drive.jpg"    Tag="DRIVE"    Margin="131,62,0,0"  ToolTip="Rotate right" />
-        <Image Source="/iRobotGUI;component/pic/led.jpg"      Tag="LED"      Margin="31,171,0,0"  ToolTip="Turn on/off the LED" />
-        <Image Source="/iRobotGUI;component/pic/song.png"     Tag="SONG_DEF" Margin="81,171,0,0"  ToolTip="Define a song" />
-        <Image Source="/iRobotGUI;component/pic/if.png"       Tag="IF"       Margin="31,267,0,0"  ToolTip="If" />
-        <Image Source="/iRobotGUI;component/pic/loop.png"     Tag="LOOP"     Margin="81,267,0,0"  ToolTip="Loop" />
-        <Image Source="/iRobotGUI;component/pic/demo.jpg"     Tag="DEMO"     Margin="34,348,0,0"  ToolTip="Play a demo" />
-        <Image Source="/iRobotGUI;component/pic/delay.png"    Tag="DELAY"    Margin="81,348,0,0"  ToolTip="Delay" />
-
-    </Grid>
+		<Image Source="/iRobotGUI;component/pic/move.png"   Tag="MOVE"     Margin="30,41,0,0"   ToolTip="Move forward" />
+		<Image Source="/iRobotGUI;component/pic/rotate.png" Tag="ROTATE"   Margin="81,41,0,0"   ToolTip="Rotate left" />
+		<Image Source="/iRobotGUI;component/pic/drive.png"  Tag="DRIVE"    Margin="131,41,0,0"  ToolTip="Rotate right" />
+		<Image Source="/iRobotGUI;component/pic/led.jpg"    Tag="LED"      Margin="31,138,0,0"  ToolTip="Turn on/off the LED" />
+		<Image Source="/iRobotGUI;component/pic/song.png"   Tag="SONG_DEF" Margin="81,138,0,0"  ToolTip="Define a song" />
+		<Image Source="/iRobotGUI;component/pic/if.png"     Tag="IF"       Margin="31,234,0,0"  ToolTip="If" />
+		<Image Source="/iRobotGUI;component/pic/loop.png"   Tag="LOOP"     Margin="81,234,0,0"  ToolTip="Loop" />
+		<Image Source="/iRobotGUI;component/pic/demo.jpg"   Tag="DEMO"     Margin="34,315,0,0"  ToolTip="Play a demo" />
+		<Image Source="/iRobotGUI;component/pic/delay.png"  Tag="DELAY"    Margin="81,315,0,0"  ToolTip="Delay" />
+	</Grid>
 </UserControl>
