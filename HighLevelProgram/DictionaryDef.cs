@@ -23,10 +23,14 @@ namespace iRobotGUI
         public static Dictionary<string, int> paraLength = new Dictionary<string, int>()
         {
             //initialize the dictionary
+            /*
             { Instruction.FORWARD, 2 },
             { Instruction.BACKWARD, 2 },
             { Instruction.LEFT, 1 },
             { Instruction.RIGHT, 1 },
+            */
+            { Instruction.MOVE, 2 },
+            { Instruction.ROTATE, 1 },
             { Instruction.DRIVE, 2 },
             { Instruction.LED, 3 },
             { Instruction.SONG_PLAY, 1 },

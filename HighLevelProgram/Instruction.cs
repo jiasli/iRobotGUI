@@ -13,10 +13,14 @@ namespace iRobotGUI
 
 		public readonly string[] OpCodeSet = new string[] 
 		{ 
+			/*
 			FORWARD,
 			BACKWARD, 
 			LEFT, 
 			RIGHT, 
+			*/ 
+			MOVE,
+			ROTATE,
 			DRIVE,
 			LED, 
 			DEMO,
@@ -34,10 +38,14 @@ namespace iRobotGUI
 		#region OpCode
 
 		// Navigation
+		/*
 		public const string FORWARD     = "FORWARD";
 		public const string BACKWARD    = "BACKWARD";
 		public const string LEFT        = "LEFT";
 		public const string RIGHT       = "RIGHT";
+		*/ 
+		public const string MOVE        = "MOVE";
+		public const string ROTATE      = "ROTATE";
 		public const string DRIVE       = "DRIVE";		
 
 		// LED Song
@@ -129,6 +137,13 @@ namespace iRobotGUI
 			Instruction newIns = null;
 			switch (opcode)
 			{
+				case MOVE:
+					newIns = new Instruction(Instruction.MOVE + " 500,3");
+					break;
+				case ROTATE:
+					newIns = new Instruction(Instruction.ROTATE + " 90");
+					break;
+				/*
 				case FORWARD:
 					newIns = new Instruction(Instruction.FORWARD + " 500,3");
 					break;
@@ -141,6 +156,7 @@ namespace iRobotGUI
 				case Instruction.LEFT:
 					newIns = new Instruction(Instruction.LEFT + " 90");
 					break;
+				*/ 
 				case Instruction.LED:
 					newIns = new Instruction(Instruction.LED + " 10,128,128");
 					break;
