@@ -1,0 +1,10 @@
+﻿<src:BaseParamWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:iRobotGUI.Controls" 
+        xmlns:src="clr-namespace:iRobotGUI" x:Class="iRobotGUI.DelayWindow"
+        Title="Move" Height="250" Width="300" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
+	<Grid>
+		<local:MoveParam x:Name="DelayControlInstance" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0"/>
+	</Grid>
+</src:BaseParamWindow>
