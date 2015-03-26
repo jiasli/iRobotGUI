@@ -29,10 +29,10 @@ namespace iRobotGUI
 		private const string EmulatorOutputFile        = "em_o.cpp";
 
 		//Define C snippet
-		public const string FORWARD_BACKWARD_SNIPPET = @"distance = 0;
+		public const string MOVE_SNIPPET = @"distance = 0;
 byteTx(CmdDrive);
-byteTx(#velo_high);
-byteTx(#velo_low);
+byteTx(#velocity_high);
+byteTx(#velocity_low);
 byteTx(128);
 byteTx(0);
 while(distance #operator #distance)
@@ -45,12 +45,12 @@ byteTx(0);
 byteTx(128);
 byteTx(0);
 ";
-		public const string LEFT_RIGHT_SNIPPET = @"angle = 0;
+		public const string ROTATE_SNIPPET = @"angle = 0;
 byteTx(CmdDrive);
 byteTx(0);
 byteTx(128);
-byteTx(#direction_high);
-byteTx(#direction_low);
+byteTx(#radius_high);
+byteTx(#radius_low);
 while(angle #operator #angle)
 {
 	delaySensors(100);
@@ -62,8 +62,8 @@ byteTx(128);
 byteTx(0);";
 
 		public const string DRIVE_SNIPPET = @"byteTx(CmdDrive);
-byteTx(#velo_high);
-byteTx(#velo_low);
+byteTx(#velocity_high);
+byteTx(#velocity_low);
 byteTx(#angle_high);
 byteTx(#angle_low);";
 
@@ -98,7 +98,57 @@ else
 
 
 		// Remember not to include linebreak in the end.
+		/// <summary>
+		/// The function translate FORWARD and BACKWARD instruction
+		/// </summary>
+		/// <param name="ins">FORWARD or BACKWARD instruction input</param>
+		/// <returns>FORWARD or BACKWARD instruction in C language</returns>
+		private static string SubTransMove(Instruction ins)
+		{
+			StringBuilder builder = new StringBuilder();
+			string command;
 
+			builder.Append(MOVE_SNIPPET
+				.Replace("#velocity_high", (((byte)((ins.paramList[0] / ins.paramList[1]) >> 8)) & 0x00FF).ToString())
+				.Replace("#velocity_low", ((byte)(ins.paramList[0] / ins.paramList[1]) & 0x00FF).ToString())
+				.Replace("#distance", ins.paramList[0].ToString()));
+			command = builder.ToString();
+
+			if (ins.paramList[0] > 0)
+				command = command.Replace("#operator", "<");
+			else
+				command = command.Replace("#operator", ">");
+		
+			return command;
+		}
+
+		/// <summary>
+		/// The function translate LEFT and RIGHT instruction
+		/// </summary>
+		/// <param name="ins">LEFT or RIGHT instruction input</param>
+		/// <returns>LEFT or RIGHT instruction in C language</returns>
+		private static string SubTransRotate(Instruction ins)
+		{
+			StringBuilder builder = new StringBuilder();
+			String command;
+
+			builder.Append(ROTATE_SNIPPET.Replace("#angle", ins.paramList[0].ToString()));
+			command = builder.ToString();
+			if (ins.paramList[0] > 0)
+			{
+				command = command.Replace("#radius_high", "0")
+						.Replace("#radius_low", "1")
+						.Replace("#operator", "<");
+			}
+			else
+			{
+				command = command.Replace("#radius_high", "255")
+						.Replace("#radius_low", "255")
+						.Replace("#operator", ">");
+			}
+
+			return command;
+		}
 
 		/// <summary>
 		/// The function translate DRIVE instruction
@@ -109,91 +159,11 @@ else
 		{
 			StringBuilder driveBuilder = new StringBuilder();
 			driveBuilder.Append(DRIVE_SNIPPET
-						.Replace("#velo_high", ((byte)(ins.paramList[0] >> 8) & 0x00FF).ToString())
-						.Replace("#velo_low", ((byte)ins.paramList[0] & 0x00FF).ToString())
+						.Replace("#velocity_high", ((byte)(ins.paramList[0] >> 8) & 0x00FF).ToString())
+						.Replace("#velocity_low", ((byte)ins.paramList[0] & 0x00FF).ToString())
 						.Replace("#angle_high", ((byte)(ins.paramList[1] >> 8) & 0x00FF).ToString())
 						.Replace("#angle_low", ((byte)ins.paramList[1] & 0x00FF).ToString()));
 			return driveBuilder.ToString();
-		}
-
-		/// <summary>
-		/// The function translate FORWARD and BACKWARD instruction
-		/// </summary>
-		/// <param name="ins">FORWARD or BACKWARD instruction input</param>
-		/// <returns>FORWARD or BACKWARD instruction in C language</returns>
-		private static string SubTransForwardBackward(Instruction ins)
-		{
-			StringBuilder builder = new StringBuilder();
-			string command;
-
-			builder.Append(FORWARD_BACKWARD_SNIPPET
-				.Replace("#velo_high", (((byte)((ins.paramList[0] / ins.paramList[1]) >> 8)) & 0x00FF).ToString())
-				.Replace("#velo_low", ((byte)(ins.paramList[0] / ins.paramList[1]) & 0x00FF).ToString())
-				.Replace("#distance", ins.paramList[0].ToString()));
-			command = builder.ToString();
-
-			if (ins.paramList[0] > 0)
-				command = command.Replace("#operator", "<");
-			else
-				command = command.Replace("#operator", ">");
-/*
-			switch(ins.opcode)
-			{
-				case Instruction.FORWARD:
-					command = command.Replace("#operator", "<");
-					break;
-
-				case Instruction.BACKWARD:
-					command = command.Replace("#operator", ">");
-					break;
-			}
-*/ 
-			return command;
-		}
-
-		/// <summary>
-		/// The function translate LEFT and RIGHT instruction
-		/// </summary>
-		/// <param name="ins">LEFT or RIGHT instruction input</param>
-		/// <returns>LEFT or RIGHT instruction in C language</returns>
-		private static string SubTransLeftRight(Instruction ins)
-		{
-			StringBuilder builder = new StringBuilder();
-			String command;
-
-			builder.Append(LEFT_RIGHT_SNIPPET.Replace("#angle", ins.paramList[0].ToString()));
-			command = builder.ToString();
-			if (ins.paramList[0] > 0)
-			{
-				command = command.Replace("#direction_high", "0")
-						.Replace("#direction_low", "1")
-						.Replace("#operator", "<");
-			}
-			else
-			{
-				command = command.Replace("#direction_high", "255")
-						.Replace("#direction_low", "255")
-						.Replace("#operator", ">");
-			}
-/*
-			switch (ins.opcode)
-			{
-				case Instruction.LEFT:
-					command = command.Replace("#direction_high", "0")
-						.Replace("#direction_low", "1")
-						.Replace("#operator", "<");
-					break;
-
-				case Instruction.RIGHT:
-					command = command.Replace("#direction_high", "255")
-						.Replace("#direction_low", "255")
-						.Replace("#operator", ">");
-
-					break;
-
-			}
-*/ 
-			return command;
 		}
 
 		/// <summary>
@@ -231,7 +201,7 @@ else
 
 			if (ins.opcode == Instruction.IF)
 				builder.Append(IF_SNIPPET.Replace("#condition", condition));
-			else 
+			else
 				builder.Append(LOOP_SNIPPET.Replace("#condition", condition));
 
 			return builder.ToString();
@@ -246,8 +216,8 @@ else
 		{
 			// C program builder
 			StringBuilder cBuilder = new StringBuilder();
-//			string operatorSymbol;
-//			string condition = "Condition Unassigned";
+			//			string operatorSymbol;
+			//			string condition = "Condition Unassigned";
 
 			switch (instruction.opcode)
 			{
@@ -255,10 +225,10 @@ else
 				// Trace to WC_3303
 				// As an ESS, I can drag and drop the built-in functions of the iRobot to control its behavior/movement. 
 				case Instruction.MOVE:
-					cBuilder.AppendLine(SubTransForwardBackward(instruction));
+					cBuilder.AppendLine(SubTransMove(instruction));
 					break;
 				case Instruction.ROTATE:
-					cBuilder.AppendLine(SubTransLeftRight(instruction));
+					cBuilder.AppendLine(SubTransRotate(instruction));
 					break;
 				case Instruction.DRIVE:
 					cBuilder.AppendLine(SubTransDrive(instruction));
@@ -321,7 +291,7 @@ else
 				// As an ESS, I can drag and drop if-then-else and for/while construct in which I can further drag 
 				// and drop the instructions/loop constructs. 
 				case Instruction.LOOP:
-					cBuilder.AppendLine(SubTransIfLoop(instruction));                    
+					cBuilder.AppendLine(SubTransIfLoop(instruction));
 					break;
 				case Instruction.END_LOOP:
 					cBuilder.AppendLine(END_LOOP_SNIPPET);
@@ -336,7 +306,7 @@ else
 		/// </summary>
 		/// <param name="program">High level igp program input</param>
 		/// <returns>C code of igp program</returns>
-		public static string TranslateProgram(HLProgram program)
+		public static string Translate(HLProgram program)
 		{
 
 			StringBuilder cBuilder = new StringBuilder();
@@ -351,15 +321,6 @@ else
 			return cBuilder.ToString();
 		}
 
-		/// <summary>
-		/// Translate high-level program string
-		/// </summary>
-		/// <param name="programString">High level igp program string input</param>
-		/// <returns>C code of igp program</returns>
-		public static string TranslateProgramString(string programString)
-		{
-			return TranslateProgram(new HLProgram(programString));
-		}
 
 		/// <summary>
 		/// This function translate high level igp program Emulator program
@@ -367,20 +328,11 @@ else
 		/// <param name="program">High level igp program input</param>
 		public static void TranlateProgramAndWrite(HLProgram program)
 		{
-			string cCode = Translator.TranslateProgram(program);
+			string cCode = Translator.Translate(program);
 			GenerateCSource(SourceType.Emulator, cCode);
 
 		}
 
-		/// <summary>
-		/// The function translate a high level instruction string to C code
-		/// </summary>
-		/// <param name="instructionString">Instruction string input</param>
-		/// <returns>Corresponding C code of instruction string</returns>
-		public static string TranslateInstructionString(string instructionString)
-		{
-			return TranslateInstruction(new Instruction(instructionString));
-		}
 
 		/// <summary>
 		/// The function put generated C code instruction into C file can be compiled

@@ -25,17 +25,11 @@ namespace iRobotGUI.Util
 
 			switch (ins.opcode)
 			{
-				case Instruction.FORWARD:
-					dlg = new ForwardWindow();
+				case Instruction.MOVE:
+					//dlg = new ForwardWindow();
 					break;
-				case Instruction.BACKWARD:
-					dlg = new BackwardWindow();
-					break;
-				case Instruction.LEFT:
-					dlg = new LeftWindow();
-					break;
-				case Instruction.RIGHT:
-					dlg = new RightWindow();
+				case Instruction.ROTATE:
+					//dlg = new BackwardWindow();
 					break;
 				case Instruction.LED:
 					dlg = new LedWindow();

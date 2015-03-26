@@ -323,7 +323,7 @@ namespace iRobotGUI
 
 		private void MenuItemTranslate_Click(object sender, RoutedEventArgs e)
 		{
-			string cCode = Translator.TranslateProgram(program);
+			string cCode = Translator.Translate(program);
 
 			Translator.GenerateCSource(Translator.SourceType.Microcontroller, cCode);
 			Translator.GenerateCSource(Translator.SourceType.Emulator, cCode);
