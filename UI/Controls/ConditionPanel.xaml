@@ -1,60 +1,47 @@
 ﻿<UserControl x:Class="iRobotGUI.Controls.ConditionPanel"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="98" d:DesignWidth="231">
-    <Grid >
-        <ComboBox x:Name="comboBoxSensor" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="117" SelectedIndex="0" SelectionChanged="comboBoxSensor_SelectionChanged">
-            <ComboBox.Resources>
-                <Style TargetType="Image">
-                    <Setter Property="Width" Value="45" />
-                    <Setter Property="Height" Value="45" />
-                    <Setter Property="Stretch" Value="Fill" />
-                    <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-                    <Setter Property="ToolTipService.ShowDuration" Value="100000" />
-                </Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                </Style>
-            </ComboBox.Resources>
-            <ComboBoxItem>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/iRobotGUI;component/pic/cliff.jpg" />
-                    <TextBlock>Cliff</TextBlock>
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/iRobotGUI;component/pic/bump.jpg" />
-                    <TextBlock>Bump</TextBlock>
-                </StackPanel>
-            </ComboBoxItem>
-        </ComboBox>
-        <ComboBox x:Name="comboBoxOperator" HorizontalAlignment="Left" Margin="132,24,0,0" VerticalAlignment="Top" Width="36" SelectedIndex="0" SelectionChanged="comboBoxOperator_SelectionChanged">
-            <ComboBoxItem>
-                <TextBlock>=</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock>≠</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock>&gt;</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock>≥</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock>&lt;</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock>≤</TextBlock>
-            </ComboBoxItem>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:local="clr-namespace:iRobotGUI"
+			 mc:Ignorable="d" 
+			 d:DesignHeight="98" d:DesignWidth="231">
+	<Grid >
 
-        </ComboBox>
-        <TextBox x:Name="textBoxNum"  HorizontalAlignment="Left" Margin="173,24,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="22" Width="42" TextChanged="textBoxNum_TextChanged" PreviewTextInput="textBoxNum_PreviewTextInput"/>
-        <Label x:Name="labelCondition" Content="Condition" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top"/>
+		<ComboBox x:Name="comboBoxSensor" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="117" SelectedIndex="0" SelectionChanged="comboBoxSensor_SelectionChanged" Height="51">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<Image Source="/iRobotGUI;component/pic/cliff.jpg" Width="40" Height="40" />
+						<TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center"/>
+					</StackPanel>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+		
+		<ComboBox x:Name="comboBoxOperator" HorizontalAlignment="Left" Margin="132,24,0,0" VerticalAlignment="Top" Width="36" SelectedIndex="0" SelectionChanged="comboBoxOperator_SelectionChanged">
+			<ComboBoxItem>
+				<TextBlock>=</TextBlock>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<TextBlock>≠</TextBlock>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<TextBlock>&gt;</TextBlock>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<TextBlock>≥</TextBlock>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<TextBlock>&lt;</TextBlock>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<TextBlock>≤</TextBlock>
+			</ComboBoxItem>
 
-    </Grid>
+		</ComboBox>
+		<TextBox x:Name="textBoxNum"  HorizontalAlignment="Left" Margin="173,24,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="22" Width="42" TextChanged="textBoxNum_TextChanged" PreviewTextInput="textBoxNum_PreviewTextInput"/>
+		<Label x:Name="labelCondition" Content="Condition" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top"/>
+
+	</Grid>
 </UserControl>

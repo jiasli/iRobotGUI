@@ -27,7 +27,10 @@ namespace iRobotGUI.Controls
 		public ConditionPanel()
 		{
 			condition = new InsCondition();
+
 			InitializeComponent();
+			comboBoxSensor.ItemsSource = Sensor.sensorList;
+
 			UpdateConditionLabel();
 		}
 
@@ -53,7 +56,7 @@ namespace iRobotGUI.Controls
 
 		private void comboBoxSensor_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			condition.sensor = comboBoxSensor.SelectedIndex;
+			condition.sensor = (comboBoxSensor.SelectedItem as Sensor).Number;
 			UpdateConditionLabel();
 		}
 

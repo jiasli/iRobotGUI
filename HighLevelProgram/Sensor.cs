@@ -1,7 +1,7 @@
 ﻿
 namespace iRobotGUI
 {
-	public static class Sensor
+	public class Sensor
 	{
 		#region iRobot Open API defined
 		public const int SenBumpDrop = 0;
@@ -39,9 +39,30 @@ namespace iRobotGUI
 		// distance += (int)((sensors[SenDist1] << 8) | sensors[SenDist0]);
 		// angle += (int)((sensors[SenAng1] << 8) | sensors[SenAng0]);
 		public const int CompoundSensorBase = 100;
-		public const int distance           = 101;
-		public const int angle              = 102;
+		public const int distance = 101;
+		public const int angle = 102;
 		#endregion
+
+		public string DisplayName { get; set; }
+		public string Picture { get; set; }
+		public int Number { get; set; }
+
+		public static Sensor[] sensorList = new Sensor[] {
+			new Sensor("Wall", null, 1),
+			new Sensor("Cliff Left", "cliff.jpg", 2),
+			new Sensor("Cliff Front Left",  null, 3),
+			new Sensor("Cliff Front Right", null,  4),
+			new Sensor("Cliff Right",  null, 5),
+			new Sensor("Virtual Wall",  null, 6),
+			new Sensor("Charging State",  null, 16),
+		};
+
+		public Sensor(string displayName, string picture, int number)
+		{
+			this.DisplayName = displayName;
+			this.Picture = picture;
+			this.Number = number;
+		}
 
 		public enum SensorType
 		{
@@ -82,10 +103,10 @@ namespace iRobotGUI
 		{
 			if (sensorNo < CompoundSensorBase)
 				return SensorType.BuiltIn;
-			else 
+			else
 				return SensorType.Compound;
 		}
 
-	
+
 	}
 }
