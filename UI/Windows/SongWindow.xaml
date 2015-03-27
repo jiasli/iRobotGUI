@@ -1,35 +1,41 @@
 ﻿<src:BaseParamWindow
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:src ="clr-namespace:iRobotGUI"
-        xmlns:wf="clr-namespace:Sanford.Multimedia.Midi.UI;assembly=Sanford.Multimedia.Midi"
-        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="iRobotGUI.SongWindow"
-        Title="Song" Height="520" Width="700" Loaded="Window_Loaded" WindowStartupLocation="CenterOwner">
-    <Grid>
-        <ComboBox x:Name="comboBoxSongNo" HorizontalAlignment="Left" Margin="185,12,0,0" VerticalAlignment="Top" Width="201" Height="22" />
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:src ="clr-namespace:iRobotGUI"
+		xmlns:wf="clr-namespace:Sanford.Multimedia.Midi.UI;assembly=Sanford.Multimedia.Midi"
+		xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="iRobotGUI.SongWindow"
+		xmlns:custom="clr-namespace:iRobotGUI"
+		Title="Song" Height="520" Width="700" Loaded="Window_Loaded" WindowStartupLocation="CenterOwner" Closing="Window_Closing">
+	<Window.CommandBindings>
+		<CommandBinding Command="{x:Static custom:SongWindow.MoveUpCmd}" Executed="CommandMoveUp_Executed" CanExecute="CommandMoveUp_CanExecute" />
+		<CommandBinding Command="{x:Static custom:SongWindow.MoveDownCmd}" Executed="CommandMoveDown_Executed" CanExecute="CommandMoveDown_CanExecute" />
+		<CommandBinding Command="{x:Static custom:SongWindow.DeleteCmd}" Executed="CommandDelete_Executed" CanExecute="CommandDelete_CanExecute" />
+	</Window.CommandBindings>
+	<Grid>
+		<ComboBox x:Name="comboBoxSongNo" HorizontalAlignment="Left" Margin="185,12,0,0" VerticalAlignment="Top" Width="201" Height="22" />
 
-        <ListView x:Name="listViewNotes" HorizontalAlignment="Left" Height="222" Margin="185,50,0,0" VerticalAlignment="Top" Width="201" SelectionChanged="listViewNotes_SelectionChanged">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="{Binding Number}" />
-                        <Label Content="{Binding Duration}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+		<ListView x:Name="listViewNotes" HorizontalAlignment="Left" Height="222" Margin="185,50,0,0" VerticalAlignment="Top" Width="201" SelectionChanged="listViewNotes_SelectionChanged">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<Label Content="{Binding Number}" />
+						<Label Content="{Binding Duration}" />
+					</StackPanel>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
 
-        <Button x:Name="buttonNew" Content="New" HorizontalAlignment="Left" Margin="144,76,0,0" VerticalAlignment="Top" Width="36" Height="36" Click="buttonNew_Click"/>
-        <Button x:Name="buttonMoveUp" Content="▴" HorizontalAlignment="Left" Margin="144,119,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22" Click="buttonMoveUp_Click"/>
-        <Button x:Name="buttonMoveDown" Content="▾" HorizontalAlignment="Left" Margin="144,159,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22" Click="buttonMoveDown_Click"/>
-        <Button x:Name="buttonDelete" Content="⨯" HorizontalAlignment="Left" Margin="144,199,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="20" Click="buttonDelete_Click"/>
-        <Slider x:Name="sliderDuration" HorizontalAlignment="Left" Margin="420,90,0,0" VerticalAlignment="Top" Width="169" Maximum="255" TickFrequency="16" ValueChanged="sliderDuration_ValueChanged" TickPlacement="TopLeft" SmallChange="16" IsSnapToTickEnabled="True" LargeChange="16"/>
-        <Button x:Name="buttonClear" Content="Clear" HorizontalAlignment="Left" Margin="420,159,0,0" VerticalAlignment="Top" Click="buttonClear_Click" Width="87"/>
+		<Button x:Name="buttonNew" Content="New" HorizontalAlignment="Left" Margin="144,76,0,0" VerticalAlignment="Top" Width="36" Height="36" Click="buttonNew_Click"/>
+		<Button x:Name="buttonMoveUp" Content="▴" Command="{x:Static custom:SongWindow.MoveUpCmd}" HorizontalAlignment="Left" Margin="144,119,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22"/>
+		<Button x:Name="buttonMoveDown" Content="▾" Command="{x:Static custom:SongWindow.MoveDownCmd}" HorizontalAlignment="Left" Margin="144,159,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22" />
+		<Button x:Name="buttonDelete" Content="⨯" Command="{x:Static custom:SongWindow.DeleteCmd}" HorizontalAlignment="Left" Margin="144,199,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="20" />
+		<Slider x:Name="sliderDuration" HorizontalAlignment="Left" Margin="420,90,0,0" VerticalAlignment="Top" Width="169" Maximum="255" TickFrequency="16" ValueChanged="sliderDuration_ValueChanged" TickPlacement="TopLeft" SmallChange="16" IsSnapToTickEnabled="True" LargeChange="16"/>
+		<Button x:Name="buttonClear" Content="Clear" HorizontalAlignment="Left" Margin="420,159,0,0" VerticalAlignment="Top" Click="buttonClear_Click" Width="87"/>
 
-        <ScrollViewer Height="179" Margin="0,292,0,10" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" >
-            <WindowsFormsHost Width="1200" >
-                <wf:PianoControl x:Name="pianoKeyboard" PianoKeyDown="pianoKeyboard_PianoKeyDown" LowNoteID="31" HighNoteID="127" PianoKeyUp="pianoKeyboard_PianoKeyUp" />
-            </WindowsFormsHost>
-        </ScrollViewer>
-    </Grid>
+		<ScrollViewer Height="179" Margin="0,292,0,10" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" >
+			<WindowsFormsHost Width="1200" >
+				<wf:PianoControl x:Name="pianoKeyboard" PianoKeyDown="pianoKeyboard_PianoKeyDown" LowNoteID="31" HighNoteID="127" PianoKeyUp="pianoKeyboard_PianoKeyUp" />
+			</WindowsFormsHost>
+		</ScrollViewer>
+	</Grid>
 </src:BaseParamWindow>

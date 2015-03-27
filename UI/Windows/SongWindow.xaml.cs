@@ -96,6 +96,10 @@ namespace iRobotGUI
 	/// </summary>
 	public partial class SongWindow : BaseParamWindow
 	{
+		public static RoutedCommand DeleteCmd = new RoutedCommand();
+		public static RoutedCommand MoveDownCmd = new RoutedCommand();
+		public static RoutedCommand MoveUpCmd = new RoutedCommand();
+
 		private ObservableCollection<Note> noteList;
 		private OutputDevice outDevice;
 
@@ -149,46 +153,13 @@ namespace iRobotGUI
 			}
 		}
 
-		protected override void OnClosed(EventArgs e)
-		{
-			if (outDevice != null)
-			{
-				outDevice.Dispose();
-			}
-			base.OnClosed(e);
-		}
 
 		private void buttonClear_Click(object sender, RoutedEventArgs e)
 		{
 			noteList.Clear();
 		}
 
-		private void buttonDelete_Click(object sender, RoutedEventArgs e)
-		{
-			int select = listViewNotes.SelectedIndex;
-			noteList.RemoveAt(listViewNotes.SelectedIndex);
 
-			if (select == noteList.Count)
-			{
-				// Select the preview one if the tail is deleted.
-				listViewNotes.SelectedIndex = select - 1;
-			}
-			else
-			{
-				// Select the next one if a body is deleted.
-				listViewNotes.SelectedIndex = select;
-			}
-		}
-
-		private void buttonMoveDown_Click(object sender, RoutedEventArgs e)
-		{
-			noteList.Move(listViewNotes.SelectedIndex, listViewNotes.SelectedIndex + 1);
-		}
-
-		private void buttonMoveUp_Click(object sender, RoutedEventArgs e)
-		{
-			noteList.Move(listViewNotes.SelectedIndex, listViewNotes.SelectedIndex - 1);
-		}
 		private void buttonNew_Click(object sender, RoutedEventArgs e)
 		{
 			noteList.Clear();
@@ -228,12 +199,9 @@ namespace iRobotGUI
 			Note note = new Note(e.NoteID);
 
 			// Insert a note to current position
-			if (listViewNotes.SelectedIndex >= 0)
-				noteList.Insert(listViewNotes.SelectedIndex, note);
-			else
-			{
-				noteList.Add(note);				
-			}
+			noteList.Add(note);
+			listViewNotes.SelectedIndex = listViewNotes.Items.Count - 1;
+
 			listViewNotes.UpdateLayout();
 			listViewNotes.ScrollIntoView(listViewNotes.SelectedItem);
 
@@ -264,6 +232,68 @@ namespace iRobotGUI
 			}	
 
 			outDevice = new OutputDevice(0);
+		}
+
+		#region Command Handler
+
+		private void CommandDelete_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (listViewNotes.SelectedIndex >= 0)
+				e.CanExecute = true;
+			else
+				e.CanExecute = false;
+		}
+
+		private void CommandDelete_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			int select = listViewNotes.SelectedIndex;
+			noteList.RemoveAt(listViewNotes.SelectedIndex);
+
+			if (select == noteList.Count)
+			{
+				// Select the preview one if the tail is deleted.
+				listViewNotes.SelectedIndex = select - 1;
+			}
+			else
+			{
+				// Select the next one if a body is deleted.
+				listViewNotes.SelectedIndex = select;
+			}
+		}
+
+		private void CommandMoveDown_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (listViewNotes.SelectedIndex < listViewNotes.Items.Count - 1 && listViewNotes.SelectedIndex >= 0)
+				e.CanExecute = true;
+			else
+				e.CanExecute = false;
+		}
+
+		private void CommandMoveDown_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			noteList.Move(listViewNotes.SelectedIndex, listViewNotes.SelectedIndex + 1);
+		}
+
+		private void CommandMoveUp_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (listViewNotes.SelectedIndex > 0)
+				e.CanExecute = true;
+			else
+				e.CanExecute = false;
+		}
+
+		private void CommandMoveUp_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			noteList.Move(listViewNotes.SelectedIndex, listViewNotes.SelectedIndex - 1);
+		}
+		#endregion
+
+		private void Window_Closing(object sender, CancelEventArgs e)
+		{
+			if (outDevice != null)
+			{
+				outDevice.Dispose();
+			}
 		}
 	}
 }
