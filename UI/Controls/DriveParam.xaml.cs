@@ -91,9 +91,9 @@ namespace iRobotGUI.Controls
 				this.Angle = radiusToAngle(this.radius);
                 ///rotate the control image by specified number of degrees:
                 RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle));
-                rotateTransform1.CenterX = (this.ActualWidth)/2;
-                rotateTransform1.CenterY = (this.ActualHeight)/2;
-                RotateGrid.RenderTransform = rotateTransform1;
+                rotateTransform1.CenterX = 75;
+                rotateTransform1.CenterY = 75;
+                ellipse.RenderTransform = rotateTransform1;
 
             }
         }
@@ -120,7 +120,7 @@ namespace iRobotGUI.Controls
                RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle));
                rotateTransform1.CenterX = 75;
                rotateTransform1.CenterY = 75;
-               RotateGrid.RenderTransform = rotateTransform1;
+               ellipse.RenderTransform = rotateTransform1;
 				///update textbox text:
 			   textbox1.Text = Ins.paramList[1].ToString();
             }
@@ -140,18 +140,20 @@ namespace iRobotGUI.Controls
 
 		private void textbox1_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			int new_radius = int.Parse(textbox1.Text);
-			Ins.paramList[1] = new_radius; /// update rotation radius
-			this.Angle = radiusToAngle(new_radius); ///update the angle
-			RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle)); /// now lets rotate wheel control
-			rotateTransform1.CenterX = 75;
-			rotateTransform1.CenterY = 75;
-			RotateGrid.RenderTransform = rotateTransform1;
-			
+			if (textbox1.Text.Length != 0)
+			{
+				int new_radius = int.Parse(textbox1.Text);
+				Ins.paramList[1] = new_radius; /// update rotation radius
+				this.Angle = radiusToAngle(new_radius); ///update the angle
+				RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle)); /// now lets rotate wheel control
+				rotateTransform1.CenterX = 75;
+				rotateTransform1.CenterY = 75;
+				ellipse.RenderTransform = rotateTransform1;
+			}
 		}
 		private bool isTextAllowed(string txt)
 		{
-			Regex regex = new Regex("[0-9]"); //regex that matches allowed text
+			Regex regex = new Regex("[-0-9]"); //regex that matches allowed text
 			if (!regex.IsMatch(txt))
 			{
 				return false;

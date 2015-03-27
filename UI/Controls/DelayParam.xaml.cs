@@ -29,7 +29,7 @@ namespace iRobotGUI.Controls
 			set
 			{
 				base.Ins = value;				
-				SliderDuration.Value = Ins.paramList[1];
+				SliderDuration.Value = Ins.paramList[0];
 			}
 		}
 		private void SliderDuration_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

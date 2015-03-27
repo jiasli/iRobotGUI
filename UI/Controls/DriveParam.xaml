@@ -81,13 +81,13 @@
 		<TextBox x:Name="textbox1" Margin="32,195,164,85" TextChanged="textbox1_TextChanged" PreviewTextInput="textbox1_PreviewTextInput"/>
 		<Label Content="Velocity" Margin="204,219,23,40" FontSize="14"/>
 		<Label Content="Radius" FontSize="14" Margin="53,219,177,41" RenderTransformOrigin="0.482,0.286"/>
-		<Grid x:Name="RotateGrid">
-			<Ellipse Width="150" Height="150" Margin="10,32,140,118">
+		
+			<Ellipse x:Name="ellipse" Width="150" Height="150" Margin="10,32,140,118">
 				<Ellipse.Fill>
 					<ImageBrush ImageSource="/pic/drive.jpg"/>
 				</Ellipse.Fill>
 
 			</Ellipse>
-		</Grid>
+	
 	</Grid>
 </src:BaseParamControl>
