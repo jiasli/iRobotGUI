@@ -96,7 +96,10 @@ namespace iRobotGUI
 	/// </summary>
 	public partial class SongWindow : BaseParamWindow
 	{
-		public string songInsStr;
+		public static RoutedCommand DeleteCmd = new RoutedCommand();
+		public static RoutedCommand MoveDownCmd = new RoutedCommand();
+		public static RoutedCommand MoveUpCmd = new RoutedCommand();
+
 		private ObservableCollection<Note> noteList;
 		private OutputDevice outDevice;
 
@@ -131,18 +134,18 @@ namespace iRobotGUI
 			}
 			set
 			{
-
-				base.Ins = value;
+				Instruction ins = value;
+				base.Ins = ins;
 
 				// 1. Set song No.
-				comboBoxSongNo.SelectedIndex = Ins.paramList[0];
+				comboBoxSongNo.SelectedIndex = ins.paramList[0];
 
 				// 2. Display the song
 				noteList = new ObservableCollection<Note>();
 				int i = 1;
-				while (i < Ins.paramList.Count)
+				while (i < ins.paramList.Count)
 				{
-					noteList.Add(new Note(Ins.paramList[i], Ins.paramList[i + 1]));
+					noteList.Add(new Note(ins.paramList[i], ins.paramList[i + 1]));
 					i += 2;
 				}
 				listViewNotes.ItemsSource = noteList;
@@ -150,45 +153,22 @@ namespace iRobotGUI
 			}
 		}
 
-		protected override void OnClosed(EventArgs e)
+
+		private void buttonClear_Click(object sender, RoutedEventArgs e)
 		{
-			if (outDevice != null)
-			{
-				outDevice.Dispose();
-			}
-			base.OnClosed(e);
+			noteList.Clear();
 		}
 
-		private void buttonDelete_Click(object sender, RoutedEventArgs e)
-		{
-			int select = listViewNotes.SelectedIndex;
-			noteList.RemoveAt(listViewNotes.SelectedIndex);
 
-			if (select == noteList.Count)
-			{
-				// Select the preview one if the tail is deleted.
-				listViewNotes.SelectedIndex = select - 1;
-			}
-			else
-			{
-				// Select the next one if a body is deleted.
-				listViewNotes.SelectedIndex = select;
-			}
-		}
-
-		private void buttonMoveDown_Click(object sender, RoutedEventArgs e)
-		{
-			noteList.Move(listViewNotes.SelectedIndex, listViewNotes.SelectedIndex + 1);
-		}
-
-		private void buttonMoveUp_Click(object sender, RoutedEventArgs e)
-		{
-			noteList.Move(listViewNotes.SelectedIndex, listViewNotes.SelectedIndex - 1);
-		}
 		private void buttonNew_Click(object sender, RoutedEventArgs e)
 		{
 			noteList.Clear();
-		}		
+		}
+
+		private void comboBoxSongNo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Ins.paramList[0] = comboBoxSongNo.SelectedIndex;
+		}
 
 		/// <summary>
 		/// Get the string of SONG_DEF
@@ -205,20 +185,32 @@ namespace iRobotGUI
 			return sb.ToString();
 		}
 
+		private void listViewNotes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Note n = listViewNotes.SelectedItem as Note;
+			if (n != null)
+			{
+				sliderDuration.Value = n.Duration;				
+			}
+		}
+
 		private void pianoKeyboard_PianoKeyDown(object sender, PianoKeyEventArgs e)
 		{
 			Note note = new Note(e.NoteID);
+
 			// Insert a note to current position
-			if (listViewNotes.SelectedIndex >= 0)
-				noteList.Insert(listViewNotes.SelectedIndex, note);
-			else noteList.Add(note);
+			noteList.Add(note);
+			listViewNotes.SelectedIndex = listViewNotes.Items.Count - 1;
+
+			listViewNotes.UpdateLayout();
+			listViewNotes.ScrollIntoView(listViewNotes.SelectedItem);
+
 			outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
 
 		}
 
 		private void pianoKeyboard_PianoKeyUp(object sender, PianoKeyEventArgs e)
 		{
-
 			outDevice.Send(new ChannelMessage(ChannelCommand.NoteOff, 0, e.NoteID, 0));
 		}
 
@@ -237,23 +229,71 @@ namespace iRobotGUI
 				ComboBoxItem item = new ComboBoxItem();
 				item.Content = i.ToString();
 				comboBoxSongNo.Items.Add(item);
-			}
-
-			if (!string.IsNullOrEmpty(songInsStr))
-				if (Validator.ValidateInstruction(songInsStr))
-					Ins = new Instruction(songInsStr);
+			}	
 
 			outDevice = new OutputDevice(0);
 		}
 
-		private void listViewNotes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		#region Command Handler
+
+		private void CommandDelete_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			sliderDuration.Value = (listViewNotes.SelectedItem as Note).Duration;
+			if (listViewNotes.SelectedIndex >= 0)
+				e.CanExecute = true;
+			else
+				e.CanExecute = false;
 		}
 
-		private void comboBoxSongNo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void CommandDelete_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			Ins.paramList[0] = comboBoxSongNo.SelectedIndex;
+			int select = listViewNotes.SelectedIndex;
+			noteList.RemoveAt(listViewNotes.SelectedIndex);
+
+			if (select == noteList.Count)
+			{
+				// Select the preview one if the tail is deleted.
+				listViewNotes.SelectedIndex = select - 1;
+			}
+			else
+			{
+				// Select the next one if a body is deleted.
+				listViewNotes.SelectedIndex = select;
+			}
+		}
+
+		private void CommandMoveDown_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (listViewNotes.SelectedIndex < listViewNotes.Items.Count - 1 && listViewNotes.SelectedIndex >= 0)
+				e.CanExecute = true;
+			else
+				e.CanExecute = false;
+		}
+
+		private void CommandMoveDown_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			noteList.Move(listViewNotes.SelectedIndex, listViewNotes.SelectedIndex + 1);
+		}
+
+		private void CommandMoveUp_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (listViewNotes.SelectedIndex > 0)
+				e.CanExecute = true;
+			else
+				e.CanExecute = false;
+		}
+
+		private void CommandMoveUp_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			noteList.Move(listViewNotes.SelectedIndex, listViewNotes.SelectedIndex - 1);
+		}
+		#endregion
+
+		private void Window_Closing(object sender, CancelEventArgs e)
+		{
+			if (outDevice != null)
+			{
+				outDevice.Dispose();
+			}
 		}
 	}
 }

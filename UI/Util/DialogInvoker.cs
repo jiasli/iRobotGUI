@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,14 +25,11 @@ namespace iRobotGUI.Util
 
 			switch (ins.opcode)
 			{
-				case Instruction.FORWARD:
-					dlg = new ForwardWindow();
+				case Instruction.MOVE:
+					dlg = new MoveWindow();
 					break;
-				case Instruction.LEFT:
-					dlg = new LeftWindow();
-					break;
-				case Instruction.RIGHT:
-					dlg = new RightWindow();
+				case Instruction.ROTATE:
+					dlg = new RotateWindow();
 					break;
 				case Instruction.LED:
 					dlg = new LedWindow();
@@ -42,9 +40,13 @@ namespace iRobotGUI.Util
 				case Instruction.DEMO:
 					dlg = new DemoWindow();
 					break;
-				case Instruction.BACKWARD:
-					dlg = new BackwardWindow();
+				case Instruction.DRIVE:
+					dlg = new DriveWindow();
 					break;
+				case Instruction.DELAY:
+					dlg = new DelayWindow();
+					break;
+
 			}
 
 			if (dlg != null)
@@ -52,7 +54,11 @@ namespace iRobotGUI.Util
 				dlg.Owner = owner;
 				dlg.Ins = ins;
 				dlg.ShowDialog();
-				return ins;
+
+				// Alway read from the Window. There is no guarantee that the original Instruction is modified.
+				Instruction result = dlg.Ins;
+				Debug.WriteLine(result);
+				return dlg.Ins;
 			}
 			else
 			{
@@ -75,7 +81,7 @@ namespace iRobotGUI.Util
 				dlg.Owner = owner;
 				dlg.SubProgram = program;
 				dlg.ShowDialog();
-				return program;
+				return dlg.SubProgram;
 			}
 			else if (program[0].opcode == Instruction.LOOP)
 			{
@@ -83,7 +89,7 @@ namespace iRobotGUI.Util
 				dlg.Owner = owner;
 				dlg.SubProgram = program;
 				dlg.ShowDialog();
-				return program;
+				return dlg.SubProgram;
 			}
 			return null;
 		}

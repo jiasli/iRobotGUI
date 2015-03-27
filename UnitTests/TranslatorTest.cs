@@ -24,7 +24,7 @@ namespace iRobotGUI.Tests
         public void TranslatePrintProgString(string actualProg)
         {
             string input = actualProg.Trim();
-            string Actual_Program = Translator.TranslateProgram(new HLProgram(input));
+            string Actual_Program = Translator.Translate(new HLProgram(input));
             Console.WriteLine(Actual_Program);
             Assert.IsNotNull(Actual_Program);
         }

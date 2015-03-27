@@ -29,20 +29,22 @@ namespace TranslatorConsole
 
 			try
 			{
-				string input_program = File.ReadAllText(fileName);
-				string output_program;
-				Console.WriteLine(input_program + "\n>>>>>>>>>\n");
-				output_program = Translator.TranslateProgramString(input_program);
-				Console.WriteLine(output_program);
+				string igpStr = File.ReadAllText(fileName);
+				string cProgram;
+
+				Console.WriteLine(igpStr + "\n>>>>>>>>>\n");
+				cProgram = Translator.Translate(new HLProgram(igpStr));
+				Console.WriteLine(cProgram);
+
 				string c_program = File.ReadAllText("mc_t.c");
-				c_program = c_program.Replace("##main_program##", output_program);
-				File.WriteAllText("testTrans2.c", c_program);
+				c_program = c_program.Replace("##main_program##", cProgram);
+				File.WriteAllText("console_o.c", c_program);
 			}
 			catch (InstructionException e)
 			{
 				Console.WriteLine(e.Line + " " + e.InsStr);
 			}
-			Console.Read();
+			Console.ReadLine();
 		}
 	}
 }

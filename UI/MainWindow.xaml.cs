@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using iRobotGUI.WinAvr;
+using System.Diagnostics;
 
 namespace iRobotGUI
 {
@@ -23,19 +24,23 @@ namespace iRobotGUI
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public static RoutedCommand ComPortCmd = new RoutedUICommand("Load Configuration", "comn", typeof(Window));
+		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window));
 
-		private string fileName;
-
+		private string cFile = "mc_o.c";
+		private string igpFile;
 		private HLProgram program;
 
 		public MainWindow()
 		{
-
 			InitializeComponent();
+
+			// Set the current folder to cprogram
 			Directory.SetCurrentDirectory(@".");
+
 			program = new HLProgram();
-			ProgramList1.Program = program;
+			programList1.Program = program;
+
+			textBlockStatus.Text = "new file";
 		}
 
 		#region Commands
@@ -68,6 +73,18 @@ namespace iRobotGUI
 		}
 
 		/// <summary>
+		/// Create a new HLProgram and pass it to ProgramList
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="e"></param>
+		void NewCmdExecuted(object target, ExecutedRoutedEventArgs e)
+		{
+			igpFile = null;
+			program = new HLProgram();
+			programList1.Program = program;
+		}
+
+		/// <summary>
 		/// Show a open dialog to let user choose the igp file to be loaded
 		/// </summary>
 		/// <param name="target"></param>
@@ -87,25 +104,27 @@ namespace iRobotGUI
 			if (result == true)
 			{
 				// Open document 
-				fileName = dlg.FileName;
-				LoadProgram(fileName);
+				igpFile = dlg.FileName;
+				OpenProgram(igpFile);
+				textBlockStatus.Text = igpFile;
 			}
 		}
 
 
 		/// <summary>
-		/// Save the program to an igp file.
+		/// Save the program as an igp file.
 		/// Traceability: WC_3305, As an ESS, I can create, save and load program files.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SaveCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		private void SaveAsCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
 			// Configure save file dialog box
 			Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-			dlg.FileName = "Instruction"; // Default file name
-			dlg.DefaultExt = ".ins"; // Default file extension
-			dlg.Filter = "Text documents (.ins)|*.ins"; // Filter files by extension 
+			dlg.InitialDirectory = Directory.GetCurrentDirectory();
+			dlg.FileName = igpFile; // Default file name
+			dlg.DefaultExt = ".igp"; // Default file extension
+			dlg.Filter = "Text documents|*.igp"; // Filter files by extension 
 
 			// Show save file dialog box
 			Nullable<bool> result = dlg.ShowDialog();
@@ -115,6 +134,26 @@ namespace iRobotGUI
 			{
 				// Save document 
 				string filename = dlg.FileName;
+				SaveProgram(filename);
+			}
+		}
+
+		/// <summary>
+		/// Save the program to an igp file.
+		/// Traceability: WC_3305, As an ESS, I can create, save and load program files.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SaveCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			if (String.IsNullOrEmpty(igpFile))
+			{
+				// If no file is currently opened, call SaveAs.
+				SaveAsCmdExecuted(sender, e);
+			}
+			else
+			{
+				SaveProgram(igpFile);
 			}
 		}
 		#endregion
@@ -123,36 +162,65 @@ namespace iRobotGUI
 
 		#region Private Methods
 		/// <summary>
-		/// Translate igp file to C file and compile it to executable program using WinAVR and load it to iRobot.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void BuildAndLoad(object sender, RoutedEventArgs e)
-		{
-			MessageBox.Show(System.IO.Directory.GetCurrentDirectory());
-			string template = File.ReadAllText(@"template.c");
-			File.WriteAllText(@"output.c", template);
-			MessageBox.Show("Compiling and loading succeeded");
-		}
-
-		/// <summary>
 		/// Load program from file.
 		/// </summary>
-		/// <param name="filePath"></param>
-		private void LoadProgram(string filePath)
+		/// <param name="filePath">Path of file.</param>
+		private void OpenProgram(string filePath)
 		{
 			try
 			{
-				ProgramList1.Program = program = new HLProgram(File.ReadAllText(filePath));                
+				string proStr = File.ReadAllText(filePath);
+				program = new HLProgram(proStr);
+				programList1.Program = program;
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);              
-			}      			
+				MessageBox.Show(ex.Message);
+			}
+		}
+
+		private void OpenSrcCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (!String.IsNullOrEmpty(igpFile))
+			{
+				e.CanExecute = true;
+			}
+			else
+			{
+				e.CanExecute = false;
+			}
+		}
+
+		private void OpenSrcCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			Process.Start(igpFile);
+		}
+
+		/// <summary>
+		/// Save program from file.
+		/// </summary>
+		/// <param name="filePath"></param>
+		private void SaveProgram(string filePath)
+		{
+			try
+			{
+				string proStr = programList1.Program.ToString();
+				program = programList1.Program;
+				File.WriteAllText(filePath, proStr);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
+
+		private void ShowWinAvrError()
+		{
+			MessageBox.Show("Fail to execute. Check if WinAVR is installed correctly.", "Fail", MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 		#endregion
 
-			  
+
 
 		#region Control Callbacks
 
@@ -161,24 +229,32 @@ namespace iRobotGUI
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void ButtonLoadExampleCode_Click(object sender, RoutedEventArgs e)
+		private void buttonLoadExampleCode_Click(object sender, RoutedEventArgs e)
 		{
-			LoadProgram("song.igp");
-		}	
+			OpenProgram("song.igp");
+		}
 
+		private void buttonRefreshSource_Click(object sender, RoutedEventArgs e)
+		{
+			HLProgram program = programList1.Program;
+			textBoxSrc.Text = program.ToString();
+		}
 		#endregion
 
 
-
-
-	
-
 		#region Menu callbacks
-
-		private void MenuItem_ShowCCode(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Translate igp file to C file and compile it to executable program using WinAVR and load it to iRobot.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MenuItemTranslateBuildLoad_Click(object sender, RoutedEventArgs e)
 		{
-			System.Diagnostics.Process.Start(@"output.c");
+			MenuItemTranslate_Click(sender, e);
+			MenuItemBuild_Click(sender, e);
+			MenuItemLoad_Click(sender, e);
 		}
+
 		private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBox.Show("Mission Science iRobots\nUSC CSCI-577 Team 07");
@@ -190,39 +266,79 @@ namespace iRobotGUI
 			//errorWin.Show();
 			//  WinAvrConnector.Clean();
 
+			try
+			{
+				WinAvrConnector.Make();
+			}
+			catch (Exception ex)
+			{
+				ShowWinAvrError();
+			}
 
-			WinAvrConnector.Make();
 		}
-
 
 		private void MenuItemClean_Click(object sender, RoutedEventArgs e)
 		{
-			File.Delete("C_result.c");
-			WinAvrConnector.Clean();
+			try
+			{
+				File.Delete("C_result.c");
+				WinAvrConnector.Clean();
+			}
+			catch (Exception)
+			{
+				ShowWinAvrError();
+			}
 		}
 
 		private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
 		{
-			WinAvrConnector.Load();
+			try
+			{
+				WinAvrConnector.Load();
+			}
+			catch (Exception)
+			{
+				ShowWinAvrError();
+			}
+		}
+
+		private void MenuItemSettings_Click(object sender, RoutedEventArgs e)
+		{
+			SettingsWindow sw = new SettingsWindow();
+
+			sw.Owner = this;
+			sw.ShowDialog();
+		}
+
+		private void MenuItemShowCCode_Click(object sender, RoutedEventArgs e)
+		{
+			System.Diagnostics.Process.Start(cFile);
+		}
+		private void MenuItemShowSrcFolder_Click(object sender, RoutedEventArgs e)
+		{
+			// Open current folder in explorer.exe
+			// http://stackoverflow.com/questions/1132422/open-a-folder-using-process-start
+			Process.Start("explorer.exe", ".");
 		}
 
 		private void MenuItemTranslate_Click(object sender, RoutedEventArgs e)
 		{
-			string cCode = Translator.TranslateProgram(program);
+			string cCode = Translator.Translate(program);
 
-			MessageBox.Show(cCode);
 			Translator.GenerateCSource(Translator.SourceType.Microcontroller, cCode);
 			Translator.GenerateCSource(Translator.SourceType.Emulator, cCode);
+
+			if (Properties.Settings.Default.OpenCCode) Process.Start(cFile);
 		}
-
 		#endregion
-
 		// textbox input form validation function
 		private void number_validation(object sender, TextCompositionEventArgs e)
 		{
 			Regex regex = new Regex("[^0-9]+");
 			e.Handled = regex.IsMatch(e.Text);
 		}
+
+
 	}
 }
 

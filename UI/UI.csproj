@@ -28,6 +28,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,6 +41,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,6 +51,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>pic\create.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Sanford.Collections, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -89,24 +95,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\DelayParam.xaml.cs">
+      <DependentUpon>DelayParam.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DriveParam.xaml.cs">
+      <DependentUpon>DriveParam.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util\DialogInvoker.cs" />
-    <Compile Include="Controls\BackwardParam.xaml.cs">
-      <DependentUpon>BackwardParam.xaml</DependentUpon>
+    <Compile Include="Controls\MoveParam.xaml.cs">
+      <DependentUpon>MoveParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ForwardParam.xaml.cs">
-      <DependentUpon>ForwardParam.xaml</DependentUpon>
+    <Compile Include="Controls\RotateParam.xaml.cs">
+      <DependentUpon>RotateParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LeftParam.xaml.cs">
-      <DependentUpon>LeftParam.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\RightParam.xaml.cs">
-      <DependentUpon>RightParam.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Util\InstructionPicture.cs" />
     <Compile Include="Util\ProgramViewModel.cs" />
     <Compile Include="WinAvr\WinAvrConfiguation.cs" />
-    <Compile Include="Windows\BackwardWindow.xaml.cs">
-      <DependentUpon>BackwardWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
@@ -116,14 +120,17 @@
     <Compile Include="Controls\DemoParam.xaml.cs">
       <DependentUpon>DemoParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\ForwardWindow.xaml.cs">
-      <DependentUpon>ForwardWindow.xaml</DependentUpon>
+    <Compile Include="Windows\DelayWindow.xaml.cs">
+      <DependentUpon>DelayWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\DriveWindow.xaml.cs">
+      <DependentUpon>DriveWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MoveWindow.xaml.cs">
+      <DependentUpon>MoveWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\IfWindow.xaml.cs">
       <DependentUpon>IfWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\LeftWindow.xaml.cs">
-      <DependentUpon>LeftWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\LoopWindow.xaml.cs">
       <DependentUpon>LoopWindow.xaml</DependentUpon>
@@ -151,31 +158,30 @@
     <Compile Include="Windows\OutputWindow.xaml.cs">
       <DependentUpon>OutputWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\RightWindow.xaml.cs">
-      <DependentUpon>RightWindow.xaml</DependentUpon>
+    <Compile Include="Windows\RotateWindow.xaml.cs">
+      <DependentUpon>RotateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SongWindow.xaml.cs">
       <DependentUpon>SongWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WinAvr\WinAvrConnector.cs" />
     <Compile Include="Util\InsCondition.cs" />
-    <Page Include="Controls\BackwardParam.xaml">
+    <Page Include="Controls\DelayParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ForwardParam.xaml">
+    <Page Include="Controls\MoveParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\LeftParam.xaml">
+    <Page Include="Controls\RotateParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\RightParam.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\BackwardWindow.xaml">
+    <Page Include="Controls\DriveParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -199,11 +205,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\DelayWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\DemoWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\ForwardWindow.xaml">
+    <Page Include="Windows\DriveWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MoveWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,10 +245,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\LeftWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Windows\OutputWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -243,7 +253,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\RightWindow.xaml">
+    <Page Include="Windows\RotateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -279,22 +293,28 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pic\backward.png" />
     <Resource Include="pic\forward.png" />
     <Resource Include="pic\left.png" />
     <Resource Include="pic\right.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\led.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\bump.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\cliff.jpg" />
+    <Resource Include="pic\SONG.png" />
+    <Resource Include="pic\LED_panel.png" />
+    <Resource Include="pic\demo.jpg" />
+    <Resource Include="pic\if.png" />
+    <Resource Include="pic\loop.png" />
+    <Resource Include="pic\delay.png" />
+    <Resource Include="pic\irobot.png" />
+    <Resource Include="pic\irobot2.jpg" />
+    <Resource Include="pic\create2.jpg" />
+    <Resource Include="pic\create3.png" />
+    <Resource Include="pic\sandclock.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HighLevelProgram\HighLevelProgram.csproj">
@@ -309,19 +329,6 @@
       <Project>{d7663052-3416-460f-9fbc-8107f018aa32}</Project>
       <Name>TranslatorLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\SONG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\LED_panel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\demo.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\if.png" />
-    <Resource Include="pic\loop.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -339,6 +346,29 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\create.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\drive.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\rotation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\move.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\arrow.png" />
+    <Resource Include="pic\rotate.png" />
+    <Resource Include="pic\drive.png" />
+    <Resource Include="pic\bump.png" />
+    <Resource Include="pic\wall.png" />
+    <Resource Include="pic\cliff.png" />
+    <Resource Include="pic\virtualwall.png" />
+    <Resource Include="pic\charging.png" />
+    <Resource Include="pic\velocity_arrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
