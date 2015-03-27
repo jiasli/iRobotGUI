@@ -10,7 +10,7 @@
             </Grid.RenderTransform>
             <Ellipse>
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="/pic/create3.png"/>
+                    <ImageBrush ImageSource="/iRobotGUI;component/pic/create2.jpg"/>
                 </Ellipse.Fill>
             </Ellipse>
         </Grid>
