@@ -381,27 +381,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pic\arrow.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\rotate.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\drive.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\bump.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\wall.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\cliff.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\virtualwall.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\charging.png" />
+    <Resource Include="pic\velocity_arrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

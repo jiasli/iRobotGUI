@@ -18,7 +18,7 @@
 								<RotateTransform CenterX="17" CenterY="17" Angle="90"/>
 							</Ellipse.RenderTransform>
 							<Ellipse.Fill>
-								<ImageBrush ImageSource="/iRobotGUI;component/pic/sandclock.png"/>
+								<ImageBrush ImageSource="/iRobotGUI;component/pic/velocity_arrow.png"/>
 							</Ellipse.Fill>
 						</Ellipse>
 					</ControlTemplate>
@@ -67,7 +67,7 @@
 		</Style>
 	</src:BaseParamControl.Resources>
 	<Grid>
-		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="169" Maximum="255" LargeChange="20" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="150,105,-19,0">
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" Maximum="255" LargeChange="20" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="148,103,-22,0">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -78,9 +78,9 @@
 			</Slider.RenderTransform>
 		</Slider>
 
-		<TextBox x:Name="textbx1" Margin="32,195,164,85" />
-
-
+		<TextBox x:Name="textbox1" Margin="32,195,164,85" TextChanged="textbox1_TextChanged" PreviewTextInput="textbox1_PreviewTextInput"/>
+		<Label Content="Velocity" Margin="204,219,23,40" FontSize="14"/>
+		<Label Content="Radius" FontSize="14" Margin="53,219,177,41" RenderTransformOrigin="0.482,0.286"/>
 		<Grid x:Name="RotateGrid">
 			<Ellipse Width="150" Height="150" Margin="10,32,140,118">
 				<Ellipse.Fill>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 namespace iRobotGUI.Controls
 {
@@ -21,6 +22,32 @@ namespace iRobotGUI.Controls
     public partial class DriveParam : BaseParamControl
     {
          private double Angle;
+		 private int radius;
+		 private const int STRAIGHT = 32768;
+		 private const int MAX_RADIUS = 2000;
+		 private int roundToInt(double val)
+		 {
+			 return (int)Math.Round(val, 0, MidpointRounding.AwayFromZero);
+		 }
+		 private double radiusToAngle(int radius)
+		 {
+			 if (radius == STRAIGHT)
+			 {
+				 return 90.0;
+			 }
+			 double rad_angle = Math.Acos(radius / MAX_RADIUS);
+			 return (rad_angle*180.0)/Math.PI; /// convert angle from radians to centigrade
+		 }
+		 private int angleToRadius(double angle)
+		 {
+			 if (angle > 89.0 && angle < 91.0)
+			 {
+				 return STRAIGHT;
+			 }
+			 double rad_angle = (angle * Math.PI) / 180; ///convert angle from centigrade to radians
+														 ///
+			 return roundToInt((Math.Cos(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
+		 }
         private enum Quadrants : int { nw = 2, ne = 1, sw = 4, se = 3 }
         public DriveParam()
         {
@@ -56,10 +83,14 @@ namespace iRobotGUI.Controls
             set
             {
                 base.Ins = value;
-
-                this.Angle = Ins.paramList[0];
-                ///rotate the control image specified number of degrees:
-                RotateTransform rotateTransform1 = new RotateTransform(this.Angle);
+				///set velocity slider:
+				SliderVelocity.Value = Ins.paramList[0];
+				///set radius displayed in a textbox
+				textbox1.Text = Ins.paramList[1].ToString(); 
+                this.radius = Ins.paramList[1];
+				this.Angle = radiusToAngle(this.radius);
+                ///rotate the control image by specified number of degrees:
+                RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle));
                 rotateTransform1.CenterX = (this.ActualWidth)/2;
                 rotateTransform1.CenterY = (this.ActualHeight)/2;
                 RotateGrid.RenderTransform = rotateTransform1;
@@ -83,28 +114,60 @@ namespace iRobotGUI.Controls
             {
                 /// Get the current mouse position relative to the control
                 Point currentLocation = Mouse.GetPosition(this);
-                /// Calculate an angle
-               this.Angle = GetAngle(currentLocation, this.RenderSize);
-           
-               Ins.paramList[0] =  (int)this.Angle;
-               RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
+                /// Calculate the angle
+               this.Angle = GetAngle(currentLocation, this.RenderSize);           
+               Ins.paramList[1] =  angleToRadius(this.Angle); /// update rotation radius in instruction parameter list
+               RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle));
                rotateTransform1.CenterX = 75;
                rotateTransform1.CenterY = 75;
                RotateGrid.RenderTransform = rotateTransform1;
+				///update textbox text:
+			   textbox1.Text = Ins.paramList[1].ToString();
             }
         }
-        private void txtbox1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+      /*  private void txtbox1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
             rotateTransform1.CenterX = 75;
             rotateTransform1.CenterY = 75;
             RotateGrid.RenderTransform = rotateTransform1;
-            Ins.paramList[0] = (int)e.NewValue;
-        }
+            Ins.paramList[1] = (int)e.NewValue;
+        } */
 		private void SliderVelocity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-
+			Ins.paramList[0] = (int)e.NewValue;
 		}
+
+		private void textbox1_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			int new_radius = int.Parse(textbox1.Text);
+			Ins.paramList[1] = new_radius; /// update rotation radius
+			this.Angle = radiusToAngle(new_radius); ///update the angle
+			RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle)); /// now lets rotate wheel control
+			rotateTransform1.CenterX = 75;
+			rotateTransform1.CenterY = 75;
+			RotateGrid.RenderTransform = rotateTransform1;
+			
+		}
+		private bool isTextAllowed(string txt)
+		{
+			Regex regex = new Regex("[0-9]"); //regex that matches allowed text
+			if (!regex.IsMatch(txt))
+			{
+				return false;
+			};
+			if (int.Parse(txt) > MAX_RADIUS)
+			{
+				return false;
+			}
+			return true;
+		}
+		private void textbox1_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		{
+			e.Handled = !isTextAllowed(e.Text);
+		}
+
+		
         
     }
         
