@@ -34,9 +34,9 @@ namespace iRobotGUI.Controls
             switch (_Quadrant)
             {
                 case Quadrants.ne: _Value = 090 - _Value; break;
-                case Quadrants.nw: _Value = 270 + _Value; break;
-                case Quadrants.se: _Value = 090 /*- _Value*/; break;
-                case Quadrants.sw: _Value = 270 /*+  _Value*/; break;
+                case Quadrants.nw: _Value = _Value -90; break;
+                case Quadrants.se: _Value = 90 /*- _Value*/; break;
+                case Quadrants.sw: _Value = -90 /*+  _Value*/; break;
             }
             return _Value;
         }

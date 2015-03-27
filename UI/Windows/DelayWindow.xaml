@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:iRobotGUI.Controls" 
         xmlns:src="clr-namespace:iRobotGUI" x:Class="iRobotGUI.DelayWindow"
-        Title="Delay" Height="350" Width="350" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
+        Title="Delay" Height="350" Width="350" WindowStartupLocation="CenterOwner" >
 	<Grid>
 		<local:DelayParam x:Name="DelayControlInstance" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0"/>
 	</Grid>

@@ -52,7 +52,7 @@ namespace iRobotGUI.Controls
         private void SliderDistance_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             int slide_val = (int)e.NewValue;
-            if (slide_val < 0)
+            if (slide_val <= 0)
             {
                 Ins.opcode = "BACKWARD";
             } else

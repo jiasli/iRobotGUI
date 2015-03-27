@@ -126,7 +126,7 @@
     <Grid>
         <Label Content="MOVE" FontSize="18" HorizontalAlignment="Center" Margin="120,0,65,0" VerticalAlignment="Top" Width="115"/>
         <Label Content="Duration" HorizontalAlignment="Left" Margin="211,82,0,0" VerticalAlignment="Top"/>
-        <Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="109,91,0,0" VerticalAlignment="Top" Width="151" Maximum="255" LargeChange="20" ValueChanged="SliderDistance_ValueChanged" RenderTransformOrigin="0.5,0.5">
+        <Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="109,91,0,0" VerticalAlignment="Top" Width="151" Maximum="255" LargeChange="20" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5">
             <Slider.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
