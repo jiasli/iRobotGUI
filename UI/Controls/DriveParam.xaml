@@ -67,7 +67,7 @@
 		</Style>
 	</src:BaseParamControl.Resources>
 	<Grid>
-		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" Maximum="255" LargeChange="20" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="148,103,-22,0">
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" Maximum="5000" LargeChange="20" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="148,103,-22,0">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -88,6 +88,8 @@
 				</Ellipse.Fill>
 
 			</Ellipse>
-	
+		<Label Content="5000" HorizontalAlignment="Left" Margin="241,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
+		<Label Content="0" HorizontalAlignment="Left" Margin="261,177,0,0" VerticalAlignment="Top"/>
+
 	</Grid>
 </src:BaseParamControl>
