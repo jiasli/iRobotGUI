@@ -50,10 +50,14 @@ namespace iRobotGUI.Controls
 			}
 		}
 
+		private int[] comboBoxIndexSensorMapping = new int[]
+		{
+			0,1,2,3,4,5,6,16
+		};
 
 		private void comboBoxSensor_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			condition.sensor = comboBoxSensor.SelectedIndex;
+			condition.sensor = comboBoxIndexSensorMapping[comboBoxSensor.SelectedIndex];
 			UpdateConditionLabel();
 		}
 

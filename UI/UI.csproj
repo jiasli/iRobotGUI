@@ -318,7 +318,6 @@
     <Resource Include="pic\right.png" />
     <Resource Include="pic\led.jpg" />
     <Resource Include="pic\bump.jpg" />
-    <Resource Include="pic\cliff.jpg" />
     <Resource Include="pic\SONG.png" />
     <Resource Include="pic\LED_panel.png" />
     <Resource Include="pic\demo.jpg" />
@@ -388,6 +387,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pic\drive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\bump.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\wall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\cliff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\virtualwall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\charging.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
