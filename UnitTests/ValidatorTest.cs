@@ -49,7 +49,7 @@ namespace iRobotGUI
 		{
 			string[] validInstrucsitons = new string[]
 			{
-				"FORWARD 300,200",
+				"MOVE 300,100",
 				"DELAY 100"
 			};
 

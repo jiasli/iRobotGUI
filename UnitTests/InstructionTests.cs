@@ -15,8 +15,8 @@ namespace iRobotGUI.Tests
         [TestMethod()]
         public void CreatFromOpcodeTest()
         {
-            string ValidOpcodeStr = "BACKWARD";
-            string InvalidOpcodeStr = "BACK";
+            string ValidOpcodeStr = "DRIVE";
+            string InvalidOpcodeStr = "MOV";
             try
             {
                 var ins = new Instruction(InvalidOpcodeStr);
