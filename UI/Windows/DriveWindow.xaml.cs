@@ -14,18 +14,26 @@ using System.Windows.Shapes;
 
 namespace iRobotGUI
 {
-    /// <summary>
-    /// Interaction logic for ForwardWindow.xaml
-    /// </summary>
-    public partial class DriveWindow : BaseParamWindow
-    {
-        public DriveWindow()
-        {
-            InitializeComponent();
-        }
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            DriveControlInstance.Ins = Ins;
-        }
-    }
+	/// <summary>
+	/// Interaction logic for ForwardWindow.xaml
+	/// </summary>
+	public partial class DriveWindow : BaseParamWindow
+	{
+		public DriveWindow()
+		{
+			InitializeComponent();
+		}
+
+		public override Instruction Ins
+		{
+			get
+			{
+				return controlInstance.Ins;
+			}
+			set
+			{
+				controlInstance.Ins = value;
+			}
+		}
+	}
 }

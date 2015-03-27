@@ -102,9 +102,6 @@
       <DependentUpon>DriveParam.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\DialogInvoker.cs" />
-    <Compile Include="Controls\BackwardParam.xaml.cs">
-      <DependentUpon>BackwardParam.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\MoveParam.xaml.cs">
       <DependentUpon>MoveParam.xaml</DependentUpon>
     </Compile>
@@ -114,9 +111,6 @@
     <Compile Include="Util\InstructionPicture.cs" />
     <Compile Include="Util\ProgramViewModel.cs" />
     <Compile Include="WinAvr\WinAvrConfiguation.cs" />
-    <Compile Include="Windows\BackwardWindow.xaml.cs">
-      <DependentUpon>BackwardWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
@@ -175,10 +169,6 @@
     </Compile>
     <Compile Include="WinAvr\WinAvrConnector.cs" />
     <Compile Include="Util\InsCondition.cs" />
-    <Page Include="Controls\BackwardParam.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\DelayParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -192,10 +182,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\DriveParam.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\BackwardWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -365,19 +351,13 @@
     <Resource Include="pic\create.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\drive.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="pic\drive.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\rotation.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="pic\rotation.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\move.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="pic\move.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pic\arrow.png" />

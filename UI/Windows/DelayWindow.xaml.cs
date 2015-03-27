@@ -23,9 +23,17 @@ namespace iRobotGUI
 		{
 			InitializeComponent();
 		}
-		private void Window_Loaded(object sender, RoutedEventArgs e)
+
+		public override Instruction Ins
 		{
-			DelayControlInstance.Ins = Ins;
+			get
+			{
+				return controlInstance.Ins;
+			}
+			set
+			{
+				controlInstance.Ins = value;
+			}
 		}
 	}
 }

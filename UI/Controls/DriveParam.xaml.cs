@@ -33,20 +33,28 @@ namespace iRobotGUI.Controls
 		 {
 			 if (radius == STRAIGHT)
 			 {
-				 return 90.0;
+				 return 0.0;
 			 }
-			 double rad_angle = Math.Acos(radius / MAX_RADIUS);
-			 return (rad_angle*180.0)/Math.PI; /// convert angle from radians to centigrade
+			 double d = (double)radius / (double) MAX_RADIUS;
+			 double rad_angle = Math.Asin(d);
+
+			/* if (radius > 0)
+			 {
+				 return (rad_angle * 180.0) / Math.PI; /// return positive angle(in centigrade)
+			 }
+			 * */
+			
+			 return (rad_angle*180.0)/Math.PI; /// return negative angle
 		 }
 		 private int angleToRadius(double angle)
 		 {
-			 if (angle > 89.0 && angle < 91.0)
+			 if (angle > -1.0 && angle < 1.0)
 			 {
 				 return STRAIGHT;
 			 }
 			 double rad_angle = (angle * Math.PI) / 180; ///convert angle from centigrade to radians
 														 ///
-			 return roundToInt((Math.Cos(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
+			 return roundToInt((Math.Sin(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
 		 }
         private enum Quadrants : int { nw = 2, ne = 1, sw = 4, se = 3 }
         public DriveParam()
@@ -70,7 +78,7 @@ namespace iRobotGUI.Controls
                 case Quadrants.ne: _Value = 090 - _Value; break;
                 case Quadrants.nw: _Value = 270 + _Value; break;
                 case Quadrants.se: _Value = 090 /*- _Value*/; break;
-                case Quadrants.sw: _Value = 270 /*+  _Value*/; break;
+                case Quadrants.sw: _Value =  270 /* _Value*/; break;
             }
             return _Value;
         }
@@ -91,9 +99,9 @@ namespace iRobotGUI.Controls
 				this.Angle = radiusToAngle(this.radius);
                 ///rotate the control image by specified number of degrees:
                 RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle));
-                rotateTransform1.CenterX = (this.ActualWidth)/2;
-                rotateTransform1.CenterY = (this.ActualHeight)/2;
-                RotateGrid.RenderTransform = rotateTransform1;
+                rotateTransform1.CenterX = 75;
+                rotateTransform1.CenterY = 75;
+                ellipse.RenderTransform = rotateTransform1;
 
             }
         }
@@ -120,7 +128,7 @@ namespace iRobotGUI.Controls
                RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle));
                rotateTransform1.CenterX = 75;
                rotateTransform1.CenterY = 75;
-               RotateGrid.RenderTransform = rotateTransform1;
+               ellipse.RenderTransform = rotateTransform1;
 				///update textbox text:
 			   textbox1.Text = Ins.paramList[1].ToString();
             }
@@ -140,22 +148,30 @@ namespace iRobotGUI.Controls
 
 		private void textbox1_TextChanged(object sender, TextChangedEventArgs e)
 		{
+			if (textbox1.Text.Length != 0 && textbox1.Text!= "-")
+			{
+				
 			int new_radius = int.Parse(textbox1.Text);
-			Ins.paramList[1] = new_radius; /// update rotation radius
-			this.Angle = radiusToAngle(new_radius); ///update the angle
-			RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle)); /// now lets rotate wheel control
-			rotateTransform1.CenterX = 75;
-			rotateTransform1.CenterY = 75;
-			RotateGrid.RenderTransform = rotateTransform1;
-			
+				if(Math.Abs(new_radius) <= 2000 || new_radius == STRAIGHT) {
+				Ins.paramList[1] = new_radius; /// update rotation radius
+				this.Angle = radiusToAngle(new_radius); ///update the angle
+				RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle)); /// now lets rotate wheel control
+				rotateTransform1.CenterX = 75;
+				rotateTransform1.CenterY = 75;
+				ellipse.RenderTransform = rotateTransform1;
+				}
+			}
 		}
 		private bool isTextAllowed(string txt)
 		{
-			Regex regex = new Regex("[0-9]"); //regex that matches allowed text
+			Regex regex = new Regex("[-0-9]"); //regex that matches allowed text
 			if (!regex.IsMatch(txt))
 			{
 				return false;
 			};
+			if(txt == "-") {
+				return true;
+			}
 			if (int.Parse(txt) > MAX_RADIUS)
 			{
 				return false;
