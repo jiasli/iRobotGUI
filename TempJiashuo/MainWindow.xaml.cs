@@ -1,4 +1,5 @@
 ﻿using iRobotGUI;
+using iRobotGUI.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -93,10 +94,12 @@ END_IF
 
 		private void openSongWindow()
 		{
-			SongWindow lw = new SongWindow();
-			//lw.Owner = this;
-			lw.Ins = new Instruction("SONG_DEF 3,60,32,62,32,64,32");
-			lw.ShowDialog();
+			
+			//SongWindow lw = new SongWindow();
+			////lw.Owner = this;
+			//lw.Ins = new Instruction("SONG_DEF 3,60,32,62,32,64,32");
+			//lw.ShowDialog();
+			DialogInvoker.ShowDialog(new Instruction("SONG_DEF 3,60,32,62,32,64,32"), this);
 			
 		}
 
