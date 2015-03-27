@@ -192,8 +192,9 @@ namespace iRobotGUI.Controls
 		{
 			if (e.Key == Key.Delete)
 			{
-				//int index = this.dragMgr.IndexUnderDragCursor;
 				int index = ListviewProgram.SelectedIndex;
+				if (index < 0)
+					return;
 
 				int startIndex = pvm[index];
 				int endIndex = startIndex;

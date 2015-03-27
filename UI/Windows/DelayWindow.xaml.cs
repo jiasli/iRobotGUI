@@ -28,11 +28,11 @@ namespace iRobotGUI
 		{
 			get
 			{
-				return DelayControlInstance.Ins;
+				return controlInstance.Ins;
 			}
 			set
 			{
-				DelayControlInstance.Ins = value;
+				controlInstance.Ins = value;
 			}
 		}
 	}
