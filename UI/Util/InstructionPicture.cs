@@ -27,7 +27,7 @@ namespace iRobotGUI.Util
 				case Instruction.ROTATE:
 					return "backward.png";
 				case Instruction.DRIVE:
-					return "left.png";
+					return "drive.png";
 				case Instruction.LED:
 					return "led.jpg";
 				case Instruction.SONG_DEF:
