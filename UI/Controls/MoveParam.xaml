@@ -3,43 +3,43 @@
         xmlns:src="clr-namespace:iRobotGUI.Controls"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Height="200" Width="300" Background="White">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Style x:Key="SliderThumbSandClock" TargetType="Thumb">
-                <Setter Property="SnapsToDevicePixels" Value="true" />
-                <Setter Property="OverridesDefaultStyle" Value="true" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Thumb">
-                            <Ellipse Height="35" Width="35">
-                                <Ellipse.RenderTransform>
-                                    <RotateTransform CenterX="17" CenterY="17" Angle="90"/>
-                                </Ellipse.RenderTransform>
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="/pic/sandclock.png"></ImageBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style TargetType="Slider" x:Key="SandSliderStyle">
-                <Setter Property="OverridesDefaultStyle" Value="true"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Slider">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" Name="row" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" Name="column" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-                                <Border Name="PART_Border"
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<Style x:Key="SliderThumbSandClock" TargetType="Thumb">
+				<Setter Property="SnapsToDevicePixels" Value="true" />
+				<Setter Property="OverridesDefaultStyle" Value="true" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="Thumb">
+							<Ellipse Height="35" Width="35">
+								<Ellipse.RenderTransform>
+									<RotateTransform CenterX="17" CenterY="17" Angle="90"/>
+								</Ellipse.RenderTransform>
+								<Ellipse.Fill>
+									<ImageBrush ImageSource="/pic/sandclock.png"></ImageBrush>
+								</Ellipse.Fill>
+							</Ellipse>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+			<Style TargetType="Slider" x:Key="SandSliderStyle">
+				<Setter Property="OverridesDefaultStyle" Value="true"/>
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="Slider">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="auto" />
+									<RowDefinition Height="auto" Name="row" />
+									<RowDefinition Height="auto" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto" />
+									<ColumnDefinition Width="*" Name="column" />
+									<ColumnDefinition Width="auto" />
+								</Grid.ColumnDefinitions>
+								<Border Name="PART_Border"
                            BorderBrush="{DynamicResource BorderLightColor}" BorderThickness="1"
                            Padding="2"
                           Grid.Row="1" Grid.Column="1"
@@ -48,56 +48,56 @@
                            Background="LightBlue"
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Center" />
-                                <Track Name="PART_Track"
+								<Track Name="PART_Track"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Center"
                               Grid.Row="1" Grid.Column="1"
                               Width="{TemplateBinding Width}"
                               Height="{TemplateBinding Height}">
-                                    <Track.Thumb>
-                                        <Thumb Style="{StaticResource SliderThumbSandClock}" />
-                                    </Track.Thumb>
-                                </Track>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style x:Key="SliderThumb" TargetType="Thumb">
-                <Setter Property="SnapsToDevicePixels" Value="true" />
-                <Setter Property="OverridesDefaultStyle" Value="true" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Thumb">
-                            <Ellipse Height="40" Width="40">
-                                <Ellipse.RenderTransform>
-                                    <RotateTransform CenterX="20" CenterY="20" Angle="-90"/>
-                                </Ellipse.RenderTransform>
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="/pic/create2.jpg"></ImageBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style TargetType="Slider" x:Key="AppSliderStyle">
-                <Setter Property="OverridesDefaultStyle" Value="true"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Slider">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" Name="row" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" Name="column" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-                                <Border Name="PART_Border"
+									<Track.Thumb>
+										<Thumb Style="{StaticResource SliderThumbSandClock}" />
+									</Track.Thumb>
+								</Track>
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+			<Style x:Key="SliderThumb" TargetType="Thumb">
+				<Setter Property="SnapsToDevicePixels" Value="true" />
+				<Setter Property="OverridesDefaultStyle" Value="true" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="Thumb">
+							<Ellipse Height="40" Width="40">
+								<Ellipse.RenderTransform>
+									<RotateTransform CenterX="20" CenterY="20" Angle="-90"/>
+								</Ellipse.RenderTransform>
+								<Ellipse.Fill>
+									<ImageBrush ImageSource="/pic/create2.jpg"></ImageBrush>
+								</Ellipse.Fill>
+							</Ellipse>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+			<Style TargetType="Slider" x:Key="AppSliderStyle">
+				<Setter Property="OverridesDefaultStyle" Value="true"/>
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="Slider">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="auto" />
+									<RowDefinition Height="auto" Name="row" />
+									<RowDefinition Height="auto" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto" />
+									<ColumnDefinition Width="*" Name="column" />
+									<ColumnDefinition Width="auto" />
+								</Grid.ColumnDefinitions>
+								<Border Name="PART_Border"
                            BorderBrush="{DynamicResource BorderLightColor}" BorderThickness="1"
                            Padding="2"
                           Grid.Row="1" Grid.Column="1"
@@ -106,47 +106,51 @@
                            Background="LightBlue"
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Center" />
-                                <Track Name="PART_Track"
+								<Track Name="PART_Track"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Center"
                               Grid.Row="1" Grid.Column="1"
                               Width="{TemplateBinding Width}"
                               Height="{TemplateBinding Height}">
-                                    <Track.Thumb>
-                                        <Thumb Style="{StaticResource SliderThumb}" />
-                                    </Track.Thumb>
-                                </Track>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <Grid>
-        <Label Content="MOVE" FontSize="18" HorizontalAlignment="Center" Margin="120,0,65,0" VerticalAlignment="Top" Width="115"/>
-        <Label Content="Duration" HorizontalAlignment="Left" Margin="211,82,0,0" VerticalAlignment="Top"/>
-        <Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="109,91,0,0" VerticalAlignment="Top" Width="151" Maximum="255" LargeChange="20" ValueChanged="SliderDistance_ValueChanged" RenderTransformOrigin="0.5,0.5">
-            <Slider.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-90.178"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Slider.RenderTransform>
-        </Slider>
-        <Label Content="Distance" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.019,1.385"/>
-        <Slider x:Name="SliderDistance" Style="{StaticResource AppSliderStyle}" Maximum="500" Minimum="-500" Margin="-8,73,162,79" RenderTransformOrigin="0.54,0.186" ValueChanged="SliderDistance_ValueChanged">
-            <Slider.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-89.962"/>
-                    <TranslateTransform X="9.174" Y="21.062"/>
-                </TransformGroup>
-            </Slider.RenderTransform>
-        </Slider>
-    </Grid>
+									<Track.Thumb>
+										<Thumb Style="{StaticResource SliderThumb}" />
+									</Track.Thumb>
+								</Track>
+							</Grid>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Grid>
+		<Label Content="MOVE" FontSize="18" HorizontalAlignment="Center" Margin="120,0,65,0" VerticalAlignment="Top" Width="115"/>
+		<Label Content="Duration" HorizontalAlignment="Left" Margin="211,82,0,0" VerticalAlignment="Top"/>
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="109,91,0,0" VerticalAlignment="Top" Width="151" Maximum="255" LargeChange="20" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5">
+			<Slider.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform Angle="-90.178"/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Slider.RenderTransform>
+		</Slider>
+		<Label Content="Distance" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.019,1.385"/>
+		<Slider x:Name="SliderDistance" Style="{StaticResource AppSliderStyle}" Maximum="500" Minimum="-500" Margin="-8,73,162,79" RenderTransformOrigin="0.54,0.186" ValueChanged="SliderDistance_ValueChanged">
+			<Slider.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform Angle="-89.962"/>
+					<TranslateTransform X="9.174" Y="21.062"/>
+				</TransformGroup>
+			</Slider.RenderTransform>
+		</Slider>
+		<Label Content="500" HorizontalAlignment="Left" Margin="36,28,0,0" VerticalAlignment="Top"/>
+		<Label Content="-500" HorizontalAlignment="Left" Margin="31,164,0,0" VerticalAlignment="Top"/>
+		<Label Content="0" HorizontalAlignment="Left" Height="24" Margin="211,164,0,0" VerticalAlignment="Top" Width="19"/>
+		<Label Content="255" HorizontalAlignment="Left" Margin="211,28,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.441,-0.654"/>
+	</Grid>
 
 </src:BaseParamControl>
