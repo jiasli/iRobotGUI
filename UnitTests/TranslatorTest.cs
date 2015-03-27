@@ -91,7 +91,7 @@ namespace iRobotGUI.Tests
             string ifProgram = @"IF 2,0,1
 DELAY 200
 ELSE
-FORWARD 300,2
+DRIVE 300,32768
 END_IF";
             TranslatePrintProgString(ifProgram);
         }
@@ -118,7 +118,7 @@ DRIVE 0,32768";
         [TestMethod()]
         public void TranslateProgram()
         {
-            string ProgramInstruction = "FORWARD 50,5\nBACKWARD 10,3\nLEFT 80\nRIGHT 80";
+            string ProgramInstruction = "LED 12,13,13\nDRIVE 300,32768";
             TranslatePrintProgString(ProgramInstruction);
         }
 

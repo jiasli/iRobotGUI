@@ -49,7 +49,7 @@ namespace iRobotGUI
 		{
 			string[] validInstrucsitons = new string[]
 			{
-				"FORWARD 300,200",
+				"MOVE 300,100",
 				"DELAY 100"
 			};
 
@@ -169,8 +169,8 @@ END_LOOP";
         public void TestValidateSongDef()
         {
             bool pass = true;
-           Instruction ValidSongIns = new Instruction ("SONG_DEF 1,52,32,33,32\nSONG_PLAY 1");
-           Instruction InValidSongIns = new Instruction("SONG_DEF 1\nSONG_PLAY 1");
+           Instruction ValidSongIns = new Instruction ("SONG_DEF 1,52,32,33,32");
+           Instruction InValidSongIns = new Instruction("SONG_DEF 1");
            try
            {
                pass= Validator.ValidateSongDef (InValidSongIns);
