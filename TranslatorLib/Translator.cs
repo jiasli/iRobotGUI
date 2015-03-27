@@ -255,6 +255,7 @@ else
 					{
 						cBuilder.AppendLine("byteTx(" + instruction.paramList[i].ToString() + ");");
 					}
+                    cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.paramList[0].ToString()));
 					break;
 				case Instruction.SONG_PLAY:
 					cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.paramList[0].ToString()));
