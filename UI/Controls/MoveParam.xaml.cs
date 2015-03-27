@@ -28,14 +28,9 @@ namespace iRobotGUI.Controls
             set
             {
                 base.Ins = value;
-                if (Ins.opcode == "BACKWARD")
-                {
-                    SliderDistance.Value = -Ins.paramList[0];
-                }
-                else
-                {
-                    SliderDistance.Value = Ins.paramList[0];
-                }
+                    
+                SliderDistance.Value = Ins.paramList[0];
+             
                 SliderDuration.Value = Ins.paramList[1];
             }
         }
@@ -52,14 +47,8 @@ namespace iRobotGUI.Controls
         private void SliderDistance_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             int slide_val = (int)e.NewValue;
-            if (slide_val < 0)
-            {
-                Ins.opcode = "BACKWARD";
-            } else
-            {
-                Ins.opcode = "FORWARD";
-            }
-            Ins.paramList[0] = Math.Abs(slide_val);
+           
+            Ins.paramList[0] = slide_val;
         }
 
     }

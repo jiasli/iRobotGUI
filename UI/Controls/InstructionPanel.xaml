@@ -28,9 +28,9 @@
 		<Label Content="Other"         Style="{StaticResource LabelStyle}" Margin="30,284,0,0" />
 		<Label Content="Logic"         Style="{StaticResource LabelStyle}" Margin="30,203,0,0" />
 
-		<Image Source="/iRobotGUI;component/pic/move.png"   Tag="MOVE"     Margin="30,41,0,0"   ToolTip="Move forward" />
-		<Image Source="/iRobotGUI;component/pic/rotate.png" Tag="ROTATE"   Margin="81,41,0,0"   ToolTip="Rotate left" />
-		<Image Source="/iRobotGUI;component/pic/drive.png"  Tag="DRIVE"    Margin="131,41,0,0"  ToolTip="Rotate right" />
+		<Image Source="/iRobotGUI;component/pic/move.png"   Tag="MOVE"     Margin="30,41,0,0"   ToolTip="Move" />
+		<Image Source="/iRobotGUI;component/pic/rotate.png" Tag="ROTATE"   Margin="81,41,0,0"   ToolTip="Rotate" />
+		<Image Source="/iRobotGUI;component/pic/drive.png"  Tag="DRIVE"    Margin="131,41,0,0"  ToolTip="Drive" />
 		<Image Source="/iRobotGUI;component/pic/led.jpg"    Tag="LED"      Margin="31,138,0,0"  ToolTip="Turn on/off the LED" />
 		<Image Source="/iRobotGUI;component/pic/song.png"   Tag="SONG_DEF" Margin="81,138,0,0"  ToolTip="Define a song" />
 		<Image Source="/iRobotGUI;component/pic/if.png"     Tag="IF"       Margin="31,234,0,0"  ToolTip="If" />
