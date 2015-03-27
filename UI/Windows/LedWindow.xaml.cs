@@ -28,11 +28,11 @@ namespace iRobotGUI
 		{
 			get
 			{
-				return ledControlInstance.Ins;
+				return controlInstance.Ins;
 			}
 			set
 			{
-				ledControlInstance.Ins = value;
+				controlInstance.Ins = value;
 			}
 		}
 	}

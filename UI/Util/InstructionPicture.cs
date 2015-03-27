@@ -23,9 +23,9 @@ namespace iRobotGUI.Util
 			{
 				// TODO picture for delay
 				case Instruction.MOVE:
-					return "forward.png";
+					return "move.png";
 				case Instruction.ROTATE:
-					return "backward.png";
+					return "rotate.png";
 				case Instruction.DRIVE:
 					return "drive.png";
 				case Instruction.LED:
@@ -34,6 +34,8 @@ namespace iRobotGUI.Util
 					return "song.png";
 				case Instruction.DEMO:
 					return "demo.jpg";
+				case Instruction.DELAY:
+					return "delay.png";
 				case Instruction.IF:
 					return "if.png";
 				case Instruction.LOOP:

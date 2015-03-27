@@ -40,8 +40,7 @@ END_LOOP";
 	IF 0,0,0
 	ELSE
 	END_IF
-ELSE
-	FORWARD 100,100
+ELSE	
 END_IF
 ";
 
@@ -58,7 +57,7 @@ END_IF
 		{
 			try
 			{
-				openSongWindow();
+				openIfWindow();
 			}
 			catch (Exception ex)
 			{
