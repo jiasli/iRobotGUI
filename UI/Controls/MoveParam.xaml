@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:src="clr-namespace:iRobotGUI.Controls"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Height="200" Width="300" Background="White">
+        Height="243" Width="347" Background="White">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="SliderThumbSandClock" TargetType="Thumb">
@@ -16,7 +16,7 @@
 									<RotateTransform CenterX="17" CenterY="17" Angle="90"/>
 								</Ellipse.RenderTransform>
 								<Ellipse.Fill>
-									<ImageBrush ImageSource="/pic/sandclock.png"></ImageBrush>
+									<ImageBrush ImageSource="/iRobotGUI;component/pic/sandclock.png"></ImageBrush>
 								</Ellipse.Fill>
 							</Ellipse>
 						</ControlTemplate>
@@ -74,7 +74,7 @@
 									<RotateTransform CenterX="20" CenterY="20" Angle="-90"/>
 								</Ellipse.RenderTransform>
 								<Ellipse.Fill>
-									<ImageBrush ImageSource="/pic/create2.jpg"></ImageBrush>
+									<ImageBrush ImageSource="/iRobotGUI;component/pic/create2.jpg"></ImageBrush>
 								</Ellipse.Fill>
 							</Ellipse>
 						</ControlTemplate>
@@ -124,9 +124,9 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
-		<Label Content="MOVE" FontSize="18" HorizontalAlignment="Center" Margin="120,0,65,0" VerticalAlignment="Top" Width="115"/>
-		<Label Content="Duration" HorizontalAlignment="Left" Margin="211,82,0,0" VerticalAlignment="Top"/>
-		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="109,91,0,0" VerticalAlignment="Top" Width="151" Maximum="255" LargeChange="20" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5">
+		<Label Content="MOVE" FontSize="18" HorizontalAlignment="Center" Margin="135,5,50,0" VerticalAlignment="Top" Width="115"/>
+		<Label Content="Duration" HorizontalAlignment="Left" Margin="257,95,0,0" VerticalAlignment="Top"/>
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="124,95,0,0" VerticalAlignment="Top" Width="150" Maximum="5" LargeChange="20" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5" SmallChange="1" IsSnapToTickEnabled="True">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -136,8 +136,8 @@
 				</TransformGroup>
 			</Slider.RenderTransform>
 		</Slider>
-		<Label Content="Distance" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.019,1.385"/>
-		<Slider x:Name="SliderDistance" Style="{StaticResource AppSliderStyle}" Maximum="500" Minimum="-500" Margin="-8,73,162,79" RenderTransformOrigin="0.54,0.186" ValueChanged="SliderDistance_ValueChanged">
+		<Label Content="Distance" HorizontalAlignment="Left" Margin="40,95,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.019,1.385"/>
+		<Slider x:Name="SliderDistance" Style="{StaticResource AppSliderStyle}" Maximum="5000" Minimum="-5000" Margin="34,79,0,0" RenderTransformOrigin="0.54,0.186" ValueChanged="SliderDistance_ValueChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" SmallChange="1" LargeChange="10" IsSnapToTickEnabled="True">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -147,10 +147,15 @@
 				</TransformGroup>
 			</Slider.RenderTransform>
 		</Slider>
-		<Label Content="500" HorizontalAlignment="Left" Margin="36,28,0,0" VerticalAlignment="Top"/>
-		<Label Content="-500" HorizontalAlignment="Left" Margin="31,164,0,0" VerticalAlignment="Top"/>
-		<Label Content="0" HorizontalAlignment="Left" Height="24" Margin="211,164,0,0" VerticalAlignment="Top" Width="19"/>
-		<Label Content="255" HorizontalAlignment="Left" Margin="211,28,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.441,-0.654"/>
+		<Label Content="Forward" HorizontalAlignment="Left" Margin="44,33,0,0" VerticalAlignment="Top"/>
+		<Label Content="Backward" HorizontalAlignment="Left" Margin="40,167,0,0" VerticalAlignment="Top"/>
+		<Label Content="{Binding Value, ElementName=SliderDistance}" HorizontalAlignment="Left" Margin="114,197,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="45"/>
+		
+		<Label Content="0s" HorizontalAlignment="Left" Height="24" Margin="226,169,0,0" VerticalAlignment="Top"/>
+		<Label Content="5s" HorizontalAlignment="Left" Margin="226,33,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.441,-0.654"/>
+		<Label Content="{Binding Value, ElementName=SliderDuration}" HorizontalAlignment="Left" Margin="184,197,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="33"/>
+
+
 	</Grid>
 
 </src:BaseParamControl>

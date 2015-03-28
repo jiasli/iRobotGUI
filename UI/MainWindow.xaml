@@ -39,7 +39,7 @@
 				<MenuItem Command="ApplicationCommands.SaveAs" />
 				<MenuItem Command="ApplicationCommands.Open" />
 				<Separator/>
-				<MenuItem Header="Program Folder" Click="MenuItemShowSrcFolder_Click"  />
+				<MenuItem Header="Program Folder" Click="MenuItemShowSrcFolder_Click" />
 				<MenuItem Command="{x:Static custom:MainWindow.OpenSourceCmd}"  />
 				<Separator/>
 				<MenuItem Command="ApplicationCommands.Close"/>

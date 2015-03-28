@@ -205,6 +205,7 @@ namespace iRobotGUI
 			listViewNotes.UpdateLayout();
 			listViewNotes.ScrollIntoView(listViewNotes.SelectedItem);
 
+			CommandManager.InvalidateRequerySuggested();
 			outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
 
 		}

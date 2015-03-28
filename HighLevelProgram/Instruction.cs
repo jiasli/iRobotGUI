@@ -138,28 +138,14 @@ namespace iRobotGUI
 			switch (opcode)
 			{
 				case MOVE:
-					newIns = new Instruction(Instruction.MOVE + " 1,1");
+					newIns = new Instruction(Instruction.MOVE + " 300,3");
 					break;
 				case ROTATE:
-					newIns = new Instruction(Instruction.ROTATE + " 0");
+					newIns = new Instruction(Instruction.ROTATE + " 90");
 					break;
 				case DRIVE:
 					newIns = new Instruction(DRIVE + " 1,1");
 					break;
-				/*
-				case FORWARD:
-					newIns = new Instruction(Instruction.FORWARD + " 500,3");
-					break;
-				case BACKWARD:
-					newIns = new Instruction(BACKWARD +" 500,3");
-					break;
-				case RIGHT:
-					newIns = new Instruction(RIGHT + " 90");
-					break;
-				case Instruction.LEFT:
-					newIns = new Instruction(Instruction.LEFT + " 90");
-					break;
-				*/ 
 				case Instruction.LED:
 					newIns = new Instruction(Instruction.LED + " 10,128,128");
 					break;
@@ -170,7 +156,7 @@ namespace iRobotGUI
 					newIns = new Instruction(Instruction.DEMO + " 0");
 					break;
 				case DELAY:
-					newIns = new Instruction(DELAY + " 1");
+					newIns = new Instruction(DELAY + " 3000");
 					break;
 				case IF:
 					newIns = new Instruction(IF + " 0, 0, 0");

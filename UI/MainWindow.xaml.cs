@@ -111,6 +111,23 @@ namespace iRobotGUI
 		}
 
 
+		private void OpenSrcCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (!String.IsNullOrEmpty(igpFile))
+			{
+				e.CanExecute = true;
+			}
+			else
+			{
+				e.CanExecute = false;
+			}
+		}
+
+		private void OpenSrcCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			Process.Start(igpFile);
+		}
+
 		/// <summary>
 		/// Save the program as an igp file.
 		/// Traceability: WC_3305, As an ESS, I can create, save and load program files.
@@ -178,24 +195,6 @@ namespace iRobotGUI
 				MessageBox.Show(ex.Message);
 			}
 		}
-
-		private void OpenSrcCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			if (!String.IsNullOrEmpty(igpFile))
-			{
-				e.CanExecute = true;
-			}
-			else
-			{
-				e.CanExecute = false;
-			}
-		}
-
-		private void OpenSrcCmdExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			Process.Start(igpFile);
-		}
-
 		/// <summary>
 		/// Save program from file.
 		/// </summary>
@@ -217,6 +216,13 @@ namespace iRobotGUI
 		private void ShowWinAvrError()
 		{
 			MessageBox.Show("Fail to execute. Check if WinAVR is installed correctly.", "Fail", MessageBoxButton.OK, MessageBoxImage.Error);
+		}
+
+		// textbox input form validation function
+		private void number_validation(object sender, TextCompositionEventArgs e)
+		{
+			Regex regex = new Regex("[^0-9]+");
+			e.Handled = regex.IsMatch(e.Text);
 		}
 		#endregion
 
@@ -243,18 +249,6 @@ namespace iRobotGUI
 
 
 		#region Menu callbacks
-		/// <summary>
-		/// Translate igp file to C file and compile it to executable program using WinAVR and load it to iRobot.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void MenuItemTranslateBuildLoad_Click(object sender, RoutedEventArgs e)
-		{
-			MenuItemTranslate_Click(sender, e);
-			MenuItemBuild_Click(sender, e);
-			MenuItemLoad_Click(sender, e);
-		}
-
 		private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBox.Show("Mission Science iRobots\nUSC CSCI-577 Team 07");
@@ -314,6 +308,7 @@ namespace iRobotGUI
 		{
 			System.Diagnostics.Process.Start(cFile);
 		}
+
 		private void MenuItemShowSrcFolder_Click(object sender, RoutedEventArgs e)
 		{
 			// Open current folder in explorer.exe
@@ -330,15 +325,19 @@ namespace iRobotGUI
 
 			if (Properties.Settings.Default.OpenCCode) Process.Start(cFile);
 		}
-		#endregion
-		// textbox input form validation function
-		private void number_validation(object sender, TextCompositionEventArgs e)
+
+		/// <summary>
+		/// Translate igp file to C file and compile it to executable program using WinAVR and load it to iRobot.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MenuItemTranslateBuildLoad_Click(object sender, RoutedEventArgs e)
 		{
-			Regex regex = new Regex("[^0-9]+");
-			e.Handled = regex.IsMatch(e.Text);
+			MenuItemTranslate_Click(sender, e);
+			MenuItemBuild_Click(sender, e);
+			MenuItemLoad_Click(sender, e);
 		}
-
-
+		#endregion
 	}
 }
 

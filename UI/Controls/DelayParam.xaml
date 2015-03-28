@@ -69,7 +69,7 @@
 	<Grid>
 		<Label FontSize="14" Content="5000ms" Margin="166,49,59,205"/>
 		<Label FontSize="14" Content="0ms" Margin="166,228,87,44" RenderTransformOrigin="2.028,1.96"/>
-		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="48,137,0,0" VerticalAlignment="Top" Width="193" Maximum="5000" LargeChange="20" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5">
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="48,137,0,0" VerticalAlignment="Top" Width="193" Maximum="5000" LargeChange="1000" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5" IsSnapToTickEnabled="True" TickFrequency="1000" SmallChange="1000">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
