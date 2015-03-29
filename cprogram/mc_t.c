@@ -63,6 +63,7 @@ int main (void)
   uint8_t turn_dir = 1;
   uint8_t turning = 0;
   uint8_t moving = 0;
+  int loopControl;
 
 
   // Set up the Mind Control and Roomba SCI

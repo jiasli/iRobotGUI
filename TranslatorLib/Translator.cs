@@ -89,7 +89,9 @@ else
 {";
 		public const string END_IF_SINPPET = @"}";
 
-		public const string LOOP_SNIPPET = @"while (#condition)
+        public const string LOOP_SNIPPET = @"while (delaySensors(0), #condition)
+{";
+        public const string TIMELOOP_SNIPPET = @"for (loopControl = 0; loopControl < #time; loopControl++)
 {";
 		public const string END_LOOP_SNIPPET = @"}";
 		public const string DELAY_SNIPPET = @"delay(#time);";
@@ -190,6 +192,12 @@ else
 			string operatorSymbol;
 			List<int> paramList = ins.paramList;
 			StringBuilder builder = new StringBuilder();
+
+            if ((ins.opcode == Instruction.LOOP) && (ins.paramList.Count == 1))
+            {
+                builder.Append(TIMELOOP_SNIPPET.Replace("#time", paramList[0].ToString()));
+                return builder.ToString();
+            }
 
 			operatorSymbol = Operator.GetOperatorTextSymbol(paramList[1]);
 

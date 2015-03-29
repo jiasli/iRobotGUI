@@ -37,7 +37,7 @@ namespace iRobotGUI
             { Instruction.IF, 3 },
             { Instruction.ELSE, 0 },
             { Instruction.END_IF, 0 },
-            { Instruction.LOOP, 3 },
+//          { Instruction.LOOP, 3 },
             { Instruction.END_LOOP, 0 },
             { Instruction.DELAY, 1 },
             { Instruction.READ_SENSOR, 0 },
