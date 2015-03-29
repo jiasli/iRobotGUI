@@ -370,6 +370,9 @@
     <Resource Include="pic\charging.png" />
     <Resource Include="pic\velocity_arrow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Remarks.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
