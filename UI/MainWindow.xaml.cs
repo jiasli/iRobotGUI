@@ -24,14 +24,28 @@ namespace iRobotGUI
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window));
-
+		public static RoutedCommand BuildCmd = new RoutedUICommand("Build", "Build", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F5) });
+		public static RoutedCommand CleanCmd = new RoutedUICommand("Clean", "Clean", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F7) });
+		public static RoutedCommand LoadCmd = new RoutedUICommand("Load", "Load", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F6) });
+		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift) });
+		public static RoutedCommand WinAvrConfigCmd = new RoutedUICommand("WinAVR Configuation", "avrconfig", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift) });
 		private string cFile = "mc_o.c";
 		private string igpFile;
 		private HLProgram program;
 
 		public MainWindow()
 		{
+			this.CommandBindings.Add(new CommandBinding(BuildCmd, BuildCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(CleanCmd, CleanCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(LoadCmd, LoadCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(OpenSourceCmd, OpenSrcCmdExecuted, OpenSrcCmdCanExecute));
+			this.CommandBindings.Add(new CommandBinding(WinAvrConfigCmd, WinAvrConfigCmdExecuted));
+
 			InitializeComponent();
 
 			// Set the current folder to cprogram
@@ -50,25 +64,40 @@ namespace iRobotGUI
 
 		// Create(New), Save and Load. Traceability: WC_3305: As an ESS, I can create, save and load program files.
 
-		/// <summary>
-		/// Show Configuration Window
-		/// </summary>
-		private void ConfigCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		private void BuildCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			// Instantiate the dialog box
-			ConfigurationWindow dlg = new ConfigurationWindow();
-
-
-			// Configure the dialog box
-			dlg.Owner = this;
-			dlg.Config = WinAvrConnector.config;
-
-			// Open the dialog box modally 
-			dlg.ShowDialog();
-			if (dlg.DialogResult == true)
+			try
 			{
-				// MessageBox.Show(WinAvrConnector.config.ToString());
+				WinAvrConnector.Make();
+			}
+			catch (Exception ex)
+			{
+				ShowWinAvrError();
+			}
+		}
 
+		private void CleanCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				File.Delete("C_result.c");
+				WinAvrConnector.Clean();
+			}
+			catch (Exception)
+			{
+				ShowWinAvrError();
+			}
+		}
+
+		private void LoadCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				WinAvrConnector.Load();
+			}
+			catch (Exception)
+			{
+				ShowWinAvrError();
 			}
 		}
 
@@ -109,7 +138,6 @@ namespace iRobotGUI
 				textBlockStatus.Text = igpFile;
 			}
 		}
-
 
 		private void OpenSrcCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
@@ -173,11 +201,40 @@ namespace iRobotGUI
 				SaveProgram(igpFile);
 			}
 		}
+
+		/// <summary>
+		/// Show Configuration Window
+		/// </summary>
+		private void WinAvrConfigCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			// Instantiate the dialog box
+			ConfigurationWindow dlg = new ConfigurationWindow();
+
+
+			// Configure the dialog box
+			dlg.Owner = this;
+			dlg.Config = WinAvrConnector.config;
+
+			// Open the dialog box modally 
+			dlg.ShowDialog();
+			if (dlg.DialogResult == true)
+			{
+				// MessageBox.Show(WinAvrConnector.config.ToString());
+
+			}
+		}
 		#endregion
 
 
 
 		#region Private Methods
+		// textbox input form validation function
+		private void number_validation(object sender, TextCompositionEventArgs e)
+		{
+			Regex regex = new Regex("[^0-9]+");
+			e.Handled = regex.IsMatch(e.Text);
+		}
+
 		/// <summary>
 		/// Load program from file.
 		/// </summary>
@@ -217,13 +274,6 @@ namespace iRobotGUI
 		{
 			MessageBox.Show("Fail to execute. Check if WinAVR is installed correctly.", "Fail", MessageBoxButton.OK, MessageBoxImage.Error);
 		}
-
-		// textbox input form validation function
-		private void number_validation(object sender, TextCompositionEventArgs e)
-		{
-			Regex regex = new Regex("[^0-9]+");
-			e.Handled = regex.IsMatch(e.Text);
-		}
 		#endregion
 
 
@@ -254,47 +304,7 @@ namespace iRobotGUI
 			MessageBox.Show("Mission Science iRobots\nUSC CSCI-577 Team 07");
 		}
 
-		private void MenuItemBuild_Click(object sender, RoutedEventArgs e)
-		{
-			//Window errorWin = new OutputWindow();
-			//errorWin.Show();
-			//  WinAvrConnector.Clean();
 
-			try
-			{
-				WinAvrConnector.Make();
-			}
-			catch (Exception ex)
-			{
-				ShowWinAvrError();
-			}
-
-		}
-
-		private void MenuItemClean_Click(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				File.Delete("C_result.c");
-				WinAvrConnector.Clean();
-			}
-			catch (Exception)
-			{
-				ShowWinAvrError();
-			}
-		}
-
-		private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				WinAvrConnector.Load();
-			}
-			catch (Exception)
-			{
-				ShowWinAvrError();
-			}
-		}
 
 		private void MenuItemSettings_Click(object sender, RoutedEventArgs e)
 		{
@@ -334,10 +344,14 @@ namespace iRobotGUI
 		private void MenuItemTranslateBuildLoad_Click(object sender, RoutedEventArgs e)
 		{
 			MenuItemTranslate_Click(sender, e);
-			MenuItemBuild_Click(sender, e);
-			MenuItemLoad_Click(sender, e);
+			BuildCmd.Execute(null, this);
+			LoadCmd.Execute(null, this);
 		}
 		#endregion
+
+
+
+
 	}
 }
 

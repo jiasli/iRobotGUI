@@ -5,29 +5,13 @@
 	xmlns:System="clr-namespace:System;assembly=mscorlib"    
 	xmlns:custom="clr-namespace:iRobotGUI"
 	
-	Title="iRobot GUI" Width="750" Height="500" >
-
-	<Window.Resources>
-		<RoutedUICommand x:Key="BuildCmd" Text="Build">
-			<RoutedUICommand.InputGestures>
-				<KeyGesture>F5</KeyGesture>
-			</RoutedUICommand.InputGestures>
-		</RoutedUICommand>
-
-		<RoutedUICommand x:Key="ComPortCmd" Text="WinAVR Configuration">
-			<RoutedUICommand.InputGestures>
-				<KeyGesture>CTRL+SHIFT+C</KeyGesture>
-			</RoutedUICommand.InputGestures>
-		</RoutedUICommand>
-	</Window.Resources>
+	Title="iRobot GUI" Width="750" Height="500" >	
 	
 	<Window.CommandBindings>
 		<CommandBinding Command="ApplicationCommands.New" Executed="NewCmdExecuted"/>
 		<CommandBinding Command="ApplicationCommands.Open" Executed="OpenCmdExecuted"/>
 		<CommandBinding Command="ApplicationCommands.Save" Executed="SaveCmdExecuted"/>
 		<CommandBinding Command="ApplicationCommands.SaveAs" Executed="SaveAsCmdExecuted"/>
-		<CommandBinding Command="{StaticResource ComPortCmd}" Executed="ConfigCmdExecuted"/>
-		<CommandBinding Command="{x:Static custom:MainWindow.OpenSourceCmd}" Executed="OpenSrcCmdExecuted" CanExecute="OpenSrcCmdCanExecute"/>
 	</Window.CommandBindings>
 
 
@@ -54,14 +38,14 @@
 				<MenuItem Header="Show C Code" Click="MenuItemShowCCode_Click"/>
 				<Separator />
 				<MenuItem Header="WinAVR">
-					<MenuItem Command="{DynamicResource BuildCmd}"/>
-					<MenuItem Header="Clean" Click="MenuItemClean_Click" />
-					<MenuItem Header="Load" Click="MenuItemLoad_Click"/>
+					<MenuItem Command="{x:Static custom:MainWindow.BuildCmd}" />
+					<MenuItem Command="{x:Static custom:MainWindow.LoadCmd}" />
+					<MenuItem Command="{x:Static custom:MainWindow.CleanCmd}" />
 				</MenuItem>				
 				<Separator />
 				<MenuItem Header="Load to Microcontroller" Click="MenuItemTranslateBuildLoad_Click"/>
 				<Separator/>
-				<MenuItem Command="{StaticResource ComPortCmd}" />
+				<MenuItem Command="{x:Static custom:MainWindow.WinAvrConfigCmd}" />
 				<MenuItem Header="Settings" Click="MenuItemSettings_Click"  />
 			</MenuItem>
 			<MenuItem Header="Help">
