@@ -106,6 +106,15 @@ namespace iRobotGUI
 		public SongWindow()
 		{
 			InitializeComponent();
+
+			for (int i = 0; i <= 15; i++)
+			{
+				ComboBoxItem item = new ComboBoxItem();
+				item.Content = i.ToString();
+				comboBoxSongNo.Items.Add(item);
+			}
+
+			outDevice = new OutputDevice(0);
 		}
 
 		/// <summary>
@@ -152,13 +161,6 @@ namespace iRobotGUI
 				listViewNotes.SelectedIndex = 0;
 			}
 		}
-
-
-		private void buttonClear_Click(object sender, RoutedEventArgs e)
-		{
-			noteList.Clear();
-		}
-
 
 		private void buttonNew_Click(object sender, RoutedEventArgs e)
 		{
@@ -207,7 +209,6 @@ namespace iRobotGUI
 
 			CommandManager.InvalidateRequerySuggested();
 			outDevice.Send(new ChannelMessage(ChannelCommand.NoteOn, 0, e.NoteID, 127));
-
 		}
 
 		private void pianoKeyboard_PianoKeyUp(object sender, PianoKeyEventArgs e)
@@ -223,18 +224,7 @@ namespace iRobotGUI
 			}
 		}
 
-		private void Window_Loaded(object sender, RoutedEventArgs e)
-		{
-			for (int i = 0; i <= 15; i++)
-			{
-				ComboBoxItem item = new ComboBoxItem();
-				item.Content = i.ToString();
-				comboBoxSongNo.Items.Add(item);
-			}	
-
-			outDevice = new OutputDevice(0);
-		}
-
+		
 		#region Command Handler
 
 		private void CommandDelete_CanExecute(object sender, CanExecuteRoutedEventArgs e)
