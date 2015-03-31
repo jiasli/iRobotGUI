@@ -25,6 +25,7 @@ namespace iRobotGUI.Controls
 		 private int radius;
 		 private const int STRAIGHT = 32768;
 		 private const int MAX_RADIUS = 2000;
+		
 		 private int roundToInt(double val)
 		 {
 			 return (int)Math.Round(val, 0, MidpointRounding.AwayFromZero);
@@ -64,20 +65,21 @@ namespace iRobotGUI.Controls
             this.MouseUp += new MouseButtonEventHandler(OnMouseUp);
             this.MouseMove += new MouseEventHandler(OnMouseMove);
         }
-        private double GetAngle(Point touchPoint, Size circleSize)
+        private double GetAngle(Point touchPoint, double Height, Point center)
         {
-            var _X = touchPoint.X - (circleSize.Width / 2d);
-            var _Y = circleSize.Height - touchPoint.Y - (circleSize.Height / 2d);
+            var _X = touchPoint.X -center.X- (Height / 2d);
+            var _Y = Height - touchPoint.Y +center.Y- (Height / 2d);
             var _Hypot = Math.Sqrt(_X * _X + _Y * _Y);
+			
            /* var _Value = Math.Asin(_Y / _Hypot) * 180 / Math.PI;
             var _Quadrant = (_X >= 0) ?
                 (_Y >= 0) ? Quadrants.ne : Quadrants.se :
                 (_Y >= 0) ? Quadrants.nw : Quadrants.sw;
 			*/
 			var _Value = Math.Asin(_Y / _Hypot) * 180 / Math.PI;
-			var _Quadrant = (touchPoint.X >= 75) ?
-				(touchPoint.Y >= 75) ? Quadrants.ne : Quadrants.se :
-				(touchPoint.Y >= 75) ? Quadrants.nw : Quadrants.sw;
+			var _Quadrant = (touchPoint.X >= center.X) ?
+				(touchPoint.Y <= center.Y) ? Quadrants.ne : Quadrants.se :
+				(touchPoint.Y <= center.Y) ? Quadrants.nw : Quadrants.sw;
             switch (_Quadrant)
             {
                /// case Quadrants.ne: _Value = 090 - _Value; break;
@@ -104,8 +106,9 @@ namespace iRobotGUI.Controls
 				this.Angle = radiusToAngle(this.radius);
                 ///rotate the control image by specified number of degrees:
                 RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle));
-                rotateTransform1.CenterX = 75;
-                rotateTransform1.CenterY = 75;
+				ellipse.RenderTransformOrigin = new Point(0.5, 0.5); 
+                /*rotateTransform1.CenterX = 75;
+				rotateTransform1.CenterY = 75; */
                 ellipse.RenderTransform = rotateTransform1;
 
             }
@@ -127,13 +130,16 @@ namespace iRobotGUI.Controls
             {
                 /// Get the current mouse position relative to the control
                 Point currentLocation = Mouse.GetPosition(this);
+				Point relativePoint = ellipse.TransformToAncestor(grid).Transform(new Point(0, 0));
+				Point center =ellipse.PointToScreen(new Point(0d, 0d)); //new Point(relativePoint.X + ellipse.ActualWidth / 2, relativePoint.Y + ellipse.ActualHeight / 2);
                 /// Calculate the angle
-               this.Angle = GetAngle(currentLocation, this.RenderSize);           
+               this.Angle = GetAngle(currentLocation, (ellipse.Width), center);           
                Ins.paramList[1] =  angleToRadius(this.Angle); /// update rotation radius in instruction parameter list
                RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle));
-               rotateTransform1.CenterX = 75;
-               rotateTransform1.CenterY = 75;
-               ellipse.RenderTransform = rotateTransform1;
+			   ellipse.RenderTransformOrigin = new Point(0.5, 0.5);
+            /*   rotateTransform1.CenterX = 75;
+               rotateTransform1.CenterY = 75;*/
+               ellipse.RenderTransform = rotateTransform1; 
 				///update textbox text:
 			   textbox1.Text = Ins.paramList[1].ToString();
             }
@@ -161,8 +167,9 @@ namespace iRobotGUI.Controls
 				Ins.paramList[1] = new_radius; /// update rotation radius
 				this.Angle = radiusToAngle(new_radius); ///update the angle
 				RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle)); /// now lets rotate wheel control
-				rotateTransform1.CenterX = 75;
-				rotateTransform1.CenterY = 75;
+				ellipse.RenderTransformOrigin = new Point(0.5, 0.5);
+			/*		rotateTransform1.CenterX = 75;
+				rotateTransform1.CenterY = 75;*/
 				ellipse.RenderTransform = rotateTransform1;
 				}
 			}
