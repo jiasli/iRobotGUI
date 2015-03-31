@@ -57,38 +57,13 @@ namespace iRobotGUI.Controls
 														 ///
 			 return roundToInt((Math.Sin(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
 		 }
-        private enum Quadrants : int { nw = 2, ne = 1, sw = 4, se = 3 }
+       
         public DriveParam()
         {
             InitializeComponent();
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(OnMouseLeftButtonDown);
-            this.MouseUp += new MouseButtonEventHandler(OnMouseUp);
-            this.MouseMove += new MouseEventHandler(OnMouseMove);
+			this.DataContext = this;
         }
-        private double GetAngle(Point touchPoint, double Height, Point center)
-        {
-            var _X = touchPoint.X -center.X- (Height / 2d);
-            var _Y = Height - touchPoint.Y +center.Y- (Height / 2d);
-            var _Hypot = Math.Sqrt(_X * _X + _Y * _Y);
-			
-           /* var _Value = Math.Asin(_Y / _Hypot) * 180 / Math.PI;
-            var _Quadrant = (_X >= 0) ?
-                (_Y >= 0) ? Quadrants.ne : Quadrants.se :
-                (_Y >= 0) ? Quadrants.nw : Quadrants.sw;
-			*/
-			var _Value = Math.Asin(_Y / _Hypot) * 180 / Math.PI;
-			var _Quadrant = (touchPoint.X >= center.X) ?
-				(touchPoint.Y <= center.Y) ? Quadrants.ne : Quadrants.se :
-				(touchPoint.Y <= center.Y) ? Quadrants.nw : Quadrants.sw;
-            switch (_Quadrant)
-            {
-               /// case Quadrants.ne: _Value = 090 - _Value; break;
-				case Quadrants.nw: _Value = -_Value; break;
-                case Quadrants.se: _Value = 090 /*- _Value*/; break;
-                case Quadrants.sw: _Value =  -90 /* _Value*/; break;
-            }
-            return _Value;
-        }
+       
         public override Instruction Ins
         {
             get
@@ -104,46 +79,14 @@ namespace iRobotGUI.Controls
 				textbox1.Text = Ins.paramList[1].ToString(); 
                 this.radius = Ins.paramList[1];
 				this.Angle = radiusToAngle(this.radius);
-                ///rotate the control image by specified number of degrees:
-                RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle));
-				ellipse.RenderTransformOrigin = new Point(0.5, 0.5); 
-                /*rotateTransform1.CenterX = 75;
-				rotateTransform1.CenterY = 75; */
-                ellipse.RenderTransform = rotateTransform1;
+               
 
             }
         }
     
-        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Mouse.Capture(this);
-        }
+       
 
-        private void OnMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Mouse.Capture(null);
-        }
-
-        private void OnMouseMove(object sender, MouseEventArgs e)
-        {
-            if (Mouse.Captured == this)
-            {
-                /// Get the current mouse position relative to the control
-                Point currentLocation = Mouse.GetPosition(this);
-				Point relativePoint = ellipse.TransformToAncestor(grid).Transform(new Point(0, 0));
-				Point center =ellipse.PointToScreen(new Point(0d, 0d)); //new Point(relativePoint.X + ellipse.ActualWidth / 2, relativePoint.Y + ellipse.ActualHeight / 2);
-                /// Calculate the angle
-               this.Angle = GetAngle(currentLocation, (ellipse.Width), center);           
-               Ins.paramList[1] =  angleToRadius(this.Angle); /// update rotation radius in instruction parameter list
-               RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle));
-			   ellipse.RenderTransformOrigin = new Point(0.5, 0.5);
-            /*   rotateTransform1.CenterX = 75;
-               rotateTransform1.CenterY = 75;*/
-               ellipse.RenderTransform = rotateTransform1; 
-				///update textbox text:
-			   textbox1.Text = Ins.paramList[1].ToString();
-            }
-        }
+       
       /*  private void txtbox1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
@@ -165,12 +108,7 @@ namespace iRobotGUI.Controls
 			int new_radius = int.Parse(textbox1.Text);
 				if(Math.Abs(new_radius) <= 2000 || new_radius == STRAIGHT) {
 				Ins.paramList[1] = new_radius; /// update rotation radius
-				this.Angle = radiusToAngle(new_radius); ///update the angle
-				RotateTransform rotateTransform1 = new RotateTransform(roundToInt(this.Angle)); /// now lets rotate wheel control
-				ellipse.RenderTransformOrigin = new Point(0.5, 0.5);
-			/*		rotateTransform1.CenterX = 75;
-				rotateTransform1.CenterY = 75;*/
-				ellipse.RenderTransform = rotateTransform1;
+				this.Angle = radiusToAngle(new_radius); ///update the angle				
 				}
 			}
 		}

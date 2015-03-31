@@ -81,9 +81,9 @@ namespace iRobotGUI.Controls
 				/// Get the current mouse position relative to the control
 				Point currentLocation = Mouse.GetPosition(this);
 				/// Calculate an angle
-				this._Angle = GetAngle(currentLocation, this.RenderSize);
-				this._Radius = angleToRadius(this._Angle);
-				RotateTransform rotateTransform1 = new RotateTransform((int)this._Angle);
+				this.Angle = GetAngle(currentLocation, this.RenderSize);
+				this.Radius = angleToRadius(this.Angle);
+				RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
 				rotateTransform1.CenterX = (this.ActualWidth) / 2;
 				rotateTransform1.CenterY = (this.ActualHeight) / 2;
 				RotateGrid.RenderTransform = rotateTransform1;

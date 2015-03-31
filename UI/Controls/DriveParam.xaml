@@ -78,19 +78,14 @@
 			</Slider.RenderTransform>
 		</Slider>
 
-		<TextBox Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="32,195,164,85" TextChanged="textbox1_TextChanged" PreviewTextInput="textbox1_PreviewTextInput"/>
+		<TextBox Text="{Binding Radius, Mode=TwoWay, ElementName=steer}" x:Name="textbox1" Margin="32,195,164,85" TextChanged="textbox1_TextChanged" PreviewTextInput="textbox1_PreviewTextInput"/>
 		<Label Content="Velocity, mm/s" Margin="184,239,10,20" FontSize="14"/>
 		<Label Content="Radius, mm" FontSize="14" Margin="32,219,185,41" RenderTransformOrigin="0.482,0.286"/>
-		<Ellipse x:Name="ellipse" Margin="0,0,234,237">
-			<Ellipse.Fill>
-				<ImageBrush ImageSource="/iRobotGUI;component/pic/drive.jpg"/>
-			</Ellipse.Fill>
-		</Ellipse>
 		<Label Content="500" HorizontalAlignment="Left" Margin="241,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
 		<Label Content="-500" HorizontalAlignment="Left" Margin="241,187,0,0" VerticalAlignment="Top"/>
 		<Label Content="{Binding Value, ElementName=SliderVelocity}" HorizontalAlignment="Left" Margin="226,213,0,0" VerticalAlignment="Top" Width="44" RenderTransformOrigin="-8.252,0.245"/>
 		<Label Content="Forward" HorizontalAlignment="Left" Margin="237,54,0,0" VerticalAlignment="Top"/>
 		<Label Content="Backward" HorizontalAlignment="Left" Margin="237,161,0,0" VerticalAlignment="Top"/>
-		<src:SteeringParam x:Name="steer" Margin="86,54,88,121"/>
+		<src:SteeringParam x:Name="steer" Margin="32,38,142,137" RenderTransformOrigin="0.892,0.556"/>
 	</Grid>
 </src:BaseParamControl>
