@@ -63,13 +63,8 @@ namespace iRobotGUI.Controls
 				for (int i = 0; i < pvm.Count; i++)
 				{
 					int prgIndex = pvm[i];
-					int endIfLoop = -1;
 					HLProgram subprogram = new HLProgram();
-
-					if (program[prgIndex].opcode == Instruction.IF)
-						endIfLoop = program.FindEndIf(prgIndex);
-					else if (program[prgIndex].opcode == Instruction.LOOP)
-						endIfLoop = program.FindEndLoop(prgIndex);
+					int endIfLoop = FindEndIfLoop(prgIndex);
 
 					if (endIfLoop > 0)
 					{
@@ -151,18 +146,8 @@ namespace iRobotGUI.Controls
 				int startIndex = pvm[index];
 				int endIndex = startIndex;
 
-				if (program[startIndex].opcode == Instruction.IF)
-				{
-					int endIf = program.FindEndIf(startIndex);
-					if (endIf > 0)
-						endIndex = endIf;
-				}
-				else if (program[startIndex].opcode == Instruction.LOOP)
-				{
-					int endLoop = program.FindEndLoop(startIndex);
-					if (endLoop > 0)
-						endIndex = endLoop;
-				}
+				if (FindEndIfLoop(startIndex) > 0)
+					endIndex = FindEndIfLoop(startIndex);
 
 				program.Remove(startIndex, endIndex - startIndex + 1);
 				pvm.Remove(pvm[index]);
@@ -252,7 +237,7 @@ namespace iRobotGUI.Controls
 		/// <summary>
 		/// Update content in ProgramList accordint to pvm
 		/// </summary>
-		public void UpdateContent()
+		private void UpdateContent()
 		{
 			ListviewProgram.Items.Clear();
 
@@ -296,7 +281,11 @@ namespace iRobotGUI.Controls
 
 		#endregion
 
-		void PopUpWindow(int index)
+		/// <summary>
+		/// pop up the parameter window
+		/// </summary>
+		/// <param name="index">index in pvm</param>
+		private void PopUpWindow(int index)
 		{
 
 			// The index of Instruction in HLProgram
@@ -308,12 +297,7 @@ namespace iRobotGUI.Controls
 			if (program[prgIndex].opcode == Instruction.IF || program[prgIndex].opcode == Instruction.LOOP)
 			{
 				HLProgram subprogram = new HLProgram();
-				int endIfLoop;
-
-				if (program[prgIndex].opcode == Instruction.IF)
-					endIfLoop = program.FindEndIf(prgIndex);
-				else
-					endIfLoop = program.FindEndLoop(prgIndex);
+				int endIfLoop = FindEndIfLoop(prgIndex);
 
 				// load subprogram from program
 				if (endIfLoop > 0)
@@ -348,6 +332,23 @@ namespace iRobotGUI.Controls
 			}
 
 			UpdateContent();
+		}
+
+		/// <summary>
+		/// Find where if or loop ends
+		/// </summary>
+		/// <param name="prgIndex">index in program</param>
+		/// <returns>the line number where if or loop ends</returns>
+		private int FindEndIfLoop(int prgIndex)
+		{
+			int endIfLoop = -1;
+
+			if (program[prgIndex].opcode == Instruction.IF)
+				endIfLoop = program.FindEndIf(prgIndex);
+			else if (program[prgIndex].opcode == Instruction.LOOP)
+				endIfLoop = program.FindEndLoop(prgIndex);
+
+			return endIfLoop;
 		}
 
 	}
