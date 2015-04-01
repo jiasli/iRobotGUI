@@ -36,19 +36,22 @@ namespace iRobotGUI.Controls
 			 {
 				 return 0.0;
 			 }
-			 double d = (double)radius / (double) MAX_RADIUS;
-			 double rad_angle = Math.Asin(d);
-			 return (rad_angle*180.0)/Math.PI; /// return negative angle
+			 double d = (double)radius / (double)MAX_RADIUS;
+			 double rad_angle = Math.Acos(d);
+			 if (radius >= 0)
+			 {
+				 return (rad_angle * 180.0) / Math.PI;
+			 }
+			 return ((rad_angle - Math.PI) * 180.0) / Math.PI; /// return centigrade angle
 		 }
 		 private int angleToRadius(double angle)
 		 {
-			 //if (angle > -1.0 && angle < 1.0)
-			 //{
-			 //	return STRAIGHT;
-			 //}
 			 double rad_angle = (angle * Math.PI) / 180; ///convert angle from centigrade to radians
-														 ///
-			 return roundToInt((Math.Sin(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
+			 if (angle >= 0)
+			 {
+				 return roundToInt((Math.Cos(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
+			 };
+			 return -roundToInt((Math.Cos(rad_angle) * MAX_RADIUS));
 		 }
        
         public DriveParam()

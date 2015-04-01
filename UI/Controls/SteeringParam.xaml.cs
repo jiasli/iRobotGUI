@@ -44,14 +44,12 @@ namespace iRobotGUI.Controls
 		}
 		private int angleToRadius(double angle)
 		{
-
-			//if (angle > -1.0 && angle < 1.0)
-			//{
-			//	return STRAIGHT;
-			//}
 			double rad_angle = (angle * Math.PI) / 180; ///convert angle from centigrade to radians
-			///
-			return roundToInt((Math.Sin(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
+			if (angle >= 0)
+			{										
+				return roundToInt((Math.Cos(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
+			};
+			return -roundToInt((Math.Cos(rad_angle) * MAX_RADIUS));
 		}
 		private double radiusToAngle(int radius)
 		{
@@ -60,8 +58,11 @@ namespace iRobotGUI.Controls
 				return 0.0;
 			}
 			double d = (double)radius / (double)MAX_RADIUS;
-			double rad_angle = Math.Asin(d);
-			return (rad_angle * 180.0) / Math.PI; /// return centigrade angle
+			double rad_angle = Math.Acos(d);
+			if(radius >= 0) {
+				return (rad_angle * 180.0) / Math.PI;
+			}
+			return ((rad_angle - Math.PI) * 180.0) / Math.PI; /// return centigrade angle
 		}
 		private double GetAngle(Point touchPoint, Size circleSize)
 		{
@@ -72,12 +73,16 @@ namespace iRobotGUI.Controls
 			var _Quadrant = (_X >= 0) ?
 				(_Y >= 0) ? Quadrants.ne : Quadrants.se :
 				(_Y >= 0) ? Quadrants.nw : Quadrants.sw;
+			if (_Value >= 89.9)
+			{
+				_Value = 89.9;
+			}
 			switch (_Quadrant)
 			{
-				case Quadrants.ne: _Value = 090 - _Value; break;
-				case Quadrants.nw: _Value = _Value - 90; break;
-				case Quadrants.se: _Value = 90 /*- _Value*/; break;
-				case Quadrants.sw: _Value = -90 /*+  _Value*/; break;
+				case Quadrants.ne: _Value = 089.9 - _Value; break;
+				case Quadrants.nw: _Value = _Value - 089.9; break;
+				case Quadrants.se: _Value = 089.9 /*- _Value*/; break;
+				case Quadrants.sw: _Value = -089.9 /*+  _Value*/; break;
 			}
 			return _Value;
 		}
