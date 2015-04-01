@@ -88,7 +88,7 @@ namespace iRobotGUI.Controls
 
 		private void textbox1_TextChanged(object sender, TextChangedEventArgs e)
 	{
-			if (textbox1.Text.Length > 0 && textbox1.Text.Length <5 && textbox1.Text!= "-")
+			if (textbox1.Text.Length > 0 && textbox1.Text.Length <6 && textbox1.Text!= "-")
 			{
 				
 			int new_radius = int.Parse(textbox1.Text);

@@ -8,7 +8,7 @@
     <Grid>
 		<Grid x:Name="RotateGrid">
 			<Grid.RenderTransform>
-				<RotateTransform CenterX="75" CenterY="75" Angle="{Binding Angle}"/>
+				<RotateTransform x:Name="myTransform" CenterX="75" CenterY="75" Angle="{Binding Angle}"/>
 			</Grid.RenderTransform>
 			<Ellipse>
 				<Ellipse.Fill>
