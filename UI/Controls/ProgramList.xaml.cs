@@ -128,55 +128,7 @@ namespace iRobotGUI.Controls
 				if (index < 0)
 					return;
 
-				// The index of Instruction in HLProgram
-				int prgIndex = pvm[index];
-
-				// The Ins under modification
-				Instruction selectedIns = program[prgIndex];
-
-				if (program[prgIndex].opcode == Instruction.IF || program[prgIndex].opcode == Instruction.LOOP)
-				{
-					HLProgram subprogram = new HLProgram();
-					int endIfLoop;
-
-					if (program[prgIndex].opcode == Instruction.IF)
-						endIfLoop = program.FindEndIf(prgIndex);
-					else
-						endIfLoop = program.FindEndLoop(prgIndex);
-
-					// load subprogram from program
-					if (endIfLoop > 0)
-					{
-						subprogram = program.SubProgram(prgIndex, endIfLoop);
-						program.Remove(prgIndex, endIfLoop - prgIndex + 1);
-					}
-					else
-					{
-						subprogram.Add(selectedIns);
-						program.Remove(selectedIns);
-					}
-					int subnumber = subprogram.Count;
-
-					// invoke the dialog
-					subprogram = DialogInvoker.ShowDialog(subprogram, Window.GetWindow(this));
-
-					// update program and pvm
-					program.Insert(prgIndex, subprogram);
-					int diff = subprogram.Count - subnumber;
-					for (int i = 0; i < pvm.Count; i++)
-					{
-						if (pvm[i] > prgIndex + subnumber - 1)
-							pvm[i] += diff;
-					}
-				}
-				else
-				{
-					// Single Ins, show the dialog and update with the result.
-					Instruction result = DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
-					program[prgIndex] = result;
-				}
-
-				UpdateContent();
+				PopUpWindow(index);
 			}
 
 		}
@@ -286,6 +238,7 @@ namespace iRobotGUI.Controls
 				}
 
 				UpdateContent();
+				PopUpWindow(newIndex);
 				ListviewProgram.SelectedItem = newIns;
 			}
 		}
@@ -342,5 +295,60 @@ namespace iRobotGUI.Controls
 		}
 
 		#endregion
+
+		void PopUpWindow(int index)
+		{
+
+			// The index of Instruction in HLProgram
+			int prgIndex = pvm[index];
+
+			// The Ins under modification
+			Instruction selectedIns = program[prgIndex];
+
+			if (program[prgIndex].opcode == Instruction.IF || program[prgIndex].opcode == Instruction.LOOP)
+			{
+				HLProgram subprogram = new HLProgram();
+				int endIfLoop;
+
+				if (program[prgIndex].opcode == Instruction.IF)
+					endIfLoop = program.FindEndIf(prgIndex);
+				else
+					endIfLoop = program.FindEndLoop(prgIndex);
+
+				// load subprogram from program
+				if (endIfLoop > 0)
+				{
+					subprogram = program.SubProgram(prgIndex, endIfLoop);
+					program.Remove(prgIndex, endIfLoop - prgIndex + 1);
+				}
+				else
+				{
+					subprogram.Add(selectedIns);
+					program.Remove(selectedIns);
+				}
+				int subnumber = subprogram.Count;
+
+				// invoke the dialog
+				subprogram = DialogInvoker.ShowDialog(subprogram, Window.GetWindow(this));
+
+				// update program and pvm
+				program.Insert(prgIndex, subprogram);
+				int diff = subprogram.Count - subnumber;
+				for (int i = 0; i < pvm.Count; i++)
+				{
+					if (pvm[i] > prgIndex + subnumber - 1)
+						pvm[i] += diff;
+				}
+			}
+			else
+			{
+				// Single Ins, show the dialog and update with the result.
+				Instruction result = DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
+				program[prgIndex] = result;
+			}
+
+			UpdateContent();
+		}
+
 	}
 }
