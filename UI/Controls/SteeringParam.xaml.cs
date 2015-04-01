@@ -21,22 +21,48 @@ namespace iRobotGUI.Controls
 	/// </summary>
 	public partial class SteeringParam : UserControl, INotifyPropertyChanged
 	{
+		
 		public double Angle
 		{
 			get { return _Angle; }
 			set { setProperty(ref _Angle, value); }
 		}
+		public int Radius
+		{
+			get { return _Radius; }
+			set { setProperty(ref _Radius, value); }
+		}
+
 		private const int STRAIGHT = 32768;
 		private const int MAX_RADIUS = 2000;
-
+		private int _Radius = default(int);
+		private double _Angle = default(double);
+		private enum Quadrants : int { nw = 2, ne = 1, sw = 4, se = 3 }
 		private int roundToInt(double val)
 		{
 			return (int)Math.Round(val, 0, MidpointRounding.AwayFromZero);
 		}
-		private int _Radius = default(int);
-		private double _Angle = default(double);
-		private enum Quadrants : int { nw = 2, ne = 1, sw = 4, se = 3 }
-		//public string retAngle { get { return this.Angle.ToString("F");}}
+		private int angleToRadius(double angle)
+		{
+
+			//if (angle > -1.0 && angle < 1.0)
+			//{
+			//	return STRAIGHT;
+			//}
+			double rad_angle = (angle * Math.PI) / 180; ///convert angle from centigrade to radians
+			///
+			return roundToInt((Math.Sin(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
+		}
+		private double radiusToAngle(int radius)
+		{
+			if (radius == STRAIGHT)
+			{
+				return 0.0;
+			}
+			double d = (double)radius / (double)MAX_RADIUS;
+			double rad_angle = Math.Asin(d);
+			return (rad_angle * 180.0) / Math.PI; /// return centigrade angle
+		}
 		private double GetAngle(Point touchPoint, Size circleSize)
 		{
 			var _X = touchPoint.X - (circleSize.Width / 2d);
@@ -89,44 +115,16 @@ namespace iRobotGUI.Controls
 				RotateGrid.RenderTransform = rotateTransform1;
 			}
 		}
-		public int Radius
-		{
-			get { return _Radius;}
-			set { setProperty(ref _Radius, value);}
-		}
-		private int angleToRadius(double angle)
-		{
-			if (angle > -1.0 && angle < 1.0)
-			{
-				return STRAIGHT;
-			}
-			double rad_angle = (angle * Math.PI) / 180; ///convert angle from centigrade to radians
-			///
-			return roundToInt((Math.Sin(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
-		}
-		private double radiusToAngle(int radius)
-		{
-			if (radius == STRAIGHT)
-			{
-				return 0.0;
-			}
-			double d = (double)radius / (double)MAX_RADIUS;
-			double rad_angle = Math.Asin(d);
-
-			/* if (radius > 0)
-			 {
-				 return (rad_angle * 180.0) / Math.PI; /// return positive angle(in centigrade)
-			 }
-			 * */
-
-			return (rad_angle * 180.0) / Math.PI; /// return negative angle
-		}
+		
+	
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 		void setProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] String propertyName = null)	{
 			if (!object.Equals(storage, value))
 			{
 				storage = value;
+				if(PropertyChanged!=null) {
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				}
 			}
 
 		}

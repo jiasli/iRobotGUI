@@ -105,6 +105,9 @@
     <Compile Include="Controls\DriveParam.xaml.cs">
       <DependentUpon>DriveParam.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SteeringParam.xaml.cs">
+      <DependentUpon>SteeringParam.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util\DialogInvoker.cs" />
     <Compile Include="Controls\MoveParam.xaml.cs">
       <DependentUpon>MoveParam.xaml</DependentUpon>
@@ -186,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\DriveParam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SteeringParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
