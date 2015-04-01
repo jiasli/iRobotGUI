@@ -125,13 +125,13 @@ namespace iRobotGUI
 			get
 			{
 				// 1. Create a default ins
-				Instruction result = Instruction.CreatFromOpcode(Instruction.SONG_DEF);
+				Instruction result = Instruction.CreatFromOpcode(Instruction.SONG);
 				
 				// 2. Clear the parameters.
 				result.paramList.Clear();
 
 				// 3. Song No
-				result.paramList.Add(comboBoxSongNo.SelectedIndex);
+				// result.paramList.Add(comboBoxSongNo.SelectedIndex);
 				
 				// 4. Notes
 				foreach(Note note in noteList)
@@ -147,12 +147,12 @@ namespace iRobotGUI
 				base.Ins = ins;
 
 				// 1. Set song No.
-				comboBoxSongNo.SelectedIndex = ins.paramList[0];
+				// comboBoxSongNo.SelectedIndex = ins.paramList[0];
 
 				// 2. Display the song
 				noteList = new ObservableCollection<Note>();
-				int i = 1;
-				while (i < ins.paramList.Count)
+				int i = 0;
+				while (i < ins.paramList.Count - 1)
 				{
 					noteList.Add(new Note(ins.paramList[i], ins.paramList[i + 1]));
 					i += 2;
@@ -170,21 +170,6 @@ namespace iRobotGUI
 		private void comboBoxSongNo_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			Ins.paramList[0] = comboBoxSongNo.SelectedIndex;
-		}
-
-		/// <summary>
-		/// Get the string of SONG_DEF
-		/// </summary>
-		private string GetInsString()
-		{
-			StringBuilder sb = new StringBuilder();
-
-			sb.Append(Instruction.SONG_DEF + " " + comboBoxSongNo.SelectedItem.ToString());
-			foreach (Note note in listViewNotes.Items)
-			{
-				sb.Append("," + note.ToString());
-			}
-			return sb.ToString();
 		}
 
 		private void listViewNotes_SelectionChanged(object sender, SelectionChangedEventArgs e)

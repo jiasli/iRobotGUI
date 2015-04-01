@@ -34,7 +34,7 @@ namespace iRobotGUI.Util
 				case Instruction.LED:
 					dlg = new LedWindow();
 					break;
-				case Instruction.SONG_DEF:
+				case Instruction.SONG:
 					dlg = new SongWindow();
 					break;
 				case Instruction.DEMO:
