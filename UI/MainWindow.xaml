@@ -5,8 +5,8 @@
 	xmlns:System="clr-namespace:System;assembly=mscorlib"    
 	xmlns:custom="clr-namespace:iRobotGUI"
 	
-	Title="iRobot GUI" Width="750" Height="500" >	
-	
+	Title="iRobot GUI" Width="750" Height="500" >
+
 	<Window.CommandBindings>
 		<CommandBinding Command="ApplicationCommands.New" Executed="NewCmdExecuted"/>
 		<CommandBinding Command="ApplicationCommands.Open" Executed="OpenCmdExecuted"/>
@@ -41,7 +41,7 @@
 					<MenuItem Command="{x:Static custom:MainWindow.BuildCmd}" />
 					<MenuItem Command="{x:Static custom:MainWindow.LoadCmd}" />
 					<MenuItem Command="{x:Static custom:MainWindow.CleanCmd}" />
-				</MenuItem>				
+				</MenuItem>
 				<Separator />
 				<MenuItem Header="Load to Microcontroller" Click="MenuItemTranslateBuildLoad_Click"/>
 				<Separator/>
@@ -49,6 +49,7 @@
 				<MenuItem Header="Settings" Click="MenuItemSettings_Click"  />
 			</MenuItem>
 			<MenuItem Header="Help">
+				<MenuItem Header="Show Debug Panel" IsCheckable="True" IsChecked="True" Unchecked="MenuItemShowDebugPanel_Unchecked" Checked="MenuItemShowDebugPanel_Checked" />
 				<MenuItem Header="About"  InputGestureText="F1" Click="MenuItemAbout_Click" />
 			</MenuItem>
 		</Menu>
@@ -63,7 +64,7 @@
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="250"/>
 				<ColumnDefinition Width="1*"/>
-				<ColumnDefinition Width="250"/>
+				<ColumnDefinition x:Name="columnDefinitionDebug" Width="250"/>
 			</Grid.ColumnDefinitions>
 
 			<Controls:InstructionPanel Grid.Column="0"/>

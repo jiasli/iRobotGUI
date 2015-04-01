@@ -299,12 +299,11 @@ namespace iRobotGUI
 
 
 		#region Menu callbacks
+
 		private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBox.Show("Mission Science iRobots\nUSC CSCI-577 Team 07");
 		}
-
-
 
 		private void MenuItemSettings_Click(object sender, RoutedEventArgs e)
 		{
@@ -319,6 +318,17 @@ namespace iRobotGUI
 			System.Diagnostics.Process.Start(cFile);
 		}
 
+		private void MenuItemShowDebugPanel_Checked(object sender, RoutedEventArgs e)
+		{
+			if (columnDefinitionDebug != null)
+				columnDefinitionDebug.Width = new GridLength(200);
+		}
+
+		private void MenuItemShowDebugPanel_Unchecked(object sender, RoutedEventArgs e)
+		{
+			if (columnDefinitionDebug != null)
+				columnDefinitionDebug.Width = new GridLength(0);
+		}
 		private void MenuItemShowSrcFolder_Click(object sender, RoutedEventArgs e)
 		{
 			// Open current folder in explorer.exe
@@ -348,6 +358,8 @@ namespace iRobotGUI
 			LoadCmd.Execute(null, this);
 		}
 		#endregion
+
+
 
 
 

@@ -30,7 +30,7 @@ namespace iRobotGUI.Util
 					return "drive.png";
 				case Instruction.LED:
 					return "led.jpg";
-				case Instruction.SONG_DEF:
+				case Instruction.SONG:
 					return "song.png";
 				case Instruction.DEMO:
 					return "demo.jpg";

@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace iRobotGUI
 {
+	// Related classes:
+	// Translator
+	// Validator
+	// DialogInvoker
+	// InstructionPicture
+	// InstructionPanel's Tags
+
+	/// <summary>
+	/// High-level Instruction.
+	/// </summary>
 	public class Instruction
 	{
 		public string opcode;
@@ -24,8 +34,9 @@ namespace iRobotGUI
 			DRIVE,
 			LED, 
 			DEMO,
-			SONG_DEF,             
-			SONG_PLAY, 
+			SONG,
+			SONG_DEF,
+			SONG_PLAY,
 			IF, 
 			ELSE,
 			END_IF,
@@ -49,7 +60,8 @@ namespace iRobotGUI
 		public const string DRIVE       = "DRIVE";		
 
 		// LED Song
-		public const string LED         = "LED";		
+		public const string LED         = "LED";
+		public const string SONG        = "SONG";
 		public const string SONG_DEF    = "SONG_DEF";
 		public const string SONG_PLAY   = "SONG_PLAY";
 
@@ -149,8 +161,15 @@ namespace iRobotGUI
 				case Instruction.LED:
 					newIns = new Instruction(Instruction.LED + " 10,128,128");
 					break;
-				case Instruction.SONG_DEF:
-					newIns = new Instruction(Instruction.SONG_DEF + " 0");
+				case SONG:
+					newIns = new Instruction(SONG);
+					break;
+				case SONG_DEF:
+					// SONG_DEF with the song number
+					newIns = new Instruction(SONG_DEF + " 0");
+					break;
+				case SONG_PLAY:
+					newIns = new Instruction(SONG_PLAY + " 0");
 					break;
 				case Instruction.DEMO:
 					newIns = new Instruction(Instruction.DEMO + " 0");
