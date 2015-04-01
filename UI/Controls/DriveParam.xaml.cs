@@ -76,7 +76,7 @@ namespace iRobotGUI.Controls
                 this.radius = Ins.paramList[1];
 				///set the angle of the steering wheel
 				steer.Angle = radiusToAngle(this.radius);
-				steer.Radius = angleToRadius(steer.Angle);
+				steer.Radius = this.radius;
                
 
             }
@@ -88,7 +88,7 @@ namespace iRobotGUI.Controls
 
 		private void textbox1_TextChanged(object sender, TextChangedEventArgs e)
 	{
-			if (textbox1.Text.Length != 0 && textbox1.Text!= "-")
+			if (textbox1.Text.Length > 0 && textbox1.Text.Length <5 && textbox1.Text!= "-")
 			{
 				
 			int new_radius = int.Parse(textbox1.Text);
@@ -96,7 +96,7 @@ namespace iRobotGUI.Controls
 				Ins.paramList[1] = new_radius; /// update rotation radius
 				this.Angle = radiusToAngle(new_radius); ///update the angle		
 				steer.Angle = this.Angle;
-				steer.Radius = angleToRadius(this.Angle);///
+				steer.Radius = new_radius;///
 				}
 			}
 		}

@@ -67,7 +67,7 @@
 		</Style>
 	</src:BaseParamControl.Resources>
 	<Grid x:Name="grid">
-		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" Maximum="500" Minimum="-500" LargeChange="10" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="148,103,-22,0">
+		<Slider IsSnapToTickEnabled="True" TickFrequency="1" Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" Maximum="500" Minimum="-500" LargeChange="10" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="148,103,-22,0">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -78,9 +78,9 @@
 			</Slider.RenderTransform>
 		</Slider>
 
-		<TextBox Text="{Binding Radius, Mode=TwoWay, ElementName=steer}" x:Name="textbox1" Margin="32,195,164,85" TextChanged="textbox1_TextChanged" PreviewTextInput="textbox1_PreviewTextInput"/>
+		<TextBox TextAlignment="Center" Text="{Binding Radius, Mode=TwoWay, ElementName=steer}" x:Name="textbox1" Margin="56,186,161,94" TextChanged="textbox1_TextChanged" PreviewTextInput="textbox1_PreviewTextInput" MaxLength="4" Width="83"/>
 		<Label Content="Velocity, mm/s" Margin="184,239,10,20" FontSize="14"/>
-		<Label Content="Radius, mm" FontSize="14" Margin="32,219,185,41" RenderTransformOrigin="0.482,0.286"/>
+		<Label Content="Radius, mm" FontSize="14" Margin="56,211,161,49" RenderTransformOrigin="0.482,0.286"/>
 		<Label Content="500" HorizontalAlignment="Left" Margin="241,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
 		<Label Content="-500" HorizontalAlignment="Left" Margin="241,187,0,0" VerticalAlignment="Top"/>
 		<Label Content="{Binding Value, ElementName=SliderVelocity}" HorizontalAlignment="Left" Margin="226,213,0,0" VerticalAlignment="Top" Width="44" RenderTransformOrigin="-8.252,0.245"/>

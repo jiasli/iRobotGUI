@@ -41,14 +41,20 @@ namespace iRobotGUI.Controls
 
         private void SliderDuration_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Ins.paramList[1] = (int)e.NewValue;
+			int slide_val = (int)e.NewValue;
+			if (Ins != null)
+			{
+				Ins.paramList[1] = slide_val;
+			}
         }
 
         private void SliderDistance_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             int slide_val = (int)e.NewValue;
-           
-            Ins.paramList[0] = slide_val;
+			if (Ins != null)
+			{
+				Ins.paramList[0] = slide_val;
+			}
         }
 
     }

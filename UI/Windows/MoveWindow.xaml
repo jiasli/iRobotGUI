@@ -1,9 +1,9 @@
-﻿<src:BaseParamWindow
+﻿<src:BaseParamWindow x:Class="iRobotGUI.MoveWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:iRobotGUI.Controls" 
-        xmlns:src="clr-namespace:iRobotGUI" x:Class="iRobotGUI.MoveWindow"
-        Title="Move" Height="266" Width="364" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
+        xmlns:src="clr-namespace:iRobotGUI"
+        Title="Move" Height="266" Width="364">
     <Grid>
         <local:MoveParam x:Name="MoveControlInstance" Margin="0,0,0,0"/>
     </Grid>

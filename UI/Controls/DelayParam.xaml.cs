@@ -34,7 +34,10 @@ namespace iRobotGUI.Controls
 		}
 		private void SliderDuration_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			Ins.paramList[0] = (int)e.NewValue;
+			if (Ins != null)
+			{
+				Ins.paramList[0] = (int)e.NewValue;
+			}
 		}
 		public DelayParam()
 		{

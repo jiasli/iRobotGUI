@@ -23,9 +23,16 @@ namespace iRobotGUI
         {
             InitializeComponent();
         }
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            MoveControlInstance.Ins = Ins;
-        }
+		public override Instruction Ins
+		{
+			get
+			{
+				return MoveControlInstance.Ins;
+			}
+			set
+			{
+				MoveControlInstance.Ins = value;
+			}
+		}
     }
 }
