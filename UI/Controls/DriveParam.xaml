@@ -67,7 +67,7 @@
 		</Style>
 	</src:BaseParamControl.Resources>
 	<Grid x:Name="grid">
-		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" Maximum="500" Minimum="-500" LargeChange="20" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="148,103,-22,0">
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" Maximum="500" Minimum="-500" LargeChange="10" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="148,103,-22,0">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>

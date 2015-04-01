@@ -126,7 +126,7 @@
 	<Grid>
 		<Label Content="MOVE" FontSize="18" HorizontalAlignment="Center" Margin="137,0,95,0" VerticalAlignment="Top" Width="115"/>
 		<Label Content="Duration" HorizontalAlignment="Left" Margin="226,95,0,0" VerticalAlignment="Top"/>
-		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="124,95,0,0" VerticalAlignment="Top" Width="150" Maximum="5" LargeChange="20" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5" SmallChange="1" IsSnapToTickEnabled="True">
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="124,95,0,0" VerticalAlignment="Top" Width="150" Minimum="1" Maximum="4" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5" SmallChange="1" IsSnapToTickEnabled="True">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -137,7 +137,7 @@
 			</Slider.RenderTransform>
 		</Slider>
 		<Label Content="Distance" HorizontalAlignment="Left" Margin="40,95,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.019,1.385"/>
-		<Slider x:Name="SliderDistance" Style="{StaticResource AppSliderStyle}" Maximum="5000" Minimum="-5000" Margin="34,79,0,0" RenderTransformOrigin="0.54,0.186" ValueChanged="SliderDistance_ValueChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" SmallChange="1" LargeChange="10" IsSnapToTickEnabled="True">
+		<Slider x:Name="SliderDistance" Style="{StaticResource AppSliderStyle}" Maximum="500" Minimum="-500" Margin="34,79,0,0" RenderTransformOrigin="0.54,0.186" ValueChanged="SliderDistance_ValueChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" SmallChange="1" LargeChange="10" IsSnapToTickEnabled="True">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -151,8 +151,8 @@
 		<Label Content="Backward" HorizontalAlignment="Left" Margin="42,144,0,0" VerticalAlignment="Top"/>
 		<Label Content="{Binding Value, ElementName=SliderDistance}" HorizontalAlignment="Left" Margin="101,197,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="65"/>
 
-		<Label Content="0s" HorizontalAlignment="Left" Height="24" Margin="226,169,0,0" VerticalAlignment="Top"/>
-		<Label Content="3s" HorizontalAlignment="Left" Margin="226,33,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.441,-0.654"/>
+		<Label Content="1s" HorizontalAlignment="Left" Height="24" Margin="226,169,0,0" VerticalAlignment="Top"/>
+		<Label Content="4s" HorizontalAlignment="Left" Margin="226,33,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.441,-0.654"/>
 		<Label Content="{Binding Value, ElementName=SliderDuration}" HorizontalAlignment="Left" Margin="188,197,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="33"/>
 		<Label Content="500mm" HorizontalAlignment="Left" Height="30" Margin="82,33,0,0" VerticalAlignment="Top"/>
 		<Label Content="-500mm" HorizontalAlignment="Left" Height="31" Margin="77,169,0,0" VerticalAlignment="Top"/>
