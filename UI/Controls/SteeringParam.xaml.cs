@@ -45,7 +45,7 @@ namespace iRobotGUI.Controls
 		private int angleToRadius(double angle)
 		{
 			double rad_angle = (angle * Math.PI) / 180; ///convert angle from centigrade to radians
-			if (angle >= 0)
+			if (angle <= 0)
 			{										
 				return roundToInt((Math.Cos(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
 			};
@@ -60,9 +60,9 @@ namespace iRobotGUI.Controls
 			double d = (double)radius / (double)MAX_RADIUS;
 			double rad_angle = Math.Acos(d);
 			if(radius >= 0) {
-				return (rad_angle * 180.0) / Math.PI;
+				return -(rad_angle * 180.0) / Math.PI; //((rad_angle - Math.PI) * 180.0) / Math.PI;	
 			}
-			return ((rad_angle - Math.PI) * 180.0) / Math.PI; /// return centigrade angle
+			 return 180-((rad_angle * 180.0) / Math.PI); /// return centigrade angle
 		}
 		private double GetAngle(Point touchPoint, Size circleSize)
 		{
