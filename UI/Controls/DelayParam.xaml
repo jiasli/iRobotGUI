@@ -13,14 +13,14 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type Thumb}">
-						<Ellipse Height="35" Width="35">
-							<Ellipse.RenderTransform>
+						<Rectangle Height="35" Width="35">
+							<Rectangle.RenderTransform>
 								<RotateTransform CenterX="17" CenterY="17" Angle="90"/>
-							</Ellipse.RenderTransform>
-							<Ellipse.Fill>
+							</Rectangle.RenderTransform>
+							<Rectangle.Fill>
 								<ImageBrush ImageSource="/iRobotGUI;component/pic/sandclock.png"/>
-							</Ellipse.Fill>
-						</Ellipse>
+							</Rectangle.Fill>
+						</Rectangle>
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
