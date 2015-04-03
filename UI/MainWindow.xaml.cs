@@ -259,12 +259,6 @@ namespace iRobotGUI
 
 
 		#region Private Methods
-		// textbox input form validation function
-		private void number_validation(object sender, TextCompositionEventArgs e)
-		{
-			Regex regex = new Regex("[^0-9]+");
-			e.Handled = regex.IsMatch(e.Text);
-		}
 
 		/// <summary>
 		/// Load program from file.
@@ -349,7 +343,7 @@ namespace iRobotGUI
 		private void MenuItemShowDebugPanel_Checked(object sender, RoutedEventArgs e)
 		{
 			if (columnDefinitionDebug != null)
-				columnDefinitionDebug.Width = new GridLength(200);
+				columnDefinitionDebug.Width = new GridLength(250);
 		}
 
 		private void MenuItemShowDebugPanel_Unchecked(object sender, RoutedEventArgs e)
