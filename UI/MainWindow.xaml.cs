@@ -24,6 +24,11 @@ namespace iRobotGUI
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		// Implementing a custom WPF Command
+		// http://www.wpf-tutorial.com/commands/implementing-custom-commands/
+		// Defining MenuItem Shortcuts
+		// http://stackoverflow.com/questions/4682915/defining-menuitem-shortcuts
+
 		public static RoutedCommand BuildCmd = new RoutedUICommand("Build", "Build", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.F5) });
 		public static RoutedCommand CleanCmd = new RoutedUICommand("Clean", "Clean", typeof(Window),
@@ -32,8 +37,11 @@ namespace iRobotGUI
 			new InputGestureCollection { new KeyGesture(Key.F6) });
 		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift) });
+		public static RoutedCommand SettingCmd = new RoutedUICommand("Setting", "Setting", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift) });
 		public static RoutedCommand WinAvrConfigCmd = new RoutedUICommand("WinAVR Configuation", "avrconfig", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift) });
+
 		private string cFile = "mc_o.c";
 		private string igpFile;
 		private HLProgram program;
@@ -45,6 +53,7 @@ namespace iRobotGUI
 			this.CommandBindings.Add(new CommandBinding(LoadCmd, LoadCmdExecuted));
 			this.CommandBindings.Add(new CommandBinding(OpenSourceCmd, OpenSrcCmdExecuted, OpenSrcCmdCanExecute));
 			this.CommandBindings.Add(new CommandBinding(WinAvrConfigCmd, WinAvrConfigCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(SettingCmd, SettingCmdExecuted));
 
 			InitializeComponent();
 
@@ -57,10 +66,9 @@ namespace iRobotGUI
 			textBlockStatus.Text = "new file";
 		}
 
-		#region Commands
 
-		// WPF use command binding to handle shortcuts, 
-		// See: http://stackoverflow.com/questions/4682915/defining-menuitem-shortcuts
+
+		#region Commands
 
 		// Create(New), Save and Load. Traceability: WC_3305: As an ESS, I can create, save and load program files.
 
@@ -202,6 +210,13 @@ namespace iRobotGUI
 			}
 		}
 
+		private void SettingCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			SettingsWindow sw = new SettingsWindow();
+
+			sw.Owner = this;
+			sw.ShowDialog();
+		}
 		/// <summary>
 		/// Show Configuration Window
 		/// </summary>
@@ -303,14 +318,6 @@ namespace iRobotGUI
 		private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBox.Show("Mission Science iRobots\nUSC CSCI-577 Team 07");
-		}
-
-		private void MenuItemSettings_Click(object sender, RoutedEventArgs e)
-		{
-			SettingsWindow sw = new SettingsWindow();
-
-			sw.Owner = this;
-			sw.ShowDialog();
 		}
 
 		private void MenuItemShowCCode_Click(object sender, RoutedEventArgs e)

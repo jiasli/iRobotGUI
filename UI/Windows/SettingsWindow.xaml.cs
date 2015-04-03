@@ -1,4 +1,5 @@
 ﻿using iRobotGUI.Properties;
+using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,17 @@ namespace iRobotGUI
 		{
 			Settings.Default.Save();
 			base.OnClosing(e);
+		}
+
+		private void buttonBrowse_Click(object sender, RoutedEventArgs e)
+		{
+			VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
+			dialog.Description = "Please select a folder.";
+			dialog.UseDescriptionForTitle = true; // This applies to the Vista style dialog only, not the old dialog.
+			if (!VistaFolderBrowserDialog.IsVistaFolderDialogSupported)
+				MessageBox.Show(this, "Because you are not using Windows Vista or later, the regular folder browser dialog will be used. Please use Windows Vista to see the new dialog.", "Sample folder browser dialog");
+			if ((bool)dialog.ShowDialog(this))
+				MessageBox.Show(this, "The selected folder was: " + dialog.SelectedPath, "Sample folder browser dialog");           
 		}
 	}
 }

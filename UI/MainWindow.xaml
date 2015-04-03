@@ -46,7 +46,7 @@
 				<MenuItem Header="Load to Microcontroller" Click="MenuItemTranslateBuildLoad_Click"/>
 				<Separator/>
 				<MenuItem Command="{x:Static custom:MainWindow.WinAvrConfigCmd}" />
-				<MenuItem Header="Settings" Click="MenuItemSettings_Click"  />
+				<MenuItem Command="{x:Static custom:MainWindow.SettingCmd}"  />
 			</MenuItem>
 			<MenuItem Header="Help">
 				<MenuItem Header="Show Debug Panel" IsCheckable="True" IsChecked="True" Unchecked="MenuItemShowDebugPanel_Unchecked" Checked="MenuItemShowDebugPanel_Checked" />
