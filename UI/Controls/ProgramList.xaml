@@ -16,6 +16,6 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <ListView x:Name="ListviewProgram"/>
+        <ListView x:Name="ListviewProgram" KeyDown="ListviewProgram_KeyDown"/>
     </Grid>
 </UserControl>
