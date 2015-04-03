@@ -26,7 +26,7 @@ namespace iRobotGUI.Controls
 		#region data
 
 		private ListViewDragDropManager<Image> dragMgr;
-		private HLProgram program;
+
 		private ProgramViewModel pvm;
 
 		#endregion // data
@@ -41,8 +41,7 @@ namespace iRobotGUI.Controls
 			InitializeComponent();
 			this.Loaded += ListView1_Loaded;
 
-			program = new HLProgram();
-			pvm = new ProgramViewModel(program);
+			pvm = new ProgramViewModel(new HLProgram());
 		}
 
 		#endregion // constructor
@@ -56,35 +55,11 @@ namespace iRobotGUI.Controls
 		{
 			get
 			{
-				//sort the program according to PVM
-
-				HLProgram sortedProgram = new HLProgram();
-
-				for (int i = 0; i < pvm.Count; i++)
-				{
-					int prgIndex = pvm[i];
-					HLProgram subprogram = new HLProgram();
-					int endIfLoop = FindEndIfLoop(prgIndex);
-
-					if (endIfLoop > 0)
-					{
-						subprogram = program.SubProgram(prgIndex, endIfLoop);
-					}
-					else
-					{
-						subprogram.Add(program[prgIndex]);
-					}
-
-					sortedProgram.Add(subprogram);
-
-				}
-
-				return sortedProgram;
+				return pvm.GetHLProgram();
 			}
 			set
 			{
-				program = value;
-				pvm = new ProgramViewModel(program);
+				pvm = new ProgramViewModel(value);
 				UpdateContent();
 			}
 		}
@@ -100,7 +75,6 @@ namespace iRobotGUI.Controls
 		{
 			this.dragMgr = new ListViewDragDropManager<Image>(ListviewProgram);
 			ListviewProgram.PreviewMouseLeftButtonDown += NewlistView_PreviewMouseLeftButtonDown;
-			ListviewProgram.PreviewKeyDown += listView_PreviewKeyDownEvent;
 			ListviewProgram.Drop -= dragMgr.listView_Drop;
 			ListviewProgram.Drop += NewlistView_Drop;
 		}
@@ -135,7 +109,7 @@ namespace iRobotGUI.Controls
 		/// <summary>
 		///  delete item when right button is clicked
 		/// </summary>
-		void listView_PreviewKeyDownEvent(object sender, KeyEventArgs e)
+		void ListviewProgram_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Delete)
 			{
@@ -143,24 +117,13 @@ namespace iRobotGUI.Controls
 				if (index < 0)
 					return;
 
-				int startIndex = pvm[index];
-				int endIndex = startIndex;
-
-				if (FindEndIfLoop(startIndex) > 0)
-					endIndex = FindEndIfLoop(startIndex);
-
-				program.Remove(startIndex, endIndex - startIndex + 1);
-				pvm.Remove(pvm[index]);
-
-				for (int i = 0; i < pvm.Count; i++)
-				{
-					if (pvm[i] > endIndex)
-						pvm[i] -= endIndex - startIndex + 1;
-				}
+				// Just remove the pointer. We don't care the source in HLProgram.
+				pvm.Remove(index);
 
 				UpdateContent();
 			}
 		}
+
 
 		#endregion // listView_PreviewMouseRightButtonDown
 
@@ -183,8 +146,6 @@ namespace iRobotGUI.Controls
 
 				int oldIndex = this.ListviewProgram.Items.IndexOf(data);
 
-				Instruction ins = program.GetInstructionList().ElementAt(pvm[oldIndex]);
-
 				if (newIndex < 0)
 					return;
 
@@ -205,20 +166,20 @@ namespace iRobotGUI.Controls
 					newIndex = pvm.Count;
 
 				string op = (string)e.Data.GetData(DataFormats.StringFormat);
+
 				Instruction newIns = Instruction.CreatFromOpcode(op);
 
 				if (newIns != null)
 				{
-					pvm.Insert(newIndex, program.Count);
-					program.Add(newIns);
-					if (op == "IF")
+					if (op == Instruction.IF || op == Instruction.LOOP)
 					{
-						program.Add(Instruction.CreatFromOpcode("ELSE"));
-						program.Add(Instruction.CreatFromOpcode("END_IF"));
+						// Add HLProgram for IF and LOOP.
+						pvm.InsertSubProgram(newIndex, HLProgram.GetIfLoopBlock(newIns));
 					}
-					else if (op == "LOOP")
+					else
 					{
-						program.Add(Instruction.CreatFromOpcode("END_LOOP"));
+						// Add single Instruction.
+						pvm.InsertInstruction(newIndex, newIns);
 					}
 				}
 
@@ -243,7 +204,7 @@ namespace iRobotGUI.Controls
 
 			for (int i = 0; i < pvm.Count; i++)
 			{
-				Instruction ins = program[pvm[i]];
+				Instruction ins = pvm.GetInstruction(i);
 				Image im = GetImageFromInstruction(ins);
 				if (im != null)
 					ListviewProgram.Items.Add(GetImageFromInstruction(ins));
@@ -287,68 +248,25 @@ namespace iRobotGUI.Controls
 		/// <param name="index">index in pvm</param>
 		private void PopUpWindow(int index)
 		{
-
-			// The index of Instruction in HLProgram
-			int prgIndex = pvm[index];
-
 			// The Ins under modification
-			Instruction selectedIns = program[prgIndex];
+			Instruction selectedIns = pvm.GetInstruction(index);
 
-			if (program[prgIndex].opcode == Instruction.IF || program[prgIndex].opcode == Instruction.LOOP)
+			if (selectedIns.opcode == Instruction.IF || selectedIns.opcode == Instruction.LOOP)
 			{
-				HLProgram subprogram = new HLProgram();
-				int endIfLoop = FindEndIfLoop(prgIndex);
-
-				// load subprogram from program
-				if (endIfLoop > 0)
-				{
-					subprogram = program.SubProgram(prgIndex, endIfLoop);
-					program.Remove(prgIndex, endIfLoop - prgIndex + 1);
-				}
-				else
-				{
-					subprogram.Add(selectedIns);
-					program.Remove(selectedIns);
-				}
-				int subnumber = subprogram.Count;
+				HLProgram subProgram = pvm.GetSubProgram(index);
 
 				// invoke the dialog
-				subprogram = DialogInvoker.ShowDialog(subprogram, Window.GetWindow(this));
+				HLProgram result = DialogInvoker.ShowDialog(subProgram, Window.GetWindow(this));
 
-				// update program and pvm
-				program.Insert(prgIndex, subprogram);
-				int diff = subprogram.Count - subnumber;
-				for (int i = 0; i < pvm.Count; i++)
-				{
-					if (pvm[i] > prgIndex + subnumber - 1)
-						pvm[i] += diff;
-				}
+				pvm.UpdateSubProgram(index, result);
 			}
 			else
 			{
-				// Single Ins, show the dialog and update with the result.
 				Instruction result = DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
-				program[prgIndex] = result;
+				pvm.UpdateInstruction(index, result);
 			}
 
 			UpdateContent();
-		}
-
-		/// <summary>
-		/// Find where if or loop ends
-		/// </summary>
-		/// <param name="prgIndex">index in program</param>
-		/// <returns>the line number where if or loop ends</returns>
-		private int FindEndIfLoop(int prgIndex)
-		{
-			int endIfLoop = -1;
-
-			if (program[prgIndex].opcode == Instruction.IF)
-				endIfLoop = program.FindEndIf(prgIndex);
-			else if (program[prgIndex].opcode == Instruction.LOOP)
-				endIfLoop = program.FindEndLoop(prgIndex);
-
-			return endIfLoop;
 		}
 
 	}

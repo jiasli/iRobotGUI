@@ -65,6 +65,28 @@ namespace iRobotGUI
 			}
 		}
 
+		/// <summary>
+		/// Get the completed IF or LOOP block.
+		/// </summary>
+		/// <param name="ifLoopIns">The starting IF or LOOP instruction.</param>
+		/// <returns>The completed IF or LOOP block.</returns>
+		public static HLProgram GetIfLoopBlock(Instruction ifLoopIns)
+		{
+			HLProgram result = new HLProgram();
+			result.Add(ifLoopIns);
+
+			if (ifLoopIns.opcode == Instruction.IF)
+			{
+				result.Add(Instruction.CreatFromOpcode(Instruction.ELSE));
+				result.Add(Instruction.CreatFromOpcode(Instruction.END_IF));
+			}
+			else if (ifLoopIns.opcode == Instruction.LOOP)
+			{
+				result.Add(Instruction.CreatFromOpcode(Instruction.END_LOOP));
+			}
+			return result;
+		}
+
 		public void Add(String ins)
 		{
 			program.Add(new Instruction(ins));
