@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace iRobotGUI.Properties {
+namespace Ookii.Dialogs.Wpf.Sample.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -20,30 +20,6 @@ namespace iRobotGUI.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool OpenCCode {
-            get {
-                return ((bool)(this["OpenCCode"]));
-            }
-            set {
-                this["OpenCCode"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".")]
-        public string EmulatorPath {
-            get {
-                return ((string)(this["EmulatorPath"]));
-            }
-            set {
-                this["EmulatorPath"] = value;
             }
         }
     }
