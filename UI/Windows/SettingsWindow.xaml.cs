@@ -30,6 +30,8 @@ namespace iRobotGUI
 		public SettingsWindow()
 		{
 			InitializeComponent();
+
+			textBoxEmulatorPath.Text = Settings.Default.EmulatorPath;
 		}
 
 		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
@@ -41,12 +43,10 @@ namespace iRobotGUI
 		private void buttonBrowse_Click(object sender, RoutedEventArgs e)
 		{
 			VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
-			dialog.Description = "Please select a folder.";
+			dialog.Description = "Please select the Emulator root folder";
 			dialog.UseDescriptionForTitle = true; // This applies to the Vista style dialog only, not the old dialog.
-			if (!VistaFolderBrowserDialog.IsVistaFolderDialogSupported)
-				MessageBox.Show(this, "Because you are not using Windows Vista or later, the regular folder browser dialog will be used. Please use Windows Vista to see the new dialog.", "Sample folder browser dialog");
 			if ((bool)dialog.ShowDialog(this))
-				MessageBox.Show(this, "The selected folder was: " + dialog.SelectedPath, "Sample folder browser dialog");           
+				textBoxEmulatorPath.Text = dialog.SelectedPath;
 		}
 	}
 }
