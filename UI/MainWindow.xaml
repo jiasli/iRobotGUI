@@ -80,8 +80,9 @@
 				<Label Content="Debugging info" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="93"/>
 
 				<Button Content="Load Example Code" HorizontalAlignment="Left" VerticalAlignment="Top" Click="buttonLoadExampleCode_Click" Grid.Row="1" Margin="10,0,0,0" />
-				<Button x:Name="buttonRefreshSource" Content="Refresh source code" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="10,27,0,0" Grid.RowSpan="2" Click="buttonRefreshSource_Click"  />
-				<TextBox x:Name="textBoxSrc" TextWrapping="Wrap" Text="Source Code"  Grid.Row="2" AcceptsReturn="True" Margin="0,26,0,0"/>
+				<Button x:Name="buttonRefreshSource" Content="-> Refresh Source" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="10,27,0,0" Grid.RowSpan="2" Click="buttonRefreshSource_Click"  />
+				<Button x:Name="buttonLoadIntoGraph" Content="&lt;- Load into Graph" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="116,27,0,0" Click="buttonLoadIntoGraph_Click" Grid.RowSpan="2"  />
+				<TextBox x:Name="textBoxSource" TextWrapping="Wrap" Text="Source Code"  Grid.Row="2" AcceptsReturn="True" Margin="0,27,0,0"/>
 			</Grid>
 		</Grid>
 

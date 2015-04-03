@@ -36,7 +36,24 @@ namespace iRobotGUI
 			new InputGestureCollection { new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift) });
 		private string cFile = "mc_o.c";
 		private string igpFile;
+
 		private HLProgram program;
+
+		/// <summary>
+		/// Get or set the current HLProgram under editing. When set, the ProgramList will also be updated.
+		/// </summary>
+		public HLProgram Program
+		{
+			get
+			{
+				return program;
+			}
+			set
+			{
+				program = value;
+				programList1.Program = value;
+			}
+		}
 
 		public MainWindow()
 		{
@@ -109,8 +126,7 @@ namespace iRobotGUI
 		void NewCmdExecuted(object target, ExecutedRoutedEventArgs e)
 		{
 			igpFile = null;
-			program = new HLProgram();
-			programList1.Program = program;
+			Program = new HLProgram();
 		}
 
 		/// <summary>
@@ -244,8 +260,7 @@ namespace iRobotGUI
 			try
 			{
 				string proStr = File.ReadAllText(filePath);
-				program = new HLProgram(proStr);
-				programList1.Program = program;
+				Program = new HLProgram(proStr);
 			}
 			catch (Exception ex)
 			{
@@ -261,7 +276,7 @@ namespace iRobotGUI
 			try
 			{
 				string proStr = programList1.Program.ToString();
-				program = programList1.Program;
+				Program = programList1.Program;
 				File.WriteAllText(filePath, proStr);
 			}
 			catch (Exception ex)
@@ -293,8 +308,14 @@ namespace iRobotGUI
 		private void buttonRefreshSource_Click(object sender, RoutedEventArgs e)
 		{
 			HLProgram program = programList1.Program;
-			textBoxSrc.Text = program.ToString();
+			textBoxSource.Text = program.ToString();
 		}
+
+		private void buttonLoadIntoGraph_Click(object sender, RoutedEventArgs e)
+		{
+			Program = new HLProgram(textBoxSource.Text);
+		}
+
 		#endregion
 
 
@@ -338,7 +359,7 @@ namespace iRobotGUI
 
 		private void MenuItemTranslate_Click(object sender, RoutedEventArgs e)
 		{
-			string cCode = Translator.Translate(program);
+			string cCode = Translator.Translate(Program);
 
 			Translator.GenerateCSource(Translator.SourceType.Microcontroller, cCode);
 			Translator.GenerateCSource(Translator.SourceType.Emulator, cCode);
@@ -358,11 +379,6 @@ namespace iRobotGUI
 			LoadCmd.Execute(null, this);
 		}
 		#endregion
-
-
-
-
-
 
 	}
 }
