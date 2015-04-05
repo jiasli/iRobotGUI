@@ -79,6 +79,7 @@ byteTx(#song_duration);";
 		public const string SONG_PLAY_SNIPPET = @"byteTx(CmdPlay);
 byteTx(#song_number);";
 
+
 		public const string READ_SENSOR_SNIPPET = @"delaySensors(0);";
 
 		public const string IF_SNIPPET = @"if (#condition)
@@ -89,9 +90,9 @@ else
 {";
 		public const string END_IF_SINPPET = @"}";
 
-        public const string LOOP_SNIPPET = @"while (delaySensors(0), #condition)
+		public const string LOOP_SNIPPET = @"while (delaySensors(0), #condition)
 {";
-        public const string TIMELOOP_SNIPPET = @"for (loopControl = 0; loopControl < #time; loopControl++)
+		public const string TIMELOOP_SNIPPET = @"for (loopControl = 0; loopControl < #time; loopControl++)
 {";
 		public const string END_LOOP_SNIPPET = @"}";
 		public const string DELAY_SNIPPET = @"delay(#time);";
@@ -120,7 +121,7 @@ else
 				command = command.Replace("#operator", "<");
 			else
 				command = command.Replace("#operator", ">");
-		
+
 			return command;
 		}
 
@@ -193,11 +194,11 @@ else
 			List<int> paramList = ins.paramList;
 			StringBuilder builder = new StringBuilder();
 
-            if ((ins.opcode == Instruction.LOOP) && (ins.paramList.Count == 1))
-            {
-                builder.Append(TIMELOOP_SNIPPET.Replace("#time", paramList[0].ToString()));
-                return builder.ToString();
-            }
+			if ((ins.opcode == Instruction.LOOP) && (ins.paramList.Count == 1))
+			{
+				builder.Append(TIMELOOP_SNIPPET.Replace("#time", paramList[0].ToString()));
+				return builder.ToString();
+			}
 
 			operatorSymbol = Operator.GetOperatorTextSymbol(paramList[1]);
 
@@ -214,6 +215,24 @@ else
 
 			return builder.ToString();
 		}
+
+
+		private static string SubTransSong(Instruction ins)
+		{
+			string songNo = "0";
+			StringBuilder builder = new StringBuilder();
+
+			builder.AppendLine(SONG_DEF_SNIPPET
+						.Replace("#song_number", songNo)
+						.Replace("#song_duration", (ins.paramList.Count / 2).ToString()));
+			for (int i = 0; i < ins.paramList.Count; i++)
+			{
+				builder.AppendLine("byteTx(" + ins.paramList[i].ToString() + ");");
+			}
+			builder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", songNo));
+			return builder.ToString();
+		}
+
 
 		/// <summary>
 		/// Translate one single instruction.
@@ -263,10 +282,13 @@ else
 					{
 						cBuilder.AppendLine("byteTx(" + instruction.paramList[i].ToString() + ");");
 					}
-                    cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.paramList[0].ToString()));
+					cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.paramList[0].ToString()));
 					break;
 				case Instruction.SONG_PLAY:
 					cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.paramList[0].ToString()));
+					break;
+				case Instruction.SONG:
+					cBuilder.AppendLine(SubTransSong(instruction));
 					break;
 
 				// DELAY

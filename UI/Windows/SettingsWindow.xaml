@@ -9,8 +9,18 @@
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 
-		<CheckBox Content="Show C file after translation" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="1"
+		<StackPanel Margin="10">
+			<StackPanel.Resources>
+			</StackPanel.Resources>
+			<CheckBox Content="Show C file after translation" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="1"
 				  IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=OpenCCode, Mode=TwoWay}" />
+			<DockPanel Margin="0,10,0,0">
+				<TextBlock Text="Emulator Path" Width="80" VerticalAlignment="Center" />
+				<Button x:Name="buttonBrowse" Content="..." DockPanel.Dock="Right" Width="30" Click="buttonBrowse_Click" />
+				<TextBox x:Name="textBoxEmulatorPath" TextWrapping="Wrap" Text="{Binding Source={x:Static p:Settings.Default}, Path=EmulatorPath, Mode=TwoWay}" />
+			</DockPanel>
+
+		</StackPanel>
 
 	</Grid>
 </Window>

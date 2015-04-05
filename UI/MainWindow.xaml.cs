@@ -24,6 +24,11 @@ namespace iRobotGUI
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		// Implementing a custom WPF Command
+		// http://www.wpf-tutorial.com/commands/implementing-custom-commands/
+		// Defining MenuItem Shortcuts
+		// http://stackoverflow.com/questions/4682915/defining-menuitem-shortcuts
+
 		public static RoutedCommand BuildCmd = new RoutedUICommand("Build", "Build", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.F5) });
 		public static RoutedCommand CleanCmd = new RoutedUICommand("Clean", "Clean", typeof(Window),
@@ -32,11 +37,31 @@ namespace iRobotGUI
 			new InputGestureCollection { new KeyGesture(Key.F6) });
 		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift) });
+		public static RoutedCommand SettingCmd = new RoutedUICommand("Setting", "Setting", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift) });
 		public static RoutedCommand WinAvrConfigCmd = new RoutedUICommand("WinAVR Configuation", "avrconfig", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift) });
+
 		private string cFile = "mc_o.c";
 		private string igpFile;
+
 		private HLProgram program;
+
+		/// <summary>
+		/// Get or set the current HLProgram under editing. When set, the ProgramList will also be updated.
+		/// </summary>
+		public HLProgram Program
+		{
+			get
+			{
+				return program;
+			}
+			set
+			{
+				program = value;
+				programList1.Program = value;
+			}
+		}
 
 		public MainWindow()
 		{
@@ -45,6 +70,7 @@ namespace iRobotGUI
 			this.CommandBindings.Add(new CommandBinding(LoadCmd, LoadCmdExecuted));
 			this.CommandBindings.Add(new CommandBinding(OpenSourceCmd, OpenSrcCmdExecuted, OpenSrcCmdCanExecute));
 			this.CommandBindings.Add(new CommandBinding(WinAvrConfigCmd, WinAvrConfigCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(SettingCmd, SettingCmdExecuted));
 
 			InitializeComponent();
 
@@ -57,10 +83,9 @@ namespace iRobotGUI
 			textBlockStatus.Text = "new file";
 		}
 
-		#region Commands
 
-		// WPF use command binding to handle shortcuts, 
-		// See: http://stackoverflow.com/questions/4682915/defining-menuitem-shortcuts
+
+		#region Commands
 
 		// Create(New), Save and Load. Traceability: WC_3305: As an ESS, I can create, save and load program files.
 
@@ -109,8 +134,7 @@ namespace iRobotGUI
 		void NewCmdExecuted(object target, ExecutedRoutedEventArgs e)
 		{
 			igpFile = null;
-			program = new HLProgram();
-			programList1.Program = program;
+			Program = new HLProgram();
 		}
 
 		/// <summary>
@@ -202,6 +226,13 @@ namespace iRobotGUI
 			}
 		}
 
+		private void SettingCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			SettingsWindow sw = new SettingsWindow();
+
+			sw.Owner = this;
+			sw.ShowDialog();
+		}
 		/// <summary>
 		/// Show Configuration Window
 		/// </summary>
@@ -228,12 +259,6 @@ namespace iRobotGUI
 
 
 		#region Private Methods
-		// textbox input form validation function
-		private void number_validation(object sender, TextCompositionEventArgs e)
-		{
-			Regex regex = new Regex("[^0-9]+");
-			e.Handled = regex.IsMatch(e.Text);
-		}
 
 		/// <summary>
 		/// Load program from file.
@@ -244,8 +269,7 @@ namespace iRobotGUI
 			try
 			{
 				string proStr = File.ReadAllText(filePath);
-				program = new HLProgram(proStr);
-				programList1.Program = program;
+				Program = new HLProgram(proStr);
 			}
 			catch (Exception ex)
 			{
@@ -261,7 +285,7 @@ namespace iRobotGUI
 			try
 			{
 				string proStr = programList1.Program.ToString();
-				program = programList1.Program;
+				Program = programList1.Program;
 				File.WriteAllText(filePath, proStr);
 			}
 			catch (Exception ex)
@@ -293,25 +317,22 @@ namespace iRobotGUI
 		private void buttonRefreshSource_Click(object sender, RoutedEventArgs e)
 		{
 			HLProgram program = programList1.Program;
-			textBoxSrc.Text = program.ToString();
+			textBoxSource.Text = program.ToString();
 		}
+
+		private void buttonLoadIntoGraph_Click(object sender, RoutedEventArgs e)
+		{
+			Program = new HLProgram(textBoxSource.Text);
+		}
+
 		#endregion
 
 
 		#region Menu callbacks
+
 		private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBox.Show("Mission Science iRobots\nUSC CSCI-577 Team 07");
-		}
-
-
-
-		private void MenuItemSettings_Click(object sender, RoutedEventArgs e)
-		{
-			SettingsWindow sw = new SettingsWindow();
-
-			sw.Owner = this;
-			sw.ShowDialog();
 		}
 
 		private void MenuItemShowCCode_Click(object sender, RoutedEventArgs e)
@@ -319,6 +340,17 @@ namespace iRobotGUI
 			System.Diagnostics.Process.Start(cFile);
 		}
 
+		private void MenuItemShowDebugPanel_Checked(object sender, RoutedEventArgs e)
+		{
+			if (columnDefinitionDebug != null)
+				columnDefinitionDebug.Width = new GridLength(250);
+		}
+
+		private void MenuItemShowDebugPanel_Unchecked(object sender, RoutedEventArgs e)
+		{
+			if (columnDefinitionDebug != null)
+				columnDefinitionDebug.Width = new GridLength(0);
+		}
 		private void MenuItemShowSrcFolder_Click(object sender, RoutedEventArgs e)
 		{
 			// Open current folder in explorer.exe
@@ -328,7 +360,7 @@ namespace iRobotGUI
 
 		private void MenuItemTranslate_Click(object sender, RoutedEventArgs e)
 		{
-			string cCode = Translator.Translate(program);
+			string cCode = Translator.Translate(Program);
 
 			Translator.GenerateCSource(Translator.SourceType.Microcontroller, cCode);
 			Translator.GenerateCSource(Translator.SourceType.Emulator, cCode);
@@ -348,9 +380,6 @@ namespace iRobotGUI
 			LoadCmd.Execute(null, this);
 		}
 		#endregion
-
-
-
 
 	}
 }

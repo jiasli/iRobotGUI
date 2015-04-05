@@ -99,7 +99,7 @@ END_IF
 			////lw.Owner = this;
 			//lw.Ins = new Instruction("SONG_DEF 3,60,32,62,32,64,32");
 			//lw.ShowDialog();
-			DialogInvoker.ShowDialog(new Instruction("SONG_DEF 3,60,32,62,32,64,32"), this);
+			DialogInvoker.ShowDialog(new Instruction("SONG 60,32,62,32,64,32"), this);
 			
 		}
 

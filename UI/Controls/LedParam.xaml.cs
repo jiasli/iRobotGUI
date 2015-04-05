@@ -91,6 +91,14 @@ namespace iRobotGUI.Controls
 			Ins.paramList[2] = (int)e.NewValue;
 		}
 
+		#region Util Methods
+
+		/// <summary>
+		/// Get Color from the given color and intensity. The Color controls the color of power LED.
+		/// </summary>
+		/// <param name="color">A value from 0 to 255, green to red.</param>
+		/// <param name="intensity">A value from 0 to 255, completely off to completely on.</param>
+		/// <returns></returns>
 		private Color GetLedRgbColor(double color, double intensity)
 		{
 			// 0, 255, 0 Green
@@ -140,6 +148,8 @@ namespace iRobotGUI.Controls
 		{
 			return (n & (1 << index)) > 0;
 		}
+
+		#endregion
 
 
 	}

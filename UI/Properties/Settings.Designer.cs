@@ -34,5 +34,17 @@ namespace iRobotGUI.Properties {
                 this["OpenCCode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".")]
+        public string EmulatorPath {
+            get {
+                return ((string)(this["EmulatorPath"]));
+            }
+            set {
+                this["EmulatorPath"] = value;
+            }
+        }
     }
 }

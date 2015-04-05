@@ -1,4 +1,5 @@
 ﻿using iRobotGUI.Properties;
+using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,12 +30,23 @@ namespace iRobotGUI
 		public SettingsWindow()
 		{
 			InitializeComponent();
+
+			textBoxEmulatorPath.Text = Settings.Default.EmulatorPath;
 		}
 
 		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
 		{
 			Settings.Default.Save();
 			base.OnClosing(e);
+		}
+
+		private void buttonBrowse_Click(object sender, RoutedEventArgs e)
+		{
+			VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
+			dialog.Description = "Please select the Emulator root folder";
+			dialog.UseDescriptionForTitle = true; // This applies to the Vista style dialog only, not the old dialog.
+			if ((bool)dialog.ShowDialog(this))
+				textBoxEmulatorPath.Text = dialog.SelectedPath;
 		}
 	}
 }
