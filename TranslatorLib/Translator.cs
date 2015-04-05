@@ -19,14 +19,9 @@ namespace iRobotGUI
 		[Flags]
 		public enum SourceType
 		{
-			Microcontroller,
-			Emulator
+			Microcontroller = 1,
+			Emulator = 2
 		};
-
-		private const string MicrocontrollerTemplate   = "mc_t.c";
-		private const string MicrocontrollerOutputFile = "mc_o.c";
-		private const string EmulatorTemplate          = "em_t.cpp";
-		private const string EmulatorOutputFile        = "em_o.cpp";
 
 		//Define C snippet
 		public const string MOVE_SNIPPET = @"distance = 0;
@@ -97,7 +92,7 @@ else
 		public const string END_LOOP_SNIPPET = @"}";
 		public const string DELAY_SNIPPET = @"delay(#time);";
 
-		public const string PLACEHOLDER_MAIN_PROGRAM = "##main_program##";
+		public const string PLACEHOLDER_MAIN_PROGRAM = @"/**main_program**/";
 
 
 		// Remember not to include linebreak in the end.
@@ -354,46 +349,23 @@ else
 
 
 		/// <summary>
-		/// This function translate high level igp program Emulator program
-		/// </summary>
-		/// <param name="program">High level igp program input</param>
-		public static void TranlateProgramAndWrite(HLProgram program)
-		{
-			string cCode = Translator.Translate(program);
-			GenerateCSource(SourceType.Emulator, cCode);
-
-		}
-
-
-		/// <summary>
 		/// The function put generated C code instruction into C file can be compiled
 		/// </summary>
 		/// <param name="st">Decide it is a Microcontroller program or an Emulator program</param>
 		/// <param name="code">Generated C code instruction</param>
-		public static void GenerateCSource(SourceType st, string code)
+		public static void GenerateCSource(string templateFilePath, string outputFilePath, string code)
 		{
 			string template;
-			if (st.HasFlag(SourceType.Microcontroller))
-			{
-				template = File.ReadAllText(MicrocontrollerTemplate);
-				if (!String.IsNullOrEmpty(template))
-				{
-					File.WriteAllText(MicrocontrollerOutputFile,
-						template.Replace("##main_program##", code));
-				}
-			}
 
-			if (st.HasFlag(SourceType.Emulator))
+			template = File.ReadAllText(templateFilePath);
+			if (!String.IsNullOrEmpty(template))
 			{
-				template = File.ReadAllText(EmulatorTemplate);
-				if (!String.IsNullOrEmpty(template))
-				{
-					File.WriteAllText(EmulatorOutputFile,
-						template.Replace("##main_program##", code));
-				}
-			}
-
+				File.WriteAllText(outputFilePath,
+					template.Replace(PLACEHOLDER_MAIN_PROGRAM, code));
+			}		
 		}
+
+
 	}
 }
 

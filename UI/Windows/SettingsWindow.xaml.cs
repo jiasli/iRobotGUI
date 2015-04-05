@@ -2,6 +2,7 @@
 using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,16 @@ namespace iRobotGUI
 			dialog.UseDescriptionForTitle = true; // This applies to the Vista style dialog only, not the old dialog.
 			if ((bool)dialog.ShowDialog(this))
 				textBoxEmulatorPath.Text = dialog.SelectedPath;
+		}
+
+		private void buttonReset_Click(object sender, RoutedEventArgs e)
+		{
+			Settings.Default.Reset();
+		}
+
+		private void buttonShowInExplorer_Click(object sender, RoutedEventArgs e)
+		{
+			Process.Start("explorer.exe", Settings.Default.EmulatorPath);
 		}
 	}
 }
