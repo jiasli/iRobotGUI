@@ -76,7 +76,7 @@ int main (void)
   byteTx(CmdSafe);
 
 
-##main_program##
+/**main_program**/
  
 
 

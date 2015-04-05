@@ -42,6 +42,7 @@
 					<MenuItem Command="{x:Static custom:MainWindow.LoadCmd}" />
 					<MenuItem Command="{x:Static custom:MainWindow.CleanCmd}" />
 				</MenuItem>
+				<MenuItem Command="{x:Static custom:MainWindow.RunInEmulatorCmd}"/>
 				<Separator />
 				<MenuItem Header="Load to Microcontroller" Click="MenuItemTranslateBuildLoad_Click"/>
 				<Separator/>
