@@ -7,27 +7,11 @@
 	
 	Title="iRobot GUI" Width="750" Height="500" >
 
-	<Window.Resources>
-		<RoutedUICommand x:Key="BuildCmd" Text="Build">
-			<RoutedUICommand.InputGestures>
-				<KeyGesture>F5</KeyGesture>
-			</RoutedUICommand.InputGestures>
-		</RoutedUICommand>
-
-		<RoutedUICommand x:Key="ComPortCmd" Text="WinAVR Configuration">
-			<RoutedUICommand.InputGestures>
-				<KeyGesture>CTRL+SHIFT+C</KeyGesture>
-			</RoutedUICommand.InputGestures>
-		</RoutedUICommand>
-	</Window.Resources>
-	
 	<Window.CommandBindings>
 		<CommandBinding Command="ApplicationCommands.New" Executed="NewCmdExecuted"/>
 		<CommandBinding Command="ApplicationCommands.Open" Executed="OpenCmdExecuted"/>
 		<CommandBinding Command="ApplicationCommands.Save" Executed="SaveCmdExecuted"/>
 		<CommandBinding Command="ApplicationCommands.SaveAs" Executed="SaveAsCmdExecuted"/>
-		<CommandBinding Command="{StaticResource ComPortCmd}" Executed="ConfigCmdExecuted"/>
-		<CommandBinding Command="{x:Static custom:MainWindow.OpenSourceCmd}" Executed="OpenSrcCmdExecuted" CanExecute="OpenSrcCmdCanExecute"/>
 	</Window.CommandBindings>
 
 
@@ -54,17 +38,23 @@
 				<MenuItem Header="Show C Code" Click="MenuItemShowCCode_Click"/>
 				<Separator />
 				<MenuItem Header="WinAVR">
-					<MenuItem Command="{DynamicResource BuildCmd}"/>
-					<MenuItem Header="Clean" Click="MenuItemClean_Click" />
-					<MenuItem Header="Load" Click="MenuItemLoad_Click"/>
-				</MenuItem>				
+					<MenuItem Command="{x:Static custom:MainWindow.BuildCmd}" />
+					<MenuItem Command="{x:Static custom:MainWindow.LoadCmd}" />
+					<MenuItem Command="{x:Static custom:MainWindow.CleanCmd}" />
+				</MenuItem>
+				<MenuItem Header="Emulator">
+					<MenuItem Command="{x:Static custom:MainWindow.TranslateToEmulatorCCmd}" />
+					<MenuItem Command="{x:Static custom:MainWindow.BuildEmulatorCmd}" />
+					<MenuItem Command="{x:Static custom:MainWindow.RunEmulatorCmd}" />
+				</MenuItem>
 				<Separator />
 				<MenuItem Header="Load to Microcontroller" Click="MenuItemTranslateBuildLoad_Click"/>
 				<Separator/>
-				<MenuItem Command="{StaticResource ComPortCmd}" />
-				<MenuItem Header="Settings" Click="MenuItemSettings_Click"  />
+				<MenuItem Command="{x:Static custom:MainWindow.WinAvrConfigCmd}" />
+				<MenuItem Command="{x:Static custom:MainWindow.SettingCmd}"  />
 			</MenuItem>
 			<MenuItem Header="Help">
+				<MenuItem Header="Show Debug Panel" IsCheckable="True" IsChecked="True" Unchecked="MenuItemShowDebugPanel_Unchecked" Checked="MenuItemShowDebugPanel_Checked" />
 				<MenuItem Header="About"  InputGestureText="F1" Click="MenuItemAbout_Click" />
 			</MenuItem>
 		</Menu>
@@ -77,9 +67,9 @@
 
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="250"/>
-				<ColumnDefinition Width="1*"/>
-				<ColumnDefinition Width="250"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition/>
+				<ColumnDefinition x:Name="columnDefinitionDebug" Width="250"/>
 			</Grid.ColumnDefinitions>
 
 			<Controls:InstructionPanel Grid.Column="0"/>
@@ -89,14 +79,15 @@
 			<Grid Grid.Column="2">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="28"/>
+					<RowDefinition Height="Auto"/>
 					<RowDefinition/>
 				</Grid.RowDefinitions>
 				<Label Content="Debugging info" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="93"/>
 
 				<Button Content="Load Example Code" HorizontalAlignment="Left" VerticalAlignment="Top" Click="buttonLoadExampleCode_Click" Grid.Row="1" Margin="10,0,0,0" />
-				<Button x:Name="buttonRefreshSource" Content="Refresh source code" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="10,27,0,0" Grid.RowSpan="2" Click="buttonRefreshSource_Click"  />
-				<TextBox x:Name="textBoxSrc" TextWrapping="Wrap" Text="Source Code"  Grid.Row="2" AcceptsReturn="True" Margin="0,26,0,0"/>
+				<Button x:Name="buttonRefreshSource" Content="-> Refresh Source" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="10,27,0,0" Click="buttonRefreshSource_Click"  />
+				<Button x:Name="buttonLoadIntoGraph" Content="&lt;- Load into Graph" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="116,27,0,0" Click="buttonLoadIntoGraph_Click" />
+				<TextBox x:Name="textBoxSource" TextWrapping="Wrap" Text="Source Code"  Grid.Row="2" AcceptsReturn="True" Margin="0,0,0,0"/>
 			</Grid>
 		</Grid>
 

@@ -3,14 +3,27 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:p="clr-namespace:iRobotGUI.Properties" 
 		
-		Title="SettingsWindow" Height="300" Width="468">
-	<Grid Margin="40,0">
+		Title="SettingsWindow" Height="355" Width="603" WindowStartupLocation="CenterOwner">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 
-		<CheckBox Content="Show C file after translation" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="1"
-				  IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=OpenCCode, Mode=TwoWay}" />
+		<StackPanel Margin="49,10,44,40">
+			<StackPanel.Resources>
+			</StackPanel.Resources>
+			<CheckBox Content="Show C file after translation" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="1"
+				  IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=OpenCCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+			<DockPanel Margin="0,10,0,0">
+				<TextBlock Text="Emulator Path" Width="80" VerticalAlignment="Center" />
+				<Button x:Name="buttonShowInExplorer" Content="Show in Explorer" DockPanel.Dock="Right" Click="buttonShowInExplorer_Click" />
+				<Button x:Name="buttonBrowse" Content="..." DockPanel.Dock="Right" Width="30" Click="buttonBrowse_Click" />				
+				<TextBox x:Name="textBoxEmulatorPath" TextWrapping="Wrap"
+						 Text="{Binding Source={x:Static p:Settings.Default}, Path=EmulatorPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+			</DockPanel>
+
+		</StackPanel>
+		<Button Content="Reset to Default" HorizontalAlignment="Left" Margin="49,293,0,0" VerticalAlignment="Top" Width="106" Click="buttonReset_Click"/>
 
 	</Grid>
 </Window>

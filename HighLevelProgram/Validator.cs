@@ -185,7 +185,7 @@ namespace iRobotGUI
 
 				// Not all IF ELSE END_IF get matched.
 				if (insIndex == program.Count)
-					throw new IfUnmatchedException(currentLine, "LOOP: End of file.");
+					throw new LoopUnmatchedException(currentLine, "LOOP: End of file.");
 			}
 		}
 		#endregion
@@ -226,6 +226,12 @@ namespace iRobotGUI
 		public static bool ValidateParaLength(Instruction ins, int currentLine)
 		{
 			//Check Parameter Count
+			if (ins.opcode == Instruction.LOOP)
+			{
+				if ((ins.paramList.Count != 3) && (ins.paramList.Count != 1))
+					throw new ParameterCountInvalidException(currentLine, ins.opcode);
+			}
+
 			if (DictionaryDef.paraLength.TryGetValue(ins.opcode, out paraLen))
 			{
 				if (ins.paramList.Count != paraLen)
@@ -265,6 +271,11 @@ namespace iRobotGUI
 						else
 							throw new ParameterRangeInvalidException(currentLine, ins.opcode);
 					}
+				}
+				else if ((ins.opcode == Instruction.LOOP) && (ins.paramList.Count == 1))
+				{
+					if (ins.paramList[0] == 0)
+						throw new ParameterRangeInvalidException(currentLine, ins.opcode);
 				}
 				else
 				{

@@ -26,7 +26,7 @@ namespace iRobotGUI.Controls
 		#region data
 
 		private ListViewDragDropManager<Image> dragMgr;
-		private HLProgram program;
+
 		private ProgramViewModel pvm;
 
 		#endregion // data
@@ -41,8 +41,7 @@ namespace iRobotGUI.Controls
 			InitializeComponent();
 			this.Loaded += ListView1_Loaded;
 
-			program = new HLProgram();
-			pvm = new ProgramViewModel(program);
+			pvm = new ProgramViewModel(new HLProgram());
 		}
 
 		#endregion // constructor
@@ -56,40 +55,11 @@ namespace iRobotGUI.Controls
 		{
 			get
 			{
-				//sort the program according to PVM
-
-				HLProgram sortedProgram = new HLProgram();
-
-				for (int i = 0; i < pvm.Count; i++)
-				{
-					int prgIndex = pvm[i];
-					int endIfLoop = -1;
-					HLProgram subprogram = new HLProgram();
-
-					if (program[prgIndex].opcode == Instruction.IF)
-						endIfLoop = program.FindEndIf(prgIndex);
-					else if (program[prgIndex].opcode == Instruction.LOOP)
-						endIfLoop = program.FindEndLoop(prgIndex);
-
-					if (endIfLoop > 0)
-					{
-						subprogram = program.SubProgram(prgIndex, endIfLoop);
-					}
-					else
-					{
-						subprogram.Add(program[prgIndex]);
-					}
-
-					sortedProgram.Add(subprogram);
-
-				}
-
-				return sortedProgram;
+				return pvm.GetHLProgram();
 			}
 			set
 			{
-				program = value;
-				pvm = new ProgramViewModel(program);
+				pvm = new ProgramViewModel(value);
 				UpdateContent();
 			}
 		}
@@ -105,7 +75,6 @@ namespace iRobotGUI.Controls
 		{
 			this.dragMgr = new ListViewDragDropManager<Image>(ListviewProgram);
 			ListviewProgram.PreviewMouseLeftButtonDown += NewlistView_PreviewMouseLeftButtonDown;
-			ListviewProgram.PreviewKeyDown += listView_PreviewKeyDownEvent;
 			ListviewProgram.Drop -= dragMgr.listView_Drop;
 			ListviewProgram.Drop += NewlistView_Drop;
 		}
@@ -128,55 +97,7 @@ namespace iRobotGUI.Controls
 				if (index < 0)
 					return;
 
-				// The index of Instruction in HLProgram
-				int prgIndex = pvm[index];
-
-				// The Ins under modification
-				Instruction selectedIns = program[prgIndex];
-
-				if (program[prgIndex].opcode == Instruction.IF || program[prgIndex].opcode == Instruction.LOOP)
-				{
-					HLProgram subprogram = new HLProgram();
-					int endIfLoop;
-
-					if (program[prgIndex].opcode == Instruction.IF)
-						endIfLoop = program.FindEndIf(prgIndex);
-					else
-						endIfLoop = program.FindEndLoop(prgIndex);
-
-					// load subprogram from program
-					if (endIfLoop > 0)
-					{
-						subprogram = program.SubProgram(prgIndex, endIfLoop);
-						program.Remove(prgIndex, endIfLoop - prgIndex + 1);
-					}
-					else
-					{
-						subprogram.Add(selectedIns);
-						program.Remove(selectedIns);
-					}
-					int subnumber = subprogram.Count;
-
-					// invoke the dialog
-					subprogram = DialogInvoker.ShowDialog(subprogram, Window.GetWindow(this));
-
-					// update program and pvm
-					program.Insert(prgIndex, subprogram);
-					int diff = subprogram.Count - subnumber;
-					for (int i = 0; i < pvm.Count; i++)
-					{
-						if (pvm[i] > prgIndex + subnumber - 1)
-							pvm[i] += diff;
-					}
-				}
-				else
-				{
-					// Single Ins, show the dialog and update with the result.
-					Instruction result = DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
-					program[prgIndex] = result;
-				}
-
-				UpdateContent();
+				PopUpWindow(index);
 			}
 
 		}
@@ -188,7 +109,7 @@ namespace iRobotGUI.Controls
 		/// <summary>
 		///  delete item when right button is clicked
 		/// </summary>
-		void listView_PreviewKeyDownEvent(object sender, KeyEventArgs e)
+		void ListviewProgram_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Delete)
 			{
@@ -196,34 +117,13 @@ namespace iRobotGUI.Controls
 				if (index < 0)
 					return;
 
-				int startIndex = pvm[index];
-				int endIndex = startIndex;
-
-				if (program[startIndex].opcode == Instruction.IF)
-				{
-					int endIf = program.FindEndIf(startIndex);
-					if (endIf > 0)
-						endIndex = endIf;
-				}
-				else if (program[startIndex].opcode == Instruction.LOOP)
-				{
-					int endLoop = program.FindEndLoop(startIndex);
-					if (endLoop > 0)
-						endIndex = endLoop;
-				}
-
-				program.Remove(startIndex, endIndex - startIndex + 1);
-				pvm.Remove(pvm[index]);
-
-				for (int i = 0; i < pvm.Count; i++)
-				{
-					if (pvm[i] > endIndex)
-						pvm[i] -= endIndex - startIndex + 1;
-				}
+				// Just remove the pointer. We don't care the source in HLProgram.
+				pvm.Remove(index);
 
 				UpdateContent();
 			}
 		}
+
 
 		#endregion // listView_PreviewMouseRightButtonDown
 
@@ -246,8 +146,6 @@ namespace iRobotGUI.Controls
 
 				int oldIndex = this.ListviewProgram.Items.IndexOf(data);
 
-				Instruction ins = program.GetInstructionList().ElementAt(pvm[oldIndex]);
-
 				if (newIndex < 0)
 					return;
 
@@ -268,24 +166,25 @@ namespace iRobotGUI.Controls
 					newIndex = pvm.Count;
 
 				string op = (string)e.Data.GetData(DataFormats.StringFormat);
+
 				Instruction newIns = Instruction.CreatFromOpcode(op);
 
 				if (newIns != null)
 				{
-					pvm.Insert(newIndex, program.Count);
-					program.Add(newIns);
-					if (op == "IF")
+					if (op == Instruction.IF || op == Instruction.LOOP)
 					{
-						program.Add(Instruction.CreatFromOpcode("ELSE"));
-						program.Add(Instruction.CreatFromOpcode("END_IF"));
+						// Add HLProgram for IF and LOOP.
+						pvm.InsertSubProgram(newIndex, HLProgram.GetIfLoopBlock(newIns));
 					}
-					else if (op == "LOOP")
+					else
 					{
-						program.Add(Instruction.CreatFromOpcode("END_LOOP"));
+						// Add single Instruction.
+						pvm.InsertInstruction(newIndex, newIns);
 					}
 				}
 
 				UpdateContent();
+				PopUpWindow(newIndex);
 				ListviewProgram.SelectedItem = newIns;
 			}
 		}
@@ -299,13 +198,13 @@ namespace iRobotGUI.Controls
 		/// <summary>
 		/// Update content in ProgramList accordint to pvm
 		/// </summary>
-		public void UpdateContent()
+		private void UpdateContent()
 		{
 			ListviewProgram.Items.Clear();
 
 			for (int i = 0; i < pvm.Count; i++)
 			{
-				Instruction ins = program[pvm[i]];
+				Instruction ins = pvm.GetInstruction(i);
 				Image im = GetImageFromInstruction(ins);
 				if (im != null)
 					ListviewProgram.Items.Add(GetImageFromInstruction(ins));
@@ -342,5 +241,33 @@ namespace iRobotGUI.Controls
 		}
 
 		#endregion
+
+		/// <summary>
+		/// pop up the parameter window
+		/// </summary>
+		/// <param name="index">index in pvm</param>
+		private void PopUpWindow(int index)
+		{
+			// The Ins under modification
+			Instruction selectedIns = pvm.GetInstruction(index);
+
+			if (selectedIns.opcode == Instruction.IF || selectedIns.opcode == Instruction.LOOP)
+			{
+				HLProgram subProgram = pvm.GetSubProgram(index);
+
+				// invoke the dialog
+				HLProgram result = DialogInvoker.ShowDialog(subProgram, Window.GetWindow(this));
+
+				pvm.UpdateSubProgram(index, result);
+			}
+			else
+			{
+				Instruction result = DialogInvoker.ShowDialog(selectedIns, Window.GetWindow(this));
+				pvm.UpdateInstruction(index, result);
+			}
+
+			UpdateContent();
+		}
+
 	}
 }

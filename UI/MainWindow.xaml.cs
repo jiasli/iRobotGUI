@@ -24,14 +24,70 @@ namespace iRobotGUI
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window));
+		// Implementing a custom WPF Command
+		// http://www.wpf-tutorial.com/commands/implementing-custom-commands/
+		// Defining MenuItem Shortcuts
+		// http://stackoverflow.com/questions/4682915/defining-menuitem-shortcuts
 
-		private string cFile = "mc_o.c";
+		public static RoutedCommand BuildCmd = new RoutedUICommand("Build", "Build", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F5) });
+		public static RoutedCommand CleanCmd = new RoutedUICommand("Clean", "Clean", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F7) });
+		public static RoutedCommand LoadCmd = new RoutedUICommand("Load", "Load", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F6) });
+		public static RoutedCommand TranslateToEmulatorCCmd = new RoutedUICommand("Translate to Emulator C File", "emulator", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F10) });
+		public static RoutedCommand BuildEmulatorCmd = new RoutedUICommand("Build Emulator", "emulator", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F11) });
+		public static RoutedCommand RunEmulatorCmd = new RoutedUICommand("Run Emulator", "emulator", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F12) });
+		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift) });
+		public static RoutedCommand SettingCmd = new RoutedUICommand("Setting", "Setting", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift) });
+		public static RoutedCommand WinAvrConfigCmd = new RoutedUICommand("WinAVR Configuation", "avrconfig", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift) });
+
+
+		public const string MicrocontrollerTemplate = "mc_t.c";
+		public const string MicrocontrollerOutputFile = "mc_o.c";
+		public const string EmulatorTemplate = "em_t.c";
+		public const string EmulatorOutputFile = "em_o.c";
+
 		private string igpFile;
+
 		private HLProgram program;
+
+		/// <summary>
+		/// Get or set the current HLProgram under editing. When set, the ProgramList will also be updated.
+		/// </summary>
+		public HLProgram Program
+		{
+			get
+			{
+				return program;
+			}
+			set
+			{
+				program = value;
+				programList1.Program = value;
+			}
+		}
 
 		public MainWindow()
 		{
+			this.CommandBindings.Add(new CommandBinding(BuildCmd, BuildCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(CleanCmd, CleanCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(LoadCmd, LoadCmdExecuted));
+
+			this.CommandBindings.Add(new CommandBinding(TranslateToEmulatorCCmd, TranslateToEmulatorCCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(BuildEmulatorCmd, BuildEmulatorCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(RunEmulatorCmd, RunEmulatorCmdExecuted));
+
+			this.CommandBindings.Add(new CommandBinding(OpenSourceCmd, OpenSrcCmdExecuted, OpenSrcCmdCanExecute));
+			this.CommandBindings.Add(new CommandBinding(WinAvrConfigCmd, WinAvrConfigCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(SettingCmd, SettingCmdExecuted));
+
 			InitializeComponent();
 
 			// Set the current folder to cprogram
@@ -40,37 +96,122 @@ namespace iRobotGUI
 			program = new HLProgram();
 			programList1.Program = program;
 
-			textBlockStatus.Text = "new file";
+			textBlockStatus.Text = Directory.GetCurrentDirectory();
 		}
+
+
+
+
+
 
 		#region Commands
 
-		// WPF use command binding to handle shortcuts, 
-		// See: http://stackoverflow.com/questions/4682915/defining-menuitem-shortcuts
-
+		#region Microcontroller
 		// Create(New), Save and Load. Traceability: WC_3305: As an ESS, I can create, save and load program files.
-
-		/// <summary>
-		/// Show Configuration Window
-		/// </summary>
-		private void ConfigCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		private void BuildCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			// Instantiate the dialog box
-			ConfigurationWindow dlg = new ConfigurationWindow();
-
-
-			// Configure the dialog box
-			dlg.Owner = this;
-			dlg.Config = WinAvrConnector.config;
-
-			// Open the dialog box modally 
-			dlg.ShowDialog();
-			if (dlg.DialogResult == true)
+			try
 			{
-				// MessageBox.Show(WinAvrConnector.config.ToString());
-
+				WinAvrConnector.Make();
+			}
+			catch (Exception ex)
+			{
+				ShowWinAvrError();
 			}
 		}
+
+		private void LoadCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				WinAvrConnector.Load();
+			}
+			catch (Exception)
+			{
+				ShowWinAvrError();
+			}
+		}
+
+		private void CleanCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				File.Delete("C_result.c");
+				WinAvrConnector.Clean();
+			}
+			catch (Exception)
+			{
+				ShowWinAvrError();
+			}
+		}
+
+		#endregion
+
+		#region Emulator
+		private void TranslateToEmulatorCCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			string emulatorPath = Properties.Settings.Default.EmulatorPath;
+			if (string.IsNullOrEmpty(emulatorPath))
+			{
+				MessageBox.Show("Emulator path not invalid. Use Build -> Setting to select the correct path.", "Invalid Emulator Path", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			string cCode = Translator.Translate(Program);
+			string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorTemplate);
+			string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorOutputFile);
+
+			Translator.GenerateCSource(templateFullPath, outputFullPath, cCode);
+
+		}
+
+		private void BuildEmulatorCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			string emulatorPath = Properties.Settings.Default.EmulatorPath;
+			string buildBatName = "MSMake.bat";
+			string buildBatFullPath = System.IO.Path.Combine(emulatorPath, buildBatName);
+			// string solutionName = "MCEmulator.sln";
+			// string solutionFullName = System.IO.Path.Combine(emulatorPath, solutionName);
+
+			//Process.Start(@"C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe", solutionFullName);
+
+			try
+			{
+				Process process = Process.Start(buildBatFullPath);
+				process.WaitForExit();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.ToString());
+			}
+
+		}
+
+		private void RunEmulatorCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			string emulatorPath = Properties.Settings.Default.EmulatorPath;
+			string exeName = @"Debug\MCEmulator.exe";
+			string exeFullPath = System.IO.Path.Combine(emulatorPath, exeName);
+			// string solutionName = "MCEmulator.sln";
+			// string solutionFullName = System.IO.Path.Combine(emulatorPath, solutionName);
+
+			//Process.Start(@"C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe", solutionFullName);
+
+			try
+			{
+				Process process = Process.Start(exeFullPath);
+				process.WaitForExit();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(exeFullPath + "\n" + ex.ToString());
+			}
+
+		}
+
+
+
+		#endregion
 
 		/// <summary>
 		/// Create a new HLProgram and pass it to ProgramList
@@ -80,8 +221,7 @@ namespace iRobotGUI
 		void NewCmdExecuted(object target, ExecutedRoutedEventArgs e)
 		{
 			igpFile = null;
-			program = new HLProgram();
-			programList1.Program = program;
+			Program = new HLProgram();
 		}
 
 		/// <summary>
@@ -109,7 +249,6 @@ namespace iRobotGUI
 				textBlockStatus.Text = igpFile;
 			}
 		}
-
 
 		private void OpenSrcCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
@@ -173,11 +312,46 @@ namespace iRobotGUI
 				SaveProgram(igpFile);
 			}
 		}
+
+		/// <summary>
+		/// Open the SettingsWindow
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SettingCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			SettingsWindow sw = new SettingsWindow();
+
+			sw.Owner = this;
+			sw.ShowDialog();
+		}
+		/// <summary>
+		/// Show Configuration Window
+		/// </summary>
+		private void WinAvrConfigCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			// Instantiate the dialog box
+			ConfigurationWindow dlg = new ConfigurationWindow();
+
+
+			// Configure the dialog box
+			dlg.Owner = this;
+			dlg.Config = WinAvrConnector.config;
+
+			// Open the dialog box modally 
+			dlg.ShowDialog();
+			if (dlg.DialogResult == true)
+			{
+				// MessageBox.Show(WinAvrConnector.config.ToString());
+
+			}
+		}
 		#endregion
 
 
 
 		#region Private Methods
+
 		/// <summary>
 		/// Load program from file.
 		/// </summary>
@@ -187,8 +361,7 @@ namespace iRobotGUI
 			try
 			{
 				string proStr = File.ReadAllText(filePath);
-				program = new HLProgram(proStr);
-				programList1.Program = program;
+				Program = new HLProgram(proStr);
 			}
 			catch (Exception ex)
 			{
@@ -204,7 +377,7 @@ namespace iRobotGUI
 			try
 			{
 				string proStr = programList1.Program.ToString();
-				program = programList1.Program;
+				Program = programList1.Program;
 				File.WriteAllText(filePath, proStr);
 			}
 			catch (Exception ex)
@@ -216,13 +389,6 @@ namespace iRobotGUI
 		private void ShowWinAvrError()
 		{
 			MessageBox.Show("Fail to execute. Check if WinAVR is installed correctly.", "Fail", MessageBoxButton.OK, MessageBoxImage.Error);
-		}
-
-		// textbox input form validation function
-		private void number_validation(object sender, TextCompositionEventArgs e)
-		{
-			Regex regex = new Regex("[^0-9]+");
-			e.Handled = regex.IsMatch(e.Text);
 		}
 		#endregion
 
@@ -243,72 +409,40 @@ namespace iRobotGUI
 		private void buttonRefreshSource_Click(object sender, RoutedEventArgs e)
 		{
 			HLProgram program = programList1.Program;
-			textBoxSrc.Text = program.ToString();
+			textBoxSource.Text = program.ToString();
 		}
+
+		private void buttonLoadIntoGraph_Click(object sender, RoutedEventArgs e)
+		{
+			Program = new HLProgram(textBoxSource.Text);
+		}
+
 		#endregion
 
 
 		#region Menu callbacks
+
 		private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBox.Show("Mission Science iRobots\nUSC CSCI-577 Team 07");
 		}
 
-		private void MenuItemBuild_Click(object sender, RoutedEventArgs e)
-		{
-			//Window errorWin = new OutputWindow();
-			//errorWin.Show();
-			//  WinAvrConnector.Clean();
-
-			try
-			{
-				WinAvrConnector.Make();
-			}
-			catch (Exception ex)
-			{
-				ShowWinAvrError();
-			}
-
-		}
-
-		private void MenuItemClean_Click(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				File.Delete("C_result.c");
-				WinAvrConnector.Clean();
-			}
-			catch (Exception)
-			{
-				ShowWinAvrError();
-			}
-		}
-
-		private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				WinAvrConnector.Load();
-			}
-			catch (Exception)
-			{
-				ShowWinAvrError();
-			}
-		}
-
-		private void MenuItemSettings_Click(object sender, RoutedEventArgs e)
-		{
-			SettingsWindow sw = new SettingsWindow();
-
-			sw.Owner = this;
-			sw.ShowDialog();
-		}
-
 		private void MenuItemShowCCode_Click(object sender, RoutedEventArgs e)
 		{
-			System.Diagnostics.Process.Start(cFile);
+			System.Diagnostics.Process.Start(MicrocontrollerOutputFile);
 		}
 
+		private void MenuItemShowDebugPanel_Checked(object sender, RoutedEventArgs e)
+		{
+			if (columnDefinitionDebug != null)
+				columnDefinitionDebug.Width = new GridLength(250);
+		}
+
+		private void MenuItemShowDebugPanel_Unchecked(object sender, RoutedEventArgs e)
+		{
+			if (columnDefinitionDebug != null)
+				columnDefinitionDebug.Width = new GridLength(0);
+		}
 		private void MenuItemShowSrcFolder_Click(object sender, RoutedEventArgs e)
 		{
 			// Open current folder in explorer.exe
@@ -318,12 +452,11 @@ namespace iRobotGUI
 
 		private void MenuItemTranslate_Click(object sender, RoutedEventArgs e)
 		{
-			string cCode = Translator.Translate(program);
+			string cCode = Translator.Translate(Program);
 
-			Translator.GenerateCSource(Translator.SourceType.Microcontroller, cCode);
-			Translator.GenerateCSource(Translator.SourceType.Emulator, cCode);
+			Translator.GenerateCSource(MicrocontrollerTemplate, MicrocontrollerOutputFile, cCode);
 
-			if (Properties.Settings.Default.OpenCCode) Process.Start(cFile);
+			if (Properties.Settings.Default.OpenCCode) Process.Start(MicrocontrollerOutputFile);
 		}
 
 		/// <summary>
@@ -334,10 +467,11 @@ namespace iRobotGUI
 		private void MenuItemTranslateBuildLoad_Click(object sender, RoutedEventArgs e)
 		{
 			MenuItemTranslate_Click(sender, e);
-			MenuItemBuild_Click(sender, e);
-			MenuItemLoad_Click(sender, e);
+			BuildCmd.Execute(null, this);
+			LoadCmd.Execute(null, this);
 		}
 		#endregion
+
 	}
 }
 

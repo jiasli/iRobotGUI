@@ -321,6 +321,10 @@
       <Project>{05b8eacd-5eb2-420e-9f99-7a76be66c52c}</Project>
       <Name>HighLevelProgram</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ookii.Dialogs.Wpf\Ookii.Dialogs.Wpf.csproj">
+      <Project>{d01b1d20-8f5b-4834-8e5c-c7ec6dd587d4}</Project>
+      <Name>Ookii.Dialogs.Wpf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sanford.Multimedia.Midi\Sanford.Multimedia.Midi.csproj">
       <Project>{4269c72a-8d3a-4737-8f89-72eaa33ea9e1}</Project>
       <Name>Sanford.Multimedia.Midi</Name>
@@ -369,6 +373,9 @@
     <Resource Include="pic\virtualwall.png" />
     <Resource Include="pic\charging.png" />
     <Resource Include="pic\velocity_arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Remarks.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

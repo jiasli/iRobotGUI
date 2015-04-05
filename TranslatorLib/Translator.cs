@@ -19,14 +19,9 @@ namespace iRobotGUI
 		[Flags]
 		public enum SourceType
 		{
-			Microcontroller,
-			Emulator
+			Microcontroller = 1,
+			Emulator = 2
 		};
-
-		private const string MicrocontrollerTemplate   = "mc_t.c";
-		private const string MicrocontrollerOutputFile = "mc_o.c";
-		private const string EmulatorTemplate          = "em_t.cpp";
-		private const string EmulatorOutputFile        = "em_o.cpp";
 
 		//Define C snippet
 		public const string MOVE_SNIPPET = @"distance = 0;
@@ -79,6 +74,7 @@ byteTx(#song_duration);";
 		public const string SONG_PLAY_SNIPPET = @"byteTx(CmdPlay);
 byteTx(#song_number);";
 
+
 		public const string READ_SENSOR_SNIPPET = @"delaySensors(0);";
 
 		public const string IF_SNIPPET = @"if (#condition)
@@ -89,12 +85,14 @@ else
 {";
 		public const string END_IF_SINPPET = @"}";
 
-		public const string LOOP_SNIPPET = @"while (#condition)
+		public const string LOOP_SNIPPET = @"while (delaySensors(0), #condition)
+{";
+		public const string TIMELOOP_SNIPPET = @"for (loopControl = 0; loopControl < #time; loopControl++)
 {";
 		public const string END_LOOP_SNIPPET = @"}";
 		public const string DELAY_SNIPPET = @"delay(#time);";
 
-		public const string PLACEHOLDER_MAIN_PROGRAM = "##main_program##";
+		public const string PLACEHOLDER_MAIN_PROGRAM = @"/**main_program**/";
 
 
 		// Remember not to include linebreak in the end.
@@ -118,7 +116,7 @@ else
 				command = command.Replace("#operator", "<");
 			else
 				command = command.Replace("#operator", ">");
-		
+
 			return command;
 		}
 
@@ -191,6 +189,12 @@ else
 			List<int> paramList = ins.paramList;
 			StringBuilder builder = new StringBuilder();
 
+			if ((ins.opcode == Instruction.LOOP) && (ins.paramList.Count == 1))
+			{
+				builder.Append(TIMELOOP_SNIPPET.Replace("#time", paramList[0].ToString()));
+				return builder.ToString();
+			}
+
 			operatorSymbol = Operator.GetOperatorTextSymbol(paramList[1]);
 
 			// To check if the sensor is built-in or compound
@@ -206,6 +210,24 @@ else
 
 			return builder.ToString();
 		}
+
+
+		private static string SubTransSong(Instruction ins)
+		{
+			string songNo = "0";
+			StringBuilder builder = new StringBuilder();
+
+			builder.AppendLine(SONG_DEF_SNIPPET
+						.Replace("#song_number", songNo)
+						.Replace("#song_duration", (ins.paramList.Count / 2).ToString()));
+			for (int i = 0; i < ins.paramList.Count; i++)
+			{
+				builder.AppendLine("byteTx(" + ins.paramList[i].ToString() + ");");
+			}
+			builder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", songNo));
+			return builder.ToString();
+		}
+
 
 		/// <summary>
 		/// Translate one single instruction.
@@ -255,10 +277,13 @@ else
 					{
 						cBuilder.AppendLine("byteTx(" + instruction.paramList[i].ToString() + ");");
 					}
-                    cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.paramList[0].ToString()));
+					cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.paramList[0].ToString()));
 					break;
 				case Instruction.SONG_PLAY:
 					cBuilder.AppendLine(SONG_PLAY_SNIPPET.Replace("#song_number", instruction.paramList[0].ToString()));
+					break;
+				case Instruction.SONG:
+					cBuilder.AppendLine(SubTransSong(instruction));
 					break;
 
 				// DELAY
@@ -324,46 +349,23 @@ else
 
 
 		/// <summary>
-		/// This function translate high level igp program Emulator program
-		/// </summary>
-		/// <param name="program">High level igp program input</param>
-		public static void TranlateProgramAndWrite(HLProgram program)
-		{
-			string cCode = Translator.Translate(program);
-			GenerateCSource(SourceType.Emulator, cCode);
-
-		}
-
-
-		/// <summary>
 		/// The function put generated C code instruction into C file can be compiled
 		/// </summary>
 		/// <param name="st">Decide it is a Microcontroller program or an Emulator program</param>
 		/// <param name="code">Generated C code instruction</param>
-		public static void GenerateCSource(SourceType st, string code)
+		public static void GenerateCSource(string templateFilePath, string outputFilePath, string code)
 		{
 			string template;
-			if (st.HasFlag(SourceType.Microcontroller))
-			{
-				template = File.ReadAllText(MicrocontrollerTemplate);
-				if (!String.IsNullOrEmpty(template))
-				{
-					File.WriteAllText(MicrocontrollerOutputFile,
-						template.Replace("##main_program##", code));
-				}
-			}
 
-			if (st.HasFlag(SourceType.Emulator))
+			template = File.ReadAllText(templateFilePath);
+			if (!String.IsNullOrEmpty(template))
 			{
-				template = File.ReadAllText(EmulatorTemplate);
-				if (!String.IsNullOrEmpty(template))
-				{
-					File.WriteAllText(EmulatorOutputFile,
-						template.Replace("##main_program##", code));
-				}
-			}
-
+				File.WriteAllText(outputFilePath,
+					template.Replace(PLACEHOLDER_MAIN_PROGRAM, code));
+			}		
 		}
+
+
 	}
 }
 

@@ -1,0 +1,17 @@
+﻿iRobotGUI Remarks
+
+Useful links
+
+Implementing a custom WPF Command
+http://www.wpf-tutorial.com/commands/implementing-custom-commands/
+WPF Diagram Designer
+http://www.codeproject.com/Articles/24681/WPF-Diagram-Designer-Part-4
+	This includes how to define user commands and bind them with handlers.
+
+
+Git
+
+Remove unreferenced commits
+	git reflog expire --expire-unreachable=now --all
+	git gc --prune=now
+

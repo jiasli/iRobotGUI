@@ -23,7 +23,9 @@ LOOP 0,6,0
 	DELAY 1000
 END_LOOP
 ";
-			string proLength = @"END_LOOP";
+			string proLength = @"LOOP 5
+LOOP 5 5 5
+END_LOOP";
 
 			string proRange = @"SONG_DEF 11,41,222,69,222,80,222,49,252
 LOOP 0,0,0 
@@ -34,7 +36,7 @@ END_LOOP
 
 			try
 			{
-				Validator.ValidateProgram(new HLProgram(proRange));
+				Validator.ValidateProgram(new HLProgram(proLength));
 				Console.WriteLine("Ture");
 			}
 			catch (IfUnmatchedException ex)
