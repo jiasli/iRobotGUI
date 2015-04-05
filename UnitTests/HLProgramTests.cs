@@ -75,8 +75,32 @@ END_IF";
             {
                 Console.WriteLine(ex.ToString());
                 Assert.Fail("Invalid if index :", inValidifIndex);
-            }
-            
+            }  
+        }
+
+        [TestMethod()]
+        public void GetIfBlockTest()
+        {
+            string StartifBlock = @"IF ";
+            GetIfLoopBlockTest(StartifBlock);
+
+        }
+
+        [TestMethod()]
+        public void GetLoopBlockTest()
+        {
+            string StartloopBlock = @"LOOP ";
+            GetIfLoopBlockTest(StartloopBlock);
+
+        }
+
+        [TestMethod()]
+        public void GetIfLoopBlockTest(string Startifloop)
+        {
+            string inputBlock = Startifloop.Trim();
+            HLProgram ActualBlock = HLProgram.GetIfLoopBlock(new Instruction(inputBlock));
+            Console.WriteLine(ActualBlock);
+            Assert.IsNotNull(ActualBlock);
         }
 
         [TestMethod()]

@@ -155,7 +155,7 @@ END_LOOP";
 				Validator.ValidateProgram(new HLProgram(inValidBlock));
 				Assert.Fail();
 			}
-			catch (IfUnmatchedException ex)
+			catch (LoopUnmatchedException ex)
 			{
 				Console.WriteLine(ex.ToString());
 			}
