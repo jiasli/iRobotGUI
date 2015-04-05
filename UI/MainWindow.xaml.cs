@@ -35,8 +35,12 @@ namespace iRobotGUI
 			new InputGestureCollection { new KeyGesture(Key.F7) });
 		public static RoutedCommand LoadCmd = new RoutedUICommand("Load", "Load", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.F6) });
-		public static RoutedCommand RunInEmulatorCmd = new RoutedUICommand("Run in Emulator", "emulator", typeof(Window),
+		public static RoutedCommand TranslateToEmulatorCCmd = new RoutedUICommand("Translate to Emulator C File", "emulator", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.F10) });
+		public static RoutedCommand BuildEmulatorCmd = new RoutedUICommand("Build Emulator", "emulator", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F11) });
+		public static RoutedCommand RunEmulatorCmd = new RoutedUICommand("Run Emulator", "emulator", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F12) });
 		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift) });
 		public static RoutedCommand SettingCmd = new RoutedUICommand("Setting", "Setting", typeof(Window),
@@ -75,7 +79,11 @@ namespace iRobotGUI
 			this.CommandBindings.Add(new CommandBinding(BuildCmd, BuildCmdExecuted));
 			this.CommandBindings.Add(new CommandBinding(CleanCmd, CleanCmdExecuted));
 			this.CommandBindings.Add(new CommandBinding(LoadCmd, LoadCmdExecuted));
-			this.CommandBindings.Add(new CommandBinding(RunInEmulatorCmd, RunInEmulatorCmdExecuted));
+
+			this.CommandBindings.Add(new CommandBinding(TranslateToEmulatorCCmd, TranslateToEmulatorCCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(BuildEmulatorCmd, BuildEmulatorCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(RunEmulatorCmd, RunEmulatorCmdExecuted));
+
 			this.CommandBindings.Add(new CommandBinding(OpenSourceCmd, OpenSrcCmdExecuted, OpenSrcCmdCanExecute));
 			this.CommandBindings.Add(new CommandBinding(WinAvrConfigCmd, WinAvrConfigCmdExecuted));
 			this.CommandBindings.Add(new CommandBinding(SettingCmd, SettingCmdExecuted));
@@ -94,29 +102,12 @@ namespace iRobotGUI
 
 
 
+
+
 		#region Commands
 
-
+		#region Microcontroller
 		// Create(New), Save and Load. Traceability: WC_3305: As an ESS, I can create, save and load program files.
-
-
-		private void RunInEmulatorCmdExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			string emulatorPath = Properties.Settings.Default.EmulatorPath;
-			if (string.IsNullOrEmpty(emulatorPath))
-			{
-				MessageBox.Show("Emulator path not invalid. Use Build -> Setting to select the correct path.", "Invalid Emulator Path", MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}
-
-			string cCode = Translator.Translate(Program);
-			string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorTemplate);
-			string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorOutputFile);
-
-			Translator.GenerateCSource(templateFullPath, outputFullPath, cCode);		
-
-		}
-
 		private void BuildCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
 			try
@@ -124,6 +115,18 @@ namespace iRobotGUI
 				WinAvrConnector.Make();
 			}
 			catch (Exception ex)
+			{
+				ShowWinAvrError();
+			}
+		}
+
+		private void LoadCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				WinAvrConnector.Load();
+			}
+			catch (Exception)
 			{
 				ShowWinAvrError();
 			}
@@ -142,17 +145,73 @@ namespace iRobotGUI
 			}
 		}
 
-		private void LoadCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		#endregion
+
+		#region Emulator
+		private void TranslateToEmulatorCCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
+			string emulatorPath = Properties.Settings.Default.EmulatorPath;
+			if (string.IsNullOrEmpty(emulatorPath))
+			{
+				MessageBox.Show("Emulator path not invalid. Use Build -> Setting to select the correct path.", "Invalid Emulator Path", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			string cCode = Translator.Translate(Program);
+			string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorTemplate);
+			string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorOutputFile);
+
+			Translator.GenerateCSource(templateFullPath, outputFullPath, cCode);
+
+		}
+
+		private void BuildEmulatorCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			string emulatorPath = Properties.Settings.Default.EmulatorPath;
+			string buildBatName = "MSMake.bat";
+			string buildBatFullPath = System.IO.Path.Combine(emulatorPath, buildBatName);
+			// string solutionName = "MCEmulator.sln";
+			// string solutionFullName = System.IO.Path.Combine(emulatorPath, solutionName);
+
+			//Process.Start(@"C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe", solutionFullName);
+
 			try
 			{
-				WinAvrConnector.Load();
+				Process process = Process.Start(buildBatFullPath);
+				process.WaitForExit();
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				ShowWinAvrError();
+				MessageBox.Show(ex.ToString());
 			}
+
 		}
+
+		private void RunEmulatorCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			string emulatorPath = Properties.Settings.Default.EmulatorPath;
+			string exeName = @"Debug\MCEmulator.exe";
+			string exeFullPath = System.IO.Path.Combine(emulatorPath, exeName);
+			// string solutionName = "MCEmulator.sln";
+			// string solutionFullName = System.IO.Path.Combine(emulatorPath, solutionName);
+
+			//Process.Start(@"C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe", solutionFullName);
+
+			try
+			{
+				Process process = Process.Start(exeFullPath);
+				process.WaitForExit();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(exeFullPath + "\n" + ex.ToString());
+			}
+
+		}
+
+
+
+		#endregion
 
 		/// <summary>
 		/// Create a new HLProgram and pass it to ProgramList
