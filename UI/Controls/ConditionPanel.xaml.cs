@@ -69,6 +69,7 @@ namespace iRobotGUI.Controls
 
 		private void textBoxNum_TextChanged(object sender, TextChangedEventArgs e)
 		{
+			if (textBoxNum.Text.Length > 0 && textBoxNum.Text.Length < 6 && textBoxNum.Text != "-")
 			condition.num = Convert.ToInt32(textBoxNum.Text);
 			UpdateConditionLabel();
 		}

@@ -366,7 +366,10 @@
     <Resource Include="pic\create.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\drive.jpg" />
+    <Resource Include="..\..\..\..\Documents\Spring 2015\drive.jpg">
+      <Link>pic\drive.jpg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pic\rotation.png" />

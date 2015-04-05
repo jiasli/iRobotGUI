@@ -77,8 +77,6 @@ namespace iRobotGUI.Controls
 				///set the angle of the steering wheel
 				steer.Angle = radiusToAngle(this.radius);
 				steer.Radius = this.radius;
-               
-
             }
         }
 		private void SliderVelocity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

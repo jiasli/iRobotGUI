@@ -85,6 +85,6 @@
 		<Label Content="-500" HorizontalAlignment="Left" Margin="241,187,0,0" VerticalAlignment="Top"/>
 		<Label Content="Forward" HorizontalAlignment="Left" Margin="237,54,0,0" VerticalAlignment="Top"/>
 		<Label Content="Backward" HorizontalAlignment="Left" Margin="237,161,0,0" VerticalAlignment="Top"/>
-		<src:SteeringParam x:Name="steer" Margin="32,38,142,137" RenderTransformOrigin="0.892,0.556"/>
+		<src:SteeringParam x:Name="steer" Canvas.Left="37" Canvas.Top="41" Margin="36,33,140,143" RenderTransformOrigin="0.427,0.363" />
 	</Grid>
 </src:BaseParamControl>
