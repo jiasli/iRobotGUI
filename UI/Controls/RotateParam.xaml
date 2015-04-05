@@ -2,17 +2,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="clr-namespace:iRobotGUI.Controls"
-       Height="150" Width="150" Background="White">
-    <Grid>
-        <Grid x:Name="RotateGrid">
-            <Grid.RenderTransform>
-                <RotateTransform CenterX="75" CenterY="75"/>
-            </Grid.RenderTransform>
-            <Ellipse>
-                <Ellipse.Fill>
-                    <ImageBrush ImageSource="/iRobotGUI;component/pic/create2.jpg"/>
-                </Ellipse.Fill>
-            </Ellipse>
-        </Grid>
-    </Grid>
+       Height="180" Width="180" Background="White">
+	<Grid>
+		<Grid x:Name="RotateGrid">
+			<Ellipse>
+				<Ellipse.Fill>
+					<ImageBrush ImageSource="/iRobotGUI;component/pic/create2.jpg"/>
+				</Ellipse.Fill>
+			</Ellipse>
+		</Grid>
+		<Label x:Name="label" Content="" HorizontalAlignment="Left" Margin="141,149,0,0" Width="29" RenderTransformOrigin="0.241,-0.286"/>
+	</Grid>
 </src:BaseParamControl>

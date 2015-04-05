@@ -56,6 +56,10 @@
   <PropertyGroup>
     <ApplicationIcon>pic\create.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Sanford.Collections, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -100,6 +104,9 @@
     </Compile>
     <Compile Include="Controls\DriveParam.xaml.cs">
       <DependentUpon>DriveParam.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SteeringParam.xaml.cs">
+      <DependentUpon>SteeringParam.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\DialogInvoker.cs" />
     <Compile Include="Controls\MoveParam.xaml.cs">
@@ -182,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\DriveParam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SteeringParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

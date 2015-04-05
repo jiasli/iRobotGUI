@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="iRobotGUI.Controls.SteeringParam"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="150">
+    <Grid>
+		<Grid x:Name="RotateGrid">
+			<Grid.RenderTransform>
+				<RotateTransform x:Name="myTransform" CenterX="75" CenterY="75" Angle="{Binding Angle}"/>
+			</Grid.RenderTransform>
+			<Ellipse>
+				<Ellipse.Fill>
+					<ImageBrush ImageSource="/iRobotGUI;component/pic/drive.jpg"/>
+				</Ellipse.Fill>
+			</Ellipse>
+		</Grid>
+	</Grid>
+</UserControl>
