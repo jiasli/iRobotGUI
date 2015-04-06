@@ -46,5 +46,17 @@ namespace iRobotGUI.Properties {
                 this["EmulatorPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PopupWindowForNewIns {
+            get {
+                return ((bool)(this["PopupWindowForNewIns"]));
+            }
+            set {
+                this["PopupWindowForNewIns"] = value;
+            }
+        }
     }
 }

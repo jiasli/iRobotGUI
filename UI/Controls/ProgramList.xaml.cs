@@ -186,7 +186,8 @@ namespace iRobotGUI.Controls
 				}
 
 				UpdateContent();
-				PopUpWindow(newIndex);
+				if (Properties.Settings.Default.PopupWindowForNewIns)
+					PopUpWindow(newIndex);
 				ListviewProgram.SelectedItem = newIns;
 			}
 		}
