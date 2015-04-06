@@ -39,6 +39,8 @@ namespace iRobotGUI.Controls
 		public ProgramList()
 		{
 			InitializeComponent();
+
+			RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
 			this.Loaded += ListView1_Loaded;
 
 			pvm = new ProgramViewModel(new HLProgram());
@@ -225,13 +227,10 @@ namespace iRobotGUI.Controls
 			string picPath = "/iRobotGUI;component/pic/";
 			Image im = new Image();
 			BitmapImage bi = new BitmapImage();
+
 			bi.BeginInit();
-
 			string picName = InstructionPicture.GetPictureName(ins);
-
 			bi.UriSource = new Uri(picPath + picName, UriKind.Relative);
-
-			RenderOptions.SetBitmapScalingMode(bi, BitmapScalingMode.HighQuality);
 
 			if (bi.UriSource == null) return null;
 			bi.EndInit();
