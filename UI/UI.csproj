@@ -369,13 +369,9 @@
     <Resource Include="pic\drive.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\rotation.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\move.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\arrow.png" />
     <Resource Include="pic\rotate.png" />
     <Resource Include="pic\drive.png" />
     <Resource Include="pic\bump.png" />
