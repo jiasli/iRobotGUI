@@ -231,6 +231,8 @@ namespace iRobotGUI.Controls
 
 			bi.UriSource = new Uri(picPath + picName, UriKind.Relative);
 
+			RenderOptions.SetBitmapScalingMode(bi, BitmapScalingMode.HighQuality);
+
 			if (bi.UriSource == null) return null;
 			bi.EndInit();
 			im.Stretch = Stretch.Fill;
