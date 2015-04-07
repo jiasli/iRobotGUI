@@ -5,16 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="150">
-	
+	<Grid>
 		<Grid x:Name="RotateGrid">
 			<Grid.RenderTransform>
-				<RotateTransform x:Name="myTransform" CenterX="75" CenterY="75" Angle="{Binding Angle, FallbackValue=-90, TargetNullValue=-90}"/>
+				<RotateTransform x:Name="myTransform" CenterX="75" CenterY="75" Angle="{Binding Angle}"/>
 			</Grid.RenderTransform>
-			<Ellipse >
+			<Ellipse Margin="2" >
 				<Ellipse.Fill>
 					<ImageBrush ImageSource="/iRobotGUI;component/pic/drive.jpg"/>
 				</Ellipse.Fill>
 			</Ellipse>
 		</Grid>
-	
+	</Grid>
 </UserControl>

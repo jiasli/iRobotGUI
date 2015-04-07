@@ -66,16 +66,8 @@
 			</Setter>
 		</Style>
 	</src:BaseParamControl.Resources>
-	<Grid x:Name="grid" ShowGridLines="True">
-		<Grid.RowDefinitions>
-			<RowDefinition/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
-		</Grid.ColumnDefinitions>
-		<Slider Grid.Row="0" IsSnapToTickEnabled="True" TickFrequency="1" Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="191" Maximum="500" Minimum="-500" LargeChange="10" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="139,99,-30,0" Grid.ColumnSpan="2">
+	<Grid x:Name="grid">
+		<Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" TickFrequency="1" Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" Maximum="500" Minimum="-500" LargeChange="10" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="148,103,-22,0">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -85,13 +77,14 @@
 				</TransformGroup>
 			</Slider.RenderTransform>
 		</Slider>
-		<TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="56,214,161,66" TextChanged="textbox1_TextChanged" PreviewTextInput="textbox1_PreviewTextInput" MaxLength="5" Width="83"/>
-		<Label Content="Velocity, mm/s" Margin="34,68,10,55" FontSize="14" Grid.Column="1" Grid.Row="1"/>
-		<Label Grid.Row="1" Grid.Column="0" Content="Radius, mm" FontSize="14" Margin="56,239,161,21" RenderTransformOrigin="0.482,0.286"/>
-		<Label Grid.Row="0" Grid.Column="1" Content="500" HorizontalAlignment="Left" Margin="241,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
-		<Label Grid.Row="0" Grid.Column="1" Content="-500" HorizontalAlignment="Left" Margin="241,187,0,0" VerticalAlignment="Top"/>
-		<Label Grid.Row="0" Grid.Column="1" Content="Forward" HorizontalAlignment="Left" Margin="237,54,0,0" VerticalAlignment="Top"/>
-		<Label Grid.Row="0" Grid.Column="1" Content="Backward" HorizontalAlignment="Left" Margin="237,161,0,0" VerticalAlignment="Top"/>
-		<src:SteeringParam  Grid.Row ="0" Grid.Column ="0" x:Name="steer"  Margin="21,10,22,32"  />
+
+		<TextBox TextAlignment="Center" Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="56,186,161,94" TextChanged="textbox1_TextChanged" PreviewTextInput="textbox1_PreviewTextInput" MaxLength="5" Width="83"/>
+		<Label Content="Velocity, mm/s" Margin="184,218,10,41" FontSize="14"/>
+		<Label Content="Radius, mm" FontSize="14" Margin="56,211,161,49" RenderTransformOrigin="0.482,0.286"/>
+		<Label Content="500" HorizontalAlignment="Left" Margin="241,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
+		<Label Content="-500" HorizontalAlignment="Left" Margin="241,187,0,0" VerticalAlignment="Top"/>
+		<Label Content="Forward" HorizontalAlignment="Left" Margin="237,54,0,0" VerticalAlignment="Top"/>
+		<Label Content="Backward" HorizontalAlignment="Left" Margin="237,161,0,0" VerticalAlignment="Top"/>
+		<src:SteeringParam x:Name="steer" Canvas.Left="37" Canvas.Top="41" Margin="36,33,140,143" RenderTransformOrigin="0.427,0.363" />
 	</Grid>
 </src:BaseParamControl>
