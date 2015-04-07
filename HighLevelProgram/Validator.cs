@@ -226,6 +226,13 @@ namespace iRobotGUI
 		public static bool ValidateParaLength(Instruction ins, int currentLine)
 		{
 			//Check Parameter Count
+            if (ins.opcode == Instruction.SONG)
+            {
+                if ((ins.paramList.Count < 1) || (ins.paramList.Count > 31))
+                    throw new ParameterCountInvalidException(currentLine, ins.opcode);
+                if (ins.paramList.Count % 2 != 0)
+                    throw new ParameterCountInvalidException(currentLine, ins.opcode);
+            }
 			if (ins.opcode == Instruction.LOOP)
 			{
 				if ((ins.paramList.Count != 3) && (ins.paramList.Count != 1))
@@ -272,6 +279,25 @@ namespace iRobotGUI
 							throw new ParameterRangeInvalidException(currentLine, ins.opcode);
 					}
 				}
+                else if (ins.opcode == Instruction.SONG)
+                {
+                    int i = 0;
+                    while (i < ins.paramList.Count)
+                    {
+                        if (i % 2 == 0)
+                            currentBoundary = paraRan.ElementAt(i % 2).Value;
+                        else
+                            currentBoundary = paraRan.ElementAt(i % 2).Value;
+                        if ((ins.paramList[i] >= currentBoundary.lowerBoundary)
+                            && (ins.paramList[i] <= currentBoundary.upperBoundary))
+                        {
+                            i++;
+                            continue;
+                        }
+                        else
+                            throw new ParameterRangeInvalidException(currentLine, ins.opcode);
+                    }
+                }
 				else if ((ins.opcode == Instruction.LOOP) && (ins.paramList.Count == 1))
 				{
 					if (ins.paramList[0] == 0)
