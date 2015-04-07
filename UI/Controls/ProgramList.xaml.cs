@@ -41,6 +41,7 @@ namespace iRobotGUI.Controls
 			InitializeComponent();
 
 			RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+
 			this.Loaded += ListView1_Loaded;
 
 			pvm = new ProgramViewModel(new HLProgram());
@@ -115,14 +116,7 @@ namespace iRobotGUI.Controls
 		{
 			if (e.Key == Key.Delete)
 			{
-				int index = ListviewProgram.SelectedIndex;
-				if (index < 0)
-					return;
-
-				// Just remove the pointer. We don't care the source in HLProgram.
-				pvm.Remove(index);
-
-				UpdateContent();
+				RemoveSelection();
 			}
 		}
 
@@ -196,7 +190,7 @@ namespace iRobotGUI.Controls
 
 		#endregion // event handler
 
-		#region UpdateContent
+		#region private operations
 
 		/// <summary>
 		/// Update content in ProgramList accordint to pvm
@@ -207,17 +201,13 @@ namespace iRobotGUI.Controls
 
 			for (int i = 0; i < pvm.Count; i++)
 			{
-				Instruction ins = pvm.GetInstruction(i);
+				Instruction ins = pvm.GetInstruction(pvm[i]);
 				Image im = GetImageFromInstruction(ins);
 				if (im != null)
 					ListviewProgram.Items.Add(GetImageFromInstruction(ins));
 			}
 
 		}
-
-		#endregion
-
-		#region GetImageFromInstruction
 
 		/// <summary>
 		/// Get the corresponding image from a specific instruction
@@ -242,8 +232,6 @@ namespace iRobotGUI.Controls
 			return im;
 		}
 
-		#endregion
-
 		/// <summary>
 		/// pop up the parameter window
 		/// </summary>
@@ -251,11 +239,11 @@ namespace iRobotGUI.Controls
 		private void PopUpWindow(int index)
 		{
 			// The Ins under modification
-			Instruction selectedIns = pvm.GetInstruction(index);
+			Instruction selectedIns = pvm.GetInstruction(pvm[index]);
 
 			if (selectedIns.opcode == Instruction.IF || selectedIns.opcode == Instruction.LOOP)
 			{
-				HLProgram subProgram = pvm.GetSubProgram(index);
+				HLProgram subProgram = pvm.GetSubProgram(pvm[index]);
 
 				// invoke the dialog
 				HLProgram result = DialogInvoker.ShowDialog(subProgram, Window.GetWindow(this));
@@ -270,6 +258,78 @@ namespace iRobotGUI.Controls
 
 			UpdateContent();
 		}
+
+		#endregion // private operations
+
+		#region file operations
+
+		private void ListCopyExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			CopySelection();
+		}
+
+		private void ListCutExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			CopySelection();
+			RemoveSelection();
+		}
+
+		private void ListPasteExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			int newIndex = ListviewProgram.SelectedIndex;
+			if (newIndex < 0)
+				newIndex = pvm.Count;
+
+			int pvmvalue = Int32.Parse(Clipboard.GetText());
+			Instruction ins = pvm.GetInstruction(pvmvalue);
+
+			if (ins.opcode == Instruction.IF || ins.opcode == Instruction.LOOP)
+			{
+				pvm.InsertSubProgram(newIndex, pvm.GetSubProgram(pvmvalue));
+			}
+			else
+			{
+				String insstring = ins.ToString();
+				Instruction newins = new Instruction(insstring);
+				pvm.InsertInstruction(newIndex, newins);
+			}
+
+			UpdateContent();
+		}
+
+		private void ListCutCopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = ListviewProgram.SelectedIndex >= 0;
+		}
+
+		private void ListPasteCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = Clipboard.ContainsText();
+		}
+
+		private void CopySelection()
+		{
+			int index = ListviewProgram.SelectedIndex;
+			if (index < 0)
+				return;
+
+			Clipboard.Clear();
+			Clipboard.SetText(pvm[index].ToString());
+		}
+
+		private void RemoveSelection()
+		{
+			int index = ListviewProgram.SelectedIndex;
+			if (index < 0)
+				return;
+
+			// Just remove the pointer. We don't care the source in HLProgram.
+			pvm.Remove(pvm[index]);
+
+			UpdateContent();
+		}
+
+		#endregion // file operations
 
 	}
 }
