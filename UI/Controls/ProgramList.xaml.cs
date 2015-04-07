@@ -40,8 +40,6 @@ namespace iRobotGUI.Controls
 		{
 			InitializeComponent();
 
-			RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
-
 			this.Loaded += ListView1_Loaded;
 
 			pvm = new ProgramViewModel(new HLProgram());
@@ -227,8 +225,8 @@ namespace iRobotGUI.Controls
 			bi.EndInit();
 			im.Stretch = Stretch.Fill;
 			im.Source = bi;
-			im.Width = 50;
-			im.Height = 50;
+			im.Width = 45;
+			im.Height = 45;
 			return im;
 		}
 

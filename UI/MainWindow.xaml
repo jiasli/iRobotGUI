@@ -3,9 +3,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
 	x:Class="iRobotGUI.MainWindow"
 	xmlns:System="clr-namespace:System;assembly=mscorlib"    
-	xmlns:custom="clr-namespace:iRobotGUI"
-	
-	Title="iRobot GUI" Width="750" Height="500" >
+	xmlns:custom="clr-namespace:iRobotGUI"	
+	Title="iRobot GUI" Width="700" Height="500" RenderTransformOrigin="0.5,0.5" >
 
 	<Window.CommandBindings>
 		<CommandBinding Command="ApplicationCommands.New" Executed="NewCmdExecuted"/>
@@ -23,7 +22,7 @@
 				<MenuItem Command="ApplicationCommands.SaveAs" />
 				<MenuItem Command="ApplicationCommands.Open" />
 				<Separator/>
-				<MenuItem Header="Program Folder" Click="MenuItemShowSrcFolder_Click" />
+				<MenuItem Header="Reveal in Explorer" Click="MenuItemShowSrcFolder_Click" />
 				<MenuItem Command="{x:Static custom:MainWindow.OpenSourceCmd}"  />
 				<Separator/>
 				<MenuItem Command="ApplicationCommands.Close"/>
@@ -53,6 +52,9 @@
 				<MenuItem Command="{x:Static custom:MainWindow.WinAvrConfigCmd}" />
 				<MenuItem Command="{x:Static custom:MainWindow.SettingCmd}"  />
 			</MenuItem>
+			<MenuItem Header="Tools">
+
+			</MenuItem>
 			<MenuItem Header="Help">
 				<MenuItem Header="Show Debug Panel" IsCheckable="True" IsChecked="True" Unchecked="MenuItemShowDebugPanel_Unchecked" Checked="MenuItemShowDebugPanel_Checked" />
 				<MenuItem Header="About"  InputGestureText="F1" Click="MenuItemAbout_Click" />
@@ -74,7 +76,8 @@
 
 			<Controls:InstructionPanel Grid.Column="0"/>
 
-			<Controls:ProgramList x:Name="programList1"  Grid.Column="1" />
+			<Image Grid.Column="1" Source="/iRobotGUI;component/pic/iRobotBG.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="150" Height="150" />
+			<Controls:ProgramList x:Name="programList1"  Grid.Column="1" Margin="5" />
 
 			<Grid Grid.Column="2">
 				<Grid.RowDefinitions>
@@ -87,7 +90,7 @@
 				<Button Content="Load Example Code" HorizontalAlignment="Left" VerticalAlignment="Top" Click="buttonLoadExampleCode_Click" Grid.Row="1" Margin="10,0,0,0" />
 				<Button x:Name="buttonRefreshSource" Content="-> Refresh Source" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="10,27,0,0" Click="buttonRefreshSource_Click"  />
 				<Button x:Name="buttonLoadIntoGraph" Content="&lt;- Load into Graph" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="116,27,0,0" Click="buttonLoadIntoGraph_Click" />
-				<TextBox x:Name="textBoxSource" TextWrapping="Wrap" Text="Source Code"  Grid.Row="2" AcceptsReturn="True" Margin="0,0,0,0"/>
+				<TextBox x:Name="textBoxSource" TextWrapping="Wrap" Text="Source Code"  Grid.Row="2" AcceptsReturn="True" Margin="0,0,0,0" Background="{x:Null}"/>
 			</Grid>
 		</Grid>
 

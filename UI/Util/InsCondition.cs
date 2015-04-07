@@ -1,6 +1,7 @@
-﻿
+﻿using System;
 namespace iRobotGUI.Util
 {
+	[Obsolete("Only used by the obsolete class ConditionPanel")]
 	/// <summary>
 	/// A class for IF and LOOP
 	/// </summary>
@@ -9,9 +10,9 @@ namespace iRobotGUI.Util
 		public int sensor = 0;
 
 		/// <summary>
-		/// = != ...
+		/// = != ..., see <see cref="Operator"/>
 		/// </summary>
-		public int op = 0;
+		public int op = Operator.EQUAL;
 
 		/// <summary>
 		/// The number being compared.

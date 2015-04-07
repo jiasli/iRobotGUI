@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 
 namespace iRobotGUI.Controls
 {
+	[Obsolete("To simplify the condition, the user only changes the sensor. Use SensorSelector instead. IF and LOOP use different condition expression.", true)]
 	/// <summary>
 	/// Interaction logic for ConditionPanel.xaml
 	/// </summary>
@@ -40,12 +41,20 @@ namespace iRobotGUI.Controls
 			set
 			{
 				condition = value;
-				comboBoxSensor.SelectedIndex = condition.sensor;
-				comboBoxOperator.SelectedIndex = condition.op;
-				textBoxNum.Text = condition.num.ToString();
+
+				comboBoxSensor.SelectedIndex = Array.IndexOf(comboBoxIndexSensorMapping, value.sensor);
+				if (condition.num == 1)
+				{
+					radioButtonTrue.IsChecked = true;
+				}
+				else
+				{
+					radioButtonFalse.IsChecked = true;
+				}
 			}
 			get
 			{
+				condition.op = Operator.EQUAL;
 				return condition;
 			}
 		}
@@ -61,18 +70,6 @@ namespace iRobotGUI.Controls
 			UpdateConditionLabel();
 		}
 
-		private void comboBoxOperator_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			condition.op = comboBoxOperator.SelectedIndex;
-			UpdateConditionLabel();
-		}
-
-		private void textBoxNum_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			condition.num = Convert.ToInt32(textBoxNum.Text);
-			UpdateConditionLabel();
-		}
-
 		private void UpdateConditionLabel()
 		{
 			// label may not be initialized.
@@ -85,15 +82,16 @@ namespace iRobotGUI.Controls
 			}
 		}
 
-		private void textBoxNum_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		private void radioButtonTrue_Checked(object sender, RoutedEventArgs e)
 		{
-			e.Handled = !IsTextAllowed(e.Text);
+			condition.num = 1;
+			UpdateConditionLabel();
 		}
 
-		private static bool IsTextAllowed(string text)
+		private void radioButtonFalse_Checked(object sender, RoutedEventArgs e)
 		{
-			Regex regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
-			return !regex.IsMatch(text);
+			condition.num = 0;
+			UpdateConditionLabel();
 		}
 	}
 }

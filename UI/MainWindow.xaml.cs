@@ -436,12 +436,14 @@ namespace iRobotGUI
 		{
 			if (columnDefinitionDebug != null)
 				columnDefinitionDebug.Width = new GridLength(250);
+			this.Width = 700; 
 		}
 
 		private void MenuItemShowDebugPanel_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (columnDefinitionDebug != null)
 				columnDefinitionDebug.Width = new GridLength(0);
+			this.Width = 450; 
 		}
 		private void MenuItemShowSrcFolder_Click(object sender, RoutedEventArgs e)
 		{
