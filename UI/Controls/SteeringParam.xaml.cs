@@ -93,6 +93,7 @@ namespace iRobotGUI.Controls
 			this.MouseLeftButtonDown += new MouseButtonEventHandler(OnMouseLeftButtonDown);
 			this.MouseUp += new MouseButtonEventHandler(OnMouseUp);
 			this.MouseMove += new MouseEventHandler(OnMouseMove);
+			//this.Angle = -90;
 		}
 
 		private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
