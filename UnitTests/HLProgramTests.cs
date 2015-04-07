@@ -11,36 +11,7 @@ namespace iRobotGUI.Tests
     public class HLProgramTests
     {
        
-        [TestMethod()]
-        public void GetInstructionTest()
-        {
-            bool pass = true;
-            HLProgram hp = new HLProgram();
-            int ValidIndex=2;
-            int InvalidIndex=0;
-            try
-            {
-                Instruction ins = hp[InvalidIndex];
-                pass = false;
-            }
-            catch (NonNumericParameterException)
-            {
-                Console.WriteLine(InvalidIndex + ": InvalidIndex");
-            }
-
-            try
-            {
-                Instruction ins = hp[ValidIndex];
-            }
-            catch (NonNumericParameterException)
-            {
-                pass = false;
-            }
-
-            Assert.IsTrue(pass);
-        }
-
-
+       
         [TestMethod()]
         public void FindElseTest()
         {
