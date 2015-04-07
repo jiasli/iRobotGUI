@@ -276,18 +276,22 @@ namespace iRobotGUI.Controls
 
 		private void ListPasteExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
+			int newIndex = ListviewProgram.SelectedIndex;
+			if (newIndex < 0)
+				newIndex = pvm.Count;
+
 			int pvmvalue = Int32.Parse(Clipboard.GetText());
 			Instruction ins = pvm.GetInstruction(pvmvalue);
 
 			if (ins.opcode == Instruction.IF || ins.opcode == Instruction.LOOP)
 			{
-				pvm.InsertSubProgram(pvm.Count, pvm.GetSubProgram(pvmvalue));
+				pvm.InsertSubProgram(newIndex, pvm.GetSubProgram(pvmvalue));
 			}
 			else
 			{
 				String insstring = ins.ToString();
 				Instruction newins = new Instruction(insstring);
-				pvm.InsertInstruction(pvm.Count, newins);
+				pvm.InsertInstruction(newIndex, newins);
 			}
 
 			UpdateContent();
