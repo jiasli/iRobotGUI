@@ -1,6 +1,7 @@
-﻿
+﻿using System;
 namespace iRobotGUI.Util
 {
+	[Obsolete("Only used by the obsolete class ConditionPanel")]
 	/// <summary>
 	/// A class for IF and LOOP
 	/// </summary>

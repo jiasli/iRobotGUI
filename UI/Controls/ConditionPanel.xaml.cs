@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 
 namespace iRobotGUI.Controls
 {
+	[Obsolete("To simplify the condition, the user only changes the sensor. Use SensorSelector instead. IF and LOOP use different condition expression.", true)]
 	/// <summary>
 	/// Interaction logic for ConditionPanel.xaml
 	/// </summary>
@@ -40,7 +41,8 @@ namespace iRobotGUI.Controls
 			set
 			{
 				condition = value;
-				comboBoxSensor.SelectedIndex = condition.sensor;
+
+				comboBoxSensor.SelectedIndex = Array.IndexOf(comboBoxIndexSensorMapping, value.sensor);
 				if (condition.num == 1)
 				{
 					radioButtonTrue.IsChecked = true;
@@ -79,7 +81,7 @@ namespace iRobotGUI.Controls
 					condition.num);
 			}
 		}
-		
+
 		private void radioButtonTrue_Checked(object sender, RoutedEventArgs e)
 		{
 			condition.num = 1;

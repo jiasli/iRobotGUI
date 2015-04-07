@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="iRobotGUI.Controls.SensorSelector"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 mc:Ignorable="d" Width="200" Height="85" >
+	<Grid>
+		<ComboBox x:Name="comboBoxSensor" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,26,0,0" 
+				  Width="180" SelectedIndex="0" >
+
+			<!-- 
+			Setting RenderOptions.BitmapScalingMode to the root UIElement doesn't work,
+			maybe a bug in WPF.
+			
+			If the selected item is mouse-hovered in the drop-down list, the color of text
+			in ComboBox will be white, maybe a another bug. This can be solved by manually
+			set the Forground for TextBlock.
+			
+			There will be can empty row in the bottom of the drop-down list, MUST be a bug!
+			-->
+
+			<ComboBox.Resources>
+				<Style TargetType="Image">
+					<Setter Property="Width" Value="45" />
+					<Setter Property="Height" Value="45" />
+					<Setter Property="Stretch" Value="Fill" />
+					<Setter Property="ToolTipService.ShowDuration" Value="100000" />
+					<Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+				</Style>
+				<Style TargetType="TextBlock">
+					<Setter Property="VerticalAlignment" Value="Center"></Setter>
+				</Style>
+			</ComboBox.Resources>
+
+			<ComboBoxItem>
+				<StackPanel Orientation="Horizontal" >
+					<Image Source="/iRobotGUI;component/pic/bump.png" />
+					<TextBlock Text="Bump"/>
+				</StackPanel>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<StackPanel Orientation="Horizontal">
+					<Image Source="/iRobotGUI;component/pic/wall.png" />
+					<TextBlock Text="Wall"/>
+				</StackPanel>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<StackPanel Orientation="Horizontal">
+					<Image Source="/iRobotGUI;component/pic/cliff.png" />
+					<TextBlock Text="Cliff Left"/>
+				</StackPanel>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<StackPanel Orientation="Horizontal">
+					<Image Source="/iRobotGUI;component/pic/cliff.png" />
+					<TextBlock Text="Cliff Front Left"/>
+				</StackPanel>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<StackPanel Orientation="Horizontal">
+					<Image Source="/iRobotGUI;component/pic/cliff.png" />
+					<TextBlock Text="Cliff Front Right"/>
+				</StackPanel>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<StackPanel Orientation="Horizontal">
+					<Image Source="/iRobotGUI;component/pic/cliff.png" />
+					<TextBlock Text="Cliff Right"/>
+				</StackPanel>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<StackPanel Orientation="Horizontal">
+					<Image Source="/iRobotGUI;component/pic/virtualwall.png" />
+					<TextBlock Text="Virtual Wall"/>
+				</StackPanel>
+			</ComboBoxItem>
+			<ComboBoxItem>
+				<StackPanel Orientation="Horizontal">
+					<Image Source="/iRobotGUI;component/pic/charging.png" />
+					<TextBlock Text="Charging State"/>
+				</StackPanel>
+			</ComboBoxItem>
+		</ComboBox>
+		<Label Content="Sensor" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+	</Grid>
+</UserControl>

@@ -99,6 +99,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\SensorSelector.xaml.cs">
+      <DependentUpon>SensorSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DelayParam.xaml.cs">
       <DependentUpon>DelayParam.xaml</DependentUpon>
     </Compile>
@@ -176,6 +179,10 @@
     </Compile>
     <Compile Include="WinAvr\WinAvrConnector.cs" />
     <Compile Include="Util\InsCondition.cs" />
+    <Page Include="Controls\SensorSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\DelayParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

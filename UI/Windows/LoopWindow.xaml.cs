@@ -19,6 +19,11 @@ namespace iRobotGUI
 	/// <summary>
 	/// Interaction logic for LoopWindow.xaml
 	/// </summary>
+	/// <remarks>
+	/// In high-level program, the condition to enter the loop body is that the condition is true.
+	/// However, in UI, the condition to enter the loop body is that the sensor is not detected.
+	/// There for NOT_EQUAL is used for the condition.
+	/// </remarks>
 	public partial class LoopWindow : Window
 	{
 		public LoopWindow()
@@ -35,9 +40,8 @@ namespace iRobotGUI
 			{
 				HLProgram subProgram = value;
 
-				// 1. Set condition
-				InsCondition condition = new InsCondition(subProgram[0]);
-				conditionPanel.Condition = condition;
+				// 1. Select the sensor
+				sensorSelector.SelectedSensor = subProgram[0].paramList[0];
 
 				// 2. Set loop body
 				programListLoopBody.Program = subProgram.SubProgram(1, subProgram.Count - 2);
@@ -46,12 +50,12 @@ namespace iRobotGUI
 			{
 				HLProgram result = new HLProgram();
 
-				// 1. Read back condition
+				// 1. Read back sensor
 				Instruction conditionIns = Instruction.CreatFromOpcode(Instruction.LOOP);
-				InsCondition condition = conditionPanel.Condition;
-				conditionIns.paramList[0] = condition.sensor;
-				conditionIns.paramList[1] = condition.op;
-				conditionIns.paramList[2] = condition.num;
+				conditionIns.paramList[0] = sensorSelector.SelectedSensor;
+				// Notice that the Operator for LOOP is different from that for IF, which is EQUAL.
+				conditionIns.paramList[1] = iRobotGUI.Operator.NOT_EQUAL;
+				conditionIns.paramList[2] = 1;
 				result.Add(conditionIns);
 
 				// 2. Add loop body
