@@ -23,7 +23,7 @@
 				<MenuItem Command="ApplicationCommands.SaveAs" />
 				<MenuItem Command="ApplicationCommands.Open" />
 				<Separator/>
-				<MenuItem Header="Program Folder" Click="MenuItemShowSrcFolder_Click" />
+				<MenuItem Header="Reveal in Explorer" Click="MenuItemShowSrcFolder_Click" />
 				<MenuItem Command="{x:Static custom:MainWindow.OpenSourceCmd}"  />
 				<Separator/>
 				<MenuItem Command="ApplicationCommands.Close"/>
@@ -52,6 +52,9 @@
 				<Separator/>
 				<MenuItem Command="{x:Static custom:MainWindow.WinAvrConfigCmd}" />
 				<MenuItem Command="{x:Static custom:MainWindow.SettingCmd}"  />
+			</MenuItem>
+			<MenuItem Header="Tools">
+				
 			</MenuItem>
 			<MenuItem Header="Help">
 				<MenuItem Header="Show Debug Panel" IsCheckable="True" IsChecked="True" Unchecked="MenuItemShowDebugPanel_Unchecked" Checked="MenuItemShowDebugPanel_Checked" />

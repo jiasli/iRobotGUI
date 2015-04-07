@@ -41,11 +41,18 @@ namespace iRobotGUI.Controls
 			{
 				condition = value;
 				comboBoxSensor.SelectedIndex = condition.sensor;
-				comboBoxOperator.SelectedIndex = condition.op;
-				textBoxNum.Text = condition.num.ToString();
+				if (condition.num == 1)
+				{
+					radioButtonTrue.IsChecked = true;
+				}
+				else
+				{
+					radioButtonFalse.IsChecked = true;
+				}
 			}
 			get
 			{
+				condition.op = Operator.EQUAL;
 				return condition;
 			}
 		}
@@ -61,18 +68,6 @@ namespace iRobotGUI.Controls
 			UpdateConditionLabel();
 		}
 
-		private void comboBoxOperator_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			condition.op = comboBoxOperator.SelectedIndex;
-			UpdateConditionLabel();
-		}
-
-		private void textBoxNum_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			condition.num = Convert.ToInt32(textBoxNum.Text);
-			UpdateConditionLabel();
-		}
-
 		private void UpdateConditionLabel()
 		{
 			// label may not be initialized.
@@ -84,16 +79,17 @@ namespace iRobotGUI.Controls
 					condition.num);
 			}
 		}
-
-		private void textBoxNum_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		
+		private void radioButtonTrue_Checked(object sender, RoutedEventArgs e)
 		{
-			e.Handled = !IsTextAllowed(e.Text);
+			condition.num = 1;
+			UpdateConditionLabel();
 		}
 
-		private static bool IsTextAllowed(string text)
+		private void radioButtonFalse_Checked(object sender, RoutedEventArgs e)
 		{
-			Regex regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
-			return !regex.IsMatch(text);
+			condition.num = 0;
+			UpdateConditionLabel();
 		}
 	}
 }

@@ -9,9 +9,9 @@ namespace iRobotGUI.Util
 		public int sensor = 0;
 
 		/// <summary>
-		/// = != ...
+		/// = != ..., see <see cref="Operator"/>
 		/// </summary>
-		public int op = 0;
+		public int op = Operator.EQUAL;
 
 		/// <summary>
 		/// The number being compared.
