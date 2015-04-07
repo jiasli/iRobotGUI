@@ -14,18 +14,18 @@
 	</UserControl.CommandBindings>
 
 	<UserControl.Resources>
-        <Style TargetType="{x:Type ListViewItem}">
-            <Style.Triggers>
-                <Trigger Property="jas:ListViewItemDragState.IsUnderDragCursor" Value="True">
-                    <Setter Property="Background" Value="LightGray" />
-                </Trigger>
-            </Style.Triggers>
+		<Style TargetType="{x:Type ListViewItem}">
+			<Style.Triggers>
+				<Trigger Property="jas:ListViewItemDragState.IsUnderDragCursor" Value="True">
+					<Setter Property="Background" Value="LightGray" />
+				</Trigger>
+			</Style.Triggers>
 			<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        </Style>
-    </UserControl.Resources>
-	
-    <Grid>
-        <ListView x:Name="ListviewProgram" KeyDown="ListviewProgram_KeyDown"/>
-    </Grid>
-	
+		</Style>
+	</UserControl.Resources>
+
+	<Grid>
+		<ListView x:Name="ListviewProgram" KeyDown="ListviewProgram_KeyDown" SelectionMode="Single"/>
+	</Grid>
+
 </UserControl>
