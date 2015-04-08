@@ -22,7 +22,7 @@
 				<MenuItem Command="ApplicationCommands.SaveAs" />
 				<MenuItem Command="ApplicationCommands.Open" />
 				<Separator/>
-				<MenuItem Header="Reveal in Explorer" Click="MenuItemShowSrcFolder_Click" />
+				<MenuItem Header="Reveal in Explorer" Click="MenuItemRevealInExplorer_Click" />
 				<MenuItem Command="{x:Static custom:MainWindow.OpenSourceCmd}"  />
 				<Separator/>
 				<MenuItem Command="ApplicationCommands.Close"/>

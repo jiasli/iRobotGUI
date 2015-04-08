@@ -2,9 +2,9 @@
 // SRAIGHT = 32768
 DRIVE 300, 32768
 // Bump = 0, NOT_EQUAL = 1
-LOOP 0, 1, 1
+LOOP 0, 0, 0 
 	// Read the sensor again
 	DELAY 100
 END_LOOP
-MOVE -100,1
+MOVE -100, 1
 ROTATE 180

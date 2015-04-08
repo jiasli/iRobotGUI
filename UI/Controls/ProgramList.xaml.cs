@@ -74,10 +74,10 @@ namespace iRobotGUI.Controls
 		/// </summary>
 		void ListView1_Loaded(object sender, RoutedEventArgs e)
 		{
-			this.dragMgr = new ListViewDragDropManager<Image>(ListviewProgram);
-			ListviewProgram.PreviewMouseLeftButtonDown += NewlistView_PreviewMouseLeftButtonDown;
-			ListviewProgram.Drop -= dragMgr.listView_Drop;
-			ListviewProgram.Drop += NewlistView_Drop;
+			this.dragMgr = new ListViewDragDropManager<Image>(listViewProgram);
+			listViewProgram.PreviewMouseLeftButtonDown += listView_PreviewMouseLeftButtonDown;
+			listViewProgram.Drop -= dragMgr.listView_Drop;
+			listViewProgram.Drop += listView_Drop;
 		}
 
 		#endregion // ListView1_Loaded
@@ -89,18 +89,17 @@ namespace iRobotGUI.Controls
 		/// <summary>
 		/// Open the dialog when an item is double clicked
 		/// </summary>
-		void NewlistView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		void listView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.ClickCount == 2)
 			{
 				// The index of item in PVM
-				int index = ListviewProgram.SelectedIndex;
+				int index = listViewProgram.SelectedIndex;
 				if (index < 0)
 					return;
 
-				PopUpWindow(index);
+				ShowParamWindow(index);
 			}
-
 		}
 
 		#endregion // NewlistView_PreviewMouseLeftButtonDown
@@ -126,7 +125,7 @@ namespace iRobotGUI.Controls
 		/// <summary>
 		/// handler for drop event
 		/// </summary>
-		void NewlistView_Drop(object sender, DragEventArgs e)
+		void listView_Drop(object sender, DragEventArgs e)
 		{
 			int newIndex = this.dragMgr.IndexUnderDragCursor;
 
@@ -138,7 +137,7 @@ namespace iRobotGUI.Controls
 				if (data == null)
 					return;
 
-				int oldIndex = this.ListviewProgram.Items.IndexOf(data);
+				int oldIndex = this.listViewProgram.Items.IndexOf(data);
 
 				if (newIndex < 0)
 					return;
@@ -178,9 +177,9 @@ namespace iRobotGUI.Controls
 				}
 
 				UpdateContent();
+				listViewProgram.SelectedIndex = newIndex;
 				if (Properties.Settings.Default.PopupWindowForNewIns)
-					PopUpWindow(newIndex);
-				ListviewProgram.SelectedItem = newIns;
+					ShowParamWindow(newIndex);				
 			}
 		}
 
@@ -195,16 +194,19 @@ namespace iRobotGUI.Controls
 		/// </summary>
 		private void UpdateContent()
 		{
-			ListviewProgram.Items.Clear();
+			// Save the selected index and restore it when refreshing finishes.
+			int selectedIndex = listViewProgram.SelectedIndex;
+
+			listViewProgram.Items.Clear();
 
 			for (int i = 0; i < pvm.Count; i++)
 			{
 				Instruction ins = pvm.GetInstruction(pvm[i]);
 				Image im = GetImageFromInstruction(ins);
 				if (im != null)
-					ListviewProgram.Items.Add(GetImageFromInstruction(ins));
+					listViewProgram.Items.Add(GetImageFromInstruction(ins));
 			}
-
+			listViewProgram.SelectedIndex = selectedIndex;
 		}
 
 		/// <summary>
@@ -234,7 +236,7 @@ namespace iRobotGUI.Controls
 		/// pop up the parameter window
 		/// </summary>
 		/// <param name="index">index in pvm</param>
-		private void PopUpWindow(int index)
+		private void ShowParamWindow(int index)
 		{
 			// The Ins under modification
 			Instruction selectedIns = pvm.GetInstruction(pvm[index]);
@@ -274,7 +276,7 @@ namespace iRobotGUI.Controls
 
 		private void ListPasteExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			int newIndex = ListviewProgram.SelectedIndex;
+			int newIndex = listViewProgram.SelectedIndex;
 			if (newIndex < 0)
 				newIndex = pvm.Count;
 
@@ -297,7 +299,7 @@ namespace iRobotGUI.Controls
 
 		private void ListCutCopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ListviewProgram.SelectedIndex >= 0;
+			e.CanExecute = listViewProgram.SelectedIndex >= 0;
 		}
 
 		private void ListPasteCanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -307,7 +309,7 @@ namespace iRobotGUI.Controls
 
 		private void CopySelection()
 		{
-			int index = ListviewProgram.SelectedIndex;
+			int index = listViewProgram.SelectedIndex;
 			if (index < 0)
 				return;
 
@@ -317,7 +319,7 @@ namespace iRobotGUI.Controls
 
 		private void RemoveSelection()
 		{
-			int index = ListviewProgram.SelectedIndex;
+			int index = listViewProgram.SelectedIndex;
 			if (index < 0)
 				return;
 
