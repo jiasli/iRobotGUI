@@ -54,7 +54,7 @@ namespace iRobotGUI
 		public const string EmulatorTemplate = "em_t.c";
 		public const string EmulatorOutputFile = "em_o.c";
 
-		private string igpFile;		
+		private string igpFile;
 
 		public MainWindow()
 		{
@@ -134,15 +134,16 @@ namespace iRobotGUI
 			string emulatorPath = Properties.Settings.Default.EmulatorPath;
 			if (string.IsNullOrEmpty(emulatorPath))
 			{
-				MessageBox.Show("Emulator path not invalid. Use Build -> Setting to select the correct path.", "Invalid Emulator Path", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("Emulator path not invalid. Use Build -> Setting to select the correct path.",
+					"Invalid Emulator Path", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
 			string cCode = Translator.Translate(programList.Program);
-			string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorTemplate);
-			string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorOutputFile);
+			string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorTemplate);
+			string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorOutputFile);
 
-			Translator.GenerateCSource(templateFullPath, outputFullPath, cCode);
+			CodeGenerator.GenerateCSource(templateFullPath, outputFullPath, cCode);
 
 		}
 
@@ -163,7 +164,8 @@ namespace iRobotGUI
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.ToString());
+				MessageBox.Show("Unable to build the emulator. Check if the emulator path is correct. \n" + ex.ToString(),
+					"Unable to build the emulator.", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 		}
@@ -185,7 +187,8 @@ namespace iRobotGUI
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(exeFullPath + "\n" + ex.ToString());
+				MessageBox.Show("Unable to run the emulator. Check if the emulator path is correct and if the emulator is built correctly. \n" + ex.ToString(),
+					"Unable to run the emulator.", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 		}
@@ -357,7 +360,7 @@ namespace iRobotGUI
 		{
 			try
 			{
-				string proStr = programList.Program.ToString();				
+				string proStr = programList.Program.ToString();
 				File.WriteAllText(filePath, proStr);
 			}
 			catch (Exception ex)
@@ -416,14 +419,14 @@ namespace iRobotGUI
 		{
 			if (columnDefinitionDebug != null)
 				columnDefinitionDebug.Width = new GridLength(250);
-			this.Width = 700; 
+			this.Width = 700;
 		}
 
 		private void MenuItemShowDebugPanel_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (columnDefinitionDebug != null)
 				columnDefinitionDebug.Width = new GridLength(0);
-			this.Width = 450; 
+			this.Width = 450;
 		}
 		private void MenuItemShowSrcFolder_Click(object sender, RoutedEventArgs e)
 		{
@@ -436,7 +439,7 @@ namespace iRobotGUI
 		{
 			string cCode = Translator.Translate(programList.Program);
 
-			Translator.GenerateCSource(MicrocontrollerTemplate, MicrocontrollerOutputFile, cCode);
+			CodeGenerator.GenerateCSource(MicrocontrollerTemplate, MicrocontrollerOutputFile, cCode);
 
 			if (Properties.Settings.Default.OpenCCode) Process.Start(MicrocontrollerOutputFile);
 		}

@@ -44,7 +44,7 @@ namespace iRobotGUI
 			END_LOOP, 
 			DELAY,
 			READ_SENSOR
-		};		
+		};
 
 		#region OpCode
 
@@ -54,28 +54,28 @@ namespace iRobotGUI
 		public const string BACKWARD    = "BACKWARD";
 		public const string LEFT        = "LEFT";
 		public const string RIGHT       = "RIGHT";
-		*/ 
-		public const string MOVE        = "MOVE";
-		public const string ROTATE      = "ROTATE";
-		public const string DRIVE       = "DRIVE";		
+		*/
+		public const string MOVE = "MOVE";
+		public const string ROTATE = "ROTATE";
+		public const string DRIVE = "DRIVE";
 
 		// LED Song
-		public const string LED         = "LED";
-		public const string SONG        = "SONG";
-		public const string SONG_DEF    = "SONG_DEF";
-		public const string SONG_PLAY   = "SONG_PLAY";
+		public const string LED = "LED";
+		public const string SONG = "SONG";
+		public const string SONG_DEF = "SONG_DEF";
+		public const string SONG_PLAY = "SONG_PLAY";
 
 		// IF LOOP
-		public const string IF          = "IF";
-		public const string ELSE        = "ELSE";
-		public const string END_IF      = "END_IF";
-		public const string LOOP        = "LOOP";
-		public const string END_LOOP    = "END_LOOP";
+		public const string IF = "IF";
+		public const string ELSE = "ELSE";
+		public const string END_IF = "END_IF";
+		public const string LOOP = "LOOP";
+		public const string END_LOOP = "END_LOOP";
 
 		// Other
-		public const string DELAY       = "DELAY";
+		public const string DELAY = "DELAY";
 		public const string READ_SENSOR = "READ_SENSOR";
-		public const string DEMO        = "DEMO";
+		public const string DEMO = "DEMO";
 
 		#endregion
 
@@ -89,18 +89,19 @@ namespace iRobotGUI
 
 		#endregion
 
-		
+
 
 		public Instruction(string insStr)
 		{
 			// Remove leading indent.
-			insStr = insStr.Trim(new char[] { ' ', '\t' });			
+			insStr = insStr.Trim(new char[] { ' ', '\t' });
 
 			string opcode;
 			string[] paramArray;
 
 			// Seperate the string using the first space ' '.
 			int spaceIndex = insStr.IndexOf(' ');
+
 			if (spaceIndex != -1)
 			{
 				// A space is found.
@@ -114,7 +115,7 @@ namespace iRobotGUI
 				opcode = insStr;
 				paramArray = new string[0];
 			}
-			
+
 
 			if (OpCodeSet.Contains(opcode))
 			{
@@ -186,7 +187,7 @@ namespace iRobotGUI
 					break;
 				case END_IF:
 					newIns = new Instruction(END_IF);
-					break;			
+					break;
 				case LOOP:
 					newIns = new Instruction(LOOP + " 0, 0, 0");
 					break;
@@ -209,7 +210,7 @@ namespace iRobotGUI
 		public static bool IsValidInstructionLine(string insStr)
 		{
 			// Trim the \t and space
-			insStr = insStr.Trim(new char[]{'\t',' '});
+			insStr = insStr.Trim(new char[] { '\t', ' ' });
 
 			// Empty line
 			if (insStr.Length == 0) return false;

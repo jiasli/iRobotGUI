@@ -1,36 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace iRobotGUI
 {
-    public class CodeGenerator
-    {
-        private List<string> byteStream;
-        public const string SEND_BYTE_CODE = "byteTx({0});";
+	static public class CodeGenerator
+	{
+		public const string PLACEHOLDER_MAIN_PROGRAM = @"/**main_program**/";
 
-        public CodeGenerator()
-        {
-            byteStream= new List<string>();
-        }
+		/// <summary>
+		/// The function put generated C code instruction into C file can be compiled
+		/// </summary>
+		/// <param name="st">Decide it is a Microcontroller program or an Emulator program</param>
+		/// <param name="code">Generated C code instruction</param>
+		public static void GenerateCSource(string templateFilePath, string outputFilePath, string code)
+		{
+			string template;
 
-        public void AddByte(string b)
-        {
-            byteStream.Add(b);
-        }
+			template = File.ReadAllText(templateFilePath);
+			if (!String.IsNullOrEmpty(template))
+			{
+				File.WriteAllText(outputFilePath,
+					template.Replace(PLACEHOLDER_MAIN_PROGRAM, code));
+			}
+		}
 
-
-        public string ToCode()
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (string b in byteStream)
-            {
-                sb.AppendLine(string.Format(SEND_BYTE_CODE, b));
-            }
-            return sb.ToString();
-        }
-
-    }
+	}
 }

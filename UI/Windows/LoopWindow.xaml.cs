@@ -54,8 +54,8 @@ namespace iRobotGUI
 				Instruction conditionIns = Instruction.CreatFromOpcode(Instruction.LOOP);
 				conditionIns.paramList[0] = sensorSelector.SelectedSensor;
 				// Notice that the Operator for LOOP is different from that for IF, which is EQUAL.
-				conditionIns.paramList[1] = iRobotGUI.Operator.NOT_EQUAL;
-				conditionIns.paramList[2] = 1;
+				conditionIns.paramList[1] = iRobotGUI.Operator.EQUAL;
+				conditionIns.paramList[2] = 0;
 				result.Add(conditionIns);
 
 				// 2. Add loop body
