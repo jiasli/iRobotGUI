@@ -428,11 +428,14 @@ namespace iRobotGUI
 				columnDefinitionDebug.Width = new GridLength(0);
 			this.Width = 450;
 		}
-		private void MenuItemShowSrcFolder_Click(object sender, RoutedEventArgs e)
+		private void MenuItemRevealInExplorer_Click(object sender, RoutedEventArgs e)
 		{
 			// Open current folder in explorer.exe
 			// http://stackoverflow.com/questions/1132422/open-a-folder-using-process-start
-			Process.Start("explorer.exe", ".");
+			// Windows Explorer Command-Line Options
+			// http://support.microsoft.com/en-us/kb/152457
+			if (igpFile == null) Process.Start("explorer.exe", ".");
+			else Process.Start("explorer.exe", "/select," + igpFile);
 		}
 
 		private void MenuItemTranslate_Click(object sender, RoutedEventArgs e)
