@@ -156,7 +156,7 @@ namespace iRobotGUI
 					newIns = new Instruction(Instruction.ROTATE + " 90");
 					break;
 				case DRIVE:
-					newIns = new Instruction(DRIVE + " 1,1");
+					newIns = new Instruction(DRIVE + " 100,32767");
 					break;
 				case Instruction.LED:
 					newIns = new Instruction(Instruction.LED + " 10,128,128");

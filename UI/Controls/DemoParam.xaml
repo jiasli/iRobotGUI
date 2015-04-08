@@ -4,29 +4,29 @@
 			 xmlns:src="clr-namespace:iRobotGUI.Controls"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			 mc:Ignorable="d" Background="White" Height="500.275" Width="344.257">
-	<Grid >
-		<Label Content="Select the Demo:" Margin="48,39,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+			 mc:Ignorable="d" Background="White" d:DesignHeight="368" d:DesignWidth="317">
+	<Grid>
+		<Label Content="Select the Demo:" Margin="12,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 		<ComboBox
 		HorizontalAlignment="Left"
 		VerticalAlignment="Top"
 		Loaded="ComboBox1_Loaded"
 			x:Name="ComboBox1"  
-		SelectionChanged="ComboBox1_SelectionChanged" Margin="168,41,0,0" Width="133" SelectedIndex="0">
-			<ComboBoxItem MouseMove="OnHover" Name="demo0">Cover</ComboBoxItem>
-			<ComboBoxItem MouseMove="OnHover" Name="demo1">Cover and Dock</ComboBoxItem>
-			<ComboBoxItem MouseMove="OnHover" Name="demo2">Spot Cover</ComboBoxItem>
-			<ComboBoxItem MouseMove="OnHover" Name="demo3">Mouse</ComboBoxItem>
-			<ComboBoxItem MouseMove="OnHover" Name="demo4">Drive Figure Eight</ComboBoxItem>
-			<ComboBoxItem MouseMove="OnHover" Name="demo5">Wimp</ComboBoxItem>
-			<ComboBoxItem MouseMove="OnHover" Name="demo6">Home</ComboBoxItem>
-			<ComboBoxItem MouseMove="OnHover" Name="demo7">Tag</ComboBoxItem>
-			<ComboBoxItem MouseMove="OnHover" Name="demo8">Pachelbel</ComboBoxItem>
-			<ComboBoxItem MouseMove="OnHover" Name="demo9">Banjo</ComboBoxItem>
-			<ComboBoxItem MouseMove="OnHover" Name="demo_stop">Stop the Demo</ComboBoxItem>
+		SelectionChanged="ComboBox1_SelectionChanged" Margin="132,12,0,0" Width="133" SelectedIndex="0">
+			<ComboBoxItem Name="demo0">Cover</ComboBoxItem>
+			<ComboBoxItem Name="demo1">Cover and Dock</ComboBoxItem>
+			<ComboBoxItem Name="demo2">Spot Cover</ComboBoxItem>
+			<ComboBoxItem Name="demo3">Mouse</ComboBoxItem>
+			<ComboBoxItem Name="demo4">Drive Figure Eight</ComboBoxItem>
+			<ComboBoxItem Name="demo5">Wimp</ComboBoxItem>
+			<ComboBoxItem Name="demo6">Home</ComboBoxItem>
+			<ComboBoxItem Name="demo7">Tag</ComboBoxItem>
+			<ComboBoxItem Name="demo8">Pachelbel</ComboBoxItem>
+			<ComboBoxItem Name="demo9">Banjo</ComboBoxItem>
+			<ComboBoxItem Name="demo_stop">Stop the Demo</ComboBoxItem>
 		</ComboBox>
 		<TextBox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" 
-		IsReadOnly ="True" x:Name="desc" Margin="60,80,52.257,0" VerticalAlignment="Top" Width="232" Height="176"/>
+				 IsReadOnly ="True" x:Name="desc" Margin="20,51,20,20" />
 
 
 

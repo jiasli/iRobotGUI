@@ -16,76 +16,121 @@ using System.ComponentModel;
 
 namespace iRobotGUI.Controls
 {
+	// Walkthrough: Building a Sweet Dial in XAML for Windows 8
+	// http://blogs.msdn.com/b/jerrynixon/archive/2012/12/06/walkthrough-building-a-sweet-dial-in-xaml-for-windows-8.aspx
+	// http://stackoverflow.com/questions/962974/rotate-graphic-towards-mouse-in-wpf-like-an-analog-dial
+
 	/// <summary>
 	/// Interaction logic for SteeringControl.xaml
 	/// </summary>
 	public partial class SteeringParam : UserControl, INotifyPropertyChanged
 	{
-		
-		public double Angle
+		/// <summary>
+		/// The radius of the steering wheel.
+		/// </summary>
+		public int Angle
 		{
-			get { return _Angle; }
-			set { setProperty(ref _Angle, value); }
-		}
-		public int Radius
-		{
-			get { return _Radius; }
-			set { setProperty(ref _Radius, value); }
+			get { return angle; }
+			set { setProperty(ref angle, value); }
 		}
 
-		private const int STRAIGHT = 32768;
+		/// <summary>
+		/// The radius represented by the steering wheel.
+		/// </summary>
+		public int Radius
+		{
+			get { return radius; }
+			set { setProperty(ref radius, value); }
+		}
+
+		private const int STRAIGHT = 32767;
 		private const int MAX_RADIUS = 2000;
-		private int _Radius = default(int);
-		private double _Angle = default(double);
+		private int radius = default(int);
+		private int angle = 0;
+
 		private enum Quadrants : int { nw = 2, ne = 1, sw = 4, se = 3 }
-		private int roundToInt(double val)
+
+
+		private static int AngleToRadius(int angle)
 		{
-			return (int)Math.Round(val, 0, MidpointRounding.AwayFromZero);
+			// Special cases.
+
+			// Drive straight if the angle is CLOSE to 0.
+			if (Math.Abs(angle) < 5) return STRAIGHT;
+			if (angle == 90) return -1;
+			if (angle == -90) return 1;
+
+			/*         ^ radius
+			 *        /|
+			 *       / |
+			 *      /  |
+			 *     /   |
+			 *    /    |
+			 * --------+------> angle
+			 *   -90   |    /90
+			 *         |   / 
+			 *         |  /  
+			 *         | /   
+			 *         |/    
+			 */
+			double ratio = MAX_RADIUS / 90.0;
+			if (angle > 0) return (int)(-MAX_RADIUS + angle * ratio);
+			else return (int)(MAX_RADIUS + angle * ratio);
 		}
-		private int angleToRadius(double angle)
+
+		public static int RadiusToAngle(int radius)
 		{
-			double rad_angle = (angle * Math.PI) / 180; ///convert angle from centigrade to radians
-			if (angle <= 0)
-			{										
-				return roundToInt((Math.Cos(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
-			};
-			return -roundToInt((Math.Cos(rad_angle) * MAX_RADIUS));
-		}
-		private double radiusToAngle(int radius)
-		{
+			// Special cases.
 			if (radius == STRAIGHT)
 			{
-				return 0.0;
+				return 0;
 			}
-			double d = (double)radius / (double)MAX_RADIUS;
-			double rad_angle = Math.Acos(d);
-			if(radius >= 0) {
-				return -(rad_angle * 180.0) / Math.PI; //((rad_angle - Math.PI) * 180.0) / Math.PI;	
-			}
-			 return 180-((rad_angle * 180.0) / Math.PI); /// return centigrade angle
+			// If radius is 0, let it drive straight.
+			if (radius == 0) return 0;
+
+			/*         ^ angle
+			 *        /|
+			 *       / |
+			 *      /  |
+			 *     /   |
+			 *    /    |
+			 * --------+------> radius
+			 * 	       |    /
+			 * 		   |   / 
+			 * 		   |  /  
+			 * 		   | /   
+			 * 		   |/    
+			 */
+			double ratio = 90.0 / MAX_RADIUS;
+			if (radius > 0) return (int)(-90 + radius * ratio);
+			else return (int)(90 + radius * ratio);
 		}
-		private double GetAngle(Point touchPoint, Size circleSize)
+
+		private int GetAngle(Point touchPoint, Size circleSize)
 		{
 			var _X = touchPoint.X - (circleSize.Width / 2d);
 			var _Y = circleSize.Height - touchPoint.Y - (circleSize.Height / 2d);
 			var _Hypot = Math.Sqrt(_X * _X + _Y * _Y);
-			var _Value = Math.Asin(_Y / _Hypot) * 180 / Math.PI;
+			int _Value = (int)(Math.Asin(_Y / _Hypot) * 180 / Math.PI);
 			var _Quadrant = (_X >= 0) ?
 				(_Y >= 0) ? Quadrants.ne : Quadrants.se :
 				(_Y >= 0) ? Quadrants.nw : Quadrants.sw;
-			if (_Value >= 89.9)
+			if (_Value >= 90)
 			{
-				_Value = 89.9;
+				_Value = 90;
 			}
 			switch (_Quadrant)
 			{
-				case Quadrants.ne: _Value = 089.9 - _Value; break;
-				case Quadrants.nw: _Value = _Value - 089.9; break;
-				case Quadrants.se: _Value = 089.9 /*- _Value*/; break;
-				case Quadrants.sw: _Value = -089.9 /*+  _Value*/; break;
+				case Quadrants.ne: _Value = 90 - _Value; break;
+				case Quadrants.nw: _Value = _Value - 90; break;
+
+				// Set the angle to -90 and 90 in 3, 4 quadrants.
+				case Quadrants.se: _Value = 90; break;
+				case Quadrants.sw: _Value = -90; break;
 			}
 			return _Value;
 		}
+
 		public SteeringParam()
 		{
 			InitializeComponent();
@@ -109,26 +154,25 @@ namespace iRobotGUI.Controls
 		{
 			if (Mouse.Captured == this)
 			{
-				/// Get the current mouse position relative to the control
+				// Get the current mouse position relative to the control
 				Point currentLocation = Mouse.GetPosition(this);
-				/// Calculate an angle
+				// Calculate the angle
 				this.Angle = GetAngle(currentLocation, this.RenderSize);
-				this.Radius = angleToRadius(this.Angle);
-			/*	RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
-				rotateTransform1.CenterX = (this.ActualWidth) / 2;
-				rotateTransform1.CenterY = (this.ActualHeight) / 2;
-				RotateGrid.RenderTransform = rotateTransform1;*/
+				this.Radius = AngleToRadius(this.Angle);
 			}
 		}
-		
-	
+
+
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-		void setProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] String propertyName = null)	{
+
+		void setProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] String propertyName = null)
+		{
 			if (!object.Equals(storage, value))
 			{
 				storage = value;
-				if(PropertyChanged!=null) {
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				if (PropertyChanged != null)
+				{
+					PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 				}
 			}
 

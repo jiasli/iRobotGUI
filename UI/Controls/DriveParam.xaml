@@ -13,10 +13,16 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type Thumb}">
-						<Ellipse Height="35" Width="35">
+						<Ellipse Height="35" Width="35" RenderTransformOrigin="0.5,0.5">
 							<Ellipse.RenderTransform>
-								<RotateTransform CenterX="17" CenterY="17" Angle="90"/>
+								<TransformGroup>
+									<ScaleTransform/>
+									<SkewTransform/>
+									<RotateTransform Angle="90"/>
+									<TranslateTransform/>
+								</TransformGroup>
 							</Ellipse.RenderTransform>
+
 							<Ellipse.Fill>
 								<ImageBrush ImageSource="/iRobotGUI;component/pic/velocity_arrow.png"/>
 							</Ellipse.Fill>
@@ -67,24 +73,33 @@
 		</Style>
 	</src:BaseParamControl.Resources>
 	<Grid x:Name="grid">
-		<Slider AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" TickFrequency="1" Style="{StaticResource SandSliderStyle}" x:Name="SliderVelocity" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" Maximum="500" Minimum="-500" LargeChange="10" ValueChanged="SliderVelocity_ValueChanged" RenderTransformOrigin="0.439,0.494" Margin="148,103,-22,0">
+		<Slider x:Name="sliderVelocity"  Style="{StaticResource SandSliderStyle}" RenderTransformOrigin="0.5,0.5"
+				AutoToolTipPlacement="TopLeft" 
+				Margin="132,101,-6,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" 
+				Maximum="500" Minimum="-500" LargeChange="100" SmallChange="50" IsSnapToTickEnabled="True" TickFrequency="50" >
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
 					<SkewTransform/>
-					<RotateTransform Angle="-90.178"/>
-					<TranslateTransform X="10.131" Y="10.52"/>
+					<RotateTransform Angle="-90"/>
 				</TransformGroup>
 			</Slider.RenderTransform>
 		</Slider>
 
-		<TextBox TextAlignment="Center" Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="56,186,161,94" TextChanged="textbox1_TextChanged" PreviewTextInput="textbox1_PreviewTextInput" MaxLength="5" Width="83"/>
-		<Label Content="Velocity, mm/s" Margin="184,218,10,41" FontSize="14"/>
-		<Label Content="Radius, mm" FontSize="14" Margin="56,211,161,49" RenderTransformOrigin="0.482,0.286"/>
-		<Label Content="500" HorizontalAlignment="Left" Margin="241,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
-		<Label Content="-500" HorizontalAlignment="Left" Margin="241,187,0,0" VerticalAlignment="Top"/>
+		<src:SteeringParam x:Name="steer" Canvas.Left="37" Canvas.Top="41" Margin="40,63,136,113" RenderTransformOrigin="0.427,0.363" />
+		
+		<Label Content="500" HorizontalAlignment="Left" Margin="240,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
+		<Label Content="-500" HorizontalAlignment="Left" Margin="240,187,0,0" VerticalAlignment="Top"/>
 		<Label Content="Forward" HorizontalAlignment="Left" Margin="237,54,0,0" VerticalAlignment="Top"/>
 		<Label Content="Backward" HorizontalAlignment="Left" Margin="237,161,0,0" VerticalAlignment="Top"/>
-		<src:SteeringParam x:Name="steer" Canvas.Left="37" Canvas.Top="41" Margin="36,33,140,143" RenderTransformOrigin="0.427,0.363" />
+		
+		<Label Content="Radius(mm)" Margin="56,220,161,41" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<Label Content="Velocity(mm/s)" Margin="184,220,10,41" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+		<!-- Do not register TextChanged anymore since it is already bound to Radius of SteeringWheel. -->
+		<TextBlock TextAlignment="Center" Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="56,207,161,73" Width="83"/>
+		
+	
+		
 	</Grid>
 </src:BaseParamControl>
