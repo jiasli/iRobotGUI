@@ -373,14 +373,10 @@
     <Resource Include="pic\create.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\drive.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\move.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pic\rotate.png" />
-    <Resource Include="pic\drive.png" />
     <Resource Include="pic\bump.png" />
     <Resource Include="pic\wall.png" />
     <Resource Include="pic\cliff.png" />
@@ -400,6 +396,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pic\irobotcontrol.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\create.png" />
+    <Resource Include="pic\drive.png" />
+    <Resource Include="pic\steeringwheel.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

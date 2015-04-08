@@ -114,10 +114,10 @@ namespace iRobotGUI.Controls
 				/// Calculate an angle
 				this.Angle = GetAngle(currentLocation, this.RenderSize);
 				this.Radius = angleToRadius(this.Angle);
-				RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
+			/*	RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
 				rotateTransform1.CenterX = (this.ActualWidth) / 2;
 				rotateTransform1.CenterY = (this.ActualHeight) / 2;
-				RotateGrid.RenderTransform = rotateTransform1;
+				RotateGrid.RenderTransform = rotateTransform1;*/
 			}
 		}
 		
