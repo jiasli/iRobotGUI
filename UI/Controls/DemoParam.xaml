@@ -4,7 +4,7 @@
 			 xmlns:src="clr-namespace:iRobotGUI.Controls"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			 mc:Ignorable="d" Background="White" Height="116.275" Width="344.257">
+			 mc:Ignorable="d" Background="White" Height="500.275" Width="344.257">
 	<Grid >
 		<Label Content="Select the Demo:" Margin="48,39,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 		<ComboBox
@@ -25,6 +25,8 @@
 			<ComboBoxItem MouseMove="OnHover" Name="demo9">Banjo</ComboBoxItem>
 			<ComboBoxItem MouseMove="OnHover" Name="demo_stop">Stop the Demo</ComboBoxItem>
 		</ComboBox>
+		<TextBox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+		IsReadOnly ="True" x:Name="desc" Margin="60,80,52.257,0" VerticalAlignment="Top" Width="232" Height="176"/>
 
 
 
