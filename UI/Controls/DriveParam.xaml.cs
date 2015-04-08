@@ -70,15 +70,9 @@ namespace iRobotGUI.Controls
             {
                 base.Ins = value;
 				///set velocity slider:
-				SliderVelocity.Value = Ins.paramList[0];
-				///set radius displayed in a textbox
-				textbox1.Text = Ins.paramList[1].ToString(); 
+				SliderVelocity.Value = Ins.paramList[0];	 
                 this.radius = Ins.paramList[1];
-				///set the angle of the steering wheel
-				steer.Angle = radiusToAngle(this.radius);
-				steer.Radius = this.radius;
-               
-
+				steer.Radius = this.radius;  
             }
         }
 		private void SliderVelocity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -86,20 +80,7 @@ namespace iRobotGUI.Controls
 			Ins.paramList[0] = (int)e.NewValue;
 		}
 
-		private void textbox1_TextChanged(object sender, TextChangedEventArgs e)
-	{
-			if (textbox1.Text.Length > 0 && textbox1.Text.Length <6 && textbox1.Text!= "-")
-			{
-				
-			int new_radius = int.Parse(textbox1.Text);
-				if(Math.Abs(new_radius) <= 2000 || new_radius == STRAIGHT) {
-				Ins.paramList[1] = new_radius; /// update rotation radius
-				this.Angle = radiusToAngle(new_radius); ///update the angle		
-				steer.Angle = this.Angle;
-				steer.Radius = new_radius;///
-				}
-			}
-		}
+	
 		private bool isTextAllowed(string txt)
 		{
 			Regex regex = new Regex("[-0-9]"); //regex that matches allowed text

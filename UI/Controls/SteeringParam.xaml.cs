@@ -21,8 +21,10 @@ namespace iRobotGUI.Controls
 	/// </summary>
 	public partial class SteeringParam : UserControl, INotifyPropertyChanged
 	{
-		
-		public double Angle
+		/// <summary>
+		/// The angle used by RotateTransform.
+		/// </summary>
+		public int Angle
 		{
 			get { return _Angle; }
 			set { setProperty(ref _Angle, value); }
@@ -30,62 +32,101 @@ namespace iRobotGUI.Controls
 		public int Radius
 		{
 			get { return _Radius; }
-			set { setProperty(ref _Radius, value); }
+			set
+			{
+				Angle = radiusToAngle(value);
+				setProperty(ref _Radius, value);
+			}
 		}
 
 		private const int STRAIGHT = 32768;
-		private const int MAX_RADIUS = 2000;
-		private int _Radius = default(int);
-		private double _Angle = default(double);
+		private const int MAX_RADIUS = 300; // 3 meters
+		private int _Radius = 0;
+		private int _Angle = 0;
 		private enum Quadrants : int { nw = 2, ne = 1, sw = 4, se = 3 }
+
 		private int roundToInt(double val)
 		{
 			return (int)Math.Round(val, 0, MidpointRounding.AwayFromZero);
 		}
+
 		private int angleToRadius(double angle)
 		{
-			double rad_angle = (angle * Math.PI) / 180; ///convert angle from centigrade to radians
-			if (angle <= 0)
-			{										
-				return roundToInt((Math.Cos(rad_angle) * MAX_RADIUS)); ///(int)Math.Round((Math.Cos(rad_angle) * MAX_RADIUS), 0, MidpointRounding.AwayFromZero);
-			};
-			return -roundToInt((Math.Cos(rad_angle) * MAX_RADIUS));
+			double rad_angle = (angle * Math.PI) / 180;
+			if (Angle == 0) return STRAIGHT;
+			if (Angle == 90) return -1;
+			if (Angle == -90) return 1;
+
+
+			/*         ^ radius
+			 *        /|
+			 *       / |
+			 *      /  |
+			 *     /   |
+			 *    /    |
+			 * --------+------> angle
+			 * 		   |    /
+			 * 		   |   / 
+			 * 		   |  /  
+			 * 		   | /   
+			 * 		   |/    
+			 */
+			double ratio = MAX_RADIUS / 90;
+			if (Angle > 0) return (int)(-MAX_RADIUS + Angle * ratio);
+			else return (int)(MAX_RADIUS + Angle * ratio);
 		}
-		private double radiusToAngle(int radius)
+
+		private int radiusToAngle(int radius)
 		{
 			if (radius == STRAIGHT)
 			{
-				return 0.0;
+				return 0;
 			}
-			double d = (double)radius / (double)MAX_RADIUS;
-			double rad_angle = Math.Acos(d);
-			if(radius >= 0) {
-				return -(rad_angle * 180.0) / Math.PI; //((rad_angle - Math.PI) * 180.0) / Math.PI;	
-			}
-			 return 180-((rad_angle * 180.0) / Math.PI); /// return centigrade angle
+			// If radius is 0, let it drive straight.
+			if (radius == 0) return 0;
+
+			/*         ^ angle
+			 *        /|
+			 *       / |
+			 *      /  |
+			 *     /   |
+			 *    /    |
+			 * --------+------> radius
+			 * 		   |    /
+			 * 		   |   / 
+			 * 		   |  /  
+			 * 		   | /   
+			 * 		   |/    
+			 */
+			double ratio = 90 / MAX_RADIUS;
+			if (radius > 0) return (int)(-90 + radius * ratio);
+			else return (int)(90 + radius * ratio);
+
 		}
-		private double GetAngle(Point touchPoint, Size circleSize)
+
+		private int GetAngle(Point touchPoint, Size circleSize)
 		{
 			var _X = touchPoint.X - (circleSize.Width / 2d);
 			var _Y = circleSize.Height - touchPoint.Y - (circleSize.Height / 2d);
+
 			var _Hypot = Math.Sqrt(_X * _X + _Y * _Y);
-			var _Value = Math.Asin(_Y / _Hypot) * 180 / Math.PI;
+			int _Value = (int)Math.Abs(Math.Asin(_Y / _Hypot) * 180 / Math.PI);
+			txbMousePosition.Text = _X.ToString() + " " + _Y + " " + _Value;
 			var _Quadrant = (_X >= 0) ?
 				(_Y >= 0) ? Quadrants.ne : Quadrants.se :
 				(_Y >= 0) ? Quadrants.nw : Quadrants.sw;
-			if (_Value >= 89.9)
-			{
-				_Value = 89.9;
-			}
 			switch (_Quadrant)
 			{
-				case Quadrants.ne: _Value = 089.9 - _Value; break;
-				case Quadrants.nw: _Value = _Value - 089.9; break;
-				case Quadrants.se: _Value = 089.9 /*- _Value*/; break;
-				case Quadrants.sw: _Value = -089.9 /*+  _Value*/; break;
+				case Quadrants.ne: _Value = 90 - _Value; break;
+				case Quadrants.nw: _Value = _Value - 90; break;
+
+				// Do not allow rotating the steering wheel over 90 degrees.
+				case Quadrants.se: _Value = 90; break;
+				case Quadrants.sw: _Value = -90; break;
 			}
-			return _Value;
+			return (int)_Value;
 		}
+
 		public SteeringParam()
 		{
 			InitializeComponent();
@@ -117,18 +158,21 @@ namespace iRobotGUI.Controls
 				RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
 				rotateTransform1.CenterX = (this.ActualWidth) / 2;
 				rotateTransform1.CenterY = (this.ActualHeight) / 2;
-				RotateGrid.RenderTransform = rotateTransform1;
+				ellipse.RenderTransform = rotateTransform1;
 			}
 		}
-		
-	
+
+
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-		void setProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] String propertyName = null)	{
+
+		void setProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] String propertyName = null)
+		{
 			if (!object.Equals(storage, value))
 			{
 				storage = value;
-				if(PropertyChanged!=null) {
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				if (PropertyChanged != null)
+				{
+					PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 				}
 			}
 

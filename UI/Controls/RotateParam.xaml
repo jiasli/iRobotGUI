@@ -5,13 +5,11 @@
 		Height="180" Width="180" Background="White" 
 		RenderOptions.BitmapScalingMode="HighQuality">
 	<Grid>
-		<Grid x:Name="RotateGrid">
-			<Ellipse>
-				<Ellipse.Fill>
-					<ImageBrush ImageSource="/iRobotGUI;component/pic/irobotcontrol.png"/>
-				</Ellipse.Fill>
-			</Ellipse>
-		</Grid>
-		<Label x:Name="label" Content="" HorizontalAlignment="Left" Margin="141,149,0,0" Width="29" RenderTransformOrigin="0.241,-0.286"/>
+		<Ellipse x:Name="ellipse">
+			<Ellipse.Fill>
+				<ImageBrush ImageSource="/iRobotGUI;component/pic/irobotcontrol.png"/>
+			</Ellipse.Fill>
+		</Ellipse>
+		<Label x:Name="label" Content="" Margin="0" Width="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
 	</Grid>
 </src:BaseParamControl>
