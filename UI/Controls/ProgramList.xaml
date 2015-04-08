@@ -12,6 +12,7 @@
 		<CommandBinding Command="ApplicationCommands.Cut" CanExecute="ListCutCopyCanExecute" Executed="ListCutExecuted" />
 		<CommandBinding Command="ApplicationCommands.Copy" CanExecute="ListCutCopyCanExecute" Executed="ListCopyExecuted" />
 		<CommandBinding Command="ApplicationCommands.Paste" CanExecute="ListPasteCanExecute" Executed="ListPasteExecuted" />
+		<CommandBinding Command="ApplicationCommands.Delete" CanExecute="DeleteCanExecute" Executed="DeleteExecuted" />
 	</UserControl.CommandBindings>
 
 	<UserControl.Resources>
@@ -26,6 +27,6 @@
 	</UserControl.Resources>
 
 	<Grid>		
-		<ListView x:Name="listViewProgram" KeyDown="ListviewProgram_KeyDown" SelectionMode="Single" Background="{x:Null}" />		
+		<ListView x:Name="listViewProgram" SelectionMode="Single" Background="{x:Null}" />		
 	</Grid>
 </UserControl>

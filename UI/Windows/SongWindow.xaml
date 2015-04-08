@@ -31,8 +31,8 @@
 		<Button x:Name="buttonMoveUp" Content="▴" Command="{x:Static custom:SongWindow.MoveUpCmd}" HorizontalAlignment="Left" Margin="132,88,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22"/>
 		<Button x:Name="buttonMoveDown" Content="▾" Command="{x:Static custom:SongWindow.MoveDownCmd}" HorizontalAlignment="Left" Margin="132,128,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="22" />
 		<Button x:Name="buttonDelete" Content="⨯" Command="{x:Static custom:SongWindow.DeleteCmd}" HorizontalAlignment="Left" Margin="132,168,0,0" VerticalAlignment="Top" Width="36" Height="36" FontSize="20" />
-		<Label Content="Duration" Margin="413,81,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-		<Slider x:Name="sliderDuration" HorizontalAlignment="Left" Margin="413,112,0,0" VerticalAlignment="Top" Width="169" Maximum="255" TickFrequency="16" ValueChanged="sliderDuration_ValueChanged" TickPlacement="TopLeft" SmallChange="16" IsSnapToTickEnabled="True" LargeChange="16"/>
+		<Label Content="Duration" Margin="413,88,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+		<Slider x:Name="sliderDuration" HorizontalAlignment="Left" Margin="413,128,0,0" VerticalAlignment="Top" Width="169" Maximum="255" TickFrequency="16" ValueChanged="sliderDuration_ValueChanged" TickPlacement="TopLeft" SmallChange="16" IsSnapToTickEnabled="True" LargeChange="64" AutoToolTipPlacement="TopLeft" IsEnabled="False"/>
 
 		<ScrollViewer Height="179" Margin="0,272,0,0" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" VerticalAlignment="Top" >
 			<WindowsFormsHost Width="1200" >

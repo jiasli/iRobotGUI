@@ -31,6 +31,7 @@
 				<MenuItem Command="Cut" />
 				<MenuItem Command="Copy"  />
 				<MenuItem Command="Paste" />
+				<MenuItem Command="Delete" />
 			</MenuItem>
 			<MenuItem Header="Build">
 				<MenuItem Header="Translate to C Code" Click="MenuItemTranslate_Click"/>

@@ -104,21 +104,6 @@ namespace iRobotGUI.Controls
 
 		#endregion // NewlistView_PreviewMouseLeftButtonDown
 
-		#region listView_PreviewMouseRightButtonDown
-
-		/// <summary>
-		///  delete item when right button is clicked
-		/// </summary>
-		void ListviewProgram_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.Key == Key.Delete)
-			{
-				RemoveSelection();
-			}
-		}
-
-
-		#endregion // listView_PreviewMouseRightButtonDown
 
 		#region NewlistView_Drop
 
@@ -330,6 +315,19 @@ namespace iRobotGUI.Controls
 		}
 
 		#endregion // file operations
+
+		private void DeleteCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (listViewProgram.SelectedIndex != -1)
+			{
+				e.CanExecute = true;
+			}
+		}
+
+		private void DeleteExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			RemoveSelection();
+		}
 
 	}
 }
