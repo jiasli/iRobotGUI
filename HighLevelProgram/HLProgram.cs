@@ -31,7 +31,7 @@ namespace iRobotGUI
 				CurrentLine = i;
 
 				// Ignore comment line
-				if (Instruction.IsInstructionLine(insStrArray[i]))
+				if (Instruction.IsValidInstructionLine(insStrArray[i]))
 					program.Add(new Instruction(insStrArray[i]));
 			}
 		}

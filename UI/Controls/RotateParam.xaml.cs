@@ -35,10 +35,11 @@ namespace iRobotGUI.Controls
                 (_Y >= 0) ? Quadrants.nw : Quadrants.sw;
             switch (_Quadrant)
             {
+				// Allow roate greater than 90 degrees.
                 case Quadrants.ne: _Value = 090 - _Value; break;
                 case Quadrants.nw: _Value = _Value -90; break;
-                case Quadrants.se: _Value = 90 /*- _Value*/; break;
-                case Quadrants.sw: _Value = -90 /*+  _Value*/; break;
+                case Quadrants.se: _Value = 90 - _Value; break;
+                case Quadrants.sw: _Value = -90 + _Value; break;
             }
             return _Value;
         }

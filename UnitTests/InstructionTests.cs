@@ -49,7 +49,7 @@ namespace iRobotGUI.Tests
             string InvalidOpcodeStr = "BACK";
             try
             {
-                pass = Instruction.IsInstructionLine(InvalidOpcodeStr);
+                pass = Instruction.IsValidInstructionLine(InvalidOpcodeStr);
             }
             catch (Exception)
             {
@@ -58,7 +58,7 @@ namespace iRobotGUI.Tests
 
             try
             {
-                pass = Instruction.IsInstructionLine(ValidOpcodeStr);
+                pass = Instruction.IsValidInstructionLine(ValidOpcodeStr);
                 Console.WriteLine(ValidOpcodeStr + ": valid");
             }
             catch (InvalidOpcodeException)

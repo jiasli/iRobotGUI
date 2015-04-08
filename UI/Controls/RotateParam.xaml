@@ -12,6 +12,6 @@
 				</Ellipse.Fill>
 			</Ellipse>
 		</Grid>
-		<Label x:Name="label" Content="" HorizontalAlignment="Left" Margin="141,149,0,0" Width="29" RenderTransformOrigin="0.241,-0.286"/>
+		<Label x:Name="label" Content="" HorizontalAlignment="Right" Margin="0" Width="35" RenderTransformOrigin="0.241,-0.286" VerticalAlignment="Bottom"/>
 	</Grid>
 </src:BaseParamControl>

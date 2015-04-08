@@ -54,25 +54,7 @@ namespace iRobotGUI
 		public const string EmulatorTemplate = "em_t.c";
 		public const string EmulatorOutputFile = "em_o.c";
 
-		private string igpFile;
-
-		private HLProgram program;
-
-		/// <summary>
-		/// Get or set the current HLProgram under editing. When set, the ProgramList will also be updated.
-		/// </summary>
-		public HLProgram Program
-		{
-			get
-			{
-				return program;
-			}
-			set
-			{
-				program = value;
-				programList1.Program = value;
-			}
-		}
+		private string igpFile;		
 
 		public MainWindow()
 		{
@@ -93,8 +75,7 @@ namespace iRobotGUI
 			// Set the current folder to cprogram
 			Directory.SetCurrentDirectory(@".");
 
-			program = new HLProgram();
-			programList1.Program = program;
+			programList.Program = new HLProgram();
 
 			textBlockStatus.Text = Directory.GetCurrentDirectory();
 		}
@@ -157,7 +138,7 @@ namespace iRobotGUI
 				return;
 			}
 
-			string cCode = Translator.Translate(Program);
+			string cCode = Translator.Translate(programList.Program);
 			string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorTemplate);
 			string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorOutputFile);
 
@@ -221,7 +202,7 @@ namespace iRobotGUI
 		void NewCmdExecuted(object target, ExecutedRoutedEventArgs e)
 		{
 			igpFile = null;
-			Program = new HLProgram();
+			programList.Program = new HLProgram();
 		}
 
 		/// <summary>
@@ -361,7 +342,7 @@ namespace iRobotGUI
 			try
 			{
 				string proStr = File.ReadAllText(filePath);
-				Program = new HLProgram(proStr);
+				programList.Program = new HLProgram(proStr);
 			}
 			catch (Exception ex)
 			{
@@ -376,8 +357,7 @@ namespace iRobotGUI
 		{
 			try
 			{
-				string proStr = programList1.Program.ToString();
-				Program = programList1.Program;
+				string proStr = programList.Program.ToString();				
 				File.WriteAllText(filePath, proStr);
 			}
 			catch (Exception ex)
@@ -408,13 +388,13 @@ namespace iRobotGUI
 
 		private void buttonRefreshSource_Click(object sender, RoutedEventArgs e)
 		{
-			HLProgram program = programList1.Program;
+			HLProgram program = programList.Program;
 			textBoxSource.Text = program.ToString();
 		}
 
 		private void buttonLoadIntoGraph_Click(object sender, RoutedEventArgs e)
 		{
-			Program = new HLProgram(textBoxSource.Text);
+			programList.Program = new HLProgram(textBoxSource.Text);
 		}
 
 		#endregion
@@ -454,7 +434,7 @@ namespace iRobotGUI
 
 		private void MenuItemTranslate_Click(object sender, RoutedEventArgs e)
 		{
-			string cCode = Translator.Translate(Program);
+			string cCode = Translator.Translate(programList.Program);
 
 			Translator.GenerateCSource(MicrocontrollerTemplate, MicrocontrollerOutputFile, cCode);
 

@@ -42,8 +42,7 @@ namespace iRobotGUI.Controls
 			get { return radius; }
 			set { setProperty(ref radius, value); }
 		}
-
-		private const int STRAIGHT = 32767;
+	
 		private const int MAX_RADIUS = 2000;
 		private int radius = default(int);
 		private int angle = 0;
@@ -56,7 +55,7 @@ namespace iRobotGUI.Controls
 			// Special cases.
 
 			// Drive straight if the angle is CLOSE to 0.
-			if (Math.Abs(angle) < 5) return STRAIGHT;
+			if (Math.Abs(angle) < 5) return Instruction.STRAIGHT1;
 			if (angle == 90) return -1;
 			if (angle == -90) return 1;
 
@@ -81,7 +80,7 @@ namespace iRobotGUI.Controls
 		public static int RadiusToAngle(int radius)
 		{
 			// Special cases.
-			if (radius == STRAIGHT)
+			if (radius == Instruction.STRAIGHT1 || radius == Instruction.STRAIGHT2)
 			{
 				return 0;
 			}

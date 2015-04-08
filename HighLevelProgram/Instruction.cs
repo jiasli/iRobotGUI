@@ -82,7 +82,8 @@ namespace iRobotGUI
 
 		#region Constants
 
-		public const int SRAIGHT = 0x8000;	// 32768
+		public const int STRAIGHT1 = 0x8000;	// -32768
+		public const int STRAIGHT2 = 0x7FFF;	// 32767
 		public const int TURN_IN_PLACE_CLOCKWISE = 0xFFFF;
 		public const int TURN_IN_PLACE_COUNTER_CLOCKWISE = 0x0001;
 
@@ -205,9 +206,10 @@ namespace iRobotGUI
 		/// </summary>
 		/// <param name="insStr"></param>
 		/// <returns>True if it is.</returns>
-		public static bool IsInstructionLine(string insStr)
+		public static bool IsValidInstructionLine(string insStr)
 		{
-			insStr = insStr.Trim();
+			// Trim the \t and space
+			insStr = insStr.Trim(new char[]{'\t',' '});
 
 			// Empty line
 			if (insStr.Length == 0) return false;
