@@ -26,6 +26,6 @@
 	</UserControl.Resources>
 
 	<Grid>		
-		<ListView x:Name="ListviewProgram" KeyDown="ListviewProgram_KeyDown" SelectionMode="Single" Background="{x:Null}"/>		
+		<ListView x:Name="listViewProgram" KeyDown="ListviewProgram_KeyDown" SelectionMode="Single" Background="{x:Null}" />		
 	</Grid>
 </UserControl>
