@@ -6,9 +6,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="150">
 	<Grid>
-		<Grid x:Name="RotateGrid">
-			<Grid.RenderTransform>
-				<RotateTransform x:Name="myTransform" CenterX="75" CenterY="75" Angle="{Binding Angle}"/>
+		<Grid x:Name="RotateGrid" RenderTransformOrigin="0.5, 0.5">
+			<Grid.RenderTransform >
+				<RotateTransform x:Name="myTransform"  Angle="{Binding Angle}"/>
 			</Grid.RenderTransform>
 			<Ellipse Margin="2" >
 				<Ellipse.Fill>

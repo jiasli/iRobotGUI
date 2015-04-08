@@ -91,7 +91,8 @@ namespace iRobotGUI.Controls
 				
 			int new_radius = int.Parse(textbox1.Text);
 				if(Math.Abs(new_radius) <= 2000 || new_radius == STRAIGHT) {
-				Ins.paramList[1] = new_radius; /// update rotation radius
+				Ins.paramList[1] = new_radius;
+				this.radius = new_radius;/// update rotation radius
 				this.Angle = radiusToAngle(new_radius); ///update the angle		
 				steer.Angle = this.Angle;
 				steer.Radius = new_radius;///
