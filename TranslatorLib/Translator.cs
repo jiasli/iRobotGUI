@@ -92,8 +92,6 @@ else
 		public const string END_LOOP_SNIPPET = @"}";
 		public const string DELAY_SNIPPET = @"delay(#time);";
 
-		public const string PLACEHOLDER_MAIN_PROGRAM = @"/**main_program**/";
-
 
 		// Remember not to include linebreak in the end.
 		/// <summary>
@@ -345,25 +343,7 @@ else
 			}
 
 			return cBuilder.ToString();
-		}
-
-
-		/// <summary>
-		/// The function put generated C code instruction into C file can be compiled
-		/// </summary>
-		/// <param name="st">Decide it is a Microcontroller program or an Emulator program</param>
-		/// <param name="code">Generated C code instruction</param>
-		public static void GenerateCSource(string templateFilePath, string outputFilePath, string code)
-		{
-			string template;
-
-			template = File.ReadAllText(templateFilePath);
-			if (!String.IsNullOrEmpty(template))
-			{
-				File.WriteAllText(outputFilePath,
-					template.Replace(PLACEHOLDER_MAIN_PROGRAM, code));
-			}		
-		}
+		}		
 
 
 	}

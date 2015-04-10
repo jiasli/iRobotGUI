@@ -58,7 +58,7 @@ END_IF
 		{
 			try
 			{
-				openSongWindow();
+				openIfWindow();
 			}
 			catch (Exception ex)
 			{

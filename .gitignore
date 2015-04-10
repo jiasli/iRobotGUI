@@ -20,7 +20,7 @@
 *.suo
 
 # For debug working directory
-# *.user
+*.user
 *.sln.docstates
 
 # Build results

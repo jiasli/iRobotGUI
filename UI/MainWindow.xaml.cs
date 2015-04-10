@@ -56,24 +56,6 @@ namespace iRobotGUI
 
 		private string igpFile;
 
-		private HLProgram program;
-
-		/// <summary>
-		/// Get or set the current HLProgram under editing. When set, the ProgramList will also be updated.
-		/// </summary>
-		public HLProgram Program
-		{
-			get
-			{
-				return program;
-			}
-			set
-			{
-				program = value;
-				programList1.Program = value;
-			}
-		}
-
 		public MainWindow()
 		{
 			this.CommandBindings.Add(new CommandBinding(BuildCmd, BuildCmdExecuted));
@@ -93,8 +75,7 @@ namespace iRobotGUI
 			// Set the current folder to cprogram
 			Directory.SetCurrentDirectory(@".");
 
-			program = new HLProgram();
-			programList1.Program = program;
+			programList.Program = new HLProgram();
 
 			textBlockStatus.Text = Directory.GetCurrentDirectory();
 		}
@@ -153,15 +134,16 @@ namespace iRobotGUI
 			string emulatorPath = Properties.Settings.Default.EmulatorPath;
 			if (string.IsNullOrEmpty(emulatorPath))
 			{
-				MessageBox.Show("Emulator path not invalid. Use Build -> Setting to select the correct path.", "Invalid Emulator Path", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("Emulator path not invalid. Use Build -> Setting to select the correct path.",
+					"Invalid Emulator Path", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
-			string cCode = Translator.Translate(Program);
-			string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorTemplate);
-			string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulatorFramework", EmulatorOutputFile);
+			string cCode = Translator.Translate(programList.Program);
+			string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorTemplate);
+			string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorOutputFile);
 
-			Translator.GenerateCSource(templateFullPath, outputFullPath, cCode);
+			CodeGenerator.GenerateCSource(templateFullPath, outputFullPath, cCode);
 
 		}
 
@@ -182,7 +164,8 @@ namespace iRobotGUI
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.ToString());
+				MessageBox.Show("Unable to build the emulator. Check if the emulator path is correct. \n" + ex.ToString(),
+					"Unable to build the emulator.", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 		}
@@ -204,7 +187,8 @@ namespace iRobotGUI
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(exeFullPath + "\n" + ex.ToString());
+				MessageBox.Show("Unable to run the emulator. Check if the emulator path is correct and if the emulator is built correctly. \n" + ex.ToString(),
+					"Unable to run the emulator.", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 		}
@@ -221,7 +205,7 @@ namespace iRobotGUI
 		void NewCmdExecuted(object target, ExecutedRoutedEventArgs e)
 		{
 			igpFile = null;
-			Program = new HLProgram();
+			programList.Program = new HLProgram();
 		}
 
 		/// <summary>
@@ -361,7 +345,7 @@ namespace iRobotGUI
 			try
 			{
 				string proStr = File.ReadAllText(filePath);
-				Program = new HLProgram(proStr);
+				programList.Program = new HLProgram(proStr);
 			}
 			catch (Exception ex)
 			{
@@ -376,8 +360,7 @@ namespace iRobotGUI
 		{
 			try
 			{
-				string proStr = programList1.Program.ToString();
-				Program = programList1.Program;
+				string proStr = programList.Program.ToString();
 				File.WriteAllText(filePath, proStr);
 			}
 			catch (Exception ex)
@@ -408,13 +391,13 @@ namespace iRobotGUI
 
 		private void buttonRefreshSource_Click(object sender, RoutedEventArgs e)
 		{
-			HLProgram program = programList1.Program;
+			HLProgram program = programList.Program;
 			textBoxSource.Text = program.ToString();
 		}
 
 		private void buttonLoadIntoGraph_Click(object sender, RoutedEventArgs e)
 		{
-			Program = new HLProgram(textBoxSource.Text);
+			programList.Program = new HLProgram(textBoxSource.Text);
 		}
 
 		#endregion
@@ -436,25 +419,30 @@ namespace iRobotGUI
 		{
 			if (columnDefinitionDebug != null)
 				columnDefinitionDebug.Width = new GridLength(250);
+			this.Width = 700;
 		}
 
 		private void MenuItemShowDebugPanel_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (columnDefinitionDebug != null)
 				columnDefinitionDebug.Width = new GridLength(0);
+			this.Width = 450;
 		}
-		private void MenuItemShowSrcFolder_Click(object sender, RoutedEventArgs e)
+		private void MenuItemRevealInExplorer_Click(object sender, RoutedEventArgs e)
 		{
 			// Open current folder in explorer.exe
 			// http://stackoverflow.com/questions/1132422/open-a-folder-using-process-start
-			Process.Start("explorer.exe", ".");
+			// Windows Explorer Command-Line Options
+			// http://support.microsoft.com/en-us/kb/152457
+			if (igpFile == null) Process.Start("explorer.exe", ".");
+			else Process.Start("explorer.exe", "/select," + igpFile);
 		}
 
 		private void MenuItemTranslate_Click(object sender, RoutedEventArgs e)
 		{
-			string cCode = Translator.Translate(Program);
+			string cCode = Translator.Translate(programList.Program);
 
-			Translator.GenerateCSource(MicrocontrollerTemplate, MicrocontrollerOutputFile, cCode);
+			CodeGenerator.GenerateCSource(MicrocontrollerTemplate, MicrocontrollerOutputFile, cCode);
 
 			if (Properties.Settings.Default.OpenCCode) Process.Start(MicrocontrollerOutputFile);
 		}

@@ -11,36 +11,7 @@ namespace iRobotGUI.Tests
     public class HLProgramTests
     {
        
-        [TestMethod()]
-        public void GetInstructionTest()
-        {
-            bool pass = true;
-            HLProgram hp = new HLProgram();
-            int ValidIndex=2;
-            int InvalidIndex=0;
-            try
-            {
-                Instruction ins = hp[InvalidIndex];
-                pass = false;
-            }
-            catch (NonNumericParameterException)
-            {
-                Console.WriteLine(InvalidIndex + ": InvalidIndex");
-            }
-
-            try
-            {
-                Instruction ins = hp[ValidIndex];
-            }
-            catch (NonNumericParameterException)
-            {
-                pass = false;
-            }
-
-            Assert.IsTrue(pass);
-        }
-
-
+       
         [TestMethod()]
         public void FindElseTest()
         {
@@ -75,8 +46,32 @@ END_IF";
             {
                 Console.WriteLine(ex.ToString());
                 Assert.Fail("Invalid if index :", inValidifIndex);
-            }
-            
+            }  
+        }
+
+        [TestMethod()]
+        public void GetIfBlockTest()
+        {
+            string StartifBlock = @"IF ";
+            GetIfLoopBlockTest(StartifBlock);
+
+        }
+
+        [TestMethod()]
+        public void GetLoopBlockTest()
+        {
+            string StartloopBlock = @"LOOP ";
+            GetIfLoopBlockTest(StartloopBlock);
+
+        }
+
+        [TestMethod()]
+        public void GetIfLoopBlockTest(string Startifloop)
+        {
+            string inputBlock = Startifloop.Trim();
+            HLProgram ActualBlock = HLProgram.GetIfLoopBlock(new Instruction(inputBlock));
+            Console.WriteLine(ActualBlock);
+            Assert.IsNotNull(ActualBlock);
         }
 
         [TestMethod()]

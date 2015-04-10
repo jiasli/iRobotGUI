@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 namespace iRobotGUI.Controls
 {
+	
     /// <summary>
     /// Interaction logic for RightParam.xaml
     /// </summary>
@@ -22,6 +23,7 @@ namespace iRobotGUI.Controls
     {
         private double Angle;
         private enum Quadrants : int { nw = 2, ne = 1, sw = 4, se = 3 }
+		//public string retAngle { get { return this.Angle.ToString("F");}}
         private double GetAngle(Point touchPoint, Size circleSize)
         {
             var _X = touchPoint.X - (circleSize.Width / 2d);
@@ -33,10 +35,11 @@ namespace iRobotGUI.Controls
                 (_Y >= 0) ? Quadrants.nw : Quadrants.sw;
             switch (_Quadrant)
             {
+				// Allow roate greater than 90 degrees.
                 case Quadrants.ne: _Value = 090 - _Value; break;
                 case Quadrants.nw: _Value = _Value -90; break;
-                case Quadrants.se: _Value = 90 /*- _Value*/; break;
-                case Quadrants.sw: _Value = -90 /*+  _Value*/; break;
+                case Quadrants.se: _Value = 90 - _Value; break;
+                case Quadrants.sw: _Value = -90 + _Value; break;
             }
             return _Value;
         }
@@ -50,11 +53,12 @@ namespace iRobotGUI.Controls
             {
                 base.Ins = value;
                 
-                this.Angle = -Ins.paramList[0];               
+                this.Angle = -Ins.paramList[0];
+				label.Content = Ins.paramList[0];
                 ///rotate the control image specified number of degrees:
                 RotateTransform rotateTransform1 = new RotateTransform(this.Angle);
-                rotateTransform1.CenterX = 75;
-                rotateTransform1.CenterY = 75;
+                rotateTransform1.CenterX = this.ActualWidth/2;
+                rotateTransform1.CenterY = this.ActualHeight/2;
                 RotateGrid.RenderTransform = rotateTransform1;
 
             }
@@ -62,7 +66,7 @@ namespace iRobotGUI.Controls
         public RotateParam()
         {
             InitializeComponent();
-            ///this.DataContext = this;
+			/// DataContext = this;			
             this.MouseLeftButtonDown += new MouseButtonEventHandler(OnMouseLeftButtonDown);
             this.MouseUp += new MouseButtonEventHandler(OnMouseUp);
             this.MouseMove += new MouseEventHandler(OnMouseMove);
@@ -88,6 +92,7 @@ namespace iRobotGUI.Controls
                 /// Calculate an angle
                this.Angle = GetAngle(currentLocation, this.RenderSize);
                Ins.paramList[0] =  -(int)this.Angle;
+				label.Content = Ins.paramList[0].ToString();
                RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
                rotateTransform1.CenterX = (this.ActualWidth)/2;
                rotateTransform1.CenterY = (this.ActualHeight)/2;

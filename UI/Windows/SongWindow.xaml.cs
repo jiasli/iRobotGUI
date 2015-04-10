@@ -126,15 +126,15 @@ namespace iRobotGUI
 			{
 				// 1. Create a default ins
 				Instruction result = Instruction.CreatFromOpcode(Instruction.SONG);
-				
+
 				// 2. Clear the parameters.
 				result.paramList.Clear();
 
 				// 3. Song No
 				// result.paramList.Add(comboBoxSongNo.SelectedIndex);
-				
+
 				// 4. Notes
-				foreach(Note note in noteList)
+				foreach (Note note in noteList)
 				{
 					result.paramList.Add(note.Number);
 					result.paramList.Add(note.Duration);
@@ -177,7 +177,12 @@ namespace iRobotGUI
 			Note n = listViewNotes.SelectedItem as Note;
 			if (n != null)
 			{
-				sliderDuration.Value = n.Duration;				
+				sliderDuration.IsEnabled = true;
+				sliderDuration.Value = n.Duration;
+			}
+			else
+			{
+				sliderDuration.IsEnabled = false;
 			}
 		}
 
@@ -209,7 +214,7 @@ namespace iRobotGUI
 			}
 		}
 
-		
+
 		#region Command Handler
 
 		private void CommandDelete_CanExecute(object sender, CanExecuteRoutedEventArgs e)

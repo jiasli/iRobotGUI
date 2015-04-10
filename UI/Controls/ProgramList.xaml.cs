@@ -39,6 +39,7 @@ namespace iRobotGUI.Controls
 		public ProgramList()
 		{
 			InitializeComponent();
+
 			this.Loaded += ListView1_Loaded;
 
 			pvm = new ProgramViewModel(new HLProgram());
@@ -73,10 +74,10 @@ namespace iRobotGUI.Controls
 		/// </summary>
 		void ListView1_Loaded(object sender, RoutedEventArgs e)
 		{
-			this.dragMgr = new ListViewDragDropManager<Image>(ListviewProgram);
-			ListviewProgram.PreviewMouseLeftButtonDown += NewlistView_PreviewMouseLeftButtonDown;
-			ListviewProgram.Drop -= dragMgr.listView_Drop;
-			ListviewProgram.Drop += NewlistView_Drop;
+			this.dragMgr = new ListViewDragDropManager<Image>(listViewProgram);
+			listViewProgram.PreviewMouseLeftButtonDown += listView_PreviewMouseLeftButtonDown;
+			listViewProgram.Drop -= dragMgr.listView_Drop;
+			listViewProgram.Drop += listView_Drop;
 		}
 
 		#endregion // ListView1_Loaded
@@ -88,51 +89,28 @@ namespace iRobotGUI.Controls
 		/// <summary>
 		/// Open the dialog when an item is double clicked
 		/// </summary>
-		void NewlistView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		void listView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.ClickCount == 2)
 			{
 				// The index of item in PVM
-				int index = ListviewProgram.SelectedIndex;
+				int index = listViewProgram.SelectedIndex;
 				if (index < 0)
 					return;
 
-				PopUpWindow(index);
+				ShowParamWindow(index);
 			}
-
 		}
 
 		#endregion // NewlistView_PreviewMouseLeftButtonDown
 
-		#region listView_PreviewMouseRightButtonDown
-
-		/// <summary>
-		///  delete item when right button is clicked
-		/// </summary>
-		void ListviewProgram_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.Key == Key.Delete)
-			{
-				int index = ListviewProgram.SelectedIndex;
-				if (index < 0)
-					return;
-
-				// Just remove the pointer. We don't care the source in HLProgram.
-				pvm.Remove(index);
-
-				UpdateContent();
-			}
-		}
-
-
-		#endregion // listView_PreviewMouseRightButtonDown
 
 		#region NewlistView_Drop
 
 		/// <summary>
 		/// handler for drop event
 		/// </summary>
-		void NewlistView_Drop(object sender, DragEventArgs e)
+		void listView_Drop(object sender, DragEventArgs e)
 		{
 			int newIndex = this.dragMgr.IndexUnderDragCursor;
 
@@ -144,7 +122,7 @@ namespace iRobotGUI.Controls
 				if (data == null)
 					return;
 
-				int oldIndex = this.ListviewProgram.Items.IndexOf(data);
+				int oldIndex = this.listViewProgram.Items.IndexOf(data);
 
 				if (newIndex < 0)
 					return;
@@ -184,8 +162,9 @@ namespace iRobotGUI.Controls
 				}
 
 				UpdateContent();
-				PopUpWindow(newIndex);
-				ListviewProgram.SelectedItem = newIns;
+				listViewProgram.SelectedIndex = newIndex;
+				if (Properties.Settings.Default.PopupWindowForNewIns)
+					ShowParamWindow(newIndex);				
 			}
 		}
 
@@ -193,28 +172,27 @@ namespace iRobotGUI.Controls
 
 		#endregion // event handler
 
-		#region UpdateContent
+		#region private operations
 
 		/// <summary>
 		/// Update content in ProgramList accordint to pvm
 		/// </summary>
 		private void UpdateContent()
 		{
-			ListviewProgram.Items.Clear();
+			// Save the selected index and restore it when refreshing finishes.
+			int selectedIndex = listViewProgram.SelectedIndex;
+
+			listViewProgram.Items.Clear();
 
 			for (int i = 0; i < pvm.Count; i++)
 			{
-				Instruction ins = pvm.GetInstruction(i);
+				Instruction ins = pvm.GetInstruction(pvm[i]);
 				Image im = GetImageFromInstruction(ins);
 				if (im != null)
-					ListviewProgram.Items.Add(GetImageFromInstruction(ins));
+					listViewProgram.Items.Add(GetImageFromInstruction(ins));
 			}
-
+			listViewProgram.SelectedIndex = selectedIndex;
 		}
-
-		#endregion
-
-		#region GetImageFromInstruction
 
 		/// <summary>
 		/// Get the corresponding image from a specific instruction
@@ -225,35 +203,32 @@ namespace iRobotGUI.Controls
 			string picPath = "/iRobotGUI;component/pic/";
 			Image im = new Image();
 			BitmapImage bi = new BitmapImage();
+
 			bi.BeginInit();
-
 			string picName = InstructionPicture.GetPictureName(ins);
-
 			bi.UriSource = new Uri(picPath + picName, UriKind.Relative);
 
 			if (bi.UriSource == null) return null;
 			bi.EndInit();
 			im.Stretch = Stretch.Fill;
 			im.Source = bi;
-			im.Width = 50;
-			im.Height = 50;
+			im.Width = 45;
+			im.Height = 45;
 			return im;
 		}
-
-		#endregion
 
 		/// <summary>
 		/// pop up the parameter window
 		/// </summary>
 		/// <param name="index">index in pvm</param>
-		private void PopUpWindow(int index)
+		private void ShowParamWindow(int index)
 		{
 			// The Ins under modification
-			Instruction selectedIns = pvm.GetInstruction(index);
+			Instruction selectedIns = pvm.GetInstruction(pvm[index]);
 
 			if (selectedIns.opcode == Instruction.IF || selectedIns.opcode == Instruction.LOOP)
 			{
-				HLProgram subProgram = pvm.GetSubProgram(index);
+				HLProgram subProgram = pvm.GetSubProgram(pvm[index]);
 
 				// invoke the dialog
 				HLProgram result = DialogInvoker.ShowDialog(subProgram, Window.GetWindow(this));
@@ -267,6 +242,91 @@ namespace iRobotGUI.Controls
 			}
 
 			UpdateContent();
+		}
+
+		#endregion // private operations
+
+		#region file operations
+
+		private void ListCopyExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			CopySelection();
+		}
+
+		private void ListCutExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			CopySelection();
+			RemoveSelection();
+		}
+
+		private void ListPasteExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			int newIndex = listViewProgram.SelectedIndex;
+			if (newIndex < 0)
+				newIndex = pvm.Count;
+
+			int pvmvalue = Int32.Parse(Clipboard.GetText());
+			Instruction ins = pvm.GetInstruction(pvmvalue);
+
+			if (ins.opcode == Instruction.IF || ins.opcode == Instruction.LOOP)
+			{
+				pvm.InsertSubProgram(newIndex, pvm.GetSubProgram(pvmvalue));
+			}
+			else
+			{
+				String insstring = ins.ToString();
+				Instruction newins = new Instruction(insstring);
+				pvm.InsertInstruction(newIndex, newins);
+			}
+
+			UpdateContent();
+		}
+
+		private void ListCutCopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = listViewProgram.SelectedIndex >= 0;
+		}
+
+		private void ListPasteCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = Clipboard.ContainsText();
+		}
+
+		private void CopySelection()
+		{
+			int index = listViewProgram.SelectedIndex;
+			if (index < 0)
+				return;
+
+			Clipboard.Clear();
+			Clipboard.SetText(pvm[index].ToString());
+		}
+
+		private void RemoveSelection()
+		{
+			int index = listViewProgram.SelectedIndex;
+			if (index < 0)
+				return;
+
+			// Just remove the pointer. We don't care the source in HLProgram.
+			pvm.Remove(pvm[index]);
+
+			UpdateContent();
+		}
+
+		#endregion // file operations
+
+		private void DeleteCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (listViewProgram.SelectedIndex != -1)
+			{
+				e.CanExecute = true;
+			}
+		}
+
+		private void DeleteExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			RemoveSelection();
 		}
 
 	}

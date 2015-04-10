@@ -30,9 +30,8 @@ namespace iRobotGUI
 			{
 				HLProgram subProgram = value;
 
-				// 1. Set condition
-				InsCondition condition = new InsCondition(subProgram[0]);
-				conditionPanel.Condition = condition;
+				// 1. Select the sensor
+				sensorSelector.SelectedSensor = subProgram[0].paramList[0];
 
 				// 2. Set if body
 				int elsePosition = subProgram.FindElse(0);
@@ -46,13 +45,12 @@ namespace iRobotGUI
 			{
 				HLProgram result = new HLProgram();
 
-				// 1. Read back condition
+				// 1. Read back sensor
 				Instruction conditionIns = Instruction.CreatFromOpcode(Instruction.IF);
-				InsCondition condition = conditionPanel.Condition;
-				conditionIns.paramList[0] = condition.sensor;
-				conditionIns.paramList[1] = condition.op;
-				conditionIns.paramList[2] = condition.num;
-				result.Add(conditionIns);				
+				conditionIns.paramList[0] = sensorSelector.SelectedSensor;
+				conditionIns.paramList[1] = iRobotGUI.Operator.EQUAL;
+				conditionIns.paramList[2] = 1;
+				result.Add(conditionIns);
 
 				// 2. Add if body
 				result.Add(programListIfBody.Program);

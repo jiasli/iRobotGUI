@@ -59,6 +59,8 @@
     <Compile Include="InstructionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TranslatorTest.cs" />
+    <Compile Include="Util\InstructionPictureTests.cs" />
+    <Compile Include="Util\ProgramViewModelTests.cs" />
     <Compile Include="ValidatorTest.cs" />
   </ItemGroup>
   <ItemGroup>

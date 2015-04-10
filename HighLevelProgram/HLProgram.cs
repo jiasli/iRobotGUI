@@ -31,7 +31,7 @@ namespace iRobotGUI
 				CurrentLine = i;
 
 				// Ignore comment line
-				if (Instruction.IsInstructionLine(insStrArray[i]))
+				if (Instruction.IsValidInstructionLine(insStrArray[i]))
 					program.Add(new Instruction(insStrArray[i]));
 			}
 		}
@@ -256,7 +256,9 @@ namespace iRobotGUI
 
 		public override string ToString()
 		{
-			return string.Join("\n", program);
+			// Use Windows style CRLF
+			// http://stackoverflow.com/questions/15433188/r-n-r-n-what-is-the-difference-between-them
+			return string.Join("\r\n", program);
 		}
 	}
 }

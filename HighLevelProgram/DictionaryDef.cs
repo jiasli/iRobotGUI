@@ -96,6 +96,12 @@ namespace iRobotGUI
             { 2, new Boundary(0, 255) },
         };
 
+        public static Dictionary<int, Boundary> songRange = new Dictionary<int, Boundary>()
+        {
+            { 0, new Boundary(31, 127) },
+            { 1, new Boundary(0, 255) },
+        };
+
         public static Dictionary<int, Boundary> songPlayRange = new Dictionary<int, Boundary>()
         {
             { 0, new Boundary(0, 15) },
@@ -114,6 +120,7 @@ namespace iRobotGUI
             { Instruction.LED, ledRange },
             { Instruction.SONG_DEF, songDefRange },
             { Instruction.SONG_PLAY, songPlayRange },
+            { Instruction.SONG, songRange },
             { Instruction.IF, ifLoopRange },
             { Instruction.LOOP, ifLoopRange },
         };

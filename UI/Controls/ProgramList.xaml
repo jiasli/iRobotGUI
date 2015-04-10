@@ -5,17 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:jas="clr-namespace:iRobotGUI.Controls" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="240">
-    <UserControl.Resources>
-        <Style TargetType="{x:Type ListViewItem}">
-            <Style.Triggers>
-                <Trigger Property="jas:ListViewItemDragState.IsUnderDragCursor" Value="True">
-                    <Setter Property="Background" Value="LightGray" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
-    <Grid>
-        <ListView x:Name="ListviewProgram" KeyDown="ListviewProgram_KeyDown"/>
-    </Grid>
+             d:DesignHeight="300" d:DesignWidth="240"
+			 RenderOptions.BitmapScalingMode="HighQuality">
+
+	<UserControl.CommandBindings>
+		<CommandBinding Command="ApplicationCommands.Cut" CanExecute="ListCutCopyCanExecute" Executed="ListCutExecuted" />
+		<CommandBinding Command="ApplicationCommands.Copy" CanExecute="ListCutCopyCanExecute" Executed="ListCopyExecuted" />
+		<CommandBinding Command="ApplicationCommands.Paste" CanExecute="ListPasteCanExecute" Executed="ListPasteExecuted" />
+		<CommandBinding Command="ApplicationCommands.Delete" CanExecute="DeleteCanExecute" Executed="DeleteExecuted" />
+	</UserControl.CommandBindings>
+
+	<UserControl.Resources>
+		<Style TargetType="{x:Type ListViewItem}">
+			<Style.Triggers>
+				<Trigger Property="jas:ListViewItemDragState.IsUnderDragCursor" Value="True">
+					<Setter Property="Background" Value="LightGray" />
+				</Trigger>
+			</Style.Triggers>
+			<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+		</Style>
+	</UserControl.Resources>
+
+	<Grid>		
+		<ListView x:Name="listViewProgram" SelectionMode="Single" Background="{x:Null}" />		
+	</Grid>
 </UserControl>

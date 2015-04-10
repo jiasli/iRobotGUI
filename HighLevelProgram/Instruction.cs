@@ -44,7 +44,7 @@ namespace iRobotGUI
 			END_LOOP, 
 			DELAY,
 			READ_SENSOR
-		};		
+		};
 
 		#region OpCode
 
@@ -54,52 +54,54 @@ namespace iRobotGUI
 		public const string BACKWARD    = "BACKWARD";
 		public const string LEFT        = "LEFT";
 		public const string RIGHT       = "RIGHT";
-		*/ 
-		public const string MOVE        = "MOVE";
-		public const string ROTATE      = "ROTATE";
-		public const string DRIVE       = "DRIVE";		
+		*/
+		public const string MOVE = "MOVE";
+		public const string ROTATE = "ROTATE";
+		public const string DRIVE = "DRIVE";
 
 		// LED Song
-		public const string LED         = "LED";
-		public const string SONG        = "SONG";
-		public const string SONG_DEF    = "SONG_DEF";
-		public const string SONG_PLAY   = "SONG_PLAY";
+		public const string LED = "LED";
+		public const string SONG = "SONG";
+		public const string SONG_DEF = "SONG_DEF";
+		public const string SONG_PLAY = "SONG_PLAY";
 
 		// IF LOOP
-		public const string IF          = "IF";
-		public const string ELSE        = "ELSE";
-		public const string END_IF      = "END_IF";
-		public const string LOOP        = "LOOP";
-		public const string END_LOOP    = "END_LOOP";
+		public const string IF = "IF";
+		public const string ELSE = "ELSE";
+		public const string END_IF = "END_IF";
+		public const string LOOP = "LOOP";
+		public const string END_LOOP = "END_LOOP";
 
 		// Other
-		public const string DELAY       = "DELAY";
+		public const string DELAY = "DELAY";
 		public const string READ_SENSOR = "READ_SENSOR";
-		public const string DEMO        = "DEMO";
+		public const string DEMO = "DEMO";
 
 		#endregion
 
 
 		#region Constants
 
-		public const int SRAIGHT = 0x8000;	// 32768
+		public const int STRAIGHT1 = 0x8000;	// -32768
+		public const int STRAIGHT2 = 0x7FFF;	// 32767
 		public const int TURN_IN_PLACE_CLOCKWISE = 0xFFFF;
 		public const int TURN_IN_PLACE_COUNTER_CLOCKWISE = 0x0001;
 
 		#endregion
 
-		
+
 
 		public Instruction(string insStr)
 		{
 			// Remove leading indent.
-			insStr = insStr.Trim(new char[] { ' ', '\t' });			
+			insStr = insStr.Trim(new char[] { ' ', '\t' });
 
 			string opcode;
 			string[] paramArray;
 
 			// Seperate the string using the first space ' '.
 			int spaceIndex = insStr.IndexOf(' ');
+
 			if (spaceIndex != -1)
 			{
 				// A space is found.
@@ -113,7 +115,7 @@ namespace iRobotGUI
 				opcode = insStr;
 				paramArray = new string[0];
 			}
-			
+
 
 			if (OpCodeSet.Contains(opcode))
 			{
@@ -156,7 +158,7 @@ namespace iRobotGUI
 					newIns = new Instruction(Instruction.ROTATE + " 90");
 					break;
 				case DRIVE:
-					newIns = new Instruction(DRIVE + " 1,1");
+					newIns = new Instruction(DRIVE + " 100,32767");
 					break;
 				case Instruction.LED:
 					newIns = new Instruction(Instruction.LED + " 10,128,128");
@@ -185,7 +187,7 @@ namespace iRobotGUI
 					break;
 				case END_IF:
 					newIns = new Instruction(END_IF);
-					break;			
+					break;
 				case LOOP:
 					newIns = new Instruction(LOOP + " 0, 0, 0");
 					break;
@@ -205,9 +207,10 @@ namespace iRobotGUI
 		/// </summary>
 		/// <param name="insStr"></param>
 		/// <returns>True if it is.</returns>
-		public static bool IsInstructionLine(string insStr)
+		public static bool IsValidInstructionLine(string insStr)
 		{
-			insStr = insStr.Trim();
+			// Trim the \t and space
+			insStr = insStr.Trim(new char[] { '\t', ' ' });
 
 			// Empty line
 			if (insStr.Length == 0) return false;

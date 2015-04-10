@@ -64,13 +64,13 @@ namespace iRobotGUI.Util
 
 			for (int index = 0; index < this.Count(); index++)
 			{
-				PointerType type = GetPointerType(index);
+				PointerType type = GetPointerType(this[index]);
 
 				if (type == PointerType.IF || type == PointerType.LOOP)
-					result.Add(GetSubProgram(index));
+					result.Add(GetSubProgram(this[index]));
 				else
 					// Single instruction.
-					result.Add(GetInstruction(index));
+					result.Add(GetInstruction(this[index]));
 			}
 			return result;
 		}
@@ -80,9 +80,9 @@ namespace iRobotGUI.Util
 		/// </summary>
 		/// <param name="index">The index of pointer.</param>
 		/// <returns>The instruction pointed by the pointer.</returns>
-		public Instruction GetInstruction(int index)
+		public Instruction GetInstruction(int item)
 		{
-			return program[this[index]];
+			return program[item];
 		}
 
 		/// <summary>
@@ -90,11 +90,11 @@ namespace iRobotGUI.Util
 		/// </summary>
 		/// <param name="pointer"></param>
 		/// <returns></returns>
-		public PointerType GetPointerType(int index)
+		public PointerType GetPointerType(int item)
 		{
-			if (program[this[index]].opcode == Instruction.IF)
+			if (program[item].opcode == Instruction.IF)
 				return PointerType.IF;
-			else if (program[this[index]].opcode == Instruction.LOOP)
+			else if (program[item].opcode == Instruction.LOOP)
 				return PointerType.LOOP;
 			else return PointerType.Instruction;
 		}
@@ -104,16 +104,15 @@ namespace iRobotGUI.Util
 		/// </summary>
 		/// <param name="index">The index of pointer.</param>
 		/// <returns>The sub-program pointed by the pointer.</returns>
-		public HLProgram GetSubProgram(int startIndex)
+		public HLProgram GetSubProgram(int startItem)
 		{
-			int pointer = this[startIndex];
-			if (GetPointerType(startIndex) == PointerType.IF)
+			if (GetPointerType(startItem) == PointerType.IF)
 			{
-				return program.SubProgram(pointer, program.FindEndIf(pointer));
+				return program.SubProgram(startItem, program.FindEndIf(startItem));
 			}
-			else if (GetPointerType(startIndex) == PointerType.LOOP)
+			else if (GetPointerType(startItem) == PointerType.LOOP)
 			{
-				return program.SubProgram(pointer, program.FindEndLoop(pointer));
+				return program.SubProgram(startItem, program.FindEndLoop(startItem));
 			}
 			return null;
 		}
