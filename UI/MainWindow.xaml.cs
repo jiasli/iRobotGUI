@@ -29,24 +29,33 @@ namespace iRobotGUI
 		// Defining MenuItem Shortcuts
 		// http://stackoverflow.com/questions/4682915/defining-menuitem-shortcuts
 
+		public static RoutedCommand TranslateToMicrocontrollerCCmd = new RoutedUICommand("Translate to Microcontroller C File", "emulator", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.F4) });
 		public static RoutedCommand BuildCmd = new RoutedUICommand("Build", "Build", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.F5) });
 		public static RoutedCommand CleanCmd = new RoutedUICommand("Clean", "Clean", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.F7) });
 		public static RoutedCommand LoadCmd = new RoutedUICommand("Load", "Load", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.F6) });
+
 		public static RoutedCommand TranslateToEmulatorCCmd = new RoutedUICommand("Translate to Emulator C File", "emulator", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.F10) });
 		public static RoutedCommand BuildEmulatorCmd = new RoutedUICommand("Build Emulator", "emulator", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.F11) });
 		public static RoutedCommand RunEmulatorCmd = new RoutedUICommand("Run Emulator", "emulator", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.F12) });
+
 		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift) });
 		public static RoutedCommand SettingCmd = new RoutedUICommand("Setting", "Setting", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift) });
 		public static RoutedCommand WinAvrConfigCmd = new RoutedUICommand("WinAVR Configuation", "avrconfig", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift) });
+
+		public static RoutedCommand LoadToMicrocontrollerCmd = new RoutedUICommand("Load to Microcontroller", "micro", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.R, ModifierKeys.Control) });
+		public static RoutedCommand RunOnEmulatorCmd = new RoutedUICommand("Run on Emulator", "avrconfig", typeof(Window),
+			new InputGestureCollection { new KeyGesture(Key.R, ModifierKeys.Control | ModifierKeys.Shift) });
 
 
 		public const string MicrocontrollerTemplate = "mc_t.c";
@@ -58,6 +67,7 @@ namespace iRobotGUI
 
 		public MainWindow()
 		{
+			this.CommandBindings.Add(new CommandBinding(TranslateToMicrocontrollerCCmd, TranslateToMicrocontrollerCCmdExecuted));
 			this.CommandBindings.Add(new CommandBinding(BuildCmd, BuildCmdExecuted));
 			this.CommandBindings.Add(new CommandBinding(CleanCmd, CleanCmdExecuted));
 			this.CommandBindings.Add(new CommandBinding(LoadCmd, LoadCmdExecuted));
@@ -66,9 +76,14 @@ namespace iRobotGUI
 			this.CommandBindings.Add(new CommandBinding(BuildEmulatorCmd, BuildEmulatorCmdExecuted));
 			this.CommandBindings.Add(new CommandBinding(RunEmulatorCmd, RunEmulatorCmdExecuted));
 
+			this.CommandBindings.Add(new CommandBinding(LoadToMicrocontrollerCmd, LoadToMicrocontrollerCmdExecuted));
+			this.CommandBindings.Add(new CommandBinding(RunOnEmulatorCmd, RunOnEmulatorCmdExecuted));
+
 			this.CommandBindings.Add(new CommandBinding(OpenSourceCmd, OpenSrcCmdExecuted, OpenSrcCmdCanExecute));
 			this.CommandBindings.Add(new CommandBinding(WinAvrConfigCmd, WinAvrConfigCmdExecuted));
 			this.CommandBindings.Add(new CommandBinding(SettingCmd, SettingCmdExecuted));
+
+
 
 			InitializeComponent();
 
@@ -81,13 +96,19 @@ namespace iRobotGUI
 		}
 
 
-
-
-
-
 		#region Commands
 
 		#region Microcontroller
+
+		private void TranslateToMicrocontrollerCCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			string cCode = Translator.Translate(programList.Program);
+
+			CodeGenerator.GenerateCSource(MicrocontrollerTemplate, MicrocontrollerOutputFile, cCode);
+
+			if (Properties.Settings.Default.OpenCCode) Process.Start(MicrocontrollerOutputFile);
+		}
+
 		// Create(New), Save and Load. Traceability: WC_3305: As an ESS, I can create, save and load program files.
 		private void BuildCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
@@ -129,6 +150,7 @@ namespace iRobotGUI
 		#endregion
 
 		#region Emulator
+
 		private void TranslateToEmulatorCCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
 			string emulatorPath = Properties.Settings.Default.EmulatorPath;
@@ -193,6 +215,29 @@ namespace iRobotGUI
 
 		}
 
+		#endregion
+
+		#region All-in-one commands
+
+
+		/// <summary>
+		/// Translate igp file to C file and compile it to executable program using WinAVR and load it to iRobot.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void LoadToMicrocontrollerCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			TranslateToMicrocontrollerCCmd.Execute(null, this);
+			BuildCmd.Execute(null, this);
+			LoadCmd.Execute(null, this);
+		}
+
+		private void RunOnEmulatorCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			TranslateToEmulatorCCmd.Execute(null, this);
+			BuildEmulatorCmd.Execute(null, this);
+			RunEmulatorCmd.Execute(null, this);
+		}
 
 
 		#endregion
@@ -438,28 +483,7 @@ namespace iRobotGUI
 			else Process.Start("explorer.exe", "/select," + igpFile);
 		}
 
-		private void MenuItemTranslate_Click(object sender, RoutedEventArgs e)
-		{
-			string cCode = Translator.Translate(programList.Program);
 
-			CodeGenerator.GenerateCSource(MicrocontrollerTemplate, MicrocontrollerOutputFile, cCode);
-
-			if (Properties.Settings.Default.OpenCCode) Process.Start(MicrocontrollerOutputFile);
-		}
-
-		/// <summary>
-		/// Translate igp file to C file and compile it to executable program using WinAVR and load it to iRobot.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void MenuItemTranslateBuildLoad_Click(object sender, RoutedEventArgs e)
-		{
-			MenuItemTranslate_Click(sender, e);
-			BuildCmd.Execute(null, this);
-			LoadCmd.Execute(null, this);
-		}
-		#endregion
-
+		#endregion Menu callbacks
 	}
 }
-
