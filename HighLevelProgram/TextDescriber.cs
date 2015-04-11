@@ -42,7 +42,7 @@ namespace iRobotGUI
 				case Instruction.MOVE:
 					return GetMoveDescription(ins);
 				default:
-					return "Not implemented.";
+					return "Description not implemented.";
 			}
 
 		}

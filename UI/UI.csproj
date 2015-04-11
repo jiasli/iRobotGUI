@@ -333,20 +333,25 @@
     <Resource Include="pic\create2.jpg" />
     <Resource Include="pic\create3.png" />
     <Resource Include="pic\sandclock.png" />
-	<Resource Include="pic\rotate.png" />
     <Resource Include="pic\bump.png" />
     <Resource Include="pic\wall.png" />
     <Resource Include="pic\cliff.png" />
     <Resource Include="pic\virtualwall.png" />
     <Resource Include="pic\charging.png" />
     <Resource Include="pic\velocity_arrow.png" />
-	<Resource Include="pic\false.png" />
+    <Resource Include="pic\false.png" />
     <Resource Include="pic\true.png" />
     <Resource Include="pic\iRobotBG.jpg" />
     <Resource Include="pic\irobotcontrol.png" />
     <Resource Include="pic\create.png" />
     <Resource Include="pic\drive.png" />
     <Resource Include="pic\steeringwheel.jpg" />
+    <Resource Include="pic\move.png" />
+    <Resource Include="pic\move_forward.png" />
+    <Resource Include="pic\move_backward.png" />
+    <Resource Include="pic\rotate.png" />
+    <Resource Include="pic\rotate_left.png" />
+    <Resource Include="pic\rotate_right.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HighLevelProgram\HighLevelProgram.csproj">
@@ -385,9 +390,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pic\create.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\move.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Remarks.txt" />

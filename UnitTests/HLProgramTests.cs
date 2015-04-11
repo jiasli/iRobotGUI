@@ -69,7 +69,7 @@ END_IF";
         public void GetIfLoopBlockTest(string Startifloop)
         {
             string inputBlock = Startifloop.Trim();
-            HLProgram ActualBlock = HLProgram.GetIfLoopBlock(new Instruction(inputBlock));
+            HLProgram ActualBlock = HLProgram.GetDefaultIfLoopBlock(new Instruction(inputBlock));
             Console.WriteLine(ActualBlock);
             Assert.IsNotNull(ActualBlock);
         }

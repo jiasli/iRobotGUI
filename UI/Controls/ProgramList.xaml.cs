@@ -152,7 +152,7 @@ namespace iRobotGUI.Controls
 					if (op == Instruction.IF || op == Instruction.LOOP)
 					{
 						// Add HLProgram for IF and LOOP.
-						pvm.InsertSubProgram(newIndex, HLProgram.GetIfLoopBlock(newIns));
+						pvm.InsertSubProgram(newIndex, HLProgram.GetDefaultIfLoopBlock(newIns));
 					}
 					else
 					{

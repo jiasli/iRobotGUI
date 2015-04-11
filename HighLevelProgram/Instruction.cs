@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace iRobotGUI
@@ -90,11 +91,13 @@ namespace iRobotGUI
 		#endregion
 
 
-
+		/// <summary>
+		/// To construct the Instruction. The instruction string must be unified using UnifyInstructionString first.
+		/// </summary>
+		/// <param name="insStr"></param>
 		public Instruction(string insStr)
 		{
-			// Remove leading indent.
-			insStr = insStr.Trim(new char[] { ' ', '\t' });
+			// The string is already unified.
 
 			string opcode;
 			string[] paramArray;
@@ -201,23 +204,28 @@ namespace iRobotGUI
 
 
 		/// <summary>
-		/// Decide if an instruction string is a valid instruction.
-		/// Comment line is prefixed by "//" like C.
+		/// Unify the string. Remove the comment and trim the leading and trailing empty characters.
+		/// 
+		/// Comment is prefixed by "//" like C, which can be put in a single line or at the end of
+		/// the line.
+		/// 
 		/// Empty line contains only '\t' and ' '.
 		/// </summary>
-		/// <param name="insStr"></param>
-		/// <returns>True if it is.</returns>
-		public static bool IsValidInstructionLine(string insStr)
+		/// <param name="insStr">The string to unify.</param>
+		/// <returns>Unified instruction string.</returns>
+		public static string UnifyInstructionString(string insStr)
 		{
-			// Trim the \t and space
+			// Remove comment
+			// https://msdn.microsoft.com/en-us/library/az24scfc(v=vs.110).aspx
+			// This pattern matches all substrings starting with // and all following chars.
+			string commentPattern = "//.*";
+			Regex rgx = new Regex(commentPattern);
+			insStr = rgx.Replace(insStr, string.Empty);
+
+			// Trim the '\t' and ' '
 			insStr = insStr.Trim(new char[] { '\t', ' ' });
 
-			// Empty line
-			if (insStr.Length == 0) return false;
-
-			// Command line
-			if (insStr[0] == '/') return false;
-			else return true;
+			return insStr;
 		}
 
 		/// <summary>
@@ -230,6 +238,27 @@ namespace iRobotGUI
 			if (paramList != null)
 				sb.Append(" ").Append(string.Join(",", paramList));
 			return sb.ToString();
+		}
+
+		/// <summary>
+		/// Get the instruction string with the description.
+		/// </summary>
+		/// <param name="withDescription">If to have the description attached as comment.</param>
+		/// <returns></returns>
+		public string ToString(bool withDescription)
+		{
+			if (withDescription)
+				return this.ToString() + "  // " + this.GetTextDescription();
+			else return this.ToString();
+		}
+
+		/// <summary>
+		/// Get the human-readable text description of the Instruction.
+		/// </summary>
+		/// <returns></returns>
+		public string GetTextDescription()
+		{
+			return TextDescriber.GetTextDescription(this);
 		}
 	}
 }
