@@ -12,7 +12,7 @@
 			</Grid.RenderTransform>
 			<Ellipse Margin="2" >
 				<Ellipse.Fill>
-					<ImageBrush ImageSource="/iRobotGUI;component/pic/steeringwheel.jpg"/>
+					<ImageBrush ImageSource="/iRobotGUI;component/pic/drive.png"/>
 				</Ellipse.Fill>
 			</Ellipse>
 		</Grid>

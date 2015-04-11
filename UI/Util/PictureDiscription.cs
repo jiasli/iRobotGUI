@@ -9,7 +9,7 @@ namespace iRobotGUI.Util
 	/// <summary>
 	/// Gets the picture name of an instruction.
 	/// </summary>
-	public static class InstructionPicture
+	public static class PictureDiscription
 	{
 		/// <summary>
 		/// Gets the picture name of an instruction.
@@ -23,17 +23,22 @@ namespace iRobotGUI.Util
 			{
 				// TODO picture for delay
 				case Instruction.MOVE:
-					return "move.png";
+					if (ins.paramList[0] > 0) return "move_forward.png";
+					else if (ins.paramList[0] < 0) return "move_backward.png";
+					else return "stop.png";
 				case Instruction.ROTATE:
-					return "rotate.png";
+					if (ins.paramList[0] > 0) return "rotate_left.png";
+					else if (ins.paramList[0] < 0) return "rotate_right.png";
+					else return "stop.png";
 				case Instruction.DRIVE:
-					return "drive.png";
+					if (ins.paramList[0] != 0) return "drive.png";
+					return "stop.png";
 				case Instruction.LED:
-					return "led.jpg";
+					return "led.png";
 				case Instruction.SONG:
 					return "song.png";
 				case Instruction.DEMO:
-					return "demo.jpg";
+					return "demo.png";
 				case Instruction.DELAY:
 					return "delay.png";
 				case Instruction.IF:

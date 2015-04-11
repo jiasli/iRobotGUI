@@ -118,7 +118,7 @@
     <Compile Include="Controls\RotateParam.xaml.cs">
       <DependentUpon>RotateParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Util\InstructionPicture.cs" />
+    <Compile Include="Util\PictureDiscription.cs" />
     <Compile Include="Util\ProgramViewModel.cs" />
     <Compile Include="WinAvr\WinAvrConfiguation.cs" />
     <Compile Include="Windows\ConfigurationWindow.xaml.cs">
@@ -320,11 +320,9 @@
     <Resource Include="pic\forward.png" />
     <Resource Include="pic\left.png" />
     <Resource Include="pic\right.png" />
-    <Resource Include="pic\led.jpg" />
     <Resource Include="pic\bump.jpg" />
     <Resource Include="pic\SONG.png" />
     <Resource Include="pic\LED_panel.png" />
-    <Resource Include="pic\demo.jpg" />
     <Resource Include="pic\if.png" />
     <Resource Include="pic\loop.png" />
     <Resource Include="pic\delay.png" />
@@ -344,8 +342,6 @@
     <Resource Include="pic\iRobotBG.jpg" />
     <Resource Include="pic\irobotcontrol.png" />
     <Resource Include="pic\create.png" />
-    <Resource Include="pic\drive.png" />
-    <Resource Include="pic\steeringwheel.jpg" />
     <Resource Include="pic\move.png" />
     <Resource Include="pic\move_forward.png" />
     <Resource Include="pic\move_backward.png" />
@@ -393,6 +389,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Remarks.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\led.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\drive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\demo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
