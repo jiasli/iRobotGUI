@@ -50,7 +50,7 @@ namespace iRobotGUI.Controls
 		private enum Quadrants : int { nw = 2, ne = 1, sw = 4, se = 3 }
 
 
-		private static int AngleToRadius(int angle)
+		public static int AngleToRadius(int angle)
 		{
 			// Special cases.
 

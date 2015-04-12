@@ -71,11 +71,20 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		<Style TargetType="Image">
+			<Setter Property="Width" Value="30" />
+			<Setter Property="Height" Value="30" />
+			<Setter Property="Stretch" Value="Fill" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+			<Setter Property="ToolTipService.ShowDuration" Value="100000" />
+			
+		</Style>
 	</src:BaseParamControl.Resources>
 	<Grid x:Name="grid">
 		<Slider x:Name="sliderVelocity"  Style="{StaticResource SandSliderStyle}" RenderTransformOrigin="0.5,0.5"
 				AutoToolTipPlacement="TopLeft" 
-				Margin="132,101,-6,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" 
+				Margin="138,100,-12,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" 
 				Maximum="500" Minimum="-500" LargeChange="100" SmallChange="50" IsSnapToTickEnabled="True" TickFrequency="50" >
 			<Slider.RenderTransform>
 				<TransformGroup>
@@ -87,19 +96,22 @@
 		</Slider>
 
 		<src:SteeringParam x:Name="steer" Canvas.Left="37" Canvas.Top="41" Margin="40,63,136,113" RenderTransformOrigin="0.427,0.363" />
-		
+
 		<Label Content="500" HorizontalAlignment="Left" Margin="240,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
 		<Label Content="-500" HorizontalAlignment="Left" Margin="240,187,0,0" VerticalAlignment="Top"/>
 		<Label Content="Forward" HorizontalAlignment="Left" Margin="237,54,0,0" VerticalAlignment="Top"/>
 		<Label Content="Backward" HorizontalAlignment="Left" Margin="237,161,0,0" VerticalAlignment="Top"/>
-		
+
 		<Label Content="Radius(mm)" Margin="56,220,161,41" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 		<Label Content="Velocity(mm/s)" Margin="184,220,10,41" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
 		<!-- Do not register TextChanged anymore since it is already bound to Radius of SteeringWheel. -->
 		<TextBlock TextAlignment="Center" Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="56,207,161,73" Width="83"/>
-		
-	
-		
+		<Image x:Name="strPtr" ToolTip="Go Straight" Source="/iRobotGUI;component/pic/snap_front.png" MouseUp="strPtr_MouseUp" HorizontalAlignment="Left" Margin="87,33,0,0" VerticalAlignment="Top"/>
+		<Image x:Name="leftPtr" ToolTip="Turn Left" Source="/iRobotGUI;component/pic/snap_left.png" MouseUp="leftPtr_MouseUp" HorizontalAlignment="Left"  Margin="10,116,0,0" VerticalAlignment="Top" />
+		<Image x:Name="rightPtr" ToolTip="Turn Right" Source="/iRobotGUI;component/pic/snap_right.png" MouseUp="rightPtr_MouseUp"  HorizontalAlignment="Left"  Margin="164,116,0,0" VerticalAlignment="Top" />
+
+
+
 	</Grid>
 </src:BaseParamControl>

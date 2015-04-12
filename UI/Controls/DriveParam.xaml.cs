@@ -46,5 +46,23 @@ namespace iRobotGUI.Controls
 				steer.Angle = SteeringParam.RadiusToAngle(value.paramList[1]);
 			}
 		}
+
+		private void rightPtr_MouseUp(object sender, MouseButtonEventArgs e)
+		{
+			steer.Angle = 90;
+			steer.Radius = SteeringParam.AngleToRadius(90);
+		}
+
+		private void leftPtr_MouseUp(object sender, MouseButtonEventArgs e)
+		{
+			steer.Angle = -90;
+			steer.Radius = SteeringParam.AngleToRadius(-90);
+		}
+
+		private void strPtr_MouseUp(object sender, MouseButtonEventArgs e)
+		{
+			steer.Angle = 0;
+			steer.Radius = SteeringParam.AngleToRadius(0);
+		}
 	}
 }
