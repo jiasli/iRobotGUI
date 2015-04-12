@@ -29,7 +29,7 @@ namespace iRobotGUI.Controls
             {
                 base.Ins = value;
                     
-                SliderDistance.Value = Ins.paramList[0];
+                SliderDistance.Value = Ins.paramList[0]/10;
              
                 SliderDuration.Value = Ins.paramList[1];
             }
@@ -53,7 +53,7 @@ namespace iRobotGUI.Controls
             int slide_val = (int)e.NewValue;
 			if (Ins != null)
 			{
-				Ins.paramList[0] = slide_val;
+				Ins.paramList[0] = slide_val*10;
 			}
         }
 

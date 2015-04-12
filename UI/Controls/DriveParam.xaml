@@ -82,8 +82,7 @@
 		</Style>
 	</src:BaseParamControl.Resources>
 	<Grid x:Name="grid">
-		<Slider x:Name="sliderVelocity"  Style="{StaticResource SandSliderStyle}" RenderTransformOrigin="0.5,0.5"
-				AutoToolTipPlacement="TopLeft" 
+		<Slider x:Name="sliderVelocity"  Style="{StaticResource SandSliderStyle}" RenderTransformOrigin="0.5,0.5" 
 				Margin="138,100,-12,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" 
 				Maximum="500" Minimum="-500" LargeChange="100" SmallChange="50" IsSnapToTickEnabled="True" TickFrequency="50" >
 			<Slider.RenderTransform>
@@ -102,16 +101,16 @@
 		<Label Content="Forward" HorizontalAlignment="Left" Margin="237,54,0,0" VerticalAlignment="Top"/>
 		<Label Content="Backward" HorizontalAlignment="Left" Margin="237,161,0,0" VerticalAlignment="Top"/>
 
-		<Label Content="Radius(mm)" Margin="56,220,161,41" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-		<Label Content="Velocity(mm/s)" Margin="184,220,10,41" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<Label Content="Radius(mm):" Margin="56,215,0,0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<Label Content="Velocity(cm/s):" Margin="190,215,0,0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
 		<!-- Do not register TextChanged anymore since it is already bound to Radius of SteeringWheel. -->
-		<TextBlock TextAlignment="Center" Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="56,207,161,73" Width="83"/>
+		<TextBlock TextAlignment="Center" Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="56,244,161,36" Width="83"/>
 		<Image x:Name="strPtr" ToolTip="Go Straight" Source="/iRobotGUI;component/pic/snap_front.png" MouseUp="strPtr_MouseUp" HorizontalAlignment="Left" Margin="87,33,0,0" VerticalAlignment="Top"/>
 		<Image x:Name="leftPtr" ToolTip="Turn Left" Source="/iRobotGUI;component/pic/snap_left.png" MouseUp="leftPtr_MouseUp" HorizontalAlignment="Left"  Margin="10,116,0,0" VerticalAlignment="Top" />
 		<Image x:Name="rightPtr" ToolTip="Turn Right" Source="/iRobotGUI;component/pic/snap_right.png" MouseUp="rightPtr_MouseUp"  HorizontalAlignment="Left"  Margin="164,116,0,0" VerticalAlignment="Top" />
 
-
+		<TextBlock TextAlignment="Center" Text="{Binding Value, ElementName=sliderVelocity}" x:Name="textbox2" Margin="191,244,26,36" Width="83"/>
 
 	</Grid>
 </src:BaseParamControl>
