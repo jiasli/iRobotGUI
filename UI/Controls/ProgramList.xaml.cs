@@ -232,7 +232,7 @@ namespace iRobotGUI.Controls
 				//Image icon = GetImageFromInstruction(ins);
 				//DisplayItem itemToDisplay = new DisplayItem(icon, TextDescriber.GetTextDescription(ins));
 				Uri path = GetPathFromInstruction(ins);
-				DisplayItem itemToDisplay = new DisplayItem(path, TextDescriber.GetTextDescription(ins));
+				DisplayItem itemToDisplay = new DisplayItem(path, TextDescription.GetTextDescription(ins));
 				if (itemToDisplay != null)
 				{
 					listViewProgram.Items.Add(itemToDisplay);
@@ -270,7 +270,7 @@ namespace iRobotGUI.Controls
 		private Uri GetPathFromInstruction(Instruction ins)
 		{
 			string picPath = "/iRobotGUI;component/pic/";
-			string picName = InstructionPicture.GetPictureName(ins);
+			string picName = PictureDiscription.GetPictureName(ins);
 			return new Uri(picPath + picName, UriKind.Relative);
 		}
 
