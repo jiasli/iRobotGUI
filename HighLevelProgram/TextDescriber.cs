@@ -29,6 +29,36 @@ namespace iRobotGUI
 			return "";
 		}
 
+		private static string GetRotateDescription(Instruction ins)
+		{
+			if (ins.paramList[0] < 0)
+				return string.Format("Rotate {0}degree(s) to the right.", -ins.paramList[0]);
+			else if (ins.paramList[0] > 0)
+				return string.Format("Rotate {0}degree(s) to the left.", ins.paramList[0]);
+			else if (ins.paramList[0] == 0)
+				return "Stop rotating.";
+
+			// For return check.
+			return "";
+		}
+
+		private static string GetDriveDescription(Instruction ins)
+		{
+			if (ins.paramList[0] < 0 && ins.paramList[1] < 0)
+				return string.Format("Drive backward while turning right at {0}mm/s with radius {1}mm.", -ins.paramList[0], - ins.paramList[1]);
+			else if (ins.paramList[0] < 0 && ins.paramList[1] > 0)
+				return string.Format("Drive backward while turning left at {0}mm/s  with radius {1}mm.", ins.paramList[0], -ins.paramList[1]);
+			else if (ins.paramList[0] > 0 && ins.paramList[1] < 0)
+				return string.Format("Drive forward while turning right at {0}mm/s  with radius {1}mm.", -ins.paramList[0], ins.paramList[1]);
+			else if (ins.paramList[0] > 0 && ins.paramList[1] > 0)
+				return string.Format("Drive forward while turning left at {0}mm/s  with radius {1}mm.", ins.paramList[0], ins.paramList[1]);
+			else if (ins.paramList[0] == 0)
+				return "Stop driving.";
+
+			// For return check.
+			return "";
+		}
+
 		/// <summary>
 		/// Get the text description for the spefified Instruction.
 		/// </summary>
@@ -36,11 +66,15 @@ namespace iRobotGUI
 		/// <returns></returns>
 		public static string GetTextDescription(Instruction ins)
 		{
-			StringBuilder sb = new StringBuilder();
+			//StringBuilder sb = new StringBuilder();
 			switch (ins.opcode)
 			{
 				case Instruction.MOVE:
 					return GetMoveDescription(ins);
+				case Instruction.ROTATE:
+					return GetRotateDescription(ins);
+				case Instruction.DRIVE:
+					return GetDriveDescription(ins);
 				default:
 					return "Description not implemented.";
 			}
