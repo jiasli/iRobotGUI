@@ -393,15 +393,10 @@
     <Resource Include="Remarks.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\snap_front.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="pic\snap_left.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="pic\snap_right.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="pic\straight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pic\pedal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

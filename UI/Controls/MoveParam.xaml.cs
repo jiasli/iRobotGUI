@@ -14,48 +14,48 @@ using System.Windows.Shapes;
 
 namespace iRobotGUI.Controls
 {
-    /// <summary>
-    /// Interaction logic for ForwardParam.xaml
-    /// </summary>
-    public partial class MoveParam : BaseParamControl
-    {
-        public override Instruction Ins
-        {
-            get
-            {
-                return base.Ins;
-            }
-            set
-            {
-                base.Ins = value;
-                    
-                SliderDistance.Value = Ins.paramList[0]/10;
-             
-                SliderDuration.Value = Ins.paramList[1];
-            }
-        }
-        public MoveParam()
-        {
-            InitializeComponent();
-        }
+	/// <summary>
+	/// Interaction logic for ForwardParam.xaml
+	/// </summary>
+	public partial class MoveParam : BaseParamControl
+	{
+		public override Instruction Ins
+		{
+			get
+			{
+				return base.Ins;
+			}
+			set
+			{
+				base.Ins = value;
 
-        private void SliderDuration_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
+				SliderDistance.Value = Ins.paramList[0] / 10;
+
+				SliderDuration.Value = Ins.paramList[1];
+			}
+		}
+		public MoveParam()
+		{
+			InitializeComponent();
+		}
+
+		private void SliderDuration_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
 			int slide_val = (int)e.NewValue;
 			if (Ins != null)
 			{
 				Ins.paramList[1] = slide_val;
 			}
-        }
+		}
 
-        private void SliderDistance_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            int slide_val = (int)e.NewValue;
+		private void SliderDistance_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			int slide_val = (int)e.NewValue;
 			if (Ins != null)
 			{
-				Ins.paramList[0] = slide_val*10;
+				Ins.paramList[0] = slide_val * 10;
 			}
-        }
+		}
 
-    }
+	}
 }
