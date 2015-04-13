@@ -3,10 +3,10 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			 mc:Ignorable="d" Width="200" Height="85" >
+			 mc:Ignorable="d" d:DesignHeight="80" d:DesignWidth="300" >
 	<Grid>
-		<ComboBox x:Name="comboBoxSensor" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,26,0,0" 
-				  Width="180" SelectedIndex="0" >
+		<ComboBox x:Name="comboBoxSensor" VerticalAlignment="Center" Margin="50,0,15,0" 
+				SelectedIndex="0" >
 
 			<!-- 
 			Setting RenderOptions.BitmapScalingMode to the root UIElement doesn't work,
@@ -81,6 +81,6 @@
 				</StackPanel>
 			</ComboBoxItem>
 		</ComboBox>
-		<Label Content="Sensor" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+		<Label Content="Sensor" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center"/>
 	</Grid>
 </UserControl>
