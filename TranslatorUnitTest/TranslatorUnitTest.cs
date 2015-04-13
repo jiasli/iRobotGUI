@@ -9,7 +9,7 @@ using iRobotGUI;
 namespace iRobotGUI.Tests
 {
 	[TestClass]
-	public class UnitTest1
+	public class TranslatorUnitTest
 	{
 		[TestMethod()]
 		public void TranslateIns(string ins, string expectedSourceResult)
@@ -136,15 +136,15 @@ else
 			string input = "LOOP 2,2,2";
 			string expectedResult = @"while (delaySensors(0), sensors[2] > 2)
 {";
-            TranslateIns(input, expectedResult);
+			TranslateIns(input, expectedResult);
 		}
 
 		[TestMethod()]
 		public void TestEndLoopTranslation()
 		{
-            string input = "END_LOOP";
-            string expectedResult = "}";
-            TranslateIns(input, expectedResult);
+			string input = "END_LOOP";
+			string expectedResult = "}";
+			TranslateIns(input, expectedResult);
 		}
 
 	}

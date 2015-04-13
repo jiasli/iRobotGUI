@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="d6086419-a9be-4810-9cff-14a3e9e5c831" name="Yun@YUN-PC 2015-04-12 23:46:15" runUser="Yun-PC\Yun" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2015-04-12T23:46:15.7420608-07:00" queuing="2015-04-12T23:46:15.7420608-07:00" start="2015-04-12T23:46:15.7500612-07:00" finish="2015-04-12T23:46:15.8540672-07:00" />
+  <TestSettings name="default" id="bf8508a9-3c70-410c-a589-25a3f64bf420">
+    <Execution>
+      <TestTypeSpecific />
+    </Execution>
+    <Deployment runDeploymentRoot="Yun_YUN-PC 2015-04-12 23_46_15" />
+    <Properties />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="c6cb91a2-46b2-42ef-ba8c-5c4a2b0b8f58" testId="8479a555-e032-fce6-de86-14e082338da4" testName="TestMoveTranslation" computerName="YUN-PC" duration="00:00:00.0173525" startTime="2015-04-12T23:46:15.6000527-07:00" endTime="2015-04-12T23:46:15.6610562-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6cb91a2-46b2-42ef-ba8c-5c4a2b0b8f58" />
+    <UnitTestResult executionId="fb274d16-3b6f-4355-b66b-20db8590ce69" testId="40d12637-ee99-1fb9-9144-9bf289a33aba" testName="TestRotateTranslation" computerName="YUN-PC" duration="00:00:00.0004737" startTime="2015-04-12T23:46:15.6750570-07:00" endTime="2015-04-12T23:46:15.6760570-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fb274d16-3b6f-4355-b66b-20db8590ce69" />
+    <UnitTestResult executionId="cbad7a39-26b6-4f07-8dbf-29b694a18ac6" testId="e6cbb6c9-688b-b413-e8e6-e454c79140ce" testName="TestDriveTranslation" computerName="YUN-PC" duration="00:00:00.0004376" startTime="2015-04-12T23:46:15.6760570-07:00" endTime="2015-04-12T23:46:15.6770571-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cbad7a39-26b6-4f07-8dbf-29b694a18ac6" />
+    <UnitTestResult executionId="019c7842-dd62-44f4-83fb-496ae4a814aa" testId="b64b7bf5-a32d-1338-01fa-6381426f6a08" testName="TestLedTranslation" computerName="YUN-PC" duration="00:00:00.0001149" startTime="2015-04-12T23:46:15.6770571-07:00" endTime="2015-04-12T23:46:15.6770571-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="019c7842-dd62-44f4-83fb-496ae4a814aa" />
+    <UnitTestResult executionId="40d0c283-44af-44ae-889f-93ea505d9b94" testId="c7e5b537-1870-d605-0191-f1364dd94e20" testName="TestSongTranslation" computerName="YUN-PC" duration="00:00:00.0004536" startTime="2015-04-12T23:46:15.6770571-07:00" endTime="2015-04-12T23:46:15.6780571-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="40d0c283-44af-44ae-889f-93ea505d9b94" />
+    <UnitTestResult executionId="2701825d-e0e0-4df6-893f-73798bba202e" testId="c5450d6b-b1ae-d0aa-9d0f-47698df0b3ab" testName="TestIfTranslation" computerName="YUN-PC" duration="00:00:00.0011392" startTime="2015-04-12T23:46:15.6780571-07:00" endTime="2015-04-12T23:46:15.6790572-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2701825d-e0e0-4df6-893f-73798bba202e" />
+    <UnitTestResult executionId="1c600b4f-62b3-41d7-b9c2-a48f482345b4" testId="d9f94e66-4a3e-3d1d-da56-f44e3857319c" testName="TestElseTranslation" computerName="YUN-PC" duration="00:00:00.0001034" startTime="2015-04-12T23:46:15.6790572-07:00" endTime="2015-04-12T23:46:15.6790572-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1c600b4f-62b3-41d7-b9c2-a48f482345b4" />
+    <UnitTestResult executionId="4f62cc70-6894-442f-9195-9ac222fb2c19" testId="31beb8b0-3792-5135-ac74-38d40c5cf6d5" testName="TestEndIfTranslation" computerName="YUN-PC" duration="00:00:00.0000915" startTime="2015-04-12T23:46:15.6790572-07:00" endTime="2015-04-12T23:46:15.6790572-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4f62cc70-6894-442f-9195-9ac222fb2c19" />
+    <UnitTestResult executionId="1037907b-c03e-4898-8dfe-965f6eeeb09f" testId="f2bb6d71-a4b7-fd1e-435c-408ef7f09150" testName="TestLoopTranslation" computerName="YUN-PC" duration="00:00:00.0000981" startTime="2015-04-12T23:46:15.6790572-07:00" endTime="2015-04-12T23:46:15.6800572-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1037907b-c03e-4898-8dfe-965f6eeeb09f" />
+    <UnitTestResult executionId="7a54caaf-19da-4993-bc73-ad19743aa5f7" testId="f103f225-0377-dfb8-a1be-b00a17047c6a" testName="TestEndLoopTranslation" computerName="YUN-PC" duration="00:00:00.0001789" startTime="2015-04-12T23:46:15.6850575-07:00" endTime="2015-04-12T23:46:15.6850575-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a54caaf-19da-4993-bc73-ad19743aa5f7" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="TestMoveTranslation" storage="e:\document\repo\irobotgui\translatorunittest\bin\debug\translatorunittest.dll" id="8479a555-e032-fce6-de86-14e082338da4">
+      <Execution id="c6cb91a2-46b2-42ef-ba8c-5c4a2b0b8f58" />
+      <TestMethod codeBase="E:\Document\Repo\iRobotGUI\TranslatorUnitTest\bin\debug\TranslatorUnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="iRobotGUI.Tests.TranslatorUnitTest" name="TestMoveTranslation" />
+    </UnitTest>
+    <UnitTest name="TestRotateTranslation" storage="e:\document\repo\irobotgui\translatorunittest\bin\debug\translatorunittest.dll" id="40d12637-ee99-1fb9-9144-9bf289a33aba">
+      <Execution id="fb274d16-3b6f-4355-b66b-20db8590ce69" />
+      <TestMethod codeBase="E:\Document\Repo\iRobotGUI\TranslatorUnitTest\bin\debug\TranslatorUnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="iRobotGUI.Tests.TranslatorUnitTest" name="TestRotateTranslation" />
+    </UnitTest>
+    <UnitTest name="TestDriveTranslation" storage="e:\document\repo\irobotgui\translatorunittest\bin\debug\translatorunittest.dll" id="e6cbb6c9-688b-b413-e8e6-e454c79140ce">
+      <Execution id="cbad7a39-26b6-4f07-8dbf-29b694a18ac6" />
+      <TestMethod codeBase="E:\Document\Repo\iRobotGUI\TranslatorUnitTest\bin\debug\TranslatorUnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="iRobotGUI.Tests.TranslatorUnitTest" name="TestDriveTranslation" />
+    </UnitTest>
+    <UnitTest name="TestLedTranslation" storage="e:\document\repo\irobotgui\translatorunittest\bin\debug\translatorunittest.dll" id="b64b7bf5-a32d-1338-01fa-6381426f6a08">
+      <Execution id="019c7842-dd62-44f4-83fb-496ae4a814aa" />
+      <TestMethod codeBase="E:\Document\Repo\iRobotGUI\TranslatorUnitTest\bin\debug\TranslatorUnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="iRobotGUI.Tests.TranslatorUnitTest" name="TestLedTranslation" />
+    </UnitTest>
+    <UnitTest name="TestSongTranslation" storage="e:\document\repo\irobotgui\translatorunittest\bin\debug\translatorunittest.dll" id="c7e5b537-1870-d605-0191-f1364dd94e20">
+      <Execution id="40d0c283-44af-44ae-889f-93ea505d9b94" />
+      <TestMethod codeBase="E:\Document\Repo\iRobotGUI\TranslatorUnitTest\bin\debug\TranslatorUnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="iRobotGUI.Tests.TranslatorUnitTest" name="TestSongTranslation" />
+    </UnitTest>
+    <UnitTest name="TestIfTranslation" storage="e:\document\repo\irobotgui\translatorunittest\bin\debug\translatorunittest.dll" id="c5450d6b-b1ae-d0aa-9d0f-47698df0b3ab">
+      <Execution id="2701825d-e0e0-4df6-893f-73798bba202e" />
+      <TestMethod codeBase="E:\Document\Repo\iRobotGUI\TranslatorUnitTest\bin\debug\TranslatorUnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="iRobotGUI.Tests.TranslatorUnitTest" name="TestIfTranslation" />
+    </UnitTest>
+    <UnitTest name="TestElseTranslation" storage="e:\document\repo\irobotgui\translatorunittest\bin\debug\translatorunittest.dll" id="d9f94e66-4a3e-3d1d-da56-f44e3857319c">
+      <Execution id="1c600b4f-62b3-41d7-b9c2-a48f482345b4" />
+      <TestMethod codeBase="E:\Document\Repo\iRobotGUI\TranslatorUnitTest\bin\debug\TranslatorUnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="iRobotGUI.Tests.TranslatorUnitTest" name="TestElseTranslation" />
+    </UnitTest>
+    <UnitTest name="TestEndIfTranslation" storage="e:\document\repo\irobotgui\translatorunittest\bin\debug\translatorunittest.dll" id="31beb8b0-3792-5135-ac74-38d40c5cf6d5">
+      <Execution id="4f62cc70-6894-442f-9195-9ac222fb2c19" />
+      <TestMethod codeBase="E:\Document\Repo\iRobotGUI\TranslatorUnitTest\bin\debug\TranslatorUnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="iRobotGUI.Tests.TranslatorUnitTest" name="TestEndIfTranslation" />
+    </UnitTest>
+    <UnitTest name="TestLoopTranslation" storage="e:\document\repo\irobotgui\translatorunittest\bin\debug\translatorunittest.dll" id="f2bb6d71-a4b7-fd1e-435c-408ef7f09150">
+      <Execution id="1037907b-c03e-4898-8dfe-965f6eeeb09f" />
+      <TestMethod codeBase="E:\Document\Repo\iRobotGUI\TranslatorUnitTest\bin\debug\TranslatorUnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="iRobotGUI.Tests.TranslatorUnitTest" name="TestLoopTranslation" />
+    </UnitTest>
+    <UnitTest name="TestEndLoopTranslation" storage="e:\document\repo\irobotgui\translatorunittest\bin\debug\translatorunittest.dll" id="f103f225-0377-dfb8-a1be-b00a17047c6a">
+      <Execution id="7a54caaf-19da-4993-bc73-ad19743aa5f7" />
+      <TestMethod codeBase="E:\Document\Repo\iRobotGUI\TranslatorUnitTest\bin\debug\TranslatorUnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="iRobotGUI.Tests.TranslatorUnitTest" name="TestEndLoopTranslation" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="8479a555-e032-fce6-de86-14e082338da4" executionId="c6cb91a2-46b2-42ef-ba8c-5c4a2b0b8f58" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="40d12637-ee99-1fb9-9144-9bf289a33aba" executionId="fb274d16-3b6f-4355-b66b-20db8590ce69" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e6cbb6c9-688b-b413-e8e6-e454c79140ce" executionId="cbad7a39-26b6-4f07-8dbf-29b694a18ac6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b64b7bf5-a32d-1338-01fa-6381426f6a08" executionId="019c7842-dd62-44f4-83fb-496ae4a814aa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c7e5b537-1870-d605-0191-f1364dd94e20" executionId="40d0c283-44af-44ae-889f-93ea505d9b94" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c5450d6b-b1ae-d0aa-9d0f-47698df0b3ab" executionId="2701825d-e0e0-4df6-893f-73798bba202e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d9f94e66-4a3e-3d1d-da56-f44e3857319c" executionId="1c600b4f-62b3-41d7-b9c2-a48f482345b4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="31beb8b0-3792-5135-ac74-38d40c5cf6d5" executionId="4f62cc70-6894-442f-9195-9ac222fb2c19" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f2bb6d71-a4b7-fd1e-435c-408ef7f09150" executionId="1037907b-c03e-4898-8dfe-965f6eeeb09f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f103f225-0377-dfb8-a1be-b00a17047c6a" executionId="7a54caaf-19da-4993-bc73-ad19743aa5f7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="10" executed="10" passed="10" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="YUN-PC" outcome="Warning" timestamp="2015-04-12T23:46:15.5420493-07:00">
+        <Text>UTA007: Method TranslateIns defined in class iRobotGUI.Tests.TranslatorUnitTest does not have correct signature. Test method marked with the [TestMethod] attribute must be non-static, public, return-type as void  and should not take any parameter. Example: public void Test.Class1.Test(). Additionally, return-type must be Task if you are running async unit tests. Example: public async Task Test.Class1.Test2()</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>
