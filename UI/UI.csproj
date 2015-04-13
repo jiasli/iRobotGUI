@@ -55,8 +55,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>create.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>
@@ -394,6 +393,9 @@
     <Resource Include="pic\virtualwall.png" />
     <Resource Include="pic\wall.png" />
     <Resource Include="pic\create.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="create.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
