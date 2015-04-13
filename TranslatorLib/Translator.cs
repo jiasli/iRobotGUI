@@ -38,8 +38,8 @@ byteTx(CmdDrive);
 byteTx(0);
 byteTx(0);
 byteTx(128);
-byteTx(0);
-";
+byteTx(0);";
+
 		public const string ROTATE_SNIPPET = @"angle = 0;
 byteTx(CmdDrive);
 byteTx(0);

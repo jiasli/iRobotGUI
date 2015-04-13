@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ookii.Dialogs.Wpf.Sample", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestJiashuoConsole", "TestJiashuoConsole\TestJiashuoConsole.csproj", "{1923D0CB-0BED-4C32-A80E-ED18B49B3796}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestHLProgram", "UnitTestHLProgram\UnitTestHLProgram.csproj", "{653C05F1-8C97-4F27-A931-DAB4A8C12DDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{1923D0CB-0BED-4C32-A80E-ED18B49B3796}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1923D0CB-0BED-4C32-A80E-ED18B49B3796}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1923D0CB-0BED-4C32-A80E-ED18B49B3796}.Release|Any CPU.Build.0 = Release|Any CPU
+		{653C05F1-8C97-4F27-A931-DAB4A8C12DDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{653C05F1-8C97-4F27-A931-DAB4A8C12DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{653C05F1-8C97-4F27-A931-DAB4A8C12DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{653C05F1-8C97-4F27-A931-DAB4A8C12DDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
