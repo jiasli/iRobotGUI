@@ -55,7 +55,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>pic\create.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>
@@ -317,40 +318,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\backward.png" />
-    <Resource Include="pic\forward.png" />
-    <Resource Include="pic\left.png" />
-    <Resource Include="pic\right.png" />
-    <Resource Include="pic\bump.jpg" />
-    <Resource Include="pic\SONG.png" />
-    <Resource Include="pic\LED_panel.png" />
-    <Resource Include="pic\if.png" />
-    <Resource Include="pic\loop.png" />
-    <Resource Include="pic\delay.png" />
-    <Resource Include="pic\irobot.png" />
-    <Resource Include="pic\irobot2.jpg" />
-    <Resource Include="pic\create2.jpg" />
-    <Resource Include="pic\create3.png" />
-    <Resource Include="pic\sandclock.png" />
-    <Resource Include="pic\bump.png" />
-    <Resource Include="pic\wall.png" />
-    <Resource Include="pic\cliff.png" />
-    <Resource Include="pic\virtualwall.png" />
-    <Resource Include="pic\charging.png" />
-    <Resource Include="pic\velocity_arrow.png" />
-    <Resource Include="pic\false.png" />
-    <Resource Include="pic\true.png" />
-    <Resource Include="pic\iRobotBG.jpg" />
-    <Resource Include="pic\irobotcontrol.png" />
-    <Resource Include="pic\create.png" />
-    <Resource Include="pic\move.png" />
-    <Resource Include="pic\move_forward.png" />
-    <Resource Include="pic\move_backward.png" />
-    <Resource Include="pic\rotate.png" />
-    <Resource Include="pic\rotate_left.png" />
-    <Resource Include="pic\rotate_right.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\HighLevelProgram\HighLevelProgram.csproj">
       <Project>{05b8eacd-5eb2-420e-9f99-7a76be66c52c}</Project>
       <Name>HighLevelProgram</Name>
@@ -386,22 +353,47 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\create.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Remarks.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pic\stop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\led.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pic\drive.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="pic\backward.png" />
+    <Resource Include="pic\bump.png" />
+    <Resource Include="pic\charging.png" />
+    <Resource Include="pic\cliff.png" />
+    <Resource Include="pic\create.png" />
+    <Resource Include="pic\create2.jpg" />
+    <Resource Include="pic\create3.png" />
+    <Resource Include="pic\delay.png" />
     <Resource Include="pic\demo.png" />
+    <Resource Include="pic\drive.png" />
+    <Resource Include="pic\false.png" />
+    <Resource Include="pic\forward.png" />
+    <Resource Include="pic\if.png" />
+    <Resource Include="pic\irobot.png" />
+    <Resource Include="pic\irobot2.jpg" />
+    <Resource Include="pic\iRobotBG.jpg" />
+    <Resource Include="pic\irobotcontrol.png" />
+    <Resource Include="pic\led.png" />
+    <Resource Include="pic\LED_panel.png" />
+    <Resource Include="pic\led_red.png" />
+    <Resource Include="pic\left.png" />
+    <Resource Include="pic\loop.png" />
+    <Resource Include="pic\move.png" />
+    <Resource Include="pic\move_backward.png" />
+    <Resource Include="pic\move_forward.png" />
+    <Resource Include="pic\pedal.png" />
+    <Resource Include="pic\right.png" />
+    <Resource Include="pic\rotate.png" />
+    <Resource Include="pic\rotate_left.png" />
+    <Resource Include="pic\rotate_right.png" />
+    <Resource Include="pic\sandclock.png" />
+    <Resource Include="pic\SONG.png" />
+    <Resource Include="pic\stop.png" />
+    <Resource Include="pic\straight.png" />
+    <Resource Include="pic\true.png" />
+    <Resource Include="pic\virtualwall.png" />
+    <Resource Include="pic\wall.png" />
+    <Resource Include="pic\create.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

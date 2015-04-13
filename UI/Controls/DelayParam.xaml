@@ -69,8 +69,8 @@
 	</UserControl.Resources>
 	<Grid>
 		<Label FontSize="14" Content="5000ms" Margin="166,49,59,205"/>
-		<Label FontSize="14" Content="100s" Margin="166,228,87,44" RenderTransformOrigin="2.028,1.96"/>
-		<Slider Style="{StaticResource SandSliderStyle}" AutoToolTipPlacement="TopLeft" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="48,137,0,0" VerticalAlignment="Top" Width="193" 
+		<Label FontSize="14" Content="100ms" Margin="166,228,87,44" RenderTransformOrigin="2.028,1.96"/>
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="48,137,0,0" VerticalAlignment="Top" Width="193" 
 				Maximum="5000" Minimum="100" 
 				ValueChanged="SliderDuration_ValueChanged" 
 				RenderTransformOrigin="0.5,0.5" 
@@ -84,8 +84,9 @@
 				</TransformGroup>
 			</Slider.RenderTransform>
 		</Slider>
-		<Label Content="Time" HorizontalAlignment="Left" FontSize="18" Margin="59,119,0,0" VerticalAlignment="Top"/>
+		<Label Content="Time:" HorizontalAlignment="Left" FontSize="18" Margin="37,120,0,0" VerticalAlignment="Top"/>
 		<Label Content="DELAY" FontSize="18" HorizontalAlignment="Center" Margin="111,10,74,0" VerticalAlignment="Top" Width="115"/>
+		<Label Content="{Binding Value, ElementName=SliderDuration}" FontSize="14"  HorizontalAlignment="Left" Margin="47,154,0,0" VerticalAlignment="Top"/>
 
 	</Grid>
 </src:BaseParamControl>

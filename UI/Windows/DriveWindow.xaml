@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:iRobotGUI.Controls" 
         xmlns:src="clr-namespace:iRobotGUI" x:Class="iRobotGUI.DriveWindow"
-        Title="DriveWindow" Height="350" Width="350">
-    <Grid>
-		<local:DriveParam x:Name="controlInstance" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
-    </Grid>
+        Title="DriveWindow" Height="295" Width="434" WindowStartupLocation="CenterOwner">
+	<Grid>
+		<local:DriveParam x:Name="controlInstance" Margin="0,0,0,0" />
+	</Grid>
 </src:BaseParamWindow>
