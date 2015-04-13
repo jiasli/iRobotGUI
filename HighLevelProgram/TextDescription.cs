@@ -59,6 +59,41 @@ namespace iRobotGUI
 			return "";
 		}
 
+		private static string GetLedDescription(Instruction ins)
+		{
+			// For return check.
+			return "";
+		}
+
+		private static string GetSongDescription(Instruction ins)
+		{
+			// For return check.
+			return "";
+		}
+
+		private static string GetIfDescription(Instruction ins)
+		{
+			// For return check.
+			return "";
+		}
+
+		private static string GetLoopDescription(Instruction ins)
+		{
+			// For return check.
+			return "";
+		}
+
+		private static string GetDemoDescription(Instruction ins)
+		{
+			// For return check.
+			return "";
+		}
+
+		private static string GetDelayDescription(Instruction ins)
+		{
+			return string.Format("Delay for {0}ms.", ins.paramList[0]);
+		}
+
 		/// <summary>
 		/// Get the text description for the spefified Instruction.
 		/// </summary>
@@ -75,6 +110,18 @@ namespace iRobotGUI
 					return GetRotateDescription(ins);
 				case Instruction.DRIVE:
 					return GetDriveDescription(ins);
+				case Instruction.LED:
+					return GetLedDescription(ins);
+				case Instruction.SONG:
+					return GetSongDescription(ins);
+				case Instruction.IF:
+					return GetIfDescription(ins);
+				case Instruction.LOOP:
+					return GetLoopDescription(ins);
+				case Instruction.DEMO:
+					return GetDemoDescription(ins);
+				case Instruction.DELAY:
+					return GetDelayDescription(ins);
 				default:
 					return "Description not implemented.";
 			}
