@@ -17,9 +17,9 @@ namespace TestJiashuoConsole
 			Instruction ins2 = new Instruction("MOVE -100, 2");
 			Instruction ins3 = new Instruction("MOVE 0, 2");
 
-			Console.WriteLine(TextDescriber.GetTextDescription(ins1));
-			Console.WriteLine(TextDescriber.GetTextDescription(ins2));
-			Console.WriteLine(TextDescriber.GetTextDescription(ins3));
+			Console.WriteLine(TextDescription.GetTextDescription(ins1));
+			Console.WriteLine(TextDescription.GetTextDescription(ins2));
+			Console.WriteLine(TextDescription.GetTextDescription(ins3));
 
 			Console.WriteLine(ins1.ToString(true));
 			Console.WriteLine(ins2.ToString(true));

@@ -5,7 +5,8 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:src="clr-namespace:iRobotGUI.Controls"
 			 mc:Ignorable="d" 
-			 d:DesignHeight="300" d:DesignWidth="300">
+			 d:DesignHeight="300" d:DesignWidth="300"
+			 RenderOptions.BitmapScalingMode="HighQuality" >
 	<src:BaseParamControl.Resources>
 		<Style x:Key="SliderThumbSandClock" TargetType="{x:Type Thumb}">
 			<Setter Property="SnapsToDevicePixels" Value="true" />
@@ -86,7 +87,7 @@
 			</Slider.RenderTransform>
 		</Slider>
 
-		<src:SteeringParam x:Name="steer" Canvas.Left="37" Canvas.Top="41" Margin="40,63,136,113" RenderTransformOrigin="0.427,0.363" />
+		<src:SteeringParam x:Name="steer" Width="120" Height="120" Margin="40,63,136,113" HorizontalAlignment="Left" VerticalAlignment="Top" />
 		
 		<Label Content="500" HorizontalAlignment="Left" Margin="240,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
 		<Label Content="-500" HorizontalAlignment="Left" Margin="240,187,0,0" VerticalAlignment="Top"/>

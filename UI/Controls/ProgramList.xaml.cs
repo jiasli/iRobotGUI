@@ -252,7 +252,7 @@ namespace iRobotGUI.Controls
 			BitmapImage bi = new BitmapImage();
 
 			bi.BeginInit();
-			string picName = InstructionPicture.GetPictureName(ins);
+			string picName = PictureDiscription.GetPictureName(ins);
 			bi.UriSource = new Uri(picPath + picName, UriKind.Relative);
 			if (bi.UriSource == null) return null;
 			bi.EndInit();

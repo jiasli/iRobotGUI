@@ -18,7 +18,7 @@ namespace iRobotGUI.Util.Tests
             try
             {
                 var ins = new Instruction(InvalidOpcodeStr);
-                string  actualResult = InstructionPicture.GetPictureName(ins);
+                string  actualResult = PictureDiscription.GetPictureName(ins);
                 Assert.IsNull(actualResult);
             }
             catch (InvalidOpcodeException)
@@ -29,7 +29,7 @@ namespace iRobotGUI.Util.Tests
             try
             {
                 var ins = new Instruction(ValidOpcodeStr);
-                string actualResult = InstructionPicture.GetPictureName(ins);
+                string actualResult = PictureDiscription.GetPictureName(ins);
                 Assert.IsNotNull(actualResult);
             }
             catch (InvalidOpcodeException)

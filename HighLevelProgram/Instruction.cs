@@ -258,7 +258,7 @@ namespace iRobotGUI
 		/// <returns></returns>
 		public string GetTextDescription()
 		{
-			return TextDescriber.GetTextDescription(this);
+			return TextDescription.GetTextDescription(this);
 		}
 	}
 }

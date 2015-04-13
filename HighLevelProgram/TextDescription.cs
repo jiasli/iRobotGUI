@@ -13,7 +13,7 @@ namespace iRobotGUI
 	/// The implementation of this class is similar to that of the Translator in TranslatorLib,
 	/// since it translates the instruction to human-readable format instead of C code.
 	/// </remarks>
-	public static class TextDescriber
+	public static class TextDescription
 	{
 
 		private static string GetMoveDescription(Instruction ins)
