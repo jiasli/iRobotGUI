@@ -15,10 +15,14 @@
 
 		<Controls:InstructionPanel Grid.Row="0" Grid.Column="0"/>
 
-		<Controls:SensorSelector x:Name="sensorSelector" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" />
+		<Controls:SensorSelector x:Name="sensorSelector" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="80" Width="251" />
 
 		<Image Grid.Column="1" HorizontalAlignment="Left" Margin="5,85,0,0" VerticalAlignment="Top" Source="/iRobotGUI;component/pic/true.png" Width="16" Height="16"/>
+		<TextBlock Text="is detected, do:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="26,85,0,0"/>
+		
 		<Image Grid.Column="1" HorizontalAlignment="Left" Margin="205,85,0,0" VerticalAlignment="Top" Width="16" Height="16" Source="/iRobotGUI;component/pic/false.png"/>
+		<TextBlock Text="is not detected, do:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="226,85,0,0"/>
+		
 		<Controls:ProgramList x:Name="programListIfBody" Grid.Row="0" Grid.Column="1" Margin="0,106,0,5" HorizontalAlignment="Left" Width="200" />
 		<Controls:ProgramList x:Name="programListElseBody" Grid.Row="0" Grid.Column="1" Margin="205,106,5,5" />
 

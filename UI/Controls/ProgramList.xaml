@@ -22,11 +22,19 @@
 					<Setter Property="Background" Value="LightGray" />
 				</Trigger>
 			</Style.Triggers>
-			<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 		</Style>
 	</UserControl.Resources>
 
-	<Grid>		
-		<ListView x:Name="listViewProgram" SelectionMode="Single" Background="{x:Null}" />		
+	<Grid>
+		<ListView x:Name="listViewProgram" SelectionMode="Single" Background="{x:Null}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<Image Source="{Binding ImageUri}" Width="45" Height="45"/>
+						<TextBlock Text="{Binding Description}" VerticalAlignment="Center" TextWrapping="Wrap" Width="150"/>
+					</StackPanel>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
 	</Grid>
 </UserControl>

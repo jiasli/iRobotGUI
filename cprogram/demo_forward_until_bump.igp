@@ -1,6 +1,6 @@
 // Continuously go forward until it bumps, then go backward and rotate 180 degrees.
 // SRAIGHT = 32768
-DRIVE 300, 32768
+DRIVE 300, 32768  // drive forward.
 // Bump = 0, NOT_EQUAL = 1
 LOOP 0, 0, 0 
 	// Read the sensor again

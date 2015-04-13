@@ -1,11 +1,11 @@
 ﻿<src:BaseParamControl x:Class="iRobotGUI.Controls.DriveParam"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			 xmlns:src="clr-namespace:iRobotGUI.Controls"
-			 mc:Ignorable="d" 
-			 d:DesignHeight="300" d:DesignWidth="300">
+			xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			xmlns:src="clr-namespace:iRobotGUI.Controls"
+			mc:Ignorable="d" Width="408" Height="268"
+			RenderOptions.BitmapScalingMode="HighQuality"   >
 	<src:BaseParamControl.Resources>
 		<Style x:Key="SliderThumbSandClock" TargetType="{x:Type Thumb}">
 			<Setter Property="SnapsToDevicePixels" Value="true" />
@@ -13,20 +13,19 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type Thumb}">
-						<Ellipse Height="35" Width="35" RenderTransformOrigin="0.5,0.5">
-							<Ellipse.RenderTransform>
+						<Rectangle Height="50" Width="50" RenderTransformOrigin="0.5,0.5">
+							<Rectangle.RenderTransform>
 								<TransformGroup>
 									<ScaleTransform/>
 									<SkewTransform/>
 									<RotateTransform Angle="90"/>
 									<TranslateTransform/>
 								</TransformGroup>
-							</Ellipse.RenderTransform>
-
-							<Ellipse.Fill>
-								<ImageBrush ImageSource="/iRobotGUI;component/pic/velocity_arrow.png"/>
-							</Ellipse.Fill>
-						</Ellipse>
+							</Rectangle.RenderTransform>
+							<Rectangle.Fill>
+								<ImageBrush ImageSource="/iRobotGUI;component/pic/pedal.png"/>
+							</Rectangle.Fill>
+						</Rectangle>
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
@@ -71,12 +70,20 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		<Style TargetType="Image">
+			<Setter Property="Width" Value="30" />
+			<Setter Property="Height" Value="30" />
+			<Setter Property="Stretch" Value="Fill" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+			<Setter Property="ToolTipService.ShowDuration" Value="100000" />
+
+		</Style>
 	</src:BaseParamControl.Resources>
 	<Grid x:Name="grid">
-		<Slider x:Name="sliderVelocity"  Style="{StaticResource SandSliderStyle}" RenderTransformOrigin="0.5,0.5"
-				AutoToolTipPlacement="TopLeft" 
-				Margin="132,101,-6,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" 
-				Maximum="500" Minimum="-500" LargeChange="100" SmallChange="50" IsSnapToTickEnabled="True" TickFrequency="50" >
+		<Slider x:Name="sliderVelocity"  Style="{StaticResource SandSliderStyle}" RenderTransformOrigin="0.5,0.5" 
+				Margin="156,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" 
+				Maximum="50" Minimum="-50" LargeChange="10" SmallChange="5" IsSnapToTickEnabled="True" TickFrequency="5" >
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -86,20 +93,24 @@
 			</Slider.RenderTransform>
 		</Slider>
 
-		<src:SteeringParam x:Name="steer" Canvas.Left="37" Canvas.Top="41" Margin="40,63,136,113" RenderTransformOrigin="0.427,0.363" />
-		
-		<Label Content="500" HorizontalAlignment="Left" Margin="240,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
-		<Label Content="-500" HorizontalAlignment="Left" Margin="240,187,0,0" VerticalAlignment="Top"/>
-		<Label Content="Forward" HorizontalAlignment="Left" Margin="237,54,0,0" VerticalAlignment="Top"/>
-		<Label Content="Backward" HorizontalAlignment="Left" Margin="237,161,0,0" VerticalAlignment="Top"/>
-		
-		<Label Content="Radius(mm)" Margin="56,220,161,41" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-		<Label Content="Velocity(mm/s)" Margin="184,220,10,41" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<src:SteeringParam x:Name="steer" Margin="40,63,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Height="130" />
+
+		<Label Content="Forward: 50cm/s" HorizontalAlignment="Left" Margin="275,31,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
+		<Label Content="Backward: -50cm/s" HorizontalAlignment="Left" Margin="275,194,0,0" VerticalAlignment="Top"/>
+	
+
+		<TextBlock Text="Radius(cm):" Margin="54,220,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<TextBlock Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="127,220,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+		<TextBlock Text="Velocity(cm/s):" Margin="187,220,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<TextBlock Text="{Binding Value, ElementName=sliderVelocity}" x:Name="textbox2" Margin="275,220,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
 		<!-- Do not register TextChanged anymore since it is already bound to Radius of SteeringWheel. -->
-		<TextBlock TextAlignment="Center" Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="56,207,161,73" Width="83"/>
-		
-	
-		
+
+		<Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="87,13,0,0" Click="buttonStraight_Click">
+			<Image x:Name="strPtr" ToolTip="Go Straight" Source="/iRobotGUI;component/pic/straight.png" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
+		</Button>
+
+
 	</Grid>
 </src:BaseParamControl>

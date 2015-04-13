@@ -2,7 +2,7 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:src="clr-namespace:iRobotGUI.Controls"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Height="243" Width="347" Background="White"
+		Height="219" Width="327" Background="White"
 		RenderOptions.BitmapScalingMode="HighQuality" >
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -125,9 +125,9 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
-		<Label Content="MOVE" FontSize="18" HorizontalAlignment="Center" Margin="137,0,95,0" VerticalAlignment="Top" Width="115"/>
-		<Label Content="Duration" HorizontalAlignment="Left" Margin="226,95,0,0" VerticalAlignment="Top"/>
-		<Slider AutoToolTipPlacement="TopLeft" Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="124,95,0,0" VerticalAlignment="Top" Width="150" Minimum="1" Maximum="4" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5" SmallChange="1" IsSnapToTickEnabled="True">
+		<Label Content="MOVE" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="124,95,0,0" VerticalAlignment="Top" Width="150" Minimum="1" Maximum="4" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5" SmallChange="1" IsSnapToTickEnabled="True">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -137,8 +137,7 @@
 				</TransformGroup>
 			</Slider.RenderTransform>
 		</Slider>
-		<Label Content="Distance" HorizontalAlignment="Left" Margin="40,95,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.019,1.385"/>
-		<Slider AutoToolTipPlacement="TopLeft" x:Name="SliderDistance" Style="{StaticResource AppSliderStyle}" Maximum="500" Minimum="-500" Margin="34,79,0,0" RenderTransformOrigin="0.54,0.186" ValueChanged="SliderDistance_ValueChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" 
+		<Slider x:Name="SliderDistance" Style="{StaticResource AppSliderStyle}" Maximum="500" Minimum="-500" Margin="34,79,0,0" RenderTransformOrigin="0.54,0.186" ValueChanged="SliderDistance_ValueChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" 
 				SmallChange="1" LargeChange="10" IsSnapToTickEnabled="True" TickFrequency="10">
 			<Slider.RenderTransform>
 				<TransformGroup>
@@ -149,13 +148,16 @@
 				</TransformGroup>
 			</Slider.RenderTransform>
 		</Slider>
-		<Label Content="Forward" HorizontalAlignment="Left" Margin="42,51,0,0" VerticalAlignment="Top"/>
-		<Label Content="Backward" HorizontalAlignment="Left" Margin="42,144,0,0" VerticalAlignment="Top"/>
+		<Label Content="Forward: 500cm" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top"/>
+		<Label Content="Backward: -500cm" HorizontalAlignment="Left" Margin="10,166,0,0" VerticalAlignment="Top"/>
+		<Label Content="Distance(cm):" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
+		<Label Content="{Binding Value, ElementName=SliderDistance}" HorizontalAlignment="Left" Margin="88,103,0,0" VerticalAlignment="Top"/>
 
 		<Label Content="1s" HorizontalAlignment="Left" Height="24" Margin="226,169,0,0" VerticalAlignment="Top"/>
 		<Label Content="4s" HorizontalAlignment="Left" Margin="226,33,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.441,-0.654"/>
-		<Label Content="500mm" HorizontalAlignment="Left" Height="30" Margin="64,33,0,0" VerticalAlignment="Top"/>
-		<Label Content="-500mm" HorizontalAlignment="Left" Height="31" Margin="64,166,0,0" VerticalAlignment="Top"/>
+
+		<Label Content="Duration(s):" HorizontalAlignment="Left" Margin="226,103,0,0" VerticalAlignment="Top"/>
+		<Label Content="{Binding Value, ElementName=SliderDuration}" HorizontalAlignment="Left" Margin="291,103,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.046,0.321"/>
 
 
 	</Grid>

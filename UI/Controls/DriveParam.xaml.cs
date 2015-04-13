@@ -30,7 +30,7 @@ namespace iRobotGUI.Controls
 		{
 			get
 			{
-				base.Ins.paramList[0] = (int)sliderVelocity.Value;
+				base.Ins.paramList[0] = (int)(sliderVelocity.Value * 10);
 				base.Ins.paramList[1] = steer.Radius;
 				return base.Ins;
 			}
@@ -39,12 +39,19 @@ namespace iRobotGUI.Controls
 				base.Ins = value;
 
 				// Set velocity slider
-				sliderVelocity.Value = value.paramList[0];
+				sliderVelocity.Value = (value.paramList[0]) / 10;
 
 				// Set radius for steering wheel.
 				steer.Radius = value.paramList[1];
 				steer.Angle = SteeringParam.RadiusToAngle(value.paramList[1]);
 			}
+		}
+
+
+		private void buttonStraight_Click(object sender, RoutedEventArgs e)
+		{
+			steer.Angle = 0;
+			steer.Radius = Instruction.STRAIGHT1;
 		}
 	}
 }

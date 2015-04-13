@@ -1,5 +1,0 @@
-LOOP 0, 1, 1
-	// Read the sensor again
-	READ_SENSOR
-	DELAY 100
-END_LOOP

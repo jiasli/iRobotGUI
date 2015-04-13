@@ -28,31 +28,32 @@
 				<MenuItem Command="ApplicationCommands.Close"/>
 			</MenuItem>
 			<MenuItem Header="_Edit">
-				<MenuItem Command="Cut" />
-				<MenuItem Command="Copy"  />
-				<MenuItem Command="Paste" />
-				<MenuItem Command="Delete" />
+				<MenuItem Command="ApplicationCommands.Cut" />
+				<MenuItem Command="ApplicationCommands.Copy"  />
+				<MenuItem Command="ApplicationCommands.Paste" />
+				<MenuItem Command="ApplicationCommands.Delete" />
 			</MenuItem>
 			<MenuItem Header="Build">
-				<MenuItem Header="Translate to C Code" Click="MenuItemTranslate_Click"/>
-				<MenuItem Header="Show C Code" Click="MenuItemShowCCode_Click"/>
-				<Separator />
-				<MenuItem Header="WinAVR">
+				<MenuItem Header="Load to Microcontroller" Command="{x:Static custom:MainWindow.LoadToMicrocontrollerCmd}" />
+				<MenuItem Header="Run in Emulator" Command="{x:Static custom:MainWindow.RunOnEmulatorCmd}"/>
+				<Separator/>
+				<MenuItem Header="[Debug] WinAVR">
+					<MenuItem Command="{x:Static custom:MainWindow.TranslateToMicrocontrollerCCmd}" />
+					<MenuItem Header="Show C Code" Click="MenuItemShowCCode_Click"/>
+					<Separator />
 					<MenuItem Command="{x:Static custom:MainWindow.BuildCmd}" />
 					<MenuItem Command="{x:Static custom:MainWindow.LoadCmd}" />
 					<MenuItem Command="{x:Static custom:MainWindow.CleanCmd}" />
 				</MenuItem>
-				<MenuItem Header="Emulator">
+				<MenuItem Header="[Debug] Emulator">
 					<MenuItem Command="{x:Static custom:MainWindow.TranslateToEmulatorCCmd}" />
 					<MenuItem Command="{x:Static custom:MainWindow.BuildEmulatorCmd}" />
 					<MenuItem Command="{x:Static custom:MainWindow.RunEmulatorCmd}" />
 				</MenuItem>
 				<Separator />
-				<MenuItem Header="Load to Microcontroller" Click="MenuItemTranslateBuildLoad_Click"/>
-				<Separator/>
 				<MenuItem Command="{x:Static custom:MainWindow.WinAvrConfigCmd}" />
 				<MenuItem Command="{x:Static custom:MainWindow.SettingCmd}"  />
-			</MenuItem>			
+			</MenuItem>
 			<MenuItem Header="Help">
 				<MenuItem Header="Show Debug Panel" IsCheckable="True" IsChecked="True" Unchecked="MenuItemShowDebugPanel_Unchecked" Checked="MenuItemShowDebugPanel_Checked" />
 				<MenuItem Header="About"  InputGestureText="F1" Click="MenuItemAbout_Click" />

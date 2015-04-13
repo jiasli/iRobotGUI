@@ -25,14 +25,16 @@ namespace iRobotGUI
 		{
 			program = new List<Instruction>();
 
+			// Split the string by CR or LF
 			string[] insStrArray = programString.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 			for (int i = 0; i < insStrArray.Length; i++)
 			{
 				CurrentLine = i;
 
-				// Ignore comment line
-				if (Instruction.IsValidInstructionLine(insStrArray[i]))
-					program.Add(new Instruction(insStrArray[i]));
+				// Remove comment and trim 
+				string unifiedStr = Instruction.UnifyInstructionString(insStrArray[i]);
+				if (unifiedStr.Length > 0)
+					program.Add(new Instruction(unifiedStr));
 			}
 		}
 
@@ -70,7 +72,7 @@ namespace iRobotGUI
 		/// </summary>
 		/// <param name="ifLoopIns">The starting IF or LOOP instruction.</param>
 		/// <returns>The completed IF or LOOP block.</returns>
-		public static HLProgram GetIfLoopBlock(Instruction ifLoopIns)
+		public static HLProgram GetDefaultIfLoopBlock(Instruction ifLoopIns)
 		{
 			HLProgram result = new HLProgram();
 			result.Add(ifLoopIns);
@@ -254,11 +256,30 @@ namespace iRobotGUI
 			return hlp;
 		}
 
+		/// <summary>
+		/// Get the HLProgram string.
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			// Use Windows style CRLF
 			// http://stackoverflow.com/questions/15433188/r-n-r-n-what-is-the-difference-between-them
 			return string.Join("\r\n", program);
+		}
+
+		/// <summary>
+		/// Get the HLProgram string, specifying if to attach the description comment. 
+		/// </summary>
+		/// <param name="withDescription">If each instruction is trailed by description comment. </param>
+		/// <returns></returns>
+		public string ToString(bool withDescription)
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach(Instruction ins in program)
+			{
+				sb.AppendLine(ins.ToString(withDescription));
+			}			
+			return sb.ToString();
 		}
 	}
 }

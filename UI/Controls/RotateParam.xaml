@@ -2,9 +2,9 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:src="clr-namespace:iRobotGUI.Controls"
-		Height="180" Width="180" Background="White" 
+		Height="225" Width="180" Background="White" 
 		RenderOptions.BitmapScalingMode="HighQuality">
-	<Grid>
+	<Grid Width="180" Height="180" HorizontalAlignment="Left" VerticalAlignment="Top">
 		<Grid x:Name="RotateGrid">
 			<Ellipse>
 				<Ellipse.Fill>
@@ -12,6 +12,9 @@
 				</Ellipse.Fill>
 			</Ellipse>
 		</Grid>
-		<Label x:Name="label" Content="" HorizontalAlignment="Right" Margin="0" Width="35" RenderTransformOrigin="0.241,-0.286" VerticalAlignment="Bottom"/>
+		<TextBlock Text="Angle:" HorizontalAlignment="Left" Margin="60,190,0,-26" Width="35" VerticalAlignment="Top" />
+		<TextBlock x:Name="label" Text="0" HorizontalAlignment="Left" Margin="100,190,0,-26" Width="35" VerticalAlignment="Top" />
+
+		<TextBlock x:Name="txbDebug" Text="0" HorizontalAlignment="Left" Margin="20,206,0,-42" Width="135" VerticalAlignment="Top" Visibility="Hidden" />
 	</Grid>
 </src:BaseParamControl>
