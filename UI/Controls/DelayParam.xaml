@@ -5,7 +5,7 @@
 			xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			mc:Ignorable="d" 
 			xmlns:src="clr-namespace:iRobotGUI.Controls"
-			d:DesignHeight="300" d:DesignWidth="300"
+			Height="285" Width="247"
 			RenderOptions.BitmapScalingMode="HighQuality" >
 	<UserControl.Resources>
 		<Style x:Key="SliderThumbSandClock" TargetType="{x:Type Thumb}">
@@ -68,9 +68,7 @@
 		</Style>
 	</UserControl.Resources>
 	<Grid>
-		<Label FontSize="14" Content="5000ms" Margin="166,49,59,205"/>
-		<Label FontSize="14" Content="100ms" Margin="166,228,87,44" RenderTransformOrigin="2.028,1.96"/>
-		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="48,137,0,0" VerticalAlignment="Top" Width="193" 
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="-28,135,0,0" VerticalAlignment="Top" Width="193" 
 				Maximum="5000" Minimum="100" 
 				ValueChanged="SliderDuration_ValueChanged" 
 				RenderTransformOrigin="0.5,0.5" 
@@ -84,9 +82,18 @@
 				</TransformGroup>
 			</Slider.RenderTransform>
 		</Slider>
-		<Label Content="Time:" HorizontalAlignment="Left" FontSize="18" Margin="37,120,0,0" VerticalAlignment="Top"/>
-		<Label Content="DELAY" FontSize="18" HorizontalAlignment="Center" Margin="111,10,74,0" VerticalAlignment="Top" Width="115"/>
-		<Label Content="{Binding Value, ElementName=SliderDuration}" FontSize="14"  HorizontalAlignment="Left" Margin="47,154,0,0" VerticalAlignment="Top"/>
+
+		<Label Content="DELAY" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+		<Label Content="5000ms" Margin="119,54,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<Label Content="100ms" Margin="119,233,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+		<!--
+		WPF StringFormat on Label Content
+		http://stackoverflow.com/questions/4206612/wpf-stringformat-on-label-content
+		-->
+		<Label Content="{Binding Value, ElementName=SliderDuration}" ContentStringFormat="Time(ms): {0}ms" 
+			   HorizontalAlignment="Left" Margin="119,138,0,0" VerticalAlignment="Top"/>
 
 	</Grid>
 </src:BaseParamControl>

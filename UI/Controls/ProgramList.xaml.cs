@@ -18,6 +18,54 @@ using iRobotGUI.Util;
 
 namespace iRobotGUI.Controls
 {
+
+	public class DisplayItem
+	{
+		//private Image im;
+		private Uri imageuri;
+		private string description;
+
+		/// <summary>
+		/// constructor
+		/// </summary>
+		public DisplayItem(Uri imageuri, string description)
+		{
+			this.imageuri = imageuri;
+			this.description = description;
+		}
+
+		/// <summary>
+		/// Image Uri
+		/// </summary>
+		public Uri ImageUri
+		{
+			get
+			{
+				return imageuri;
+			}
+			set
+			{
+				imageuri = value;
+			}
+		}
+
+		/// <summary>
+		/// Text Description
+		/// </summary>
+		public string Description
+		{
+			get
+			{
+				return description;
+			}
+			set
+			{
+				description = value;
+			}
+		}
+
+	}
+
 	/// <summary>
 	/// Interaction logic for ProgramList.xaml
 	/// </summary>
@@ -164,7 +212,7 @@ namespace iRobotGUI.Controls
 				UpdateContent();
 				listViewProgram.SelectedIndex = newIndex;
 				if (Properties.Settings.Default.PopupWindowForNewIns)
-					ShowParamWindow(newIndex);				
+					ShowParamWindow(newIndex);
 			}
 		}
 
@@ -187,9 +235,14 @@ namespace iRobotGUI.Controls
 			for (int i = 0; i < pvm.Count; i++)
 			{
 				Instruction ins = pvm.GetInstruction(pvm[i]);
-				Image im = GetImageFromInstruction(ins);
-				if (im != null)
-					listViewProgram.Items.Add(GetImageFromInstruction(ins));
+				//Image icon = GetImageFromInstruction(ins);
+				//DisplayItem itemToDisplay = new DisplayItem(icon, TextDescriber.GetTextDescription(ins));
+				Uri path = GetPathFromInstruction(ins);
+				DisplayItem itemToDisplay = new DisplayItem(path, TextDescription.GetTextDescription(ins));
+				if (itemToDisplay != null)
+				{
+					listViewProgram.Items.Add(itemToDisplay);
+				}
 			}
 			listViewProgram.SelectedIndex = selectedIndex;
 		}
@@ -207,14 +260,24 @@ namespace iRobotGUI.Controls
 			bi.BeginInit();
 			string picName = PictureDiscription.GetPictureName(ins);
 			bi.UriSource = new Uri(picPath + picName, UriKind.Relative);
-
 			if (bi.UriSource == null) return null;
 			bi.EndInit();
+
 			im.Stretch = Stretch.Fill;
 			im.Source = bi;
 			im.Width = 45;
 			im.Height = 45;
 			return im;
+		}
+
+		/// <summary>
+		/// Get the image uri given a specified instruction
+		/// </summary>
+		private Uri GetPathFromInstruction(Instruction ins)
+		{
+			string picPath = "/iRobotGUI;component/pic/";
+			string picName = PictureDiscription.GetPictureName(ins);
+			return new Uri(picPath + picName, UriKind.Relative);
 		}
 
 		/// <summary>

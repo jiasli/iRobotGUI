@@ -103,7 +103,7 @@
 		<TextBlock Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="127,220,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
 		<TextBlock Text="Velocity(cm/s):" Margin="187,220,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
-		<TextBlock Text="{Binding Value, ElementName=sliderVelocity}" x:Name="textbox2" Margin="270,220,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<TextBlock Text="{Binding Value, ElementName=sliderVelocity}" x:Name="textbox2" Margin="275,220,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
 		<!-- Do not register TextChanged anymore since it is already bound to Radius of SteeringWheel. -->
 
