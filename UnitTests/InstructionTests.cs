@@ -49,7 +49,7 @@ namespace iRobotGUI.Tests
             string InvalidOpcodeStr = "BACK";
             try
             {
-                pass = Instruction.UnifyInstructionString(InvalidOpcodeStr);
+               // pass = Instruction.UnifyInstructionString(InvalidOpcodeStr);
             }
             catch (Exception)
             {
@@ -58,7 +58,7 @@ namespace iRobotGUI.Tests
 
             try
             {
-                pass = Instruction.UnifyInstructionString(ValidOpcodeStr);
+               // pass = Instruction.UnifyInstructionString(ValidOpcodeStr);
                 Console.WriteLine(ValidOpcodeStr + ": valid");
             }
             catch (InvalidOpcodeException)

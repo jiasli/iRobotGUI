@@ -87,8 +87,17 @@ namespace iRobotGUI
 
 			InitializeComponent();
 
-			// Set the current folder to cprogram
-			Directory.SetCurrentDirectory(@".");
+			if (!Directory.Exists(@"cprogram\"))
+			{
+				MessageBox.Show("The C template is missing, try re-install the program.", "Program Broken", MessageBoxButton.OK, MessageBoxImage.Error);
+				Close();
+			}
+			else
+			{
+				// Set the current folder to cprogram
+				Directory.SetCurrentDirectory(@"cprogram\");
+			}
+
 
 			programList.Program = new HLProgram();
 

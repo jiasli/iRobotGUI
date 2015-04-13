@@ -1,6 +1,0 @@
-DRIVE 300,32768  // Description not implemented.
-LOOP 0,0,0  // Description not implemented.
-DELAY 100  // Description not implemented.
-END_LOOP   // Description not implemented.
-MOVE -100,1  // Move backward 100cm in 1s.
-ROTATE 180  // Description not implemented.
