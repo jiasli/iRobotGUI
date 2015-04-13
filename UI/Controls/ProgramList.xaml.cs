@@ -34,6 +34,9 @@ namespace iRobotGUI.Controls
 			this.description = description;
 		}
 
+		/// <summary>
+		/// Image Uri
+		/// </summary>
 		public Uri ImageUri
 		{
 			get
@@ -46,6 +49,9 @@ namespace iRobotGUI.Controls
 			}
 		}
 
+		/// <summary>
+		/// Text Description
+		/// </summary>
 		public string Description
 		{
 			get

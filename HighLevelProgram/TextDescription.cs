@@ -45,11 +45,11 @@ namespace iRobotGUI
 		private static string GetDriveDescription(Instruction ins)
 		{
 			if (ins.paramList[0] < 0 && ins.paramList[1] < 0)
-				return string.Format("Drive backward while turning right at {0}mm/s with radius {1}mm.", -ins.paramList[0], - ins.paramList[1]);
+				return string.Format("Drive backward while turning right at {0}mm/s with radius {1}mm.", -ins.paramList[0], -ins.paramList[1]);
 			else if (ins.paramList[0] < 0 && ins.paramList[1] > 0)
-				return string.Format("Drive backward while turning left at {0}mm/s  with radius {1}mm.", ins.paramList[0], -ins.paramList[1]);
+				return string.Format("Drive backward while turning left at {0}mm/s  with radius {1}mm.", ins.paramList[0], ins.paramList[1]);
 			else if (ins.paramList[0] > 0 && ins.paramList[1] < 0)
-				return string.Format("Drive forward while turning right at {0}mm/s  with radius {1}mm.", -ins.paramList[0], ins.paramList[1]);
+				return string.Format("Drive forward while turning right at {0}mm/s  with radius {1}mm.", -ins.paramList[0], -ins.paramList[1]);
 			else if (ins.paramList[0] > 0 && ins.paramList[1] > 0)
 				return string.Format("Drive forward while turning left at {0}mm/s  with radius {1}mm.", ins.paramList[0], ins.paramList[1]);
 			else if (ins.paramList[0] == 0)
