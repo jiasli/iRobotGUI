@@ -42,7 +42,7 @@ namespace iRobotGUI.Tests
             string driveInstruction = "DRIVE 10,20";
             TranslatePrintInstrString(driveInstruction);
         }
-
+        /*
         [TestMethod()]
         public void TranslateForward()
         {
@@ -56,7 +56,7 @@ namespace iRobotGUI.Tests
             string backwardInstruction = "BACKWARD 10,3";
             TranslatePrintInstrString(backwardInstruction);
         }
-
+        
         [TestMethod()]
         public void TranslateLeft()
         {
@@ -70,7 +70,7 @@ namespace iRobotGUI.Tests
             string rightInstruction = "RIGHT 80";
             TranslatePrintInstrString(rightInstruction);
         }
-
+        */
         [TestMethod()]
         public void TranslateLED()
         {
