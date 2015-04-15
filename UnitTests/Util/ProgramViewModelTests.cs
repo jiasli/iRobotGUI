@@ -16,7 +16,7 @@ namespace iRobotGUI.Util.Tests
             HLProgram hp = new HLProgram();
             ProgramViewModel pvm = new ProgramViewModel(new HLProgram());
             hp = pvm.GetHLProgram();
-            Assert.IsNull(hp);     
+            Assert.IsNotNull(hp);     
         }
 
         [TestMethod()]
@@ -25,8 +25,8 @@ namespace iRobotGUI.Util.Tests
             var ifExpectPointer = ProgramViewModel.PointerType.IF;
             ProgramViewModel pvm = new ProgramViewModel(new HLProgram());
             pvm.InsertInstruction(0, Instruction.CreatFromOpcode(Instruction.IF));
-            var ifActualPointer= pvm.GetInstruction(0);
-            Assert.Equals(ifExpectPointer,ifActualPointer);
+            var ifActualPointer= pvm.GetPointerType(0);
+            Assert.AreEqual(ifExpectPointer,ifActualPointer);
             
         }
 

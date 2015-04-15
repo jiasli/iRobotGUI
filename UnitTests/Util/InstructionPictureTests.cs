@@ -13,7 +13,7 @@ namespace iRobotGUI.Util.Tests
         [TestMethod()]
         public void GetPictureNameTest()
         {
-            string ValidOpcodeStr = "DRIVE";
+            string ValidOpcodeStr = "LED";
             string InvalidOpcodeStr = "MOV";
             try
             {
