@@ -19,9 +19,9 @@ namespace iRobotGUI
 		private static string GetMoveDescription(Instruction ins)
 		{
 			if (ins.paramList[0] < 0)
-				return string.Format("Move backward {0}cm in {1}s.", -ins.paramList[0], ins.paramList[1]);
+				return string.Format("Move backward {0}cm in {1}s.", -ins.paramList[0]/10, ins.paramList[1]);
 			else if (ins.paramList[0] > 0)
-				return string.Format("Move forward {0}cm in {1}s.", ins.paramList[0], ins.paramList[1]);
+				return string.Format("Move forward {0}cm in {1}s.", ins.paramList[0]/10, ins.paramList[1]);
 			else if (ins.paramList[0] == 0)
 				return "Stop moving.";
 
@@ -61,7 +61,7 @@ namespace iRobotGUI
 			else if (ins.paramList[1] < 0)
 				rotation = "while turning right ";
 
-			return string.Format("Drive " + direction + rotation + "at {0}mm/s", Math.Abs(ins.paramList[0]));
+			return string.Format("Drive " + direction + "at {0}cm/s " + rotation, Math.Abs(ins.paramList[0])/10);
 		}
 
 		private static string GetLedDescription(Instruction ins)
@@ -86,16 +86,22 @@ namespace iRobotGUI
 
 		private static string GetIfDescription(Instruction ins)
 		{
-			string[] sensors = new string[] { "Bump", "Wall", "Cliff Left", "Cliff Front Left", "Cliff Front Right", "Cliff Right", "Virtual Wall", "Charging State" };
-
-			return string.Format("If the sensor " + sensors[ins.paramList[0]] + " is detected...");
+			string[] sensors = new string[] { "Bump", "Wall", "Cliff Left", "Cliff Front Left", "Cliff Front Right", "Cliff Right", "Virtual Wall" };
+			
+			if (ins.paramList[0] < 10)
+				return string.Format("If the sensor " + sensors[ins.paramList[0]] + " is detected...");
+			else
+				return string.Format("If the sensor Charging State is detected...");
 		}
 
 		private static string GetLoopDescription(Instruction ins)
 		{
-			string[] sensors = new string[] { "Bump", "Wall", "Cliff Left", "Cliff Front Left", "Cliff Front Right", "Cliff Right", "Virtual Wall", "Charging State" };
-
-			return string.Format("Loop when the sensor " + sensors[ins.paramList[0]] + " is not detected...");
+			string[] sensors = new string[] { "Bump", "Wall", "Cliff Left", "Cliff Front Left", "Cliff Front Right", "Cliff Right", "Virtual Wall"};
+			
+			if (ins.paramList[0] < 10)
+				return string.Format("Loop when the sensor " + sensors[ins.paramList[0]] + " is not detected...");
+			else
+				return string.Format("Loop when the sensor Charging State is not detected...");
 		}
 
 		private static string GetDemoDescription(Instruction ins)
