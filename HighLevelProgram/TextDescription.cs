@@ -44,23 +44,24 @@ namespace iRobotGUI
 
 		private static string GetDriveDescription(Instruction ins)
 		{
-			if (ins.paramList[0] < 0 && ins.paramList[1] == 32767)
-				return string.Format("Drive forward straightly at {0}mm/s.", -ins.paramList[0]);
-			else if (ins.paramList[0] > 0 && ins.paramList[1] == 32767)
-				return string.Format("Drive backward straightly at {0}mm/s.", ins.paramList[0]);
-			else if (ins.paramList[0] < 0 && ins.paramList[1] < 0)
-				return string.Format("Drive backward while turning right at {0}mm/s with radius {1}mm.", -ins.paramList[0], -ins.paramList[1]);
-			else if (ins.paramList[0] < 0 && ins.paramList[1] > 0)
-				return string.Format("Drive backward while turning left at {0}mm/s with radius {1}mm.", ins.paramList[0], ins.paramList[1]);
-			else if (ins.paramList[0] > 0 && ins.paramList[1] < 0)
-				return string.Format("Drive forward while turning right at {0}mm/s with radius {1}mm.", -ins.paramList[0], -ins.paramList[1]);
-			else if (ins.paramList[0] > 0 && ins.paramList[1] > 0)
-				return string.Format("Drive forward while turning left at {0}mm/s with radius {1}mm.", ins.paramList[0], ins.paramList[1]);
-			else if (ins.paramList[0] == 0)
-				return "Stop driving.";
+			string direction = System.String.Empty;
+			string rotation = System.String.Empty;
 
-			// For return check.
-			return "";
+			if (ins.paramList[0] < 0)
+				direction = "backward ";
+			else if (ins.paramList[0] > 0)
+				direction = "forward ";
+			else
+				return string.Format("Stop driving");
+
+			if (ins.paramList[1] == 32767)
+				rotation = "straightly ";
+			else if (ins.paramList[1]  > 0)
+				rotation = "while turning left ";
+			else if (ins.paramList[1] < 0)
+				rotation = "while turning right ";
+
+			return string.Format("Drive " + direction + rotation + "at {0}mm/s", Math.Abs(ins.paramList[0]));
 		}
 
 		private static string GetLedDescription(Instruction ins)
@@ -80,49 +81,34 @@ namespace iRobotGUI
 
 		private static string GetSongDescription(Instruction ins)
 		{
-			return string.Format("Song");
+			return string.Format("Play a song.");
 		}
 
 		private static string GetIfDescription(Instruction ins)
 		{
-			return string.Format("If");
+			string[] sensors = new string[] { "Bump", "Wall", "Cliff Left", "Cliff Front Left", "Cliff Front Right", "Cliff Right", "Virtual Wall", "Charging State" };
+
+			return string.Format("If the sensor " + sensors[ins.paramList[0]] + " is detected...");
 		}
 
 		private static string GetLoopDescription(Instruction ins)
 		{
-			return string.Format("Loop");
+			string[] sensors = new string[] { "Bump", "Wall", "Cliff Left", "Cliff Front Left", "Cliff Front Right", "Cliff Right", "Virtual Wall", "Charging State" };
+
+			return string.Format("Loop when the sensor " + sensors[ins.paramList[0]] + " is not detected...");
 		}
 
 		private static string GetDemoDescription(Instruction ins)
 		{
-			switch (ins.paramList[0])
+			string[] demoName = new string[] { "Cover", "Cover and Dock", "Spot Cover", "Mouse", "Drive Figure Eight", "Wimp", "Home", "Tag", "Pachelbel", "Banjo" };
+			if (ins.paramList[0] >= 0)
 			{
-				case 0:
-					return string.Format("Play demo Cover");
-				case 1:
-					return string.Format("Play demo Cover and Dock");
-				case 2:
-					return string.Format("Play demo Spot Cover");
-				case 3:
-					return string.Format("Play demo Mouse");
-				case 4:
-					return string.Format("Play demo Drive Figure Eight");
-				case 5:
-					return string.Format("Play demo Wimp");
-				case 6:
-					return string.Format("Play demo Home");
-				case 7:
-					return string.Format("Play demo Tag");
-				case 8:
-					return string.Format("Play demo Pachelbel");
-				case 9:
-					return string.Format("Play demo Banjo");
-				case -1:
-					return string.Format("Stop the demo");
+				return string.Format("Play the demo " + demoName[ins.paramList[0]] + ".");
 			}
-
-			// For return check.
-			return "";
+			else
+			{
+				return string.Format("Stop the demo.");
+			}
 		}
 
 		private static string GetDelayDescription(Instruction ins)
