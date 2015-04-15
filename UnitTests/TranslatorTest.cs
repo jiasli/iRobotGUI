@@ -13,6 +13,36 @@ namespace iRobotGUI.Tests
     public class TranslatorTest
     {
         [TestMethod()]
+        public void TranslateInstructionTest()
+        {
+            string ValidOpcodeStr = "LED 10,125,125";
+            string invalidIns = "FROWARD 300,2";
+
+            try
+            {
+                Instruction InvalidIns = new Instruction(invalidIns);
+                string InvalidStr = Translator.TranslateInstruction(InvalidIns);
+                Assert.Fail("InValid instruction string");
+
+            }
+            catch (InvalidOpcodeException)
+            {
+                Console.WriteLine(invalidIns + ":Invalid");
+            }
+
+            try
+            {
+                var Validins = new Instruction(ValidOpcodeStr);
+                string ValidStr = Translator.TranslateInstruction(Validins);
+                Console.WriteLine(ValidStr + ": valid");
+            }
+            catch (InvalidOpcodeException)
+            {
+                Assert.Fail("InValid instruction string");
+            }
+
+        }
+        [TestMethod()]
         public void TranslatePrintInstrString(string actualInstr)
         {
             string input = actualInstr.Trim();
