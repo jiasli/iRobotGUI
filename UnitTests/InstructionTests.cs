@@ -44,29 +44,16 @@ namespace iRobotGUI.Tests
         [TestMethod()]
         public void IsInstructionLineTest()
         {
-            bool pass = true;
-            string ValidOpcodeStr = "BACKWARD";
-            string InvalidOpcodeStr = "BACK";
+            string Str = "mycomments";
+            string UnifyStr= Instruction.UnifyInstructionString(Str);
             try
-            {
-               // pass = Instruction.UnifyInstructionString(InvalidOpcodeStr);
+            {              
+                Assert.AreEqual(UnifyStr, " "+Str);     
             }
             catch (Exception)
             {
-                Console.WriteLine(InvalidOpcodeStr + ": Invalid");
-            }
-
-            try
-            {
-               // pass = Instruction.UnifyInstructionString(ValidOpcodeStr);
-                Console.WriteLine(ValidOpcodeStr + ": valid");
-            }
-            catch (InvalidOpcodeException)
-            {
-                pass = false;
-            }
-
-            Assert.IsTrue(pass);
+                Assert.AreNotEqual(UnifyStr, "");
+            }  
         }
 
     }
