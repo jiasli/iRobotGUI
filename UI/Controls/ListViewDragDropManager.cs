@@ -640,7 +640,9 @@ namespace iRobotGUI.Controls
 
         void PerformDragOperation()
         {
-            ItemType selectedItem = this.listView.SelectedItem as ItemType;
+            //ItemType selectedItem = this.listView.SelectedItem as ItemType;
+			DisplayItem selectedItem = this.listView.SelectedItem as DisplayItem;
+
             DragDropEffects allowedEffects = DragDropEffects.Move | DragDropEffects.Move | DragDropEffects.Link;
             if (DragDrop.DoDragDrop(this.listView, selectedItem, allowedEffects) != DragDropEffects.None)
             {

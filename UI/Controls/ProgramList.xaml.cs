@@ -165,7 +165,7 @@ namespace iRobotGUI.Controls
 			// drag inside program list
 			if (this.dragMgr.IsDragInProgress)
 			{
-				Image data = e.Data.GetData(typeof(Image)) as Image;
+				DisplayItem data = e.Data.GetData(typeof(DisplayItem)) as DisplayItem;
 
 				if (data == null)
 					return;
@@ -235,8 +235,6 @@ namespace iRobotGUI.Controls
 			for (int i = 0; i < pvm.Count; i++)
 			{
 				Instruction ins = pvm.GetInstruction(pvm[i]);
-				//Image icon = GetImageFromInstruction(ins);
-				//DisplayItem itemToDisplay = new DisplayItem(icon, TextDescriber.GetTextDescription(ins));
 				Uri path = GetPathFromInstruction(ins);
 				DisplayItem itemToDisplay = new DisplayItem(path, TextDescription.GetTextDescription(ins));
 				if (itemToDisplay != null)
