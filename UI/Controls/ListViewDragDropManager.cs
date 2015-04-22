@@ -32,7 +32,7 @@ namespace iRobotGUI.Controls
         double dragAdornerOpacity;
         int indexToSelect;
         bool isDragInProgress;
-        ItemType itemUnderDragCursor;
+        DisplayItem itemUnderDragCursor;
         ListView listView;
         Point ptMouseDown;
         bool showDragAdorner;
@@ -184,7 +184,7 @@ namespace iRobotGUI.Controls
         /// requires custom behavior.  Note, if this event is handled the default
         /// item dropping logic will not occur.
         /// </summary>
-        public event EventHandler<ProcessDropEventArgs<ItemType>> ProcessDrop;
+		public event EventHandler<ProcessDropEventArgs<DisplayItem>> ProcessDrop;
 
         #endregion // ProcessDrop [event]
 
@@ -281,8 +281,8 @@ namespace iRobotGUI.Controls
 
             // Update the item which is known to be currently under the drag cursor.
             int index = this.IndexUnderDragCursor;
-            this.ItemUnderDragCursor = index < 0 ? null : this.ListView.Items[index] as ItemType;
-        }
+			this.ItemUnderDragCursor = index < 0 ? null : this.ListView.Items[index] as DisplayItem;
+		}
 
         #endregion // listView_DragOver
 
@@ -325,16 +325,16 @@ namespace iRobotGUI.Controls
 
             e.Effects = DragDropEffects.None;
 
-            if (!e.Data.GetDataPresent(typeof(ItemType)))
+			if (!e.Data.GetDataPresent(typeof(DisplayItem)))
                 return;
 
             // Get the data object which was dropped.
-            ItemType data = e.Data.GetData(typeof(ItemType)) as ItemType;
+			DisplayItem data = e.Data.GetData(typeof(DisplayItem)) as DisplayItem;
             if (data == null)
                 return;
 
-            // Get the ObservableCollection<ItemType> which contains the dropped data object.
-            ObservableCollection<ItemType> itemsSource = this.listView.ItemsSource as ObservableCollection<ItemType>;
+			// Get the ObservableCollection<DisplayItem> which contains the dropped data object.
+			ObservableCollection<DisplayItem> itemsSource = this.listView.ItemsSource as ObservableCollection<DisplayItem>;
             if (itemsSource == null)
                 throw new Exception(
                     "A ListView managed by ListViewDragManager must have its ItemsSource set to an ObservableCollection<ItemType>.");
@@ -368,7 +368,7 @@ namespace iRobotGUI.Controls
             if (this.ProcessDrop != null)
             {
                 // Let the client code process the drop.
-                ProcessDropEventArgs<ItemType> args = new ProcessDropEventArgs<ItemType>(itemsSource, data, oldIndex, newIndex, e.AllowedEffects);
+				ProcessDropEventArgs<DisplayItem> args = new ProcessDropEventArgs<DisplayItem>(itemsSource, data, oldIndex, newIndex, e.AllowedEffects);
                 this.ProcessDrop(this, args);
                 e.Effects = args.Effects;
             }
@@ -449,7 +449,7 @@ namespace iRobotGUI.Controls
             return this.listView.ItemContainerGenerator.ContainerFromIndex(index) as ListViewItem;
         }
 
-        ListViewItem GetListViewItem(ItemType dataItem)
+		ListViewItem GetListViewItem(DisplayItem dataItem)
         {
             if (this.listView.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated)
                 return null;
@@ -609,7 +609,7 @@ namespace iRobotGUI.Controls
 
         #region ItemUnderDragCursor
 
-        ItemType ItemUnderDragCursor
+		DisplayItem ItemUnderDragCursor
         {
             get { return this.itemUnderDragCursor; }
             set
@@ -776,12 +776,12 @@ namespace iRobotGUI.Controls
     /// Event arguments used by the ListViewDragDropManager.ProcessDrop event.
     /// </summary>
     /// <typeparam name="ItemType">The type of data object being dropped.</typeparam>
-    public class ProcessDropEventArgs<ItemType> : EventArgs where ItemType : class
+	public class ProcessDropEventArgs<DisplayItem> : EventArgs where DisplayItem : class
     {
         #region Data
 
-        ObservableCollection<ItemType> itemsSource;
-        ItemType dataItem;
+		ObservableCollection<DisplayItem> itemsSource;
+		DisplayItem dataItem;
         int oldIndex;
         int newIndex;
         DragDropEffects allowedEffects = DragDropEffects.None;
@@ -792,8 +792,8 @@ namespace iRobotGUI.Controls
         #region Constructor
 
         internal ProcessDropEventArgs(
-            ObservableCollection<ItemType> itemsSource,
-            ItemType dataItem,
+			ObservableCollection<DisplayItem> itemsSource,
+			DisplayItem dataItem,
             int oldIndex,
             int newIndex,
             DragDropEffects allowedEffects)
@@ -812,7 +812,7 @@ namespace iRobotGUI.Controls
         /// <summary>
         /// The items source of the ListView where the drop occurred.
         /// </summary>
-        public ObservableCollection<ItemType> ItemsSource
+		public ObservableCollection<DisplayItem> ItemsSource
         {
             get { return this.itemsSource; }
         }
@@ -820,7 +820,7 @@ namespace iRobotGUI.Controls
         /// <summary>
         /// The data object which was dropped.
         /// </summary>
-        public ItemType DataItem
+		public DisplayItem DataItem
         {
             get { return this.dataItem; }
         }
