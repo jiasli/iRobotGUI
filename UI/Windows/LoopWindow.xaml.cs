@@ -51,7 +51,7 @@ namespace iRobotGUI
 				HLProgram result = new HLProgram();
 
 				// 1. Read back sensor
-				Instruction conditionIns = Instruction.CreatFromOpcode(Instruction.LOOP);
+				Instruction conditionIns = Instruction.CreatDefaultFromOpcode(Instruction.LOOP);
 				conditionIns.paramList[0] = sensorSelector.SelectedSensor;
 				// Notice that the Operator for LOOP is different from that for IF, which is EQUAL.
 				conditionIns.paramList[1] = iRobotGUI.Operator.EQUAL;
@@ -62,7 +62,7 @@ namespace iRobotGUI
 				result.Add(programListLoopBody.Program);
 
 				// 3. Add END_LOOP
-				result.Add(Instruction.CreatFromOpcode(Instruction.END_LOOP));
+				result.Add(Instruction.CreatDefaultFromOpcode(Instruction.END_LOOP));
 
 				return result;
 			}

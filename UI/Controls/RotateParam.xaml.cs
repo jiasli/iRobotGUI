@@ -54,7 +54,7 @@ namespace iRobotGUI.Controls
 				base.Ins = value;
 
 				this.Angle = -Ins.paramList[0];
-				label.Text = Ins.paramList[0].ToString();
+				labelDegree.Content = Ins.paramList[0].ToString();
 				///rotate the control image specified number of degrees:
 				RotateTransform rotateTransform1 = new RotateTransform(this.Angle);
 				rotateTransform1.CenterX = RotateGrid.ActualWidth / 2;
@@ -93,7 +93,7 @@ namespace iRobotGUI.Controls
 				/// Calculate an angle
 				this.Angle = GetAngle(currentLocation, RotateGrid.RenderSize);
 				Ins.paramList[0] = -(int)this.Angle;
-				label.Text = Ins.paramList[0].ToString();
+				labelDegree.Content = Ins.paramList[0].ToString();
 				RotateTransform rotateTransform1 = new RotateTransform((int)this.Angle);
 				rotateTransform1.CenterX = (RotateGrid.ActualWidth) / 2;
 				rotateTransform1.CenterY = (RotateGrid.ActualHeight) / 2;

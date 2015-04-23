@@ -127,7 +127,7 @@
 	<Grid>
 		<Label Content="MOVE" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
-		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="124,95,0,0" VerticalAlignment="Top" Width="150" Minimum="1" Maximum="4" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5" SmallChange="1" IsSnapToTickEnabled="True">
+		<Slider Style="{StaticResource SandSliderStyle}" x:Name="SliderDuration" HorizontalAlignment="Left" Margin="124,95,0,0" VerticalAlignment="Top" Width="150" Minimum="1" Maximum="10" ValueChanged="SliderDuration_ValueChanged" RenderTransformOrigin="0.5,0.5" SmallChange="1" IsSnapToTickEnabled="True">
 			<Slider.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -150,16 +150,12 @@
 		</Slider>
 		<Label Content="Forward: 500cm" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top"/>
 		<Label Content="Backward: -500cm" HorizontalAlignment="Left" Margin="10,166,0,0" VerticalAlignment="Top"/>
-		<Label Content="Distance(cm):" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
-		<Label Content="{Binding Value, ElementName=SliderDistance}" HorizontalAlignment="Left" Margin="88,103,0,0" VerticalAlignment="Top"/>
-
-		<Label Content="1s" HorizontalAlignment="Left" Height="24" Margin="226,169,0,0" VerticalAlignment="Top"/>
-		<Label Content="4s" HorizontalAlignment="Left" Margin="226,33,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.441,-0.654"/>
-
-		<Label Content="Duration(s):" HorizontalAlignment="Left" Margin="226,103,0,0" VerticalAlignment="Top"/>
-		<Label Content="{Binding Value, ElementName=SliderDuration}" HorizontalAlignment="Left" Margin="291,103,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.046,0.321"/>
-
-
+		<Label ContentStringFormat="Distance: {0}cm" Content="{Binding Value, ElementName=SliderDistance}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,103,0,0"/>
+		
+		<Label Content="1s" HorizontalAlignment="Left" Margin="225,169,0,0" VerticalAlignment="Top"/>
+		<Label Content="10s" HorizontalAlignment="Left" Margin="225,33,0,0" VerticalAlignment="Top" />
+		<Label ContentStringFormat="Duration: {0}s" Content="{Binding Value, ElementName=SliderDuration}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="225,103,0,0"/>
+	
 	</Grid>
 
 </src:BaseParamControl>

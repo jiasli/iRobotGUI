@@ -24,7 +24,7 @@ namespace iRobotGUI.Util.Tests
         {
             var ifExpectPointer = ProgramViewModel.PointerType.IF;
             ProgramViewModel pvm = new ProgramViewModel(new HLProgram());
-            pvm.InsertInstruction(0, Instruction.CreatFromOpcode(Instruction.IF));
+            pvm.InsertInstruction(0, Instruction.CreatDefaultFromOpcode(Instruction.IF));
             var ifActualPointer= pvm.GetPointerType(0);
             Assert.AreEqual(ifExpectPointer,ifActualPointer);
             
@@ -34,7 +34,7 @@ namespace iRobotGUI.Util.Tests
         public void GetSubProgramTest()
         {
             ProgramViewModel pvm = new ProgramViewModel(new HLProgram());
-            pvm.InsertInstruction(0, Instruction.CreatFromOpcode(Instruction.DRIVE));
+            pvm.InsertInstruction(0, Instruction.CreatDefaultFromOpcode(Instruction.DRIVE));
             HLProgram hp = pvm.GetSubProgram(0);
             Assert.IsNull(hp);
         }
@@ -46,7 +46,7 @@ namespace iRobotGUI.Util.Tests
             try
             {
                 ProgramViewModel pvm = new ProgramViewModel(new HLProgram());
-                pvm.InsertInstruction(0, Instruction.CreatFromOpcode(Instruction.LED));
+                pvm.InsertInstruction(0, Instruction.CreatDefaultFromOpcode(Instruction.LED));
                 pass = true;
             }
             catch(InstructionException ex)
@@ -86,8 +86,8 @@ END_IF";
             try
             {
                 ProgramViewModel pvm = new ProgramViewModel(new HLProgram());
-                pvm.InsertInstruction(0, Instruction.CreatFromOpcode(Instruction.LED));
-                pvm.UpdateInstruction(0, Instruction.CreatFromOpcode(Instruction.MOVE));
+                pvm.InsertInstruction(0, Instruction.CreatDefaultFromOpcode(Instruction.LED));
+                pvm.UpdateInstruction(0, Instruction.CreatDefaultFromOpcode(Instruction.MOVE));
                 pass = true;
             }
             catch (InstructionException ex)

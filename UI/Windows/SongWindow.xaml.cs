@@ -125,7 +125,7 @@ namespace iRobotGUI
 			get
 			{
 				// 1. Create a default ins
-				Instruction result = Instruction.CreatFromOpcode(Instruction.SONG);
+				Instruction result = Instruction.CreatDefaultFromOpcode(Instruction.SONG);
 
 				// 2. Clear the parameters.
 				result.paramList.Clear();
