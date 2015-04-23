@@ -4,7 +4,7 @@
 			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			xmlns:src="clr-namespace:iRobotGUI.Controls"
-			mc:Ignorable="d" Width="408" Height="268"
+			mc:Ignorable="d" Width="394" Height="229"
 			RenderOptions.BitmapScalingMode="HighQuality"   >
 	<src:BaseParamControl.Resources>
 		<Style x:Key="SliderThumbSandClock" TargetType="{x:Type Thumb}">
@@ -82,7 +82,7 @@
 	</src:BaseParamControl.Resources>
 	<Grid x:Name="grid">
 		<Slider x:Name="sliderVelocity"  Style="{StaticResource SandSliderStyle}" RenderTransformOrigin="0.5,0.5" 
-				Margin="156,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" 
+				Margin="134,91,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="174" 
 				Maximum="50" Minimum="-50" LargeChange="10" SmallChange="5" IsSnapToTickEnabled="True" TickFrequency="5" >
 			<Slider.RenderTransform>
 				<TransformGroup>
@@ -93,21 +93,20 @@
 			</Slider.RenderTransform>
 		</Slider>
 
-		<src:SteeringParam x:Name="steer" Margin="40,63,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Height="130" />
+		<src:SteeringParam x:Name="steer" Margin="18,54,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Height="130" />
 
-		<Label Content="Forward: 50cm/s" HorizontalAlignment="Left" Margin="275,31,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
-		<Label Content="Backward: -50cm/s" HorizontalAlignment="Left" Margin="275,194,0,0" VerticalAlignment="Top"/>
-	
+		<Label Content="Forward: 50cm/s" HorizontalAlignment="Left" Margin="262,22,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.611,0.154"/>
+		<Label Content="Backward: -50cm/s" HorizontalAlignment="Left" Margin="262,185,0,0" VerticalAlignment="Top"/>
 
-		<TextBlock Text="Radius(cm):" Margin="54,220,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
-		<TextBlock Text="{Binding Radius, ElementName=steer}" x:Name="textbox1" Margin="127,220,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-		<TextBlock Text="Velocity(cm/s):" Margin="187,220,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
-		<TextBlock Text="{Binding Value, ElementName=sliderVelocity}" x:Name="textbox2" Margin="275,220,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<Label ContentStringFormat="Radius: {0}cm" Content="{Binding Radius, ElementName=steer}" Margin="53,189,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+		<Label ContentStringFormat="Velocity: {0}cm/s" Content="{Binding Value, ElementName=sliderVelocity}" Margin="262,108,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
 
 		<!-- Do not register TextChanged anymore since it is already bound to Radius of SteeringWheel. -->
 
-		<Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="87,13,0,0" Click="buttonStraight_Click">
+		<Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,4,0,0" Click="buttonStraight_Click">
 			<Image x:Name="strPtr" ToolTip="Go Straight" Source="/iRobotGUI;component/pic/straight.png" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
 		</Button>
 

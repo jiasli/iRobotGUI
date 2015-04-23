@@ -193,7 +193,7 @@ namespace iRobotGUI.Controls
 
 				string op = (string)e.Data.GetData(DataFormats.StringFormat);
 
-				Instruction newIns = Instruction.CreatFromOpcode(op);
+				Instruction newIns = Instruction.CreatDefaultFromOpcode(op);
 
 				if (newIns != null)
 				{

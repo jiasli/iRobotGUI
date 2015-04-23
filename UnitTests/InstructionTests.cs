@@ -20,7 +20,7 @@ namespace iRobotGUI.Tests
             try
             {
                 var ins = new Instruction(InvalidOpcodeStr);
-                ins = Instruction.CreatFromOpcode(InvalidOpcodeStr);
+                ins = Instruction.CreatDefaultFromOpcode(InvalidOpcodeStr);
                 Assert.Fail("In Valid instruction string",ins);
             }
             catch (InvalidOpcodeException)
@@ -31,7 +31,7 @@ namespace iRobotGUI.Tests
             try
             {
                 var ins = new Instruction(ValidOpcodeStr);
-                ins = Instruction.CreatFromOpcode(ValidOpcodeStr);
+                ins = Instruction.CreatDefaultFromOpcode(ValidOpcodeStr);
                 Console.WriteLine(ValidOpcodeStr + ": valid");
             }
             catch (InvalidOpcodeException)
