@@ -7,23 +7,21 @@
 			 mc:Ignorable="d" Background="White" d:DesignHeight="368" d:DesignWidth="317">
 	<Grid>
 		<Label Content="Select the Demo:" Margin="12,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-		<ComboBox
+		<ComboBox x:Name="ComboBox1" 
 		HorizontalAlignment="Left"
 		VerticalAlignment="Top"
-		Loaded="ComboBox1_Loaded"
-			x:Name="ComboBox1"  
 		SelectionChanged="ComboBox1_SelectionChanged" Margin="132,12,0,0" Width="133" SelectedIndex="0">
-			<ComboBoxItem Name="demo0">Cover</ComboBoxItem>
-			<ComboBoxItem Name="demo1">Cover and Dock</ComboBoxItem>
-			<ComboBoxItem Name="demo2">Spot Cover</ComboBoxItem>
-			<ComboBoxItem Name="demo3">Mouse</ComboBoxItem>
-			<ComboBoxItem Name="demo4">Drive Figure Eight</ComboBoxItem>
-			<ComboBoxItem Name="demo5">Wimp</ComboBoxItem>
-			<ComboBoxItem Name="demo6">Home</ComboBoxItem>
-			<ComboBoxItem Name="demo7">Tag</ComboBoxItem>
-			<ComboBoxItem Name="demo8">Pachelbel</ComboBoxItem>
-			<ComboBoxItem Name="demo9">Banjo</ComboBoxItem>
-			<ComboBoxItem Name="demo_stop">Stop the Demo</ComboBoxItem>
+			<ComboBoxItem Name="demo0">0. Cover</ComboBoxItem>
+			<ComboBoxItem Name="demo1">1. Cover and Dock</ComboBoxItem>
+			<ComboBoxItem Name="demo2">2. Spot Cover</ComboBoxItem>
+			<ComboBoxItem Name="demo3">3. Mouse</ComboBoxItem>
+			<ComboBoxItem Name="demo4">4. Drive Figure Eight</ComboBoxItem>
+			<ComboBoxItem Name="demo5">5. Wimp</ComboBoxItem>
+			<ComboBoxItem Name="demo6">6. Home</ComboBoxItem>
+			<ComboBoxItem Name="demo7">7. Tag</ComboBoxItem>
+			<ComboBoxItem Name="demo8">8. Pachelbel</ComboBoxItem>
+			<ComboBoxItem Name="demo9">9. Banjo</ComboBoxItem>
+			<ComboBoxItem Name="demo_stop">-1. Stop the Demo</ComboBoxItem>
 		</ComboBox>
 		<TextBox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" 
 				 IsReadOnly ="True" x:Name="desc" Margin="20,51,20,20" />
