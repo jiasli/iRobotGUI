@@ -73,7 +73,7 @@ namespace iRobotGUI.Controls
 	{
 		#region data
 
-		private ListViewDragDropManager<Image> dragMgr;
+		private ListViewDragDropManager<DisplayItem> dragMgr;
 
 		private ProgramViewModel pvm;
 
@@ -122,7 +122,7 @@ namespace iRobotGUI.Controls
 		/// </summary>
 		void ListView1_Loaded(object sender, RoutedEventArgs e)
 		{
-			this.dragMgr = new ListViewDragDropManager<Image>(listViewProgram);
+			this.dragMgr = new ListViewDragDropManager<DisplayItem>(listViewProgram);
 			listViewProgram.PreviewMouseLeftButtonDown += listView_PreviewMouseLeftButtonDown;
 			listViewProgram.Drop -= dragMgr.listView_Drop;
 			listViewProgram.Drop += listView_Drop;
@@ -165,7 +165,7 @@ namespace iRobotGUI.Controls
 			// drag inside program list
 			if (this.dragMgr.IsDragInProgress)
 			{
-				Image data = e.Data.GetData(typeof(Image)) as Image;
+				DisplayItem data = e.Data.GetData(typeof(DisplayItem)) as DisplayItem;
 
 				if (data == null)
 					return;
@@ -193,7 +193,7 @@ namespace iRobotGUI.Controls
 
 				string op = (string)e.Data.GetData(DataFormats.StringFormat);
 
-				Instruction newIns = Instruction.CreatFromOpcode(op);
+				Instruction newIns = Instruction.CreatDefaultFromOpcode(op);
 
 				if (newIns != null)
 				{

@@ -79,12 +79,12 @@ namespace iRobotGUI
 
 			if (ifLoopIns.opcode == Instruction.IF)
 			{
-				result.Add(Instruction.CreatFromOpcode(Instruction.ELSE));
-				result.Add(Instruction.CreatFromOpcode(Instruction.END_IF));
+				result.Add(Instruction.CreatDefaultFromOpcode(Instruction.ELSE));
+				result.Add(Instruction.CreatDefaultFromOpcode(Instruction.END_IF));
 			}
 			else if (ifLoopIns.opcode == Instruction.LOOP)
 			{
-				result.Add(Instruction.CreatFromOpcode(Instruction.END_LOOP));
+				result.Add(Instruction.CreatDefaultFromOpcode(Instruction.END_LOOP));
 			}
 			return result;
 		}

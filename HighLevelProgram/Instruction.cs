@@ -149,13 +149,13 @@ namespace iRobotGUI
 		/// A factory to create new Instruction object by opcode with default parameters.
 		/// </summary>
 		/// <returns></returns>
-		public static Instruction CreatFromOpcode(string opcode)
+		public static Instruction CreatDefaultFromOpcode(string opcode)
 		{
 			Instruction newIns = null;
 			switch (opcode)
 			{
 				case MOVE:
-					newIns = new Instruction(Instruction.MOVE + " 300,3");
+					newIns = new Instruction(Instruction.MOVE + " 1500,3");
 					break;
 				case ROTATE:
 					newIns = new Instruction(Instruction.ROTATE + " 90");

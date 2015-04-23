@@ -46,7 +46,7 @@ namespace iRobotGUI
 				HLProgram result = new HLProgram();
 
 				// 1. Read back sensor
-				Instruction conditionIns = Instruction.CreatFromOpcode(Instruction.IF);
+				Instruction conditionIns = Instruction.CreatDefaultFromOpcode(Instruction.IF);
 				conditionIns.paramList[0] = sensorSelector.SelectedSensor;
 				conditionIns.paramList[1] = iRobotGUI.Operator.EQUAL;
 				conditionIns.paramList[2] = 1;
@@ -56,13 +56,13 @@ namespace iRobotGUI
 				result.Add(programListIfBody.Program);
 
 				// 3. Add ELSE
-				result.Add(Instruction.CreatFromOpcode(Instruction.ELSE));
+				result.Add(Instruction.CreatDefaultFromOpcode(Instruction.ELSE));
 
 				// 2. Add if body
 				result.Add(programListElseBody.Program);
 
 				// 3. Add END_IF
-				result.Add(Instruction.CreatFromOpcode(Instruction.END_IF));
+				result.Add(Instruction.CreatDefaultFromOpcode(Instruction.END_IF));
 
 				return result;
 			}

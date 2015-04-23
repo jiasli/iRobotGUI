@@ -4,16 +4,15 @@
 		xmlns:src="clr-namespace:iRobotGUI.Controls"
 		Height="225" Width="180" Background="White" 
 		RenderOptions.BitmapScalingMode="HighQuality">
-	<Grid Width="180" Height="180" HorizontalAlignment="Left" VerticalAlignment="Top">
-		<Grid x:Name="RotateGrid">
+	<Grid>
+		<Grid x:Name="RotateGrid" Width="180" Height="180" HorizontalAlignment="Left" VerticalAlignment="Top">
 			<Ellipse>
 				<Ellipse.Fill>
 					<ImageBrush ImageSource="/iRobotGUI;component/pic/irobotcontrol.png"/>
 				</Ellipse.Fill>
 			</Ellipse>
 		</Grid>
-		<TextBlock Text="Angle:" HorizontalAlignment="Left" Margin="60,190,0,-26" Width="35" VerticalAlignment="Top" />
-		<TextBlock x:Name="label" Text="0" HorizontalAlignment="Left" Margin="100,190,0,-26" Width="35" VerticalAlignment="Top" />
+		<Label x:Name="labelDegree" ContentStringFormat="Angle: {0}°" Content="0" Margin="0,190,0,0" HorizontalAlignment="Center"  VerticalAlignment="Top" />		
 
 		<TextBlock x:Name="txbDebug" Text="0" HorizontalAlignment="Left" Margin="20,206,0,-42" Width="135" VerticalAlignment="Top" Visibility="Hidden" />
 	</Grid>
