@@ -63,7 +63,7 @@ namespace iRobotGUI
 		public const string EmulatorTemplate = "em_t.c";
 		public const string EmulatorOutputFile = "em_o.c";
 
-		private string igpFile;
+		private string igpFile = "";
 
 		public MainWindow()
 		{
@@ -170,18 +170,21 @@ namespace iRobotGUI
 		private void TranslateToEmulatorCCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
 			string emulatorPath = Properties.Settings.Default.EmulatorPath;
-			if (string.IsNullOrEmpty(emulatorPath))
+
+			try
+			{
+				string cCode = Translator.Translate(programList.Program);
+				string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorTemplate);
+				string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorOutputFile);
+
+				CodeGenerator.GenerateCSource(templateFullPath, outputFullPath, cCode);
+			}
+			catch (Exception)
 			{
 				MessageBox.Show("Emulator path not invalid. Use Build -> Setting to select the correct path.",
 					"Invalid Emulator Path", MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
+
 			}
-
-			string cCode = Translator.Translate(programList.Program);
-			string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorTemplate);
-			string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorOutputFile);
-
-			CodeGenerator.GenerateCSource(templateFullPath, outputFullPath, cCode);
 
 		}
 
@@ -510,8 +513,18 @@ namespace iRobotGUI
 		#region Window callbacks
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			MessageBoxResult result = MessageBox.Show("Save the program?", "Exit", MessageBoxButton.YesNoCancel, MessageBoxImage.Question) ;
-			if (result== MessageBoxResult.Yes)
+			if (igpFile == "")
+			{
+				// No file is open
+				if (programList.Program.ToString() == "") return;
+			}
+			else
+			{
+				if (programList.Program.ToString(true) == File.ReadAllText(igpFile)) return;
+			}
+
+			MessageBoxResult result = MessageBox.Show("Save the program?", "Exit", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+			if (result == MessageBoxResult.Yes)
 			{
 				ApplicationCommands.Save.Execute(null, this);
 			}
