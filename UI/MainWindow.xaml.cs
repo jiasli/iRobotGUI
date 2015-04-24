@@ -506,5 +506,20 @@ namespace iRobotGUI
 
 
 		#endregion Menu callbacks
+
+		#region Window callbacks
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			MessageBoxResult result = MessageBox.Show("Save the program?", "Exit", MessageBoxButton.YesNoCancel, MessageBoxImage.Question) ;
+			if (result== MessageBoxResult.Yes)
+			{
+				ApplicationCommands.Save.Execute(null, this);
+			}
+			else if (result == MessageBoxResult.Cancel)
+			{
+				e.Cancel = true;
+			}
+		}
+		#endregion Window callbacks
 	}
 }
