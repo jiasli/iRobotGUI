@@ -502,6 +502,7 @@ namespace iRobotGUI.Controls
         {
             get
             {
+				/*
                 int index = -1;
                 for (int i = 0; i < this.listView.Items.Count; ++i)
                 {
@@ -513,6 +514,21 @@ namespace iRobotGUI.Controls
                     }
                 }
                 return index;
+				 */
+				int index = -1;
+				for (int i = 0; i < this.listView.Items.Count; ++i)
+				{
+					ListViewItem item = this.GetListViewItem(i);
+					if (item != null)
+					{
+						if (this.IsMouseOver(item))
+						{
+							index = i;
+							break;
+						}
+					}
+				}
+				return index;
             }
         }
 
