@@ -87,6 +87,13 @@ namespace iRobotGUI
 
 			InitializeComponent();
 
+			// http://stackoverflow.com/questions/837488/how-can-i-get-the-applications-path-in-a-net-console-application
+			// If emulator's path is not set, use the default path.
+			if (Properties.Settings.Default.EmulatorPath == "")
+			{
+				SettingsWindow.SetDefaultEmulatorPath();
+			}
+
 			if (!Directory.Exists(@"cprogram\"))
 			{
 				MessageBox.Show("The C template is missing, try re-install the program.", "Program Broken", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -281,10 +288,7 @@ namespace iRobotGUI
 			// Process open file dialog box results 
 			if (result == true)
 			{
-				// Open document 
-				igpFile = dlg.FileName;
-				OpenProgram(igpFile);
-				textBlockStatus.Text = igpFile;
+				OpenProgram(dlg.FileName);
 			}
 		}
 
@@ -398,6 +402,10 @@ namespace iRobotGUI
 		{
 			try
 			{
+				// Open document 
+				igpFile = filePath;
+				textBlockStatus.Text = igpFile;
+
 				string proStr = File.ReadAllText(filePath);
 				programList.Program = new HLProgram(proStr);
 			}
@@ -414,7 +422,11 @@ namespace iRobotGUI
 		{
 			try
 			{
-				string proStr = programList.Program.ToString();
+				// Set the current path to the file that is saved.
+				igpFile = filePath;
+				textBlockStatus.Text = igpFile;
+
+				string proStr = programList.Program.ToString(true);
 				File.WriteAllText(filePath, proStr);
 			}
 			catch (Exception ex)
