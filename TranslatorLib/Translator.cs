@@ -85,7 +85,7 @@ else
 {";
 		public const string END_IF_SINPPET = @"}";
 
-		public const string LOOP_SNIPPET = @"while (delaySensors(100), #condition)
+		public const string LOOP_SNIPPET = @"while (delaySensors(0), #condition)
 {";
 		public const string TIMELOOP_SNIPPET = @"for (loopControl = 0; loopControl < #time; loopControl++)
 {";
