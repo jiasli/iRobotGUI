@@ -107,7 +107,7 @@ byteTx(0);";
 		public void TestIfTranslation()
 		{
 			string input = "IF 2,2,2";
-			string expectedResult = @"if (sensors[2] > 2)
+			string expectedResult = @"if (delaySensors(100), sensors[2] > 2)
 {";
 			TranslateIns(input, expectedResult);
 		}
@@ -147,5 +147,13 @@ else
 			TranslateIns(input, expectedResult);
 		}
 
+		[TestMethod()]
+		public void TestDemoTranslation()
+		{
+			string input = "DEMO 1";
+			string expectedResult = @"byteTx(136);
+byteTx(1);";
+			TranslateIns(input, expectedResult);
+		}
 	}
 }
