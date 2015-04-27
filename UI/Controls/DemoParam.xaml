@@ -23,7 +23,7 @@
 			<ComboBoxItem Name="demo9">9. Banjo</ComboBoxItem>
 			<ComboBoxItem Name="demo_stop">-1. Stop the Demo</ComboBoxItem>
 		</ComboBox>
-		<TextBox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+		<TextBox TextWrapping="Wrap" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" 
 				 IsReadOnly ="True" x:Name="desc" Margin="20,51,20,20" />
 
 
