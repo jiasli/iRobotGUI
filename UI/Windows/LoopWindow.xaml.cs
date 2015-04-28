@@ -68,6 +68,11 @@ namespace iRobotGUI
 			}
 		}
 
+		private void InstructionPanel_AddNewInstruction(string opcode)
+		{
+			programListLoopBody.AddNewInstruction(opcode);
+		}
+
 
 
 	}
