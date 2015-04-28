@@ -71,6 +71,14 @@ namespace iRobotGUI.Controls
 	/// </summary>
 	public partial class ProgramList : UserControl
 	{
+
+		public delegate void ProgramListEventHandler();
+		public delegate void SelectedInstructionChangedEventHandler(string insString);
+
+		public event ProgramListEventHandler ProgramChanged;
+		public event ProgramListEventHandler ClipboardChanged;
+		public event SelectedInstructionChangedEventHandler SelectedInstructionChanged;
+
 		#region data
 
 		private ListViewDragDropManager<DisplayItem> dragMgr;
@@ -181,6 +189,7 @@ namespace iRobotGUI.Controls
 				int item = pvm[oldIndex];
 				pvm.Remove(item);
 				pvm.Insert(newIndex, item);
+				listViewProgram.SelectedIndex = newIndex;
 
 				UpdateContent();
 				e.Effects = DragDropEffects.Move;
@@ -194,9 +203,6 @@ namespace iRobotGUI.Controls
 				string op = (string)e.Data.GetData(DataFormats.StringFormat);
 
 				InsertNewInstruction(newIndex, op);				
-				
-				if (Properties.Settings.Default.PopupWindowForNewIns)
-					ShowParamWindow(newIndex);
 			}
 		}
 
@@ -226,6 +232,9 @@ namespace iRobotGUI.Controls
 
 				// To ensure that the selected item is visible.
 				listViewProgram.ScrollIntoView(listViewProgram.SelectedItem);
+
+				if (Properties.Settings.Default.PopupWindowForNewIns)
+					ShowParamWindow(index);
 			}
 		}
 
@@ -257,7 +266,7 @@ namespace iRobotGUI.Controls
 
 			for (int i = 0; i < pvm.Count; i++)
 			{
-				Instruction ins = pvm.GetInstruction(pvm[i]);
+				Instruction ins = pvm.GetInstruction(i);
 				//Image icon = GetImageFromInstruction(ins);
 				//DisplayItem itemToDisplay = new DisplayItem(icon, TextDescriber.GetTextDescription(ins));
 				Uri path = GetPathFromInstruction(ins);
@@ -268,6 +277,12 @@ namespace iRobotGUI.Controls
 				}
 			}
 			listViewProgram.SelectedIndex = selectedIndex;
+
+			// Fire ProgramChanged event.
+			if (ProgramChanged != null)
+			{
+				ProgramChanged();
+			}
 		}
 
 		/// <summary>
@@ -310,11 +325,11 @@ namespace iRobotGUI.Controls
 		private void ShowParamWindow(int index)
 		{
 			// The Ins under modification
-			Instruction selectedIns = pvm.GetInstruction(pvm[index]);
+			Instruction selectedIns = pvm.GetInstruction(index);
 
 			if (selectedIns.opcode == Instruction.IF || selectedIns.opcode == Instruction.LOOP)
 			{
-				HLProgram subProgram = pvm.GetSubProgram(pvm[index]);
+				HLProgram subProgram = pvm.GetSubProgram(index);
 
 				// invoke the dialog
 				HLProgram result = DialogInvoker.ShowDialog(subProgram, Window.GetWindow(this));
@@ -332,7 +347,7 @@ namespace iRobotGUI.Controls
 
 		#endregion // private operations
 
-		#region file operations
+		#region Edit
 
 		private void DeleteCanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
@@ -364,19 +379,9 @@ namespace iRobotGUI.Controls
 			if (newIndex < 0)
 				newIndex = pvm.Count;
 
-			int pvmvalue = Int32.Parse(Clipboard.GetText());
-			Instruction ins = pvm.GetInstruction(pvmvalue);
-
-			if (ins.opcode == Instruction.IF || ins.opcode == Instruction.LOOP)
-			{
-				pvm.InsertSubProgram(newIndex, pvm.GetSubProgram(pvmvalue));
-			}
-			else
-			{
-				String insstring = ins.ToString();
-				Instruction newins = new Instruction(insstring);
-				pvm.InsertInstruction(newIndex, newins);
-			}
+			string subProgramString = Clipboard.GetText();
+			HLProgram subProgram = new HLProgram(subProgramString);
+			pvm.InsertSubProgram(newIndex, subProgram);
 
 			UpdateContent();
 		}
@@ -398,7 +403,12 @@ namespace iRobotGUI.Controls
 				return;
 
 			Clipboard.Clear();
-			Clipboard.SetText(pvm[index].ToString());
+			Clipboard.SetText(pvm.GetSubProgram(index).ToString());
+
+			if (ClipboardChanged != null)
+			{
+				ClipboardChanged();
+			}
 		}
 
 		private void RemoveSelection()
@@ -408,14 +418,23 @@ namespace iRobotGUI.Controls
 				return;
 
 			// Just remove the pointer. We don't care the source in HLProgram.
-			pvm.Remove(pvm[index]);
+			pvm.Remove(index);
 
 			UpdateContent();
 		}
 
 		#endregion // file operations
 
-	
+		private void listViewProgram_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (SelectedInstructionChanged != null)
+			{
+				if (listViewProgram.SelectedIndex != -1)
+					SelectedInstructionChanged(pvm.GetSubProgram(listViewProgram.SelectedIndex).ToString());
+			}
+		}
+
+
 
 	}
 }

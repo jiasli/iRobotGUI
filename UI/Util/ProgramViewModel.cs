@@ -30,8 +30,6 @@ namespace iRobotGUI.Util
 		// The program being mapped.
 		private HLProgram program;
 
-		public enum PointerType { Instruction, IF, LOOP };
-
 		public ProgramViewModel(HLProgram program)
 		{
 			this.program = program;
@@ -62,15 +60,15 @@ namespace iRobotGUI.Util
 		{
 			HLProgram result = new HLProgram();
 
-			for (int index = 0; index < this.Count(); index++)
+			for (int pvmIndex = 0; pvmIndex < this.Count(); pvmIndex++)
 			{
-				PointerType type = GetPointerType(this[index]);
+				Instruction ins = program[this[pvmIndex]];
 
-				if (type == PointerType.IF || type == PointerType.LOOP)
-					result.Add(GetSubProgram(this[index]));
+				if (ins.opcode == Instruction.IF || ins.opcode == Instruction.LOOP)
+					result.Add(GetSubProgram(pvmIndex));
 				else
 					// Single instruction.
-					result.Add(GetInstruction(this[index]));
+					result.Add(GetInstruction(pvmIndex));
 			}
 			return result;
 		}
@@ -80,41 +78,37 @@ namespace iRobotGUI.Util
 		/// </summary>
 		/// <param name="index">The index of pointer.</param>
 		/// <returns>The instruction pointed by the pointer.</returns>
-		public Instruction GetInstruction(int item)
+		public Instruction GetInstruction(int pvmIndex)
 		{
-			return program[item];
+			return program[this[pvmIndex]];
 		}
-
-		/// <summary>
-		/// Get the type of pointer at specified index. The type is determined by the Instruction it points at.
-		/// </summary>
-		/// <param name="pointer"></param>
-		/// <returns></returns>
-		public PointerType GetPointerType(int item)
-		{
-			if (program[item].opcode == Instruction.IF)
-				return PointerType.IF;
-			else if (program[item].opcode == Instruction.LOOP)
-				return PointerType.LOOP;
-			else return PointerType.Instruction;
-		}
+				
 
 		/// <summary>
 		/// Get the sub-program pointed by the pointer at specified index.
 		/// </summary>
 		/// <param name="index">The index of pointer.</param>
 		/// <returns>The sub-program pointed by the pointer.</returns>
-		public HLProgram GetSubProgram(int startItem)
+		public HLProgram GetSubProgram(int pvmIndex)
 		{
-			if (GetPointerType(startItem) == PointerType.IF)
+			int programIndex = this[pvmIndex];
+			Instruction ins = program[programIndex];
+
+			if (ins.opcode == Instruction.IF)
 			{
-				return program.SubProgram(startItem, program.FindEndIf(startItem));
+				return program.SubProgram(programIndex, program.FindEndIf(programIndex));
 			}
-			else if (GetPointerType(startItem) == PointerType.LOOP)
+			else if (ins.opcode == Instruction.LOOP)
 			{
-				return program.SubProgram(startItem, program.FindEndLoop(startItem));
+				return program.SubProgram(programIndex, program.FindEndLoop(programIndex));
 			}
-			return null;
+			else
+			{
+				// A HLProgram with only one instruction.
+				HLProgram result = new HLProgram();
+				result.Add(ins);
+				return result;
+			}
 		}
 
 		/// <summary>

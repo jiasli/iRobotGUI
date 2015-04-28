@@ -14,7 +14,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Controls:InstructionPanel Grid.Row="0" Grid.Column="0"/>
+        <Controls:InstructionPanel Grid.Row="0" Grid.Column="0" AddNewInstruction="InstructionPanel_AddNewInstruction"/>
 
 		<Image Grid.Column="1" HorizontalAlignment="Left" Margin="5,85,0,0" VerticalAlignment="Top" Width="16" Height="16" Source="/iRobotGUI;component/pic/false.png"/>
 		<TextBlock Text="has not been detected, do:" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="26,85,0,0"/>
