@@ -53,11 +53,25 @@ namespace iRobotGUI
 		private void buttonReset_Click(object sender, RoutedEventArgs e)
 		{
 			Settings.Default.Reset();
+			SetDefaultEmulatorPath();
 		}
 
 		private void buttonShowInExplorer_Click(object sender, RoutedEventArgs e)
 		{
 			Process.Start("explorer.exe", Settings.Default.EmulatorPath);
+		}
+
+		/// <summary>
+		/// Set the default emualtor path. Since the emualtor is shipped with the release package,
+		/// this method gets the directory where the exe file locates and combine it with MCEmulator.
+		/// </summary>
+		public static void SetDefaultEmulatorPath()
+		{
+			Settings.Default.EmulatorPath =
+				System.IO.Path.Combine(
+				System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),
+				"MCEmulator");
+			Settings.Default.Save();
 		}
 	}
 }

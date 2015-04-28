@@ -1,10 +1,10 @@
 ﻿<Window xmlns:Controls="clr-namespace:iRobotGUI.Controls" 
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	x:Class="iRobotGUI.MainWindow"
-	xmlns:System="clr-namespace:System;assembly=mscorlib"    
-	xmlns:custom="clr-namespace:iRobotGUI"	
-	Title="iRobot GUI" Width="700" Height="500" RenderTransformOrigin="0.5,0.5" >
+	xmlns:System="clr-namespace:System;assembly=mscorlib"
+	xmlns:custom="clr-namespace:iRobotGUI"
+	Title="iRobot GUI" Width="700" Height="510" UseLayoutRounding="True" Closing="Window_Closing" >
 
 	<Window.CommandBindings>
 		<CommandBinding Command="ApplicationCommands.New" Executed="NewCmdExecuted"/>
@@ -73,7 +73,7 @@
 				<ColumnDefinition x:Name="columnDefinitionDebug" Width="250"/>
 			</Grid.ColumnDefinitions>
 
-			<Controls:InstructionPanel Grid.Column="0"/>
+			<Controls:InstructionPanel Grid.Column="0" />
 
 			<Image Grid.Column="1" Source="/iRobotGUI;component/pic/iRobotBG.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="150" Height="150" />
 			<Controls:ProgramList x:Name="programList"  Grid.Column="1" Margin="5" />

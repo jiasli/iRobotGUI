@@ -63,7 +63,7 @@ namespace iRobotGUI
 		public const string EmulatorTemplate = "em_t.c";
 		public const string EmulatorOutputFile = "em_o.c";
 
-		private string igpFile;
+		private string igpFile = "";
 
 		public MainWindow()
 		{
@@ -86,6 +86,13 @@ namespace iRobotGUI
 
 
 			InitializeComponent();
+
+			// http://stackoverflow.com/questions/837488/how-can-i-get-the-applications-path-in-a-net-console-application
+			// If emulator's path is not set, use the default path.
+			if (Properties.Settings.Default.EmulatorPath == "")
+			{
+				SettingsWindow.SetDefaultEmulatorPath();
+			}
 
 			if (!Directory.Exists(@"cprogram\"))
 			{
@@ -163,18 +170,21 @@ namespace iRobotGUI
 		private void TranslateToEmulatorCCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
 			string emulatorPath = Properties.Settings.Default.EmulatorPath;
-			if (string.IsNullOrEmpty(emulatorPath))
+
+			try
+			{
+				string cCode = Translator.Translate(programList.Program);
+				string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorTemplate);
+				string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorOutputFile);
+
+				CodeGenerator.GenerateCSource(templateFullPath, outputFullPath, cCode);
+			}
+			catch (Exception)
 			{
 				MessageBox.Show("Emulator path not invalid. Use Build -> Setting to select the correct path.",
 					"Invalid Emulator Path", MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
+
 			}
-
-			string cCode = Translator.Translate(programList.Program);
-			string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorTemplate);
-			string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorOutputFile);
-
-			CodeGenerator.GenerateCSource(templateFullPath, outputFullPath, cCode);
 
 		}
 
@@ -281,10 +291,7 @@ namespace iRobotGUI
 			// Process open file dialog box results 
 			if (result == true)
 			{
-				// Open document 
-				igpFile = dlg.FileName;
-				OpenProgram(igpFile);
-				textBlockStatus.Text = igpFile;
+				OpenProgram(dlg.FileName);
 			}
 		}
 
@@ -398,6 +405,10 @@ namespace iRobotGUI
 		{
 			try
 			{
+				// Open document 
+				igpFile = filePath;
+				textBlockStatus.Text = igpFile;
+
 				string proStr = File.ReadAllText(filePath);
 				programList.Program = new HLProgram(proStr);
 			}
@@ -414,7 +425,11 @@ namespace iRobotGUI
 		{
 			try
 			{
-				string proStr = programList.Program.ToString();
+				// Set the current path to the file that is saved.
+				igpFile = filePath;
+				textBlockStatus.Text = igpFile;
+
+				string proStr = programList.Program.ToString(true);
 				File.WriteAllText(filePath, proStr);
 			}
 			catch (Exception ex)
@@ -494,5 +509,30 @@ namespace iRobotGUI
 
 
 		#endregion Menu callbacks
+
+		#region Window callbacks
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if (igpFile == "")
+			{
+				// No file is open
+				if (programList.Program.ToString() == "") return;
+			}
+			else
+			{
+				if (programList.Program.ToString(true) == File.ReadAllText(igpFile)) return;
+			}
+
+			MessageBoxResult result = MessageBox.Show("Save the program?", "Exit", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+			if (result == MessageBoxResult.Yes)
+			{
+				ApplicationCommands.Save.Execute(null, this);
+			}
+			else if (result == MessageBoxResult.Cancel)
+			{
+				e.Cancel = true;
+			}
+		}
+		#endregion Window callbacks
 	}
 }

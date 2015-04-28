@@ -77,7 +77,7 @@ byteTx(#song_number);";
 
 		public const string READ_SENSOR_SNIPPET = @"delaySensors(0);";
 
-		public const string IF_SNIPPET = @"if (#condition)
+		public const string IF_SNIPPET = @"if (delaySensors(100), #condition)
 {";
 
 		public const string ELSE_SINPPET = @"}
@@ -85,12 +85,16 @@ else
 {";
 		public const string END_IF_SINPPET = @"}";
 
-		public const string LOOP_SNIPPET = @"while (delaySensors(0), #condition)
+		public const string LOOP_SNIPPET = @"while (delaySensors(100), #condition)
 {";
 		public const string TIMELOOP_SNIPPET = @"for (loopControl = 0; loopControl < #time; loopControl++)
 {";
 		public const string END_LOOP_SNIPPET = @"}";
+
 		public const string DELAY_SNIPPET = @"delay(#time);";
+
+		public const string DEMO_SNIPPET = @"byteTx(136);
+byteTx(#demo_number);";
 
 
 		// Remember not to include linebreak in the end.
@@ -319,6 +323,11 @@ else
 					break;
 				case Instruction.END_LOOP:
 					cBuilder.AppendLine(END_LOOP_SNIPPET);
+					break;
+
+				// DEMO
+				case Instruction.DEMO:
+					cBuilder.AppendLine(DEMO_SNIPPET.Replace("#demo_number", instruction.paramList[0].ToString()));
 					break;
 
 			}
