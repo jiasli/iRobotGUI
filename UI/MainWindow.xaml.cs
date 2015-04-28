@@ -534,5 +534,31 @@ namespace iRobotGUI
 			}
 		}
 		#endregion Window callbacks
+
+		private void InstructionPanel_AddNewInstruction(string opcode)
+		{
+			programList.AddNewInstruction(opcode);
+		}
+
+
+		#region ProgramList' Callbacks
+		// For debugging
+
+		private void programList_ProgramChanged()
+		{
+			HLProgram program = programList.Program;
+			textBoxSource.Text = program.ToString();
+		}
+
+		private void programList_ClipboardChanged()
+		{
+			textBoxClipboard.Text = Clipboard.GetText();
+		}
+
+		private void programList_SelectedInstructionChanged(string insString)
+		{
+			textBoxSelectedInstruction.Text = insString;
+		}
+		#endregion
 	}
 }

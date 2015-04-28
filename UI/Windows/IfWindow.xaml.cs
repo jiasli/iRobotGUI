@@ -72,5 +72,10 @@ namespace iRobotGUI
 		{
 			InitializeComponent();
 		}
+
+		private void InstructionPanel_AddNewInstruction(string opcode)
+		{
+			MessageBox.Show(this, "Use drag-and-drop to add new instructions.");
+		}
 	}
 }

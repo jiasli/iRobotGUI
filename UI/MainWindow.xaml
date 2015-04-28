@@ -73,10 +73,10 @@
 				<ColumnDefinition x:Name="columnDefinitionDebug" Width="250"/>
 			</Grid.ColumnDefinitions>
 
-			<Controls:InstructionPanel Grid.Column="0" />
+			<Controls:InstructionPanel Grid.Column="0" AddNewInstruction="InstructionPanel_AddNewInstruction" />
 
 			<Image Grid.Column="1" Source="/iRobotGUI;component/pic/iRobotBG.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="150" Height="150" />
-			<Controls:ProgramList x:Name="programList"  Grid.Column="1" Margin="5" />
+			<Controls:ProgramList x:Name="programList"  Grid.Column="1" Margin="5" ProgramChanged="programList_ProgramChanged" ClipboardChanged="programList_ClipboardChanged" SelectedInstructionChanged="programList_SelectedInstructionChanged" />
 
 			<Grid Grid.Column="2">
 				<Grid.RowDefinitions>
@@ -89,7 +89,9 @@
 				<Button Content="Load Example Code" HorizontalAlignment="Left" VerticalAlignment="Top" Click="buttonLoadExampleCode_Click" Grid.Row="1" Margin="10,0,0,0" />
 				<Button x:Name="buttonRefreshSource" Content="-> Refresh Source" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="10,27,0,0" Click="buttonRefreshSource_Click"  />
 				<Button x:Name="buttonLoadIntoGraph" Content="&lt;- Load into Graph" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Margin="116,27,0,0" Click="buttonLoadIntoGraph_Click" />
-				<TextBox x:Name="textBoxSource" TextWrapping="Wrap" Text="Source Code"  Grid.Row="2" AcceptsReturn="True" Margin="5,0,5,5" Background="{x:Null}"/>
+				<TextBox x:Name="textBoxSource" TextWrapping="Wrap" Text="Source Code"  Grid.Row="2" AcceptsReturn="True" Margin="5,0,5,155" />
+				<TextBox x:Name="textBoxSelectedInstruction" TextWrapping="Wrap" Text="Selected Instruction"  Grid.Row="2" AcceptsReturn="True" Margin="5,212.04,134,5.08" />
+				<TextBox x:Name="textBoxClipboard" TextWrapping="Wrap" Text="Clipboard"  Grid.Row="2" AcceptsReturn="True" Margin="121,212.04,5,5.08" />
 			</Grid>
 		</Grid>
 

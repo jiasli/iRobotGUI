@@ -71,6 +71,14 @@ namespace iRobotGUI.Controls
 	/// </summary>
 	public partial class ProgramList : UserControl
 	{
+
+		public delegate void ProgramListEventHandler();
+		public delegate void SelectedInstructionChangedEventHandler(string insString);
+
+		public event ProgramListEventHandler ProgramChanged;
+		public event ProgramListEventHandler ClipboardChanged;
+		public event SelectedInstructionChangedEventHandler SelectedInstructionChanged;
+
 		#region data
 
 		private ListViewDragDropManager<DisplayItem> dragMgr;
@@ -181,6 +189,7 @@ namespace iRobotGUI.Controls
 				int item = pvm[oldIndex];
 				pvm.Remove(item);
 				pvm.Insert(newIndex, item);
+				listViewProgram.SelectedIndex = newIndex;
 
 				UpdateContent();
 				e.Effects = DragDropEffects.Move;
@@ -193,27 +202,50 @@ namespace iRobotGUI.Controls
 
 				string op = (string)e.Data.GetData(DataFormats.StringFormat);
 
-				Instruction newIns = Instruction.CreatDefaultFromOpcode(op);
-
-				if (newIns != null)
-				{
-					if (op == Instruction.IF || op == Instruction.LOOP)
-					{
-						// Add HLProgram for IF and LOOP.
-						pvm.InsertSubProgram(newIndex, HLProgram.GetDefaultIfLoopBlock(newIns));
-					}
-					else
-					{
-						// Add single Instruction.
-						pvm.InsertInstruction(newIndex, newIns);
-					}
-				}
-
-				UpdateContent();
-				listViewProgram.SelectedIndex = newIndex;
-				if (Properties.Settings.Default.PopupWindowForNewIns)
-					ShowParamWindow(newIndex);
+				InsertNewInstruction(newIndex, op);				
 			}
+		}
+
+		/// <summary>
+		/// Insert a new instruction at specified index and update the content.
+		/// </summary>	
+		/// <param name="index">The zero-base index at which the new instruction should be inserted.</param>
+		/// <param name="opCode">The opcode of the instruction.</param>
+		public void InsertNewInstruction(int index, string opCode)
+		{
+			Instruction newIns = Instruction.CreatDefaultFromOpcode(opCode);
+
+			if (newIns != null)
+			{
+				if (opCode == Instruction.IF || opCode == Instruction.LOOP)
+				{
+					// Add HLProgram for IF and LOOP.
+					pvm.InsertSubProgram(index, HLProgram.GetDefaultIfLoopBlock(newIns));
+				}
+				else
+				{
+					// Add single Instruction.
+					pvm.InsertInstruction(index, newIns);
+				}
+				UpdateContent();
+				listViewProgram.SelectedIndex = index;
+
+				// To ensure that the selected item is visible.
+				listViewProgram.ScrollIntoView(listViewProgram.SelectedItem);
+
+				if (Properties.Settings.Default.PopupWindowForNewIns)
+					ShowParamWindow(index);
+			}
+		}
+
+		/// <summary>
+		/// Add a new instruction to the end of the list.
+		/// </summary>	
+		/// <param name="opCode">The opcode of the instruction.</param>
+		public void AddNewInstruction(string opCode)
+		{
+			int index = pvm.Count;
+			InsertNewInstruction(index, opCode);
 		}
 
 		#endregion // NewlistView_Drop
@@ -223,7 +255,7 @@ namespace iRobotGUI.Controls
 		#region private operations
 
 		/// <summary>
-		/// Update content in ProgramList accordint to pvm
+		/// Update content in ProgramList according to pvm
 		/// </summary>
 		private void UpdateContent()
 		{
@@ -234,7 +266,7 @@ namespace iRobotGUI.Controls
 
 			for (int i = 0; i < pvm.Count; i++)
 			{
-				Instruction ins = pvm.GetInstruction(pvm[i]);
+				Instruction ins = pvm.GetInstruction(i);
 				//Image icon = GetImageFromInstruction(ins);
 				//DisplayItem itemToDisplay = new DisplayItem(icon, TextDescriber.GetTextDescription(ins));
 				Uri path = GetPathFromInstruction(ins);
@@ -245,6 +277,12 @@ namespace iRobotGUI.Controls
 				}
 			}
 			listViewProgram.SelectedIndex = selectedIndex;
+
+			// Fire ProgramChanged event.
+			if (ProgramChanged != null)
+			{
+				ProgramChanged();
+			}
 		}
 
 		/// <summary>
@@ -287,11 +325,11 @@ namespace iRobotGUI.Controls
 		private void ShowParamWindow(int index)
 		{
 			// The Ins under modification
-			Instruction selectedIns = pvm.GetInstruction(pvm[index]);
+			Instruction selectedIns = pvm.GetInstruction(index);
 
 			if (selectedIns.opcode == Instruction.IF || selectedIns.opcode == Instruction.LOOP)
 			{
-				HLProgram subProgram = pvm.GetSubProgram(pvm[index]);
+				HLProgram subProgram = pvm.GetSubProgram(index);
 
 				// invoke the dialog
 				HLProgram result = DialogInvoker.ShowDialog(subProgram, Window.GetWindow(this));
@@ -309,75 +347,7 @@ namespace iRobotGUI.Controls
 
 		#endregion // private operations
 
-		#region file operations
-
-		private void ListCopyExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			CopySelection();
-		}
-
-		private void ListCutExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			CopySelection();
-			RemoveSelection();
-		}
-
-		private void ListPasteExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			int newIndex = listViewProgram.SelectedIndex;
-			if (newIndex < 0)
-				newIndex = pvm.Count;
-
-			int pvmvalue = Int32.Parse(Clipboard.GetText());
-			Instruction ins = pvm.GetInstruction(pvmvalue);
-
-			if (ins.opcode == Instruction.IF || ins.opcode == Instruction.LOOP)
-			{
-				pvm.InsertSubProgram(newIndex, pvm.GetSubProgram(pvmvalue));
-			}
-			else
-			{
-				String insstring = ins.ToString();
-				Instruction newins = new Instruction(insstring);
-				pvm.InsertInstruction(newIndex, newins);
-			}
-
-			UpdateContent();
-		}
-
-		private void ListCutCopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = listViewProgram.SelectedIndex >= 0;
-		}
-
-		private void ListPasteCanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = Clipboard.ContainsText();
-		}
-
-		private void CopySelection()
-		{
-			int index = listViewProgram.SelectedIndex;
-			if (index < 0)
-				return;
-
-			Clipboard.Clear();
-			Clipboard.SetText(pvm[index].ToString());
-		}
-
-		private void RemoveSelection()
-		{
-			int index = listViewProgram.SelectedIndex;
-			if (index < 0)
-				return;
-
-			// Just remove the pointer. We don't care the source in HLProgram.
-			pvm.Remove(pvm[index]);
-
-			UpdateContent();
-		}
-
-		#endregion // file operations
+		#region Edit
 
 		private void DeleteCanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
@@ -391,6 +361,80 @@ namespace iRobotGUI.Controls
 		{
 			RemoveSelection();
 		}
+
+		private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			CopySelection();
+		}
+
+		private void CutExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			CopySelection();
+			RemoveSelection();
+		}
+
+		private void PasteExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			int newIndex = listViewProgram.SelectedIndex;
+			if (newIndex < 0)
+				newIndex = pvm.Count;
+
+			string subProgramString = Clipboard.GetText();
+			HLProgram subProgram = new HLProgram(subProgramString);
+			pvm.InsertSubProgram(newIndex, subProgram);
+
+			UpdateContent();
+		}
+
+		private void CutCopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = listViewProgram.SelectedIndex >= 0;
+		}
+
+		private void PasteCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = Clipboard.ContainsText();
+		}
+
+		private void CopySelection()
+		{
+			int index = listViewProgram.SelectedIndex;
+			if (index < 0)
+				return;
+
+			Clipboard.Clear();
+			Clipboard.SetText(pvm.GetSubProgram(index).ToString());
+
+			if (ClipboardChanged != null)
+			{
+				ClipboardChanged();
+			}
+		}
+
+		private void RemoveSelection()
+		{
+			int index = listViewProgram.SelectedIndex;
+			if (index < 0)
+				return;
+
+			// Just remove the pointer. We don't care the source in HLProgram.
+			pvm.Remove(index);
+
+			UpdateContent();
+		}
+
+		#endregion // file operations
+
+		private void listViewProgram_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (SelectedInstructionChanged != null)
+			{
+				if (listViewProgram.SelectedIndex != -1)
+					SelectedInstructionChanged(pvm.GetSubProgram(listViewProgram.SelectedIndex).ToString());
+			}
+		}
+
+
 
 	}
 }
