@@ -534,5 +534,10 @@ namespace iRobotGUI
 			}
 		}
 		#endregion Window callbacks
+
+		private void InstructionPanel_AddNewInstructionEvent(string opcode)
+		{
+			programList.AddNewInstruction(opcode);
+		}
 	}
 }

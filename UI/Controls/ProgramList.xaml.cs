@@ -193,27 +193,50 @@ namespace iRobotGUI.Controls
 
 				string op = (string)e.Data.GetData(DataFormats.StringFormat);
 
-				Instruction newIns = Instruction.CreatDefaultFromOpcode(op);
-
-				if (newIns != null)
-				{
-					if (op == Instruction.IF || op == Instruction.LOOP)
-					{
-						// Add HLProgram for IF and LOOP.
-						pvm.InsertSubProgram(newIndex, HLProgram.GetDefaultIfLoopBlock(newIns));
-					}
-					else
-					{
-						// Add single Instruction.
-						pvm.InsertInstruction(newIndex, newIns);
-					}
-				}
-
-				UpdateContent();
-				listViewProgram.SelectedIndex = newIndex;
+				InsertNewInstruction(newIndex, op);				
+				
 				if (Properties.Settings.Default.PopupWindowForNewIns)
 					ShowParamWindow(newIndex);
 			}
+		}
+
+		/// <summary>
+		/// Insert a new instruction at specified index and update the content.
+		/// </summary>	
+		/// <param name="index">The zero-base index at which the new instruction should be inserted.</param>
+		/// <param name="opCode">The opcode of the instruction.</param>
+		public void InsertNewInstruction(int index, string opCode)
+		{
+			Instruction newIns = Instruction.CreatDefaultFromOpcode(opCode);
+
+			if (newIns != null)
+			{
+				if (opCode == Instruction.IF || opCode == Instruction.LOOP)
+				{
+					// Add HLProgram for IF and LOOP.
+					pvm.InsertSubProgram(index, HLProgram.GetDefaultIfLoopBlock(newIns));
+				}
+				else
+				{
+					// Add single Instruction.
+					pvm.InsertInstruction(index, newIns);
+				}
+				UpdateContent();
+				listViewProgram.SelectedIndex = index;
+
+				// To ensure that the selected item is visible.
+				listViewProgram.ScrollIntoView(listViewProgram.SelectedItem);
+			}
+		}
+
+		/// <summary>
+		/// Add a new instruction to the end of the list.
+		/// </summary>	
+		/// <param name="opCode">The opcode of the instruction.</param>
+		public void AddNewInstruction(string opCode)
+		{
+			int index = pvm.Count;
+			InsertNewInstruction(index, opCode);
 		}
 
 		#endregion // NewlistView_Drop
@@ -223,7 +246,7 @@ namespace iRobotGUI.Controls
 		#region private operations
 
 		/// <summary>
-		/// Update content in ProgramList accordint to pvm
+		/// Update content in ProgramList according to pvm
 		/// </summary>
 		private void UpdateContent()
 		{
@@ -311,18 +334,31 @@ namespace iRobotGUI.Controls
 
 		#region file operations
 
-		private void ListCopyExecuted(object sender, ExecutedRoutedEventArgs e)
+		private void DeleteCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (listViewProgram.SelectedIndex != -1)
+			{
+				e.CanExecute = true;
+			}
+		}
+
+		private void DeleteExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			RemoveSelection();
+		}
+
+		private void CopyExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
 			CopySelection();
 		}
 
-		private void ListCutExecuted(object sender, ExecutedRoutedEventArgs e)
+		private void CutExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
 			CopySelection();
 			RemoveSelection();
 		}
 
-		private void ListPasteExecuted(object sender, ExecutedRoutedEventArgs e)
+		private void PasteExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
 			int newIndex = listViewProgram.SelectedIndex;
 			if (newIndex < 0)
@@ -345,12 +381,12 @@ namespace iRobotGUI.Controls
 			UpdateContent();
 		}
 
-		private void ListCutCopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		private void CutCopyCanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = listViewProgram.SelectedIndex >= 0;
 		}
 
-		private void ListPasteCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		private void PasteCanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = Clipboard.ContainsText();
 		}
@@ -379,18 +415,7 @@ namespace iRobotGUI.Controls
 
 		#endregion // file operations
 
-		private void DeleteCanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			if (listViewProgram.SelectedIndex != -1)
-			{
-				e.CanExecute = true;
-			}
-		}
-
-		private void DeleteExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			RemoveSelection();
-		}
+	
 
 	}
 }

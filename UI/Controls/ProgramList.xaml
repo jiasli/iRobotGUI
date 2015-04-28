@@ -9,9 +9,9 @@
 			 RenderOptions.BitmapScalingMode="HighQuality">
 
 	<UserControl.CommandBindings>
-		<CommandBinding Command="ApplicationCommands.Cut" CanExecute="ListCutCopyCanExecute" Executed="ListCutExecuted" />
-		<CommandBinding Command="ApplicationCommands.Copy" CanExecute="ListCutCopyCanExecute" Executed="ListCopyExecuted" />
-		<CommandBinding Command="ApplicationCommands.Paste" CanExecute="ListPasteCanExecute" Executed="ListPasteExecuted" />
+		<CommandBinding Command="ApplicationCommands.Cut" CanExecute="CutCopyCanExecute" Executed="CutExecuted" />
+		<CommandBinding Command="ApplicationCommands.Copy" CanExecute="CutCopyCanExecute" Executed="CopyExecuted" />
+		<CommandBinding Command="ApplicationCommands.Paste" CanExecute="PasteCanExecute" Executed="PasteExecuted" />
 		<CommandBinding Command="ApplicationCommands.Delete" CanExecute="DeleteCanExecute" Executed="DeleteExecuted" />
 	</UserControl.CommandBindings>
 

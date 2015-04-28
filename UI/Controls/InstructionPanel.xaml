@@ -32,7 +32,8 @@
 			<Style TargetType="Image">
 				<Setter Property="Stretch" Value="Fill" />
 				<Setter Property="ToolTipService.ShowDuration" Value="100000" />
-				<EventSetter Event="MouseDown" Handler="MouseMove_General" />
+				<EventSetter Event="MouseMove" Handler="Image_MouseMove" />
+				<EventSetter Event="MouseDown" Handler="Image_MouseDown" />
 			</Style>
 		</Grid.Resources>
 
