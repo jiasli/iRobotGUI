@@ -73,7 +73,7 @@
 				<ColumnDefinition x:Name="columnDefinitionDebug" Width="250"/>
 			</Grid.ColumnDefinitions>
 
-			<Controls:InstructionPanel Grid.Column="0" />
+			<Controls:InstructionPanel Grid.Column="0" AddNewInstruction="InstructionPanel_AddNewInstructionEvent" />
 
 			<Image Grid.Column="1" Source="/iRobotGUI;component/pic/iRobotBG.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="150" Height="150" />
 			<Controls:ProgramList x:Name="programList"  Grid.Column="1" Margin="5" />
