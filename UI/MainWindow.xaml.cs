@@ -270,6 +270,7 @@ namespace iRobotGUI
 		{
 			igpFile = null;
 			programList.Program = new HLProgram();
+			textBlockStatus.Text = Directory.GetCurrentDirectory();
 		}
 
 		/// <summary>
@@ -513,9 +514,9 @@ namespace iRobotGUI
 		#region Window callbacks
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			if (igpFile == "")
-			{
-				// No file is open
+			// No file is open
+			if (string.IsNullOrEmpty(igpFile))
+			{				
 				if (programList.Program.ToString() == "") return;
 			}
 			else
@@ -535,15 +536,13 @@ namespace iRobotGUI
 		}
 		#endregion Window callbacks
 
+		#region Control Callbacks
 		private void InstructionPanel_AddNewInstruction(string opcode)
 		{
 			programList.AddNewInstruction(opcode);
 		}
-
-
-		#region ProgramList' Callbacks
+		
 		// For debugging
-
 		private void programList_ProgramChanged()
 		{
 			HLProgram program = programList.Program;

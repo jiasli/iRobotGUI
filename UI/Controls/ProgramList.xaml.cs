@@ -418,7 +418,7 @@ namespace iRobotGUI.Controls
 				return;
 
 			// Just remove the pointer. We don't care the source in HLProgram.
-			pvm.Remove(index);
+			pvm.RemoveAt(index);
 
 			UpdateContent();
 		}

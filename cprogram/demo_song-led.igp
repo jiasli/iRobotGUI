@@ -1,0 +1,7 @@
+SONG 64,32,64,32,65,32,67,32,67,32,65,32,64,32,62,32,60,32,60,32,62,32,64,32,64,48,62,16,62,64  // Play a song.
+LOOP 0,0,0  // Loop when the sensor Bump is not detected...
+LED 0,255,255  // Turn off both Play LED and Advance LED.
+DELAY 500  // Delay for 500ms.
+LED 10,0,255  // Turn on both Play LED and Advance LED.
+DELAY 500  // Delay for 500ms.
+END_LOOP   // Description not implemented.
