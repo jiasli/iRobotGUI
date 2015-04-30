@@ -58,5 +58,17 @@ namespace iRobotGUI.Properties {
                 this["PopupWindowForNewIns"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ComPortListIndex {
+            get {
+                return ((int)(this["ComPortListIndex"]));
+            }
+            set {
+                this["ComPortListIndex"] = value;
+            }
+        }
     }
 }
