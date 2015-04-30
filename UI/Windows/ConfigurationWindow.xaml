@@ -6,11 +6,12 @@
         Title="Configuration" Height="258.359" Width="411.83" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid>
         <Label Content="COM Port" HorizontalAlignment="Left" Margin="30,37,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="comboBoxCom" HorizontalAlignment="Left" Height="24" Margin="98,39,0,0" VerticalAlignment="Top" Width="193"
+        <ComboBox x:Name="comboBoxCom" HorizontalAlignment="Left" Height="24" Margin="98,39,0,0" VerticalAlignment="Top" Width="142"
 				 SelectedIndex="{Binding Source={x:Static p:Settings.Default}, Path=ComPortListIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 				  ItemsSource="{Binding Source={x:Static iRobot:ConfigurationWindow.ports}}"/>
-      
-        <Button Content="Device Manager" HorizontalAlignment="Left" Margin="296,40,0,0" VerticalAlignment="Top" Click="ButtonDeviceManager_Click"/>
+
+		<Button Content="Refresh" HorizontalAlignment="Left" Margin="245,39,0,0" VerticalAlignment="Top" Click="ButtonRefresh_Click"/>
+		<Button Content="Device Manager" HorizontalAlignment="Left" Margin="296,39,0,0" VerticalAlignment="Top" Click="ButtonDeviceManager_Click"/>
 
         <Button x:Name="buttonOk" Content="OK" HorizontalAlignment="Left" Margin="98,183,0,0" VerticalAlignment="Top" Width="75" IsDefault="True" Click="buttonOk_Click"/>
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="216,183,0,0" VerticalAlignment="Top" Width="75" IsCancel="True"/>
