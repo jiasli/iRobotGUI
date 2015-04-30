@@ -1,4 +1,5 @@
-﻿using iRobotGUI.WinAvr;
+﻿using iRobotGUI.Properties;
+using iRobotGUI.WinAvr;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,6 @@ namespace iRobotGUI
             set
             {
                 _config = value;
-                textboxCom.Text = value.comPort;
 
                 switch (value.firmwareVersion)
                 {
@@ -71,5 +71,11 @@ namespace iRobotGUI
         {
             System.Diagnostics.Process.Start("devmgmt.msc");
         }
+
+		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+		{
+			Settings.Default.Save();
+			base.OnClosing(e);
+		}
     }
 }

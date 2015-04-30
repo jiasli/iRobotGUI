@@ -11,7 +11,7 @@ namespace iRobotGUI.WinAvr
 	/// </summary>
 	public class WinAvrConfiguation
 	{
-		public string comPort = "COM1";  // com4
+		public string comPort = "COM1";  // com1
 		public string firmwareVersion = STK500V1; // stk500v1
 
 		public const string STK500 = "stk500";
