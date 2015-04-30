@@ -61,13 +61,13 @@ namespace iRobotGUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("COM1")]
-        public string ComPort {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ComPortListIndex {
             get {
-                return ((string)(this["ComPort"]));
+                return ((int)(this["ComPortListIndex"]));
             }
             set {
-                this["ComPort"] = value;
+                this["ComPortListIndex"] = value;
             }
         }
     }

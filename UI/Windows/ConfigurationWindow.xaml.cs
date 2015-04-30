@@ -22,6 +22,8 @@ namespace iRobotGUI
     public partial class ConfigurationWindow : Window
     {
         private WinAvrConfiguation _config;
+		public static string[] ports;
+
         public WinAvrConfiguation Config
         {
             set
@@ -49,12 +51,20 @@ namespace iRobotGUI
 
         public ConfigurationWindow()
         {
+			ports = System.IO.Ports.SerialPort.GetPortNames();
+
             InitializeComponent();
+
+			// https://msdn.microsoft.com/en-us/library/system.windows.controls.primitives.selector.selectedindex(v=vs.110).aspx
+			// If you set SelectedIndex to a value equal or greater than the number of child elements, the value is ignored.
+			// Try to select the first one.
+			if (comboBoxCom.SelectedIndex == -1) comboBoxCom.SelectedIndex = 0;
+		
         }
 
         private void buttonOk_Click(object sender, RoutedEventArgs e)
         {
-            _config.comPort = textboxCom.Text;
+            _config.comPort = comboBoxCom.Text;
 
             if (radio0.IsChecked ?? false)
                 _config.firmwareVersion = radio0.Content.ToString();
