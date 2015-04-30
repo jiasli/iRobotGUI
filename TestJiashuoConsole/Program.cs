@@ -13,6 +13,7 @@ namespace TestJiashuoConsole
 	{
 		static void Main(string[] args)
 		{
+			/*
 			Instruction ins1 = new Instruction("MOVE 100, 2");
 			Instruction ins2 = new Instruction("MOVE -100, 2");
 			Instruction ins3 = new Instruction("MOVE 0, 2");
@@ -34,6 +35,9 @@ namespace TestJiashuoConsole
 			string input = File.ReadAllText("demo_forward_until_bump.igp");
 			HLProgram pro = new HLProgram(input);
 			File.WriteAllText("demo_forward_until_bump_with_description.igp", pro.ToString(true));
+			 */
+
+			string[] ports = System.IO.Ports.SerialPort.GetPortNames();
 
 		}
 	}

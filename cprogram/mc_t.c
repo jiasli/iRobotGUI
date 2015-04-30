@@ -163,6 +163,7 @@ void delay(uint16_t time_ms)
 // Delay for the specified time in ms and update sensor values
 void delaySensors(uint16_t time_ms)
 {
+  /*
   uint8_t temp;
 
   timer_on = 1;
@@ -184,6 +185,27 @@ void delaySensors(uint16_t time_ms)
       sensors_flag = 1;
     }
   }
+  */
+  
+  uint8_t temp;
+
+  delay(time_ms);
+  
+  // Prepare the sensor.
+  sensors_index = 0;
+  sensors_flag = 1;	  
+  byteTx(CmdSensors);
+  byteTx(0);
+  
+  // Wait for the sensor.
+  while(!sensors_flag) ;
+  
+  for(temp = 0; temp < Sen0Size; temp++)
+    sensors[temp] = sensors_in[temp];
+
+  // Update running totals of distance and angle
+  distance += (int)((sensors[SenDist1] << 8) | sensors[SenDist0]);
+  angle += (int)((sensors[SenAng1] << 8) | sensors[SenAng0]);
 }
 
 

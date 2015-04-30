@@ -357,9 +357,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Remarks.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="pic\backward.png" />
     <Resource Include="pic\bump.png" />
     <Resource Include="pic\charging.png" />
