@@ -10,13 +10,35 @@ namespace iRobotGUI.WinAvr
 {
 	public class WinAvrConnector
 	{
-		public static WinAvrConfiguation config = new WinAvrConfiguation();
+		public static WinAvrConfiguation config;
+
+		static WinAvrConnector()
+		{
+			config = new WinAvrConfiguation();
+			string[] ports = System.IO.Ports.SerialPort.GetPortNames();
+			int portIndex = Properties.Settings.Default.ComPortListIndex;
+
+			// COM port detected
+			if (ports.Length > 0)
+			{
+				// Select the COM port according to current index
+				if (portIndex >= 0 && portIndex < ports.Length)
+					config.comPort = ports[portIndex];
+				// Select the first one
+				else config.comPort = ports[0];
+			}
+			// No COM Port detected
+			else config.comPort = "";
+			
+		}
 
 		/// <summary>
 		/// Tweak makefile so that WinAVR can work properly.
 		/// </summary>
 		public static void CustomizeMakefile()
 		{
+			if (config.comPort == "")
+				throw new ComPortException();
 			string makefile = File.ReadAllText("makefile_template");
 			makefile = makefile.Replace("{COM}", config.comPort);
 			makefile = makefile.Replace("{FIRMWARE_VERSION}", config.firmwareVersion);

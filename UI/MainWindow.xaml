@@ -61,9 +61,25 @@
 		</Menu>
 
 		<StatusBar DockPanel.Dock="Bottom" >
-			<StatusBarItem>
+			<StatusBar.ItemsPanel>
+				<ItemsPanelTemplate>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="3*" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="1*" />							
+						</Grid.ColumnDefinitions>
+					</Grid>
+				</ItemsPanelTemplate>
+			</StatusBar.ItemsPanel>
+			<StatusBarItem Grid.Column="0">
 				<TextBlock x:Name="textBlockStatus" Text="textBlockStatus" />
 			</StatusBarItem>
+			<Separator Grid.Column="1"/>
+			<StatusBarItem Grid.Column="2">
+				<TextBlock x:Name="textBlockComPort" Text="textBlockComPort" />
+			</StatusBarItem>
+			
 		</StatusBar>
 
 		<Grid>

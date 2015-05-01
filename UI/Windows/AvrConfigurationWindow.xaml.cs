@@ -19,7 +19,7 @@ namespace iRobotGUI
 	/// <summary>
 	/// Interaction logic for ComWindow.xaml
 	/// </summary>
-	public partial class ConfigurationWindow : Window
+	public partial class AvrConfigurationWindow : Window
 	{
 		private WinAvrConfiguation _config;
 		public static string[] ports;
@@ -49,7 +49,7 @@ namespace iRobotGUI
 			}
 		}
 
-		public ConfigurationWindow()
+		public AvrConfigurationWindow()
 		{
 			ports = System.IO.Ports.SerialPort.GetPortNames();
 
@@ -73,7 +73,6 @@ namespace iRobotGUI
 			else if (radio2.IsChecked ?? false)
 				_config.firmwareVersion = radio2.Content.ToString();
 
-			WinAvrConnector.CustomizeMakefile();
 			DialogResult = true;
 		}
 

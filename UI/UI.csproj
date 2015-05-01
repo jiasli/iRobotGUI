@@ -116,6 +116,7 @@
     <Compile Include="Controls\SteeringParam.xaml.cs">
       <DependentUpon>SteeringParam.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Exception\ComPortException.cs" />
     <Compile Include="Util\DialogInvoker.cs" />
     <Compile Include="Controls\MoveParam.xaml.cs">
       <DependentUpon>MoveParam.xaml</DependentUpon>
@@ -126,8 +127,8 @@
     <Compile Include="Util\PictureDiscription.cs" />
     <Compile Include="Util\ProgramViewModel.cs" />
     <Compile Include="WinAvr\WinAvrConfiguation.cs" />
-    <Compile Include="Windows\ConfigurationWindow.xaml.cs">
-      <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
+    <Compile Include="Windows\AvrConfigurationWindow.xaml.cs">
+      <DependentUpon>AvrConfigurationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ConditionPanel.xaml.cs">
       <DependentUpon>ConditionPanel.xaml</DependentUpon>
@@ -208,7 +209,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\ConfigurationWindow.xaml">
+    <Page Include="Windows\AvrConfigurationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

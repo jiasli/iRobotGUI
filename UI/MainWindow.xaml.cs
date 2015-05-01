@@ -94,6 +94,7 @@ namespace iRobotGUI
 				SettingsWindow.SetDefaultEmulatorPath();
 			}
 
+
 			if (!Directory.Exists(@"cprogram\"))
 			{
 				MessageBox.Show("The C template is missing, try re-install the program.", "Program Broken", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -108,7 +109,10 @@ namespace iRobotGUI
 
 			programList.Program = new HLProgram();
 
+			// Status bar
 			textBlockStatus.Text = Directory.GetCurrentDirectory();
+
+			UpdateStatusBarComport();
 		}
 
 
@@ -132,7 +136,11 @@ namespace iRobotGUI
 			{
 				WinAvrConnector.Make();
 			}
-			catch (Exception ex)
+			catch (ComPortException)
+			{
+				MessageBox.Show("COM port is not selected. Unable to build.", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+			catch (Exception)
 			{
 				ShowWinAvrError();
 			}
@@ -377,7 +385,7 @@ namespace iRobotGUI
 		private void WinAvrConfigCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
 			// Instantiate the dialog box
-			ConfigurationWindow dlg = new ConfigurationWindow();
+			AvrConfigurationWindow dlg = new AvrConfigurationWindow();
 
 
 			// Configure the dialog box
@@ -388,8 +396,7 @@ namespace iRobotGUI
 			dlg.ShowDialog();
 			if (dlg.DialogResult == true)
 			{
-				// MessageBox.Show(WinAvrConnector.config.ToString());
-
+				UpdateStatusBarComport();
 			}
 		}
 		#endregion
@@ -441,7 +448,14 @@ namespace iRobotGUI
 
 		private void ShowWinAvrError()
 		{
-			MessageBox.Show("Fail to execute. Check if WinAVR is installed correctly.", "Fail", MessageBoxButton.OK, MessageBoxImage.Error);
+			MessageBox.Show("Fail to execute. Check if WinAVR is installed correctly.", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+		}
+
+		private void UpdateStatusBarComport()
+		{
+			if (WinAvrConnector.config.comPort == "")
+				textBlockComPort.Text = "No COM Port connected";
+			else textBlockComPort.Text = WinAvrConnector.config.comPort;
 		}
 		#endregion
 
@@ -516,7 +530,7 @@ namespace iRobotGUI
 		{
 			// No file is open
 			if (string.IsNullOrEmpty(igpFile))
-			{				
+			{
 				if (programList.Program.ToString() == "") return;
 			}
 			else
@@ -541,7 +555,7 @@ namespace iRobotGUI
 		{
 			programList.AddNewInstruction(opcode);
 		}
-		
+
 		// For debugging
 		private void programList_ProgramChanged()
 		{
