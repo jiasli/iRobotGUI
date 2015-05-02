@@ -19,7 +19,7 @@ namespace iRobotGUI
 	/// <summary>
 	/// Interaction logic for ComWindow.xaml
 	/// </summary>
-	public partial class AvrConfigurationWindow : Window
+	public partial class ConfigurationWindow : Window
 	{
 		private WinAvrConfiguation _config;
 		public static string[] ports;
@@ -49,7 +49,7 @@ namespace iRobotGUI
 			}
 		}
 
-		public AvrConfigurationWindow()
+		public ConfigurationWindow()
 		{
 			ports = System.IO.Ports.SerialPort.GetPortNames();
 

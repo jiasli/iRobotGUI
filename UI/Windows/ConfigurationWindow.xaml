@@ -1,4 +1,4 @@
-﻿<Window x:Class="iRobotGUI.AvrConfigurationWindow"
+﻿<Window x:Class="iRobotGUI.ConfigurationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:p="clr-namespace:iRobotGUI.Properties" 
@@ -7,8 +7,8 @@
     <Grid>
         <Label Content="COM Port" HorizontalAlignment="Left" Margin="30,37,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="comboBoxCom" HorizontalAlignment="Left" Height="24" Margin="98,39,0,0" VerticalAlignment="Top" Width="142"
-				 SelectedIndex="{Binding Source={x:Static p:Settings.Default}, Path=ComPortListIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-				  ItemsSource="{Binding Source={x:Static iRobot:AvrConfigurationWindow.ports}}"/>
+				 SelectedItem="{Binding Source={x:Static p:Settings.Default}, Path=ComPortListIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+				  ItemsSource="{Binding Source={x:Static iRobot:ConfigurationWindow.ports}}"/>
 
 		<Button Content="Refresh" HorizontalAlignment="Left" Margin="245,39,0,0" VerticalAlignment="Top" Click="ButtonRefresh_Click"/>
 		<Button Content="Device Manager" HorizontalAlignment="Left" Margin="296,39,0,0" VerticalAlignment="Top" Click="ButtonDeviceManager_Click"/>

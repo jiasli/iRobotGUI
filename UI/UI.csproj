@@ -127,8 +127,8 @@
     <Compile Include="Util\PictureDiscription.cs" />
     <Compile Include="Util\ProgramViewModel.cs" />
     <Compile Include="WinAvr\WinAvrConfiguation.cs" />
-    <Compile Include="Windows\AvrConfigurationWindow.xaml.cs">
-      <DependentUpon>AvrConfigurationWindow.xaml</DependentUpon>
+    <Compile Include="Windows\ConfigurationWindow.xaml.cs">
+      <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ConditionPanel.xaml.cs">
       <DependentUpon>ConditionPanel.xaml</DependentUpon>
@@ -209,7 +209,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\AvrConfigurationWindow.xaml">
+    <Page Include="Windows\ConfigurationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

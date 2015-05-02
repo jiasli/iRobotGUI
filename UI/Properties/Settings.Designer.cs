@@ -61,13 +61,25 @@ namespace iRobotGUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int ComPortListIndex {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MicrocontrollerComPort {
             get {
-                return ((int)(this["ComPortListIndex"]));
+                return ((string)(this["MicrocontrollerComPort"]));
             }
             set {
-                this["ComPortListIndex"] = value;
+                this["MicrocontrollerComPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string EmulatorComPort {
+            get {
+                return ((string)(this["EmulatorComPort"]));
+            }
+            set {
+                this["EmulatorComPort"] = value;
             }
         }
     }

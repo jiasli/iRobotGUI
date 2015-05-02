@@ -14,22 +14,8 @@ namespace iRobotGUI.WinAvr
 
 		static WinAvrConnector()
 		{
-			config = new WinAvrConfiguation();
-			string[] ports = System.IO.Ports.SerialPort.GetPortNames();
-			int portIndex = Properties.Settings.Default.ComPortListIndex;
-
-			// COM port detected
-			if (ports.Length > 0)
-			{
-				// Select the COM port according to current index
-				if (portIndex >= 0 && portIndex < ports.Length)
-					config.comPort = ports[portIndex];
-				// Select the first one
-				else config.comPort = ports[0];
-			}
-			// No COM Port detected
-			else config.comPort = "";
-			
+			config = new WinAvrConfiguation();		
+			config.comPort = Properties.Settings.Default.MicrocontrollerComPort;	
 		}
 
 		/// <summary>

@@ -385,7 +385,7 @@ namespace iRobotGUI
 		private void WinAvrConfigCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
 			// Instantiate the dialog box
-			AvrConfigurationWindow dlg = new AvrConfigurationWindow();
+			ConfigurationWindow dlg = new ConfigurationWindow();
 
 
 			// Configure the dialog box
