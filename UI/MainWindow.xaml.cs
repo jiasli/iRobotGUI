@@ -454,8 +454,8 @@ namespace iRobotGUI
 		private void UpdateStatusBarComport()
 		{
 			if (WinAvrConnector.config.comPort == "")
-				textBlockComPort.Text = "No COM Port connected";
-			else textBlockComPort.Text = WinAvrConnector.config.comPort;
+				textBlockMicrocontrollerComPort.Text = "No COM Port connected";
+			else textBlockMicrocontrollerComPort.Text = WinAvrConnector.config.comPort;
 		}
 		#endregion
 

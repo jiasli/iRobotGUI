@@ -65,9 +65,11 @@
 				<ItemsPanelTemplate>
 					<Grid>
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="3*" />
+							<ColumnDefinition Width="2*" />
 							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="1*" />							
+							<ColumnDefinition Width="1*" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="1*" />
 						</Grid.ColumnDefinitions>
 					</Grid>
 				</ItemsPanelTemplate>
@@ -77,9 +79,13 @@
 			</StatusBarItem>
 			<Separator Grid.Column="1"/>
 			<StatusBarItem Grid.Column="2">
-				<TextBlock x:Name="textBlockComPort" Text="textBlockComPort" />
+				<TextBlock x:Name="textBlockMicrocontrollerComPort" Text="Microcontroller COM Port" />
 			</StatusBarItem>
-			
+			<Separator Grid.Column="3"/>
+			<StatusBarItem Grid.Column="4">
+				<TextBlock x:Name="textBlockEMComPort" Text="Emulator COM Port" />
+			</StatusBarItem>
+
 		</StatusBar>
 
 		<Grid>
