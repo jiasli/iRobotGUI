@@ -5,26 +5,48 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
+using iRobotGUI.Properties;
 
 namespace iRobotGUI.WinAvr
 {
-	public class WinAvrConnector
+	/// <summary>
+	/// This class is the information for WinAVR compilation and loading routine.
+	/// </summary>
+	internal class WinAvrConfiguation
 	{
-		public static WinAvrConfiguation config;
+		public string comPort = "COM1";  // com1
+		public string firmwareVersion = STK500V1; // stk500v1
 
-		static WinAvrConnector()
+		public const string STK500 = "stk500";
+		public const string STK500V1 = "stk500v1";
+		public const string STK500V2 = "stk500v2";
+
+
+		public override string ToString()
 		{
-			config = new WinAvrConfiguation();		
-			config.comPort = Properties.Settings.Default.MicrocontrollerComPort;	
+			return string.Format("COM Port: {0}\nFirmware Version: {1}", comPort, firmwareVersion);
 		}
+	}
+
+	public class WinAvrConnector
+	{			
 
 		/// <summary>
 		/// Tweak makefile so that WinAVR can work properly.
 		/// </summary>
 		public static void CustomizeMakefile()
-		{
-			if (config.comPort == "")
+		{			
+			WinAvrConfiguation config = new WinAvrConfiguation();
+
+			if (Settings.Default.MicrocontrollerComPort == "")
 				throw new ComPortException();
+			else config.comPort = Settings.Default.MicrocontrollerComPort;
+
+			if (Settings.Default.FirmwareVersion == "")
+				config.firmwareVersion = WinAvrConfiguation.STK500V1;
+			else config.firmwareVersion = Settings.Default.FirmwareVersion;
+
+
 			string makefile = File.ReadAllText("makefile_template");
 			makefile = makefile.Replace("{COM}", config.comPort);
 			makefile = makefile.Replace("{FIRMWARE_VERSION}", config.firmwareVersion);

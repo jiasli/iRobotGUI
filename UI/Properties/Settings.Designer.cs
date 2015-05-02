@@ -82,5 +82,17 @@ namespace iRobotGUI.Properties {
                 this["EmulatorComPort"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FirmwareVersion {
+            get {
+                return ((string)(this["FirmwareVersion"]));
+            }
+            set {
+                this["FirmwareVersion"] = value;
+            }
+        }
     }
 }

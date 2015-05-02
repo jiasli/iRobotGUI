@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using iRobotGUI.WinAvr;
 using System.Diagnostics;
+using iRobotGUI.Properties;
 
 namespace iRobotGUI
 {
@@ -47,7 +48,7 @@ namespace iRobotGUI
 
 		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift) });
-		public static RoutedCommand SettingCmd = new RoutedUICommand("Setting", "Setting", typeof(Window),
+		public static RoutedCommand SettingCmd = new RoutedUICommand("Preference and Emulator", "Setting", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift) });
 		public static RoutedCommand WinAvrConfigCmd = new RoutedUICommand("WinAVR Configuation", "avrconfig", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift) });
@@ -389,8 +390,7 @@ namespace iRobotGUI
 
 
 			// Configure the dialog box
-			dlg.Owner = this;
-			dlg.Config = WinAvrConnector.config;
+			dlg.Owner = this;			
 
 			// Open the dialog box modally 
 			dlg.ShowDialog();
@@ -453,9 +453,9 @@ namespace iRobotGUI
 
 		private void UpdateStatusBarComport()
 		{
-			if (WinAvrConnector.config.comPort == "")
+			if (Properties.Settings.Default.MicrocontrollerComPort == "")
 				textBlockMicrocontrollerComPort.Text = "No COM Port connected";
-			else textBlockMicrocontrollerComPort.Text = WinAvrConnector.config.comPort;
+			else textBlockMicrocontrollerComPort.Text = Settings.Default.EmulatorComPort;
 		}
 		#endregion
 

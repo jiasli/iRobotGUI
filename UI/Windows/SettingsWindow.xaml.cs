@@ -63,7 +63,7 @@ namespace iRobotGUI
 
 		/// <summary>
 		/// Set the default emualtor path. Since the emualtor is shipped with the release package,
-		/// this method gets the directory where the exe file locates and combine it with MCEmulator.
+		/// this method gets the directory where the exe file locates and combines it with MCEmulator.
 		/// </summary>
 		public static void SetDefaultEmulatorPath()
 		{
