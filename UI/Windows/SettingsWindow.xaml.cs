@@ -31,12 +31,13 @@ namespace iRobotGUI
 		public SettingsWindow()
 		{
 			InitializeComponent();
-
-			textBoxEmulatorPath.Text = Settings.Default.EmulatorPath;
+		
+			emulatorCom.ComPort = Settings.Default.EmulatorComPort;
 		}
 
 		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
 		{
+			Settings.Default.EmulatorComPort = emulatorCom.ComPort;
 			Settings.Default.Save();
 			base.OnClosing(e);
 		}

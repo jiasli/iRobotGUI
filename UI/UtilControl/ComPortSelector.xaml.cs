@@ -36,6 +36,7 @@ namespace iRobotGUI
 		{
 			InitializeComponent();
 			
+			// Get all connected ports and select the first one.
 			string[] ports = System.IO.Ports.SerialPort.GetPortNames();
 			comboBoxCom.ItemsSource = ports;
 			if (ports.Length > 0) comboBoxCom.SelectedIndex = 0;

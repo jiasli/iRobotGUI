@@ -9,7 +9,7 @@
 		<Label Content="COM Port" HorizontalAlignment="Left" Margin="30,37,0,0" VerticalAlignment="Top"/>
 
 		<!-- Com port selector for Microcontroller -->
-		<iRobot:ComPortSelector x:Name="comPortMC" Margin="98,37,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="279" Height="26"/>
+		<iRobot:ComPortSelector x:Name="comMC" Margin="98,37,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="279" Height="26"/>
 
 
 		<Button x:Name="buttonOk" Content="OK" HorizontalAlignment="Left" Margin="98,183,0,0" VerticalAlignment="Top" Width="75" IsDefault="True" Click="buttonOk_Click"/>

@@ -28,7 +28,7 @@ namespace iRobotGUI
 			InitializeComponent();
 
 			// COM Port
-			comPortMC.ComPort = Settings.Default.EmulatorComPort;
+			comMC.ComPort = Settings.Default.MicrocontrollerComPort;
 
 			// Firmware
 			switch (Settings.Default.FirmwareVersion)
@@ -51,7 +51,7 @@ namespace iRobotGUI
 		private void buttonOk_Click(object sender, RoutedEventArgs e)
 		{
 			// COM Port
-			Settings.Default.EmulatorComPort = comPortMC.ComPort;
+			Settings.Default.MicrocontrollerComPort = comMC.ComPort;
 
 			// Firmware
 			if (radio0.IsChecked ?? false)

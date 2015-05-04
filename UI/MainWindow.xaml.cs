@@ -48,7 +48,7 @@ namespace iRobotGUI
 
 		public static RoutedCommand OpenSourceCmd = new RoutedUICommand("Open Source File", "srcfile", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift) });
-		public static RoutedCommand SettingCmd = new RoutedUICommand("Preference and Emulator", "Setting", typeof(Window),
+		public static RoutedCommand SettingCmd = new RoutedUICommand("Preferences and Emulator", "Setting", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift) });
 		public static RoutedCommand WinAvrConfigCmd = new RoutedUICommand("WinAVR Configuation", "avrconfig", typeof(Window),
 			new InputGestureCollection { new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift) });
@@ -59,10 +59,7 @@ namespace iRobotGUI
 			new InputGestureCollection { new KeyGesture(Key.R, ModifierKeys.Control | ModifierKeys.Shift) });
 
 
-		public const string MicrocontrollerTemplate = "mc_t.c";
-		public const string MicrocontrollerOutputFile = "mc_o.c";
-		public const string EmulatorTemplate = "em_t.c";
-		public const string EmulatorOutputFile = "em_o.c";
+
 
 		private string igpFile = "";
 
@@ -113,7 +110,7 @@ namespace iRobotGUI
 			// Status bar
 			textBlockStatus.Text = Directory.GetCurrentDirectory();
 
-			UpdateStatusBarComport();
+			UpdateStatusBarComPort();
 		}
 
 
@@ -123,11 +120,9 @@ namespace iRobotGUI
 
 		private void TranslateToMicrocontrollerCCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			string cCode = Translator.Translate(programList.Program);
+			WinAvrConnector.TranslateToC(programList.Program);
 
-			CodeGenerator.GenerateCSource(MicrocontrollerTemplate, MicrocontrollerOutputFile, cCode);
-
-			if (Properties.Settings.Default.OpenCCode) Process.Start(MicrocontrollerOutputFile);
+			if (Properties.Settings.Default.OpenCCode) Process.Start(WinAvrConnector.MicrocontrollerOutputFile);
 		}
 
 		// Create(New), Save and Load. Traceability: WC_3305: As an ESS, I can create, save and load program files.
@@ -178,39 +173,23 @@ namespace iRobotGUI
 
 		private void TranslateToEmulatorCCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			string emulatorPath = Properties.Settings.Default.EmulatorPath;
-
 			try
 			{
-				string cCode = Translator.Translate(programList.Program);
-				string templateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorTemplate);
-				string outputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", EmulatorOutputFile);
-
-				CodeGenerator.GenerateCSource(templateFullPath, outputFullPath, cCode);
+				EmulatorConnector.TranslateToC(programList.Program);
 			}
 			catch (Exception)
 			{
-				MessageBox.Show("Emulator path not invalid. Use Build -> Setting to select the correct path.",
-					"Invalid Emulator Path", MessageBoxButton.OK, MessageBoxImage.Error);
-
+				MessageBox.Show("Emulator path or COM Port invalid. Use Build -> Preferences and Emulator to select the correct path or COM Port.",
+					"Invalid Parameters", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 		}
 
 		private void BuildEmulatorCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			string emulatorPath = Properties.Settings.Default.EmulatorPath;
-			string buildBatName = "MSMake.bat";
-			string buildBatFullPath = System.IO.Path.Combine(emulatorPath, buildBatName);
-			// string solutionName = "MCEmulator.sln";
-			// string solutionFullName = System.IO.Path.Combine(emulatorPath, solutionName);
-
-			//Process.Start(@"C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe", solutionFullName);
-
 			try
 			{
-				Process process = Process.Start(buildBatFullPath);
-				process.WaitForExit();
+				EmulatorConnector.Build();
 			}
 			catch (Exception ex)
 			{
@@ -222,18 +201,9 @@ namespace iRobotGUI
 
 		private void RunEmulatorCmdExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			string emulatorPath = Properties.Settings.Default.EmulatorPath;
-			string exeName = @"Debug\MCEmulator.exe";
-			string exeFullPath = System.IO.Path.Combine(emulatorPath, exeName);
-			// string solutionName = "MCEmulator.sln";
-			// string solutionFullName = System.IO.Path.Combine(emulatorPath, solutionName);
-
-			//Process.Start(@"C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.exe", solutionFullName);
-
 			try
 			{
-				Process process = Process.Start(exeFullPath);
-				process.WaitForExit();
+				EmulatorConnector.Run();
 			}
 			catch (Exception ex)
 			{
@@ -379,7 +349,10 @@ namespace iRobotGUI
 
 			sw.Owner = this;
 			sw.ShowDialog();
+
+			UpdateStatusBarComPort();
 		}
+
 		/// <summary>
 		/// Show Configuration Window
 		/// </summary>
@@ -390,13 +363,13 @@ namespace iRobotGUI
 
 
 			// Configure the dialog box
-			dlg.Owner = this;			
+			dlg.Owner = this;
 
 			// Open the dialog box modally 
 			dlg.ShowDialog();
 			if (dlg.DialogResult == true)
 			{
-				UpdateStatusBarComport();
+				UpdateStatusBarComPort();
 			}
 		}
 		#endregion
@@ -451,11 +424,20 @@ namespace iRobotGUI
 			MessageBox.Show("Fail to execute. Check if WinAVR is installed correctly.", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 
-		private void UpdateStatusBarComport()
+		private void UpdateStatusBarComPort()
 		{
-			if (Properties.Settings.Default.MicrocontrollerComPort == "")
-				textBlockMicrocontrollerComPort.Text = "No COM Port connected";
-			else textBlockMicrocontrollerComPort.Text = Settings.Default.EmulatorComPort;
+			// Microcontroller
+			string mcCom;
+			if (Properties.Settings.Default.MicrocontrollerComPort == "") mcCom = "NA";
+			else mcCom = Settings.Default.MicrocontrollerComPort;
+			textBlockMicrocontrollerComPort.Text = "Microcontroller COM Port: " + mcCom;
+
+			// Emulator
+			string emCom;
+			if (Properties.Settings.Default.EmulatorComPort == "") emCom = "NA";
+			else emCom = Settings.Default.EmulatorComPort;
+			textBlockEmulatorComPort.Text = "Emulator COM Port: " + emCom;
+
 		}
 		#endregion
 
@@ -496,7 +478,7 @@ namespace iRobotGUI
 
 		private void MenuItemShowCCode_Click(object sender, RoutedEventArgs e)
 		{
-			System.Diagnostics.Process.Start(MicrocontrollerOutputFile);
+			System.Diagnostics.Process.Start(WinAvrConnector.MicrocontrollerOutputFile);
 		}
 
 		private void MenuItemShowDebugPanel_Checked(object sender, RoutedEventArgs e)
@@ -573,5 +555,15 @@ namespace iRobotGUI
 			textBoxSelectedInstruction.Text = insString;
 		}
 		#endregion
+
+		private void StatusBarItemMC_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			WinAvrConfigCmd.Execute(null, this);
+		}
+
+		private void StatusBarItemEM_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			SettingCmd.Execute(null, this);
+		}
 	}
 }

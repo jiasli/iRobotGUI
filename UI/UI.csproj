@@ -104,6 +104,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Connector\EmulatorConnector.cs" />
     <Compile Include="ParamControl\SensorSelector.xaml.cs">
       <DependentUpon>SensorSelector.xaml</DependentUpon>
     </Compile>
@@ -185,7 +186,7 @@
     <Compile Include="Windows\SongWindow.xaml.cs">
       <DependentUpon>SongWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WinAvr\WinAvrConnector.cs" />
+    <Compile Include="Connector\WinAvrConnector.cs" />
     <Compile Include="Util\InsCondition.cs" />
     <Page Include="ParamControl\SensorSelector.xaml">
       <Generator>MSBuild:Compile</Generator>

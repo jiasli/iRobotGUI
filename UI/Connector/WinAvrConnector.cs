@@ -28,11 +28,16 @@ namespace iRobotGUI.WinAvr
 		}
 	}
 
-	public class WinAvrConnector
-	{			
+	public class WinAvrConnector 
+	{
+		public const string MicrocontrollerTemplate = "mc_t.c";
+		public const string MicrocontrollerOutputFile = "mc_o.c";
+		public const string MakefileTemplate = "makefile_template";
+		public const string MakefileOutput = "makefile";
 
 		/// <summary>
-		/// Tweak makefile so that WinAVR can work properly.
+		/// Customize makefile so that WinAVR can work properly. The COM port and Firmware will be
+		/// changed according to the settings.
 		/// </summary>
 		public static void CustomizeMakefile()
 		{			
@@ -47,10 +52,16 @@ namespace iRobotGUI.WinAvr
 			else config.firmwareVersion = Settings.Default.FirmwareVersion;
 
 
-			string makefile = File.ReadAllText("makefile_template");
-			makefile = makefile.Replace("{COM}", config.comPort);
-			makefile = makefile.Replace("{FIRMWARE_VERSION}", config.firmwareVersion);
-			File.WriteAllText("makefile", makefile);
+			string makefileStr = File.ReadAllText(MakefileTemplate);
+			makefileStr = makefileStr.Replace("{COM}", config.comPort);
+			makefileStr = makefileStr.Replace("{FIRMWARE_VERSION}", config.firmwareVersion);
+			File.WriteAllText(MakefileOutput, makefileStr);
+		}
+
+		public static void TranslateToC(HLProgram program)
+		{
+			string cCode = Translator.Translate(program);
+			CodeGenerator.GenerateCSource(MicrocontrollerTemplate, MicrocontrollerOutputFile, cCode);			
 		}
 
 		/// <summary>
