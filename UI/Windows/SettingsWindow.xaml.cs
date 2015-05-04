@@ -31,12 +31,13 @@ namespace iRobotGUI
 		public SettingsWindow()
 		{
 			InitializeComponent();
-
-			textBoxEmulatorPath.Text = Settings.Default.EmulatorPath;
+		
+			emulatorCom.ComPort = Settings.Default.EmulatorComPort;
 		}
 
 		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
 		{
+			Settings.Default.EmulatorComPort = emulatorCom.ComPort;
 			Settings.Default.Save();
 			base.OnClosing(e);
 		}
@@ -63,7 +64,7 @@ namespace iRobotGUI
 
 		/// <summary>
 		/// Set the default emualtor path. Since the emualtor is shipped with the release package,
-		/// this method gets the directory where the exe file locates and combine it with MCEmulator.
+		/// this method gets the directory where the exe file locates and combines it with MCEmulator.
 		/// </summary>
 		public static void SetDefaultEmulatorPath()
 		{

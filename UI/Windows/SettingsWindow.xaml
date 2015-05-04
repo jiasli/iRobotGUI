@@ -1,7 +1,9 @@
-﻿<Window x:Class="iRobotGUI.SettingsWindow"
+﻿<Window
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:p="clr-namespace:iRobotGUI.Properties" 
+		
+		xmlns:local="clr-namespace:iRobotGUI" x:Class="iRobotGUI.SettingsWindow" 
 		
 		Title="SettingsWindow" Height="355" Width="603" WindowStartupLocation="CenterOwner">
 	<Grid>
@@ -12,17 +14,22 @@
 		<StackPanel Margin="49,10,44,40">
 
 			<CheckBox Content="Pop up parameter window for new instruction" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="1"
-				  IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=PopupWindowForNewIns, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" />
+				IsChecked="{Binding PopupWindowForNewIns, Mode=TwoWay, Source={x:Static p:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" />
 
 			<CheckBox Content="Show C file after translation" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="1"
-				  IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=OpenCCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				IsChecked="{Binding OpenCCode, Mode=TwoWay, Source={x:Static p:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" />
 
 			<DockPanel Margin="0,10,0,0">
 				<TextBlock Text="Emulator Path" Width="80" VerticalAlignment="Center" />
 				<Button x:Name="buttonShowInExplorer" Content="Show in Explorer" DockPanel.Dock="Right" Click="buttonShowInExplorer_Click" />
 				<Button x:Name="buttonBrowse" Content="..." DockPanel.Dock="Right" Width="30" Click="buttonBrowse_Click" />
 				<TextBox x:Name="textBoxEmulatorPath" TextWrapping="Wrap"
-						 Text="{Binding Source={x:Static p:Settings.Default}, Path=EmulatorPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					Text="{Binding EmulatorPath, Mode=TwoWay, Source={x:Static p:Settings.Default}, UpdateSourceTrigger=PropertyChanged}" />
+			</DockPanel>
+
+			<DockPanel Margin="0,10,0,0">
+				<TextBlock Text="Emulator COM Port" VerticalAlignment="Center" Width="107" />
+				<local:ComPortSelector x:Name="emulatorCom"/>
 			</DockPanel>
 
 		</StackPanel>

@@ -104,35 +104,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\SensorSelector.xaml.cs">
+    <Compile Include="Connector\EmulatorConnector.cs" />
+    <Compile Include="ParamControl\SensorSelector.xaml.cs">
       <DependentUpon>SensorSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DelayParam.xaml.cs">
+    <Compile Include="ParamControl\DelayParam.xaml.cs">
       <DependentUpon>DelayParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DriveParam.xaml.cs">
+    <Compile Include="ParamControl\DriveParam.xaml.cs">
       <DependentUpon>DriveParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SteeringParam.xaml.cs">
+    <Compile Include="ParamControl\SteeringParam.xaml.cs">
       <DependentUpon>SteeringParam.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Exception\ComPortException.cs" />
+    <Compile Include="UtilControl\ComPortSelector.xaml.cs">
+      <DependentUpon>ComPortSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util\DialogInvoker.cs" />
-    <Compile Include="Controls\MoveParam.xaml.cs">
+    <Compile Include="ParamControl\MoveParam.xaml.cs">
       <DependentUpon>MoveParam.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\RotateParam.xaml.cs">
+    <Compile Include="ParamControl\RotateParam.xaml.cs">
       <DependentUpon>RotateParam.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\PictureDiscription.cs" />
     <Compile Include="Util\ProgramViewModel.cs" />
-    <Compile Include="WinAvr\WinAvrConfiguation.cs" />
     <Compile Include="Windows\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ConditionPanel.xaml.cs">
+    <Compile Include="ParamControl\ConditionPanel.xaml.cs">
       <DependentUpon>ConditionPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DemoParam.xaml.cs">
+    <Compile Include="ParamControl\DemoParam.xaml.cs">
       <DependentUpon>DemoParam.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\DelayWindow.xaml.cs">
@@ -150,15 +154,15 @@
     <Compile Include="Windows\LoopWindow.xaml.cs">
       <DependentUpon>LoopWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BaseParamControl.cs" />
-    <Compile Include="Controls\DragAdorner.cs" />
-    <Compile Include="Controls\InstructionPanel.xaml.cs">
+    <Compile Include="ParamControl\BaseParamControl.cs" />
+    <Compile Include="ParamControl\DragAdorner.cs" />
+    <Compile Include="ParamControl\InstructionPanel.xaml.cs">
       <DependentUpon>InstructionPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ListViewDragDropManager.cs" />
-    <Compile Include="Controls\MouseUtilities.cs" />
+    <Compile Include="ParamControl\ListViewDragDropManager.cs" />
+    <Compile Include="ParamControl\MouseUtilities.cs" />
     <Compile Include="Windows\BaseParamWindow.cs" />
-    <Compile Include="Controls\ProgramList.xaml.cs">
+    <Compile Include="ParamControl\ProgramList.xaml.cs">
       <DependentUpon>ProgramList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\DemoWindow.xaml.cs">
@@ -167,7 +171,7 @@
     <Compile Include="Windows\LedWindow.xaml.cs">
       <DependentUpon>LedWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LedParam.xaml.cs">
+    <Compile Include="ParamControl\LedParam.xaml.cs">
       <DependentUpon>LedParam.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\OutputWindow.xaml.cs">
@@ -182,29 +186,33 @@
     <Compile Include="Windows\SongWindow.xaml.cs">
       <DependentUpon>SongWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WinAvr\WinAvrConnector.cs" />
+    <Compile Include="Connector\WinAvrConnector.cs" />
     <Compile Include="Util\InsCondition.cs" />
-    <Page Include="Controls\SensorSelector.xaml">
+    <Page Include="ParamControl\SensorSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\DelayParam.xaml">
+    <Page Include="ParamControl\DelayParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MoveParam.xaml">
+    <Page Include="ParamControl\MoveParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\RotateParam.xaml">
+    <Page Include="ParamControl\RotateParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\DriveParam.xaml">
+    <Page Include="ParamControl\DriveParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SteeringParam.xaml">
+    <Page Include="ParamControl\SteeringParam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UtilControl\ComPortSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,19 +220,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ConditionPanel.xaml">
+    <Page Include="ParamControl\ConditionPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\DemoParam.xaml">
+    <Page Include="ParamControl\DemoParam.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\InstructionPanel.xaml">
+    <Page Include="ParamControl\InstructionPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ProgramList.xaml">
+    <Page Include="ParamControl\ProgramList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -252,7 +260,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\LedParam.xaml">
+    <Page Include="ParamControl\LedParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -309,7 +317,7 @@
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="ClassDiagramUI.cd" />
-    <None Include="Controls\Controls.cd" />
+    <None Include="ParamControl\Controls.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -399,6 +407,7 @@
   <ItemGroup>
     <Resource Include="create.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

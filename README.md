@@ -6,6 +6,12 @@ Author: USC CSCI-577 Team07 in Spring 2015
 
 See `releases` tab for executable files.
 
+## Contact Us
+
+csci-577a-team07-developers@googlegroups.com
+
+https://groups.google.com/d/forum/csci-577a-team07-developers
+
 ## Links of Project
 
 ### Team Website
