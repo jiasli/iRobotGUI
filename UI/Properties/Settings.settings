@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="OpenCCode" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="EmulatorPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
