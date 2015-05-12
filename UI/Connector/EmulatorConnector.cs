@@ -35,7 +35,10 @@ namespace iRobotGUI
 				string mainTemplateFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", MainTemplate);
 				string mainOutputFullPath = System.IO.Path.Combine(emulatorPath, "MCEmulator", MainOutput);
 				string mainStr = File.ReadAllText(mainTemplateFullPath);
-				mainStr = mainStr.Replace("/**change_com_port**/", (Properties.Settings.Default.EmulatorComPort[3] - '0' - 1).ToString());
+
+				// COM1 is the 0th
+				int comNo = Int32.Parse(Properties.Settings.Default.EmulatorComPort.Substring(3)) - 1;
+				mainStr = mainStr.Replace("/**change_com_port**/", (comNo.ToString()));
 				File.WriteAllText(mainOutputFullPath, mainStr);
 			}
 		}
