@@ -1,8 +1,14 @@
 # iRobotGUI
 
-Mission Science iRobots
+**Mission Science iRobots**
 
 Author: USC CSCI-577 Team07 in Spring 2015
+
+The USC Viterbi School of Engineering Pre-College Programs offers an exciting program for community children and their families, including hands-on science and technology activities, projects, experiments, and demonstrations after school in various Los Angeles communities.
+
+In this project, our team aims to help elementary school students experience programming languages using iRobot. To achieve this goal, **we designed a drag and drop GUI so that undergraduate students can be trained to teach elementary school students to program iRobots with different functions and sensors and understand logic and control systems.**
+
+![irobot gui_2](https://cloud.githubusercontent.com/assets/4003950/7381141/7e68b21e-edb5-11e4-958d-f76162e89c88.png)
 
 See `releases` tab for executable files.
 
