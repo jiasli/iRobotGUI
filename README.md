@@ -26,7 +26,7 @@ http://greenbay.usc.edu/csci577/fall2014/projects/team07/
 
 ### iRobot Roomba/Create Zagros Robotics Mind Control Emulator
 
-https://bitbucket.org/ZijinZheng/mcemulator
+https://bitbucket.org/ZijinZheng/microcontroller-emulator
 
 ## Links of References
 
