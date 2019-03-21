@@ -1,0 +1,147 @@
+/* Body */
+body {
+  background:url(images/texture.jpg) 50% 0;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+h1, h2, h3, p{
+	font-family:"Trebuchet MS", Helvetica, sans-serif;
+	line-height: 1.3333333;
+}
+h2{
+	color: #e05358;
+	font-size: 30px;
+}../website/index.html
+h3{
+	color: #353232;
+	font-size: 24px;
+}
+p{
+	margin: 0 0 17px 0;
+	color: #666666;
+}
+p.main {
+	text-align: justify;
+}
+
+/* Navigation Bar*/
+#nav a {
+	color: #666666;
+}
+#nav a:hover, a:focus, a:active{
+	color: #e05358;
+	text-decoration: underline;
+}
+#nav li {
+	border-left: 1px solid #666666;
+}
+#nav li:last-child {
+	border-right: 1px solid #666666;
+}
+#nav ul {
+	font-family:"Trebuchet MS", Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	position: relative;
+	text-align: left;
+	display:inline-block;
+}
+#nav ul li {
+	float: left;
+	display: inline-block;
+	position: static;
+}
+#nav ul li ul {
+	position: absolute;
+}
+#nav ul a {
+	display: inline-block;
+	text-decoration: none;
+	padding: 12px;	
+	margin: 0;
+	height: 1%;
+	
+}
+#nav .current-item{
+	color: #e05358;
+	text-decoration: underline;
+}
+/* Sub Menu */
+#nav li li {
+	border-left: none;
+}
+#nav li li:last-child {
+	border-right: none;
+}
+#nav ul ul {
+	display: none;
+}
+#nav ul li:hover > ul {
+	display: block;
+}
+
+/* Site Title */
+.title {
+	color: #e05358;
+	font-size: 36px;
+	font-size: 1.5rem;
+	padding: 36px 3%;
+	padding: 1.5rem 3%;
+	text-align: center;
+}
+
+/* Entry Title */
+.entry-title {
+	color: #353232;
+	margin-bottom: 0.25em;
+}
+h1.entry-title, h2.entry-title {
+	margin-top: 0;
+	margin-bottom: 32px;
+	margin-bottom: 2rem;
+}
+
+/* Image */
+.thumbnail {
+	border-radius: 50%;
+	margin: 0 0 16px 0;
+	margin: 0 0 1rem 0;
+}
+.right {
+	float:right;
+	margin-right: 100px;
+}
+
+/* Container */
+div.itemContainer {
+	float:left;
+}
+div.container {
+	padding-right:20px;
+	padding-left:20px;
+	margin-right:auto;
+	margin-left:auto;
+}
+div.client {
+	height: 300px;
+}
+
+/* Table */
+table, th, td {
+	border: 1px solid #777777;
+	border-collapse: collapse;
+	font-family:"Trebuchet MS", Helvetica, sans-serif;
+}
+td {
+	padding: 10px;
+	text-align: center;
+}
+th {
+	padding: 10px;
+}					
+
+/* Footer */
+footer{
+	text-align: center;
+}
