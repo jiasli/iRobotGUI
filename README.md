@@ -8,9 +8,29 @@ The USC Viterbi School of Engineering Pre-College Programs offers an exciting pr
 
 In this project, our team aims to help elementary school students experience programming languages using iRobot. To achieve this goal, **we designed a drag and drop GUI so that undergraduate students can be trained to teach elementary school students to program iRobots with different functions and sensors and understand logic and control systems.**
 
-![irobot gui_2](https://cloud.githubusercontent.com/assets/4003950/7381141/7e68b21e-edb5-11e4-958d-f76162e89c88.png)
-
 See `releases` tab for executable files.
+
+## Screenshots
+
+![](img/main2.png)
+
+![](img/move.png)
+
+![](img/rotate.png)
+
+![](img/drive.png)
+
+![](img/led.png)
+
+![](img/music.png)
+
+![](img/if.png)
+
+![](img/loop.png)
+
+![](img/demo.png)
+
+![](img/delay.png)
 
 ## Contact Us
 
@@ -69,5 +89,3 @@ http://www.codeproject.com/Articles/17266/Drag-and-Drop-Items-in-a-WPF-ListView
 This lib is used in the emulator to communicate with iRobot using COM port.
 
 http://www.teuniz.net/RS-232/
-
-
